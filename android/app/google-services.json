@@ -1,0 +1,78 @@
+{
+  "project_info": {
+    "project_number": "217717536609",
+    "project_id": "wbcconnect-8cd0a",
+    "storage_bucket": "wbcconnect-8cd0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217717536609:android:5165901ec8efd288bcb720",
+        "android_client_info": {
+          "package_name": "com.wbc_connect.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217717536609-3ao99bm0ic46rhsi5ssrhscnk60c6vgs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "8404a7f30743d5ba1aeea42293cd953b5d635a5d"
+          }
+        },
+        {
+          "client_id": "217717536609-6ub1b58hbj6qf7oel542jes2g2pppvo1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "c1c798e41fb17c8aeaadad268393a21cd79da954"
+          }
+        },
+        {
+          "client_id": "217717536609-j5g46l9ntuice63qa61qgeq29nr4ar75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "1000ddf4533c26888543bc2af9b94f8e45dc7913"
+          }
+        },
+        {
+          "client_id": "217717536609-oqp5js2kuu0fo3vgg54u5ku69o0vcc71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "7d17418b4f67341971be61dd0f1104e692134361"
+          }
+        },
+        {
+          "client_id": "217717536609-fg8vdpv4rgms4kn6tvgmsa82d6d0276u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUk50_FvGFaxTmcqbd6ujFpi3ngAwMewk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217717536609-097ksl8v6ss3171kgi286f5ljq6or4pl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217717536609-aaodjiqtabe0brjcg62e95reh8egddub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wbc-connect.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
