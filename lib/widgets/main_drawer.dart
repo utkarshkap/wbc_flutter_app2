@@ -51,7 +51,6 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-
   FirebaseAuth auth = FirebaseAuth.instance;
   String mobileNo = '';
 

@@ -108,4 +108,5 @@ class ApiUser {
   static List<Offer> offersList = [];
   static List<Memberlist> membersList = [];
   static bool termNdCondition = false;
+  static List numberList = [];
 }

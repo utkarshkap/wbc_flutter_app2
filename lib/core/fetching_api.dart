@@ -181,7 +181,7 @@ class FetchingApi {
     final response = await http.get(Uri.parse("$mfDashboardUrl$userid"));
     if (response.statusCode == 200) {
       print('--InvestmentPortfolio--statusCode----${response.statusCode}');
-      log('--InvestmentPortfolio--body----${response.body}');
+      print('--InvestmentPortfolio--body----${response.body}');
       return investmentPortfolioFromJson(response.body);
     } else {
       throw Exception("Failed to load mfInvestment data");
@@ -189,12 +189,12 @@ class FetchingApi {
   }
 
   Future<InvestmentTransaction> getMFTransaction(String userid, String folioNo, String schemeName) async {
-    print('--getMFTransaction----URL---'+mfTransactionUrl+userid+"&FolioNo="+folioNo+"&schemename="+schemeName);
+    print('--getMFTransaction----URL---'+mfTransactionUrl+userid+"&FolioNo="+folioNo+"&schemename="+Uri.encodeComponent(schemeName));
 
-    final response = await http.get(Uri.parse("$mfTransactionUrl$userid&FolioNo='$folioNo'&schemename='$schemeName'"));
+    final response = await http.get(Uri.parse("$mfTransactionUrl$userid&FolioNo='$folioNo'&schemename='${Uri.encodeComponent(schemeName)}'"));
     if (response.statusCode == 200) {
       print('--InvestmentTransaction--statusCode----${response.statusCode}');
-      log('--InvestmentTransaction--body----${response.body}');
+      print('--InvestmentTransaction--body----${response.body}');
       return investmentTransactionFromJson(response.body);
     } else {
       throw Exception("Failed to load mfTransaction data");

@@ -24,12 +24,11 @@ class FastTrackBenefits extends StatefulWidget {
 }
 
 class _FastTrackBenefitsState extends State<FastTrackBenefits> {
-
   final pageController = PageController();
   final swipeController = SwiperController();
   int index = 0;
 
-  bool isLoading =false;
+  bool isLoading = false;
 
   List<String> information = [
     '1. Increased brand recognition.',
@@ -61,7 +60,8 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
   }
 
   getFastTrackActivationStatus() async {
-    BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: await Preference.getMobNo()));
+    BlocProvider.of<SigningBloc>(context)
+        .add(GetUserData(mobileNo: await Preference.getMobNo()));
   }
 
   @override
@@ -82,7 +82,8 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                 },
                 icon: Image.asset(icBack, color: colorRed, width: 6.w)),
             titleSpacing: 0,
-            title:  Text('FastTrack Benefits', style: textStyle14Bold(colorBlack)),
+            title:
+                Text('FastTrack Benefits', style: textStyle14Bold(colorBlack)),
             actions: [
               AppBarButton(
                   splashColor: colorWhite,
@@ -118,7 +119,11 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                   currentIndex: index,
                   onItemChanged: (i) {
                     setState(() {
-                      index = i==0?2:i==1?i:0;
+                      index = i == 0
+                          ? 2
+                          : i == 1
+                              ? i
+                              : 0;
                     });
                   },
                   onClickItem: (index) => print("currentIndex:$index"),
@@ -172,8 +177,7 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                           strokeWidth: 1.5,
                           spacing: 4,
                           dotColor: colorTextBCBC,
-                          activeDotColor: colorRed)
-                  ),
+                          activeDotColor: colorRed)),
                 ),
               ),
               const Spacer(),
@@ -181,20 +185,20 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0.3.h),
                 child: Text('INFORMATION',
                     style:
-                    textStyle10Bold(colorText7070).copyWith(height: 1.18)),
+                        textStyle10Bold(colorText7070).copyWith(height: 1.18)),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0.5.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(5,
-                          (index) => Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0.3.h),
-                        child: Text(
-                            information[index],
-                            style: textStyle9(colorText7070).copyWith(height: 1.18)),
-                      )
-                  ),
+                  children: List.generate(
+                      5,
+                      (index) => Padding(
+                            padding: EdgeInsets.symmetric(vertical: 0.3.h),
+                            child: Text(information[index],
+                                style: textStyle9(colorText7070)
+                                    .copyWith(height: 1.18)),
+                          )),
                 ),
               ),
               SizedBox(
@@ -237,75 +241,83 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                               height: 25,
                               width: 25,
                               child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 0.7.w
-                              )
-                          ),
+                                  color: Colors.white, strokeWidth: 0.7.w)),
                         ),
                       ),
                     );
                   } else if (state is GetUserLoaded) {
-                    return
-                      state.data!.data!.fastTrack ? Container() :
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isLoading=true;
-                          });
-                          BlocProvider.of<PayumoneyPaymentBloc>(context).add(
-                              LoadPayumoneyPaymentEvent(
-                                amount: fastTrackAmount,
-                                taxAmount: fastTrackGST,
-                                txnid: '1',
-                                email: ApiUser.emailId,
-                                productinfo: 'Become Merchant',
-                                firstname: ApiUser.userName,
-                                user_credentials: ApiUser.emailId,
+                    return state.data!.data!.fastTrack
+                        ? Container()
+                        : InkWell(
+                            onTap: () {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              BlocProvider.of<PayumoneyPaymentBloc>(context)
+                                  .add(
+                                LoadPayumoneyPaymentEvent(
+                                  amount: fastTrackAmount,
+                                  taxAmount: fastTrackGST,
+                                  txnid: '1',
+                                  email: ApiUser.emailId,
+                                  productinfo: 'Become Merchant',
+                                  firstname: ApiUser.userName,
+                                  user_credentials: ApiUser.emailId,
+                                ),
+                              );
+                              setState(() {
+                                isLoading = false;
+                              });
+                              Navigator.of(context)
+                                  .pushNamed(PayuPayment.route);
+                            },
+                            child: Center(
+                              child: Container(
+                                height: 6.5.h,
+                                width: 90.w,
+                                decoration: BoxDecoration(
+                                    color: colorRed,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          offset: const Offset(0, 3),
+                                          blurRadius: 6,
+                                          color: colorRed.withOpacity(0.35))
+                                    ]),
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: isLoading
+                                      ? SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                              color: colorWhite,
+                                              strokeWidth: 0.7.w))
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Image.asset(icCard,
+                                                    color: colorWhite,
+                                                    width: 5.w),
+                                                SizedBox(width: 3.w),
+                                                Text('PAY',
+                                                    style: textStyle13Bold(
+                                                        colorWhite)),
+                                              ],
+                                            ),
+                                            Text(
+                                                '${int.parse(fastTrackAmount) + int.parse(fastTrackGST)} ₹',
+                                                style: textStyle13(colorWhite)),
+                                          ],
+                                        ),
+                                ),
                               ),
-                          );
-                          setState(() {
-                            isLoading=false;
-                          });
-                          Navigator.of(context).pushNamed(PayuPayment.route);
-                        },
-                        child: Center(
-                          child: Container(
-                            height: 6.5.h,
-                            width: 90.w,
-                            decoration: BoxDecoration(
-                                color: colorRed,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: const Offset(0, 3),
-                                      blurRadius: 6,
-                                      color: colorRed.withOpacity(0.35))
-                                ]),
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              child: isLoading ? SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                      color: colorWhite, strokeWidth: 0.7.w)
-                              ) : Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(icCard, color: colorWhite, width: 5.w),
-                                      SizedBox(width: 3.w),
-                                      Text('PAY', style: textStyle13Bold(colorWhite)),
-                                    ],
-                                  ),
-                                  Text('${int.parse(fastTrackAmount)+int.parse(fastTrackGST)} ₹', style: textStyle13(colorWhite)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                    );
+                            ));
                   }
                   return Container();
                 },
@@ -315,8 +327,6 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
               ),
             ],
           ),
-        )
-    );
+        ));
   }
-
 }

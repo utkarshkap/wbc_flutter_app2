@@ -16,14 +16,13 @@ class SIPCalculator extends StatefulWidget {
 }
 
 class _SIPCalculatorState extends State<SIPCalculator> {
-
   int sipAmount = 15000;
   int noOfYear = 20;
   int expectedReturn = 15;
 
-  String maturityValue="";
-  String investedAmount="";
-  String returnValue="";
+  String maturityValue = "";
+  String investedAmount = "";
+  String returnValue = "";
 
   bool isSubmit = false;
   var formatter = NumberFormat('#,##,000');
@@ -42,7 +41,7 @@ class _SIPCalculatorState extends State<SIPCalculator> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        resizeToAvoidBottomInset  : true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: colorBG,
         appBar: AppBar(
           toolbarHeight: 8.h,
@@ -56,8 +55,7 @@ class _SIPCalculatorState extends State<SIPCalculator> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title:
-          Text('SIP Calculator', style: textStyle14Bold(colorBlack)),
+          title: Text('SIP Calculator', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -71,7 +69,7 @@ class _SIPCalculatorState extends State<SIPCalculator> {
         body: BlocConsumer<SIPCalculatorBloc, SIPCalculatorState>(
           listener: (context, state) {
             print('SIPCalculatorState-------$state');
-            if (state is SIPCalculatorFailed)   {
+            if (state is SIPCalculatorFailed) {
               AwesomeDialog(
                 btnCancelColor: colorRed,
                 padding: EdgeInsets.zero,
@@ -83,12 +81,11 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                 btnOkOnPress: () {},
                 btnOkColor: Colors.red,
               ).show();
-            }
-            else if (state is SIPCalculatorAdded){
+            } else if (state is SIPCalculatorAdded) {
               setState(() {
-                maturityValue=state.maturityValue;
-                investedAmount=state.investedAmount;
-                returnValue=state.returnValue;
+                maturityValue = state.maturityValue;
+                investedAmount = state.investedAmount;
+                returnValue = state.returnValue;
                 isSubmit = false;
               });
             }
@@ -111,7 +108,8 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                     width: 60.w,
                                     child: Text(
                                         'Check if\nyou have Enough\nInvestments',
-                                        style: textStyle15Bold(colorBlack).copyWith(height: 1.34))),
+                                        style: textStyle15Bold(colorBlack)
+                                            .copyWith(height: 1.34))),
                                 Image.asset(imgInsuranceCalculator, width: 20.w)
                               ],
                             ),
@@ -125,17 +123,24 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                 decoration: BoxDecoration(
                                     color: colorWhite,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: colorDFDF, width: 1)),
+                                    border:
+                                        Border.all(color: colorDFDF, width: 1)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 4.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 4.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("SIP Amount", style: textStyle10Bold(colorBlack)),
-                                          Text(formatter.format(sipAmount), style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("SIP Amount",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text(formatter.format(sipAmount),
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -146,7 +151,8 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: formatter.format(sipAmount.round()),
+                                        label:
+                                            formatter.format(sipAmount.round()),
                                         autofocus: true,
                                         onChanged: (double newValue) {
                                           setState(() {
@@ -154,30 +160,38 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                           });
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on SipAmount $newValue');
+                                          print(
+                                              'Ended change on SipAmount $newValue');
                                           endSliderChanges();
                                           setState(() {
-                                            isSubmit=true;
+                                            isSubmit = true;
                                           });
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("No of year", style: textStyle10Bold(colorBlack)),
-                                          Text('$noOfYear', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("No of year",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$noOfYear',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -195,30 +209,38 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                           });
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on NoOfYear $newValue');
+                                          print(
+                                              'Ended change on NoOfYear $newValue');
                                           endSliderChanges();
                                           setState(() {
-                                            isSubmit=true;
+                                            isSubmit = true;
                                           });
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Gain (%)", style: textStyle10Bold(colorBlack)),
-                                          Text('$expectedReturn%', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Gain (%)",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$expectedReturn%',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -234,172 +256,210 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                           setState(() {
                                             expectedReturn = newValue.round();
                                           });
-                                          print("expectedReturn-->$expectedReturn");
+                                          print(
+                                              "expectedReturn-->$expectedReturn");
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on ExpectedReturn $newValue');
+                                          print(
+                                              'Ended change on ExpectedReturn $newValue');
                                           endSliderChanges();
                                           setState(() {
-                                            isSubmit=true;
+                                            isSubmit = true;
                                           });
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                   ],
                                 ),
                               ),
                               SizedBox(
                                 height: 4.h,
                               ),
-                               isSubmit ? Padding(
-                                padding: EdgeInsets.only(top: 2.h),
-                                child: Text("Calculating...", style: textStyle10Medium(colorText4D4D)),
-                              ) : Column(
-                                 children: [
-                                   Table(
-                                     border: TableBorder.all(color: colorBG),
-                                     columnWidths: const <int, TableColumnWidth>{
-                                       0: FlexColumnWidth(1),
-                                     },
-                                     children: [
-                                       TableRow(
-                                         decoration: const BoxDecoration(color: colorE5E5),
-                                         children: [
-                                           Container(
-                                             height: 5.3.h,
-                                             alignment: Alignment.center,
-                                             child: Text('Investment Amount',
-                                                 textAlign: TextAlign.center,
-                                                 style: textStyle10Bold(colorBlack)),
-                                           ),
-                                         ],
-                                       )
-                                     ],
-                                   ),
-                                   Table(
-                                     border: TableBorder.all(color: colorE5E5),
-                                     columnWidths: const <int, TableColumnWidth>{
-                                       0: FlexColumnWidth(1),
-                                     },
-                                     children: List<TableRow>.generate(
-                                       1, (index) {
-                                       return TableRow(
-                                         decoration: const BoxDecoration(
-                                             color: Colors.white
-                                         ),
-                                         children: [
-                                           Container(
-                                             height: 43,
-                                             alignment: Alignment.center,
-                                             child: Text(
-                                                 "${formatter.format(double.parse(investedAmount))} ₹",
-                                                 textAlign: TextAlign.left,
-                                                 style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                                           ),
-                                         ],
-                                       );
-                                     },
-                                       growable: false,
-                                     ),
-                                   ),
-
-                                   Table(
-                                     border: TableBorder.all(color: colorBG),
-                                     columnWidths: const <int, TableColumnWidth>{
-                                       0: FlexColumnWidth(1),
-                                     },
-                                     children: [
-                                       TableRow(
-                                         decoration: const BoxDecoration(color: colorE5E5),
-                                         children: [
-                                           Container(
-                                             height: 5.3.h,
-                                             alignment: Alignment.center,
-                                             child: Text('Maturity Value',
-                                                 textAlign: TextAlign.center,
-                                                 style: textStyle10Bold(colorBlack)),
-                                           ),
-                                         ],
-                                       )
-                                     ],
-                                   ),
-                                   Table(
-                                     border: TableBorder.all(color: colorE5E5),
-                                     columnWidths: const <int, TableColumnWidth>{
-                                       0: FlexColumnWidth(1),
-                                     },
-                                     children: List<TableRow>.generate(
-                                       1, (index) {
-                                       return TableRow(
-                                         decoration: const BoxDecoration(
-                                             color: Colors.white
-                                         ),
-                                         children: [
-                                           Container(
-                                             height: 43,
-                                             alignment: Alignment.center,
-                                             child: Text(
-                                                 "${formatter.format(double.parse(maturityValue))} ₹",
-                                                 textAlign: TextAlign.left,
-                                                 style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                                           ),
-                                         ],
-                                       );
-                                     },
-                                       growable: false,
-                                     ),
-                                   ),
-
-                                   Table(
-                                     border: TableBorder.all(color: colorBG),
-                                     columnWidths: const <int, TableColumnWidth>{
-                                       0: FlexColumnWidth(1),
-                                     },
-                                     children: [
-                                       TableRow(
-                                         decoration: const BoxDecoration(color: colorE5E5),
-                                         children: [
-                                           Container(
-                                             height: 5.3.h,
-                                             alignment: Alignment.center,
-                                             child: Text('Returns',
-                                                 textAlign: TextAlign.center,
-                                                 style: textStyle10Bold(colorBlack)),
-                                           ),
-                                         ],
-                                       )
-                                     ],
-                                   ),
-                                   Table(
-                                     border: TableBorder.all(color: colorE5E5),
-                                     columnWidths: const <int, TableColumnWidth>{
-                                       0: FlexColumnWidth(1),
-                                     },
-                                     children: List<TableRow>.generate(
-                                       1, (index) {
-                                       return TableRow(
-                                         decoration: const BoxDecoration(
-                                             color: Colors.white
-                                         ),
-                                         children: [
-                                           Container(
-                                             height: 43,
-                                             alignment: Alignment.center,
-                                             child: Text(
-                                                 "${formatter.format(double.parse(returnValue))} ₹",
-                                                 textAlign: TextAlign.left,
-                                                 style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                                           ),
-                                         ],
-                                       );
-                                     },
-                                       growable: false,
-                                     ),
-                                   ),
-                                 ],
-                               ),
+                              isSubmit
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 2.h),
+                                      child: Text("Calculating...",
+                                          style:
+                                              textStyle10Medium(colorText4D4D)),
+                                    )
+                                  : Column(
+                                      children: [
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorBG),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: [
+                                            TableRow(
+                                              decoration: const BoxDecoration(
+                                                  color: colorE5E5),
+                                              children: [
+                                                Container(
+                                                  height: 5.3.h,
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      'Investment Amount',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: textStyle10Bold(
+                                                          colorBlack)),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorE5E5),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: List<TableRow>.generate(
+                                            1,
+                                            (index) {
+                                              return TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white),
+                                                children: [
+                                                  Container(
+                                                    height: 43,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        "${formatter.format(double.parse(investedAmount))} ₹",
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: textStyle11Bold(
+                                                                colorRedFF6)
+                                                            .copyWith(
+                                                                height: 1.2)),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            growable: false,
+                                          ),
+                                        ),
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorBG),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: [
+                                            TableRow(
+                                              decoration: const BoxDecoration(
+                                                  color: colorE5E5),
+                                              children: [
+                                                Container(
+                                                  height: 5.3.h,
+                                                  alignment: Alignment.center,
+                                                  child: Text('Maturity Value',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: textStyle10Bold(
+                                                          colorBlack)),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorE5E5),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: List<TableRow>.generate(
+                                            1,
+                                            (index) {
+                                              return TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white),
+                                                children: [
+                                                  Container(
+                                                    height: 43,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        "${formatter.format(double.parse(maturityValue))} ₹",
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: textStyle11Bold(
+                                                                colorRedFF6)
+                                                            .copyWith(
+                                                                height: 1.2)),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            growable: false,
+                                          ),
+                                        ),
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorBG),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: [
+                                            TableRow(
+                                              decoration: const BoxDecoration(
+                                                  color: colorE5E5),
+                                              children: [
+                                                Container(
+                                                  height: 5.3.h,
+                                                  alignment: Alignment.center,
+                                                  child: Text('Returns',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: textStyle10Bold(
+                                                          colorBlack)),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorE5E5),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: List<TableRow>.generate(
+                                            1,
+                                            (index) {
+                                              return TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white),
+                                                children: [
+                                                  Container(
+                                                    height: 43,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        "${formatter.format(double.parse(returnValue))} ₹",
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: textStyle11Bold(
+                                                                colorRedFF6)
+                                                            .copyWith(
+                                                                height: 1.2)),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            growable: false,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                             ],
                           ),
                         ],
@@ -422,5 +482,4 @@ class _SIPCalculatorState extends State<SIPCalculator> {
       expectedReturn: expectedReturn,
     ));
   }
-
 }

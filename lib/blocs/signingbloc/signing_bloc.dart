@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
 import '../../models/add_contacts_model.dart';
 import '../../models/add_contacts_response_model.dart';
 import '../../models/getuser_model.dart';
@@ -47,11 +48,13 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
       await Future.delayed(const Duration(seconds: 3), () async {
         final signingRepo = SigningRepository();
         int count = 0;
+        ApiUser.numberList = [];
 
         final response = await signingRepo.postContactsData(
             mobileNo: event.mobileNo,
             date: event.date,
             contacts: event.contacts);
+                   print("event.mobileNo:::::::::-::::::-::::${event.contacts}");
 
         final addContactResponse = addContactResponseFromJson(response.body);
 
@@ -59,8 +62,12 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
           if (element.status == "Accepted") {
             count++;
           }
-        }
+          else{
+          ApiUser.numberList.add(element.mobileNo);
+          }
+          // print("ELEMENT LIST:::::::${ApiUser.numberList}");
 
+        }
         print('accepted contact count-----$count');
 
         final getUserData = await signingRepo.getUser(event.mobileNo);

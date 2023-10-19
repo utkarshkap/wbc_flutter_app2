@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
+import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
 
@@ -18,12 +19,25 @@ class WBCConnectData {
   final List<ContactBase> contactBase;
   final List<ContactBase> inActiveClients;
   final int availableContacts;
+  final int goldPoint;
+  final double fastTrackEarning;
+  final List earning;
+  final int redeemable;
+  final int nonRedeemable;
+  final int onTheSpot;
 
-  WBCConnectData(
-      {required this.history,
-      required this.contactBase,
-      required this.inActiveClients,
-      required this.availableContacts});
+  WBCConnectData({
+    required this.history,
+    required this.contactBase,
+    required this.inActiveClients,
+    required this.availableContacts,
+    required this.goldPoint,
+    required this.fastTrackEarning,
+    required this.earning,
+    required this.redeemable,
+    required this.nonRedeemable,
+    required this.onTheSpot,
+  });
 }
 
 class WBCConnect extends StatefulWidget {
@@ -51,21 +65,23 @@ class _WBCConnectState extends State<WBCConnect> {
     'Yearly',
   ];
 
-  List<ChartData> mainList = [
-    ChartData(activity: 'Redeemable', value: 35, color: colorTextFFC1),
-    ChartData(
-        activity: 'Non-Redeemable', value: 20, color: colorBoxGradiant0040),
-    ChartData(activity: 'On The Spot', value: 45, color: colorRed),
-  ];
+  // List<ChartData> mainList = [
+  //   ChartData(activity: 'Redeemable', value: 955, color: colorTextFFC1),
+  //   ChartData(
+  //       activity: 'Non-Redeemable', value: 10, color: colorBoxGradiant0040),
+  //   ChartData(activity: 'On The Spot', value: 15, color: colorRed),
+  // ];
+
+  List<ChartData> mainList = [];
 
   List<EarningData> earningDataList = [
-    EarningData(year: 2016, value: 1000),
-    EarningData(year: 2017, value: 300),
-    EarningData(year: 2018, value: 700),
-    EarningData(year: 2019, value: 867),
-    EarningData(year: 2020, value: 500),
-    EarningData(year: 2021, value: 400),
-    EarningData(year: 2022, value: 650),
+    EarningData(year: 2017, value: 1000),
+    EarningData(year: 2018, value: 300),
+    EarningData(year: 2019, value: 700),
+    EarningData(year: 2020, value: 867),
+    EarningData(year: 2021, value: 500),
+    EarningData(year: 2022, value: 400),
+    EarningData(year: 2023, value: 650),
   ];
 
   getMobNog() async {
@@ -74,9 +90,36 @@ class _WBCConnectState extends State<WBCConnect> {
     print('mono-----$mono');
   }
 
+  getGoldPointData() {
+    if (widget.connectData.redeemable == 0 &&
+        widget.connectData.nonRedeemable == 0 &&
+        widget.connectData.onTheSpot == 0) {
+      mainList.add(ChartData(activity: '', value: 100, color: colorF3F3));
+    } else {
+      for (int i = 0; i < 3; i++) {
+        i == 0
+            ? mainList.add(ChartData(
+                activity: 'Redeemable',
+                value: widget.connectData.redeemable.toDouble(),
+                color: colorTextFFC1))
+            : i == 1
+                ? mainList.add(ChartData(
+                    activity: 'Non-Redeemable',
+                    value: widget.connectData.nonRedeemable.toDouble(),
+                    color: colorBoxGradiant0040))
+                : mainList.add(ChartData(
+                    activity: 'On The Spot',
+                    value: widget.connectData.onTheSpot.toDouble(),
+                    color: colorRed));
+      }
+    }
+  }
+
   @override
   void initState() {
     getMobNog();
+    getGoldPointData();
+
     years.add(currentDate.year.toString());
     for (int i = 0; i < 6; i++) {
       var date = currentDate.subtract(const Duration(days: 365));
@@ -87,6 +130,7 @@ class _WBCConnectState extends State<WBCConnect> {
     print('----years--==----$years');
     print('----history--==----${widget.connectData.history}');
     print('----contactBase--==----${widget.connectData.contactBase}');
+
     super.initState();
   }
 
@@ -108,7 +152,7 @@ class _WBCConnectState extends State<WBCConnect> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text('Finer', style: textStyle14Bold(colorBlack)),
+          title: Text('WBC Dashboard', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -122,7 +166,9 @@ class _WBCConnectState extends State<WBCConnect> {
                 bgColor: colorF3F3,
                 icon: icProfile,
                 iconColor: colorText7070,
-                onClick: () {Navigator.of(context).pushNamed(ProfileScreen.route);}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(ProfileScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -153,7 +199,10 @@ class _WBCConnectState extends State<WBCConnect> {
                           child: Text('TOTAL GOLD POINTS',
                               style: textStyle11(colorText7070)),
                         ),
-                        Text('6,02,304', style: textStyle26Bold(colorBlack)),
+                        Text(
+                            CommonFunction().splitString(
+                                widget.connectData.goldPoint.toString()),
+                            style: textStyle26Bold(colorBlack)),
                         Padding(
                           padding: EdgeInsets.only(top: 3.h, bottom: 3.h),
                           child: Row(
@@ -168,16 +217,23 @@ class _WBCConnectState extends State<WBCConnect> {
                         ),
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
-                        pointsView(icGoldCoin, 'Fastrack Earnings',
-                            '₹ 36,95,325/-', 'Benefits', () {
-                              Navigator.of(context).pushNamed(FastTrackBenefits.route);
-                              // Navigator.of(context)
-                              //     .pushNamed(RequestPayment.route);
-                            }),
+                        pointsView(
+                            icGoldCoin,
+                            'Fastrack Earnings',
+                            '₹ ${CommonFunction().splitString(widget.connectData.fastTrackEarning.toString())}',
+                            'Benefits', () {
+                          Navigator.of(context)
+                              .pushNamed(FastTrackBenefits.route);
+                          // Navigator.of(context)
+                          //     .pushNamed(RequestPayment.route);
+                        }),
                       ],
                     ),
                   ),
                 ),
+                // widget.connectData.earning.isEmpty
+                //     ? Container()
+                //     :
                 Container(
                   width: 90.w,
                   decoration: decoration(colorWhite),
@@ -192,7 +248,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                     setState(() {
                                       selectedEarningTime = earningTime[i];
                                     });
-                                  }))),
+                                  })),
+                          true),
                       Container(
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                       Padding(
@@ -200,42 +257,53 @@ class _WBCConnectState extends State<WBCConnect> {
                         child: AspectRatio(
                           aspectRatio: 1.8,
                           child:
-                          // selectedEarningTime == 'Monthly'
-                          //     ? monthView()
-                          //     :
-                          weekView(),
+                              // selectedEarningTime == 'Monthly'
+                              //     ? monthView()
+                              //     :
+                              weekView(),
                         ),
                       ),
                       Container(
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 2.h),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 4.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('₹45,525',
-                                    style:
-                                        textStyle13Bold(colorBoxGradiant0040)),
-                                SizedBox(height: 0.5.h),
-                                Text('TOTAL', style: textStyle9(colorText7070)),
-                              ],
-                            ),
-                            SizedBox(width: 12.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('₹25,525',
-                                    style: textStyle12Bold(colorText4747)),
-                                SizedBox(height: 0.5.h),
-                                Text('EARNING',
-                                    style: textStyle9(colorText7070)),
-                              ],
-                            ),
-                          ],
-                        ),
+                        child: widget.connectData.earning.isEmpty
+                            ? Container(
+                                height: 3.h,
+                                alignment: Alignment.center,
+                                child: Text('No Data',
+                                    style: textStyle13Medium(colorBlack)),
+                              )
+                            : Row(
+                                children: [
+                                  SizedBox(width: 4.w),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('₹45,525',
+                                          style: textStyle13Bold(
+                                              colorBoxGradiant0040)),
+                                      SizedBox(height: 0.5.h),
+                                      Text('TOTAL',
+                                          style: textStyle9(colorText7070)),
+                                    ],
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('₹25,525',
+                                          style:
+                                              textStyle12Bold(colorText4747)),
+                                      SizedBox(height: 0.5.h),
+                                      Text('EARNING',
+                                          style: textStyle9(colorText7070)),
+                                    ],
+                                  ),
+                                ],
+                              ),
                       )
                     ],
                   ),
@@ -256,7 +324,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                       setState(() {
                                         selectedHistoryTime = earningTime[i];
                                       });
-                                    }))),
+                                    })),
+                            widget.connectData.history.isEmpty ? false : true),
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
                         Column(
@@ -363,19 +432,38 @@ class _WBCConnectState extends State<WBCConnect> {
                                     ),
                                   )),
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(5.w, 1.5.h, 5.w, 2.5.h),
-                          child: Container(
-                            height: 6.h,
-                            decoration: BoxDecoration(
-                              color: colorBG,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text('VIEW ALL',
-                                style: textStyle12Bold(colorRed)),
-                          ),
-                        ),
+                        widget.connectData.history.isEmpty
+                            ? Container(
+                                height: 6.h,
+                                alignment: Alignment.center,
+                                child: Text('No Data',
+                                    style: textStyle13Medium(colorBlack)),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  if (widget.connectData.history.length > 4) {
+                                    Navigator.of(context).pushNamed(
+                                        GoldPointHistoryScreen.route,
+                                        arguments: GoldPointHistoryData(
+                                            history:
+                                                widget.connectData.history));
+                                  }
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      5.w, 1.5.h, 5.w, 2.5.h),
+                                  child: Container(
+                                    height: 6.h,
+                                    decoration: BoxDecoration(
+                                      color: colorBG,
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text('VIEW ALL',
+                                        style: textStyle12Bold(colorRed)),
+                                  ),
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -391,40 +479,11 @@ class _WBCConnectState extends State<WBCConnect> {
                   child: Container(
                     width: 90.w,
                     decoration: decoration(colorWhite),
-                    child: contactsView(
-                        icAddContacts,
-                        'Add Your Contacts',
+                    child: contactsView(icAddContacts, 'Add Your Contacts',
                         'Add Your Contacts You can add 96 contacts this month',
                         () {
-                          print('add contacts------${widget.connectData.availableContacts}');
-
-                          if (widget.connectData.availableContacts != 0) {
-                            Preference.setRenewContact(true);
-                            Navigator.of(context).pushNamed(
-                                VerificationScreen.route,
-                                arguments: VerificationScreenData(
-                                    getNumber: "",
-                                    number: mono,
-                                    verificationId: "",
-                                    isLogin: true,
-                                    selectedContact: widget.connectData.availableContacts,
-                                    isHomeContactOpen: true));
-                          } else {
-                            CommonFunction().reachedMaxContactPopup(context);
-                          }
-                        }),
-                  ),
-                ),
-                standFastTrack('INACTIVE CLIENTS',
-                    widget.connectData.inActiveClients[0].type,
-                    widget.connectData.inActiveClients[0].count,
-                    widget.connectData.inActiveClients[1].type,
-                    widget.connectData.inActiveClients[1].count),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                  child: GestureDetector(
-                    onTap: (){
-                      print('add contacts------${widget.connectData.availableContacts}');
+                      print(
+                          'add contacts------${widget.connectData.availableContacts}');
 
                       if (widget.connectData.availableContacts != 0) {
                         Preference.setRenewContact(true);
@@ -435,11 +494,42 @@ class _WBCConnectState extends State<WBCConnect> {
                                 number: mono,
                                 verificationId: "",
                                 isLogin: true,
-                                selectedContact: widget.connectData.availableContacts,
+                                selectedContact:
+                                    widget.connectData.availableContacts,
                                 isHomeContactOpen: true));
                       } else {
-                        CommonFunction()
-                            .reachedMaxContactPopup(context);
+                        CommonFunction().reachedMaxContactPopup(context);
+                      }
+                    }),
+                  ),
+                ),
+                standFastTrack(
+                    'INACTIVE CLIENTS',
+                    widget.connectData.inActiveClients[0].type,
+                    widget.connectData.inActiveClients[0].count,
+                    widget.connectData.inActiveClients[1].type,
+                    widget.connectData.inActiveClients[1].count),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 3.h),
+                  child: GestureDetector(
+                    onTap: () {
+                      print(
+                          'add contacts------${widget.connectData.availableContacts}');
+
+                      if (widget.connectData.availableContacts != 0) {
+                        Preference.setRenewContact(true);
+                        Navigator.of(context).pushNamed(
+                            VerificationScreen.route,
+                            arguments: VerificationScreenData(
+                                getNumber: "",
+                                number: mono,
+                                verificationId: "",
+                                isLogin: true,
+                                selectedContact:
+                                    widget.connectData.availableContacts,
+                                isHomeContactOpen: true));
+                      } else {
+                        CommonFunction().reachedMaxContactPopup(context);
                       }
                     },
                     child: Stack(
@@ -459,7 +549,8 @@ class _WBCConnectState extends State<WBCConnect> {
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(3.5.w, 2.h, 2.w, 0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   SizedBox(
@@ -481,12 +572,11 @@ class _WBCConnectState extends State<WBCConnect> {
                                                 CrossAxisAlignment.end,
                                             children: [
                                               Text('900 On The Sport',
-                                                  style:
-                                                      textStyle10Bold(colorWhite)
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600)),
+                                                  style: textStyle10Bold(
+                                                          colorWhite)
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
                                               Text(' Gold Points.',
                                                   style: textStyle10Bold(
                                                       colorTextFFC1)),
@@ -514,8 +604,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Text('ADD NOW',
-                                                      style:
-                                                          textStyle8(colorWhite)),
+                                                      style: textStyle8(
+                                                          colorWhite)),
                                                   Image.asset(icNext,
                                                       color: colorWhite,
                                                       height: 1.2.h)
@@ -698,8 +788,8 @@ class _WBCConnectState extends State<WBCConnect> {
     );
   }
 
-  dropDownRow(
-      String title, String selectedType, List<PopupMenuItem> menuItemList) {
+  dropDownRow(String title, String selectedType,
+      List<PopupMenuItem> menuItemList, bool isShow) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 1.7.h),
       child: Row(
@@ -711,29 +801,34 @@ class _WBCConnectState extends State<WBCConnect> {
                 style:
                     textStyle11Bold(colorBlack).copyWith(letterSpacing: 0.7)),
           ),
-          Container(
-            height: 4.h,
-            width: 28.w,
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: colorTextBCBC.withOpacity(0.36), width: 1),
-                borderRadius: BorderRadius.circular(5)),
-            child: PopupMenuButton(
-              icon: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(selectedType, style: textStyle10(colorText3D3D)),
-                  Image.asset(icDropdown, color: colorText3D3D, width: 5.w)
-                ],
-              ),
-              offset: Offset(0, 4.3.h),
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: colorRed, width: 1),
-                  borderRadius: BorderRadius.circular(7)),
-              itemBuilder: (context) => menuItemList,
-            ),
-          )
+          isShow == true
+              ? Container(
+                  height: 4.h,
+                  width: 28.w,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: colorTextBCBC.withOpacity(0.36), width: 1),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: PopupMenuButton(
+                    icon: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(selectedType, style: textStyle10(colorText3D3D)),
+                        Image.asset(icDropdown,
+                            color: colorText3D3D, width: 5.w)
+                      ],
+                    ),
+                    offset: Offset(0, 4.3.h),
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: colorRed, width: 1),
+                        borderRadius: BorderRadius.circular(7)),
+                    itemBuilder: (context) => menuItemList,
+                  ),
+                )
+              : Container(
+                  height: 4.h,
+                )
         ],
       ),
     );
@@ -757,7 +852,9 @@ class _WBCConnectState extends State<WBCConnect> {
               BarChartRodData(
                   toY: point.value,
                   width: 3.w,
-                  color: colorBoxGradiant0040,
+                  color: widget.connectData.earning.isEmpty
+                      ? colorF3F3
+                      : colorBoxGradiant0040,
                   borderRadius: BorderRadius.circular(5))
             ]))
         .toList();

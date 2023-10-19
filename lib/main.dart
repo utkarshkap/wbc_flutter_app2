@@ -101,14 +101,16 @@ class MyApp extends StatelessWidget {
             primaryColor: colorRed,
             primarySwatch: Colors.red,
             primaryColorDark: Colors.red,
-            accentColor: Colors.red,
+            // accentColor: Colors.red,
             backgroundColor: Colors.white,
-            textSelectionTheme: const TextSelectionThemeData(cursorColor: colorRed, selectionColor: colorRedFFC, selectionHandleColor: colorRedFFC),
+            textSelectionTheme: const TextSelectionThemeData(
+                cursorColor: colorRed,
+                selectionColor: colorRedFFC,
+                selectionHandleColor: colorRedFFC),
           ),
           onGenerateRoute: onGenerateRoute,
         ),
       );
     });
   }
-
 }

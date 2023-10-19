@@ -57,7 +57,7 @@ class Data {
   final int redeemable;
   final int nonRedeemable;
   final int onTheSpot;
-  final int fastTrack;
+  final double fastTrack;
   final List<Earning> earning;
   final List<History> history;
   final int addContacts;
@@ -77,8 +77,10 @@ class Data {
         nonRedeemable: json["nonRedeemable"],
         onTheSpot: json["onTheSpot"],
         fastTrack: json["fastTrack"],
-        earning: List<Earning>.from(json["earning"].map((x) => Earning.fromJson(x))),
-        history: List<History>.from(json["history"].map((x) => History.fromJson(x))),
+        earning:
+            List<Earning>.from(json["earning"].map((x) => Earning.fromJson(x))),
+        history:
+            List<History>.from(json["history"].map((x) => History.fromJson(x))),
         totalcountofaddedcontact: json["totalcountofaddedcontact"],
         maxContactPermittedPerMonth: json["maxContactPermittedPerMonth"],
         availableContacts: json["availableContacts"],
@@ -96,8 +98,10 @@ class Data {
             ? []
             : List<ContactBase>.from(
                 json["inActive"].map((x) => ContactBase.fromJson(x))),
-        memberlist: json["memberlist"]==null?[]:List<Memberlist>.from(
-            json["memberlist"].map((x) => Memberlist.fromJson(x))),
+        memberlist: json["memberlist"] == null
+            ? []
+            : List<Memberlist>.from(
+                json["memberlist"].map((x) => Memberlist.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -210,26 +214,26 @@ class Earning {
   final String narration;
 
   factory Earning.fromJson(Map<String, dynamic> json) => Earning(
-    ftId: json["ft_id"],
-    timestamp: json["timestamp"],
-    credit: json["credit"],
-    debit: json["debit"],
-    userid: json["userid"],
-    invetmentType: json["invetmentType"],
-    invetmentSubType: json["invetmentSubType"],
-    narration: json["narration"],
-  );
+        ftId: json["ft_id"],
+        timestamp: json["timestamp"],
+        credit: json["credit"],
+        debit: json["debit"],
+        userid: json["userid"],
+        invetmentType: json["invetmentType"],
+        invetmentSubType: json["invetmentSubType"],
+        narration: json["narration"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "ft_id": ftId,
-    "timestamp": timestamp,
-    "credit": credit,
-    "debit": debit,
-    "userid": userid,
-    "invetmentType": invetmentType,
-    "invetmentSubType": invetmentSubType,
-    "narration": narration,
-  };
+        "ft_id": ftId,
+        "timestamp": timestamp,
+        "credit": credit,
+        "debit": debit,
+        "userid": userid,
+        "invetmentType": invetmentType,
+        "invetmentSubType": invetmentSubType,
+        "narration": narration,
+      };
 
   @override
   String toString() {

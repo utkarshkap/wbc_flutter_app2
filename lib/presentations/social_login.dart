@@ -453,7 +453,7 @@ class _SocialLoginState extends State<SocialLogin> {
                   color: colorContacts[count]));
             }
           }
-        }
+        }   
       }
       return contactsList;
     });

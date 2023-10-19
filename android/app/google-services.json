@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "217717536609-7q14aodt6u7bsjjj9jls8k37pvnob6hv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "4cf3e6dcd69ff31ccd1b995c07f84c8760b5c700"
+          }
+        },
+        {
           "client_id": "217717536609-j5g46l9ntuice63qa61qgeq29nr4ar75.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -38,11 +46,79 @@
           }
         },
         {
+          "client_id": "217717536609-mt6hvi4db9cag5q1q5el9e012fpoea31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "4f29d25cd6358c446bdea04837ff1c05ceb41277"
+          }
+        },
+        {
           "client_id": "217717536609-oqp5js2kuu0fo3vgg54u5ku69o0vcc71.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.wbc_connect.app",
             "certificate_hash": "7d17418b4f67341971be61dd0f1104e692134361"
+          }
+        },
+        {
+          "client_id": "217717536609-q4vkkkj31kjua5moqehlv2hbog15n5vr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "1a680c8fc20fd5d1d1a9509a83c55b706020a78d"
+          }
+        },
+        {
+          "client_id": "217717536609-v1uqr7vhjqgqjtoghu8a4j1u8i9br4vs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wbc_connect.app",
+            "certificate_hash": "20275aaccd57253894354c52dd269ba158ca5b9e"
+          }
+        },
+        {
+          "client_id": "217717536609-fg8vdpv4rgms4kn6tvgmsa82d6d0276u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUk50_FvGFaxTmcqbd6ujFpi3ngAwMewk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217717536609-097ksl8v6ss3171kgi286f5ljq6or4pl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217717536609-aaodjiqtabe0brjcg62e95reh8egddub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wbc-connect.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217717536609:android:1874486d1773432cbcb720",
+        "android_client_info": {
+          "package_name": "in.kagroup.finer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217717536609-clhjslv7qm9kplud7cd71rbp54v5b99e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.kagroup.finer",
+            "certificate_hash": "1a680c8fc20fd5d1d1a9509a83c55b706020a78d"
           }
         },
         {

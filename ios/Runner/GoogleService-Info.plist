@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>217717536609-aaodjiqtabe0brjcg62e95reh8egddub.apps.googleusercontent.com</string>
+	<string>217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.217717536609-aaodjiqtabe0brjcg62e95reh8egddub</string>
+	<string>com.googleusercontent.apps.217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>217717536609-6ac5u4m9p5fegap9rgcec1evpvkdlc4b.apps.googleusercontent.com</string>
+	<string>217717536609-3ao99bm0ic46rhsi5ssrhscnk60c6vgs.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCONabpCVKA9VkPYoOUqLPE0UILYkiXloI</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.wbc-connect.app</string>
+	<string>in.kagroup.finer</string>
 	<key>PROJECT_ID</key>
 	<string>wbcconnect-8cd0a</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:217717536609:ios:d0c5a5087baf9f27bcb720</string>
+	<string>1:217717536609:ios:61d0d4ba7f7ab442bcb720</string>
 </dict>
 </plist>

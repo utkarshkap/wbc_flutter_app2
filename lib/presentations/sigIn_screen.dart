@@ -20,7 +20,6 @@ class SigInPage extends StatefulWidget {
 }
 
 class _SigInPageState extends State<SigInPage> {
-
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _numController = TextEditingController();
   FocusNode numNode = FocusNode();
@@ -37,34 +36,35 @@ class _SigInPageState extends State<SigInPage> {
     Preference.setCountryCode(countryCode);
 
     print('Submitted your Number: $countryCode${_numController.text}');
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: countryCode + _numController.text,
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {
-        print('verification failed exception------$e');
+    // await FirebaseAuth.instance.verifyPhoneNumber(
+    //   phoneNumber: countryCode + _numController.text,
+    //   verificationCompleted: (PhoneAuthCredential credential) {},
+    //   verificationFailed: (FirebaseAuthException e) {
+    //     print('verification failed exception------$e');
 
-        setState(() {
-          validationString = 'Invalid Number';
-          isSendOtp = false;
-        });
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        print("verificationId--->"+verificationId.toString());
-        Navigator.of(context).pushReplacementNamed(
-            VerificationScreen.route,
-            arguments: VerificationScreenData(
-                getNumber: _numController.text.replaceAll(' ', ''),
-                number: "$countryCode ${_numController.text}",
-                verificationId: verificationId.toString(),
-                selectedContact: 0));
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-   /* Navigator.of(context).pushReplacementNamed(VerificationScreen.route, arguments: VerificationScreenData(
+    //     setState(() {
+    //       validationString = 'Invalid Number';
+    //       isSendOtp = false;
+    //     });
+    //   },
+    //   codeSent: (String verificationId, int? resendToken) {
+    //     print("verificationId--->"+verificationId.toString());
+    //     Navigator.of(context).pushReplacementNamed(
+    //         VerificationScreen.route,
+    //         arguments: VerificationScreenData(
+    //             getNumber: _numController.text.replaceAll(' ', ''),
+    //             number: "$countryCode ${_numController.text}",
+    //             verificationId: verificationId.toString(),
+    //             selectedContact: 0));
+    //   },
+    //   codeAutoRetrievalTimeout: (String verificationId) {},
+    // );
+    Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
+        arguments: VerificationScreenData(
             getNumber: _numController.text.replaceAll(' ', ''),
             number: "$countryCode ${_numController.text}",
-            verificationId: "", selectedContact: 0)
-    );*/
+            verificationId: "",
+            selectedContact: 0));
   }
 
   void _showCountryPicker() async {
@@ -85,7 +85,9 @@ class _SigInPageState extends State<SigInPage> {
         context: context,
         barrierDismissible: true,
         builder: (_) => Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(cornerRadius))),
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(cornerRadius))),
               child: SizedBox(
                 height: 55.h,
                 child: Column(
@@ -108,13 +110,14 @@ class _SigInPageState extends State<SigInPage> {
                     ),
                     const SizedBox(height: 16),
                     Expanded(
-                      child: CountryPickerWidget(onSelected: (country) => Navigator.of(context).pop(country)),
+                      child: CountryPickerWidget(
+                          onSelected: (country) =>
+                              Navigator.of(context).pop(country)),
                     ),
                   ],
                 ),
               ),
-            )
-    );
+            ));
   }
 
   @override
@@ -153,8 +156,7 @@ class _SigInPageState extends State<SigInPage> {
                               color: validationString.isEmpty
                                   ? colorDFDF
                                   : colorErrorRed,
-                              width: 1)
-                      ),
+                              width: 1)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -171,7 +173,8 @@ class _SigInPageState extends State<SigInPage> {
                                   height: 5.h,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       InkWell(
                                         onTap: _showCountryPicker,
@@ -179,17 +182,22 @@ class _SigInPageState extends State<SigInPage> {
                                           height: 4.5.h,
                                           width: 20.w,
                                           decoration: BoxDecoration(
-                                              color: colorTextBCBC.withOpacity(0.3),
-                                              borderRadius: BorderRadius.circular(5)),
+                                              color: colorTextBCBC
+                                                  .withOpacity(0.3),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
                                           alignment: Alignment.center,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.only(left: 1.w),
+                                                padding:
+                                                    EdgeInsets.only(left: 1.w),
                                                 child: Text(
                                                   countryCode,
-                                                  style: textStyle13Bold(colorBlack),
+                                                  style: textStyle13Bold(
+                                                      colorBlack),
                                                 ),
                                               ),
                                               const Icon(Icons.arrow_drop_down)
@@ -207,20 +215,25 @@ class _SigInPageState extends State<SigInPage> {
                                             maxLength:
                                                 countryCode == '+91' ? 10 : 15,
                                             decoration: InputDecoration(
-                                                hintText: 'Enter Your Mobile Number',
-                                                hintStyle: textStyle11(colorText7070),
+                                                hintText:
+                                                    'Enter Your Mobile Number',
+                                                hintStyle:
+                                                    textStyle11(colorText7070),
                                                 border: InputBorder.none,
-                                                counter: const SizedBox.shrink(),
-                                                contentPadding: EdgeInsets.symmetric(vertical: 1.4.h)),
+                                                counter:
+                                                    const SizedBox.shrink(),
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 1.4.h)),
                                             onChanged: (val) {
                                               setState(() {
                                                 validationString = '';
                                               });
                                             },
                                             keyboardType: TextInputType.number,
-                                            textInputAction: TextInputAction.next,
-                                          )
-                                      )
+                                            textInputAction:
+                                                TextInputAction.next,
+                                          ))
                                     ],
                                   ),
                                 ),
@@ -243,12 +256,14 @@ class _SigInPageState extends State<SigInPage> {
                             if (validationString == 'Empty String')
                               SizedBox(
                                 height: 2.h,
-                                child: Text('Please Enter a Number', style: textStyle8Medium(colorErrorRed)),
+                                child: Text('Please Enter a Number',
+                                    style: textStyle8Medium(colorErrorRed)),
                               ),
                             if (validationString == 'Invalid String')
                               SizedBox(
                                 height: 2.h,
-                                child: Text('Please Enter a valid Number', style: textStyle8Medium(colorErrorRed)),
+                                child: Text('Please Enter a valid Number',
+                                    style: textStyle8Medium(colorErrorRed)),
                               ),
                             if (validationString == 'Invalid Number')
                               SizedBox(
@@ -280,14 +295,16 @@ class _SigInPageState extends State<SigInPage> {
                               validationString = 'Invalid String';
                             });
                           } else {
-                            print('Submitted your Number: ${_numController.text.trim()}');
+                            print(
+                                'Submitted your Number: ${_numController.text.trim()}');
                             setState(() {
                               validationString = '';
                             });
                             sendOtp();
                           }
                         }
-                        print('--==-----validationString------$validationString');
+                        print(
+                            '--==-----validationString------$validationString');
                       },
                       child: Container(
                         height: 6.5.h,
@@ -299,17 +316,16 @@ class _SigInPageState extends State<SigInPage> {
                               BoxShadow(
                                   offset: Offset(0, 3),
                                   blurRadius: 6,
-                                  color: Color(0x00000029)
-                              )
+                                  color: Color(0x00000029))
                             ]),
                         alignment: Alignment.center,
                         child: isSendOtp
                             ? SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: CircularProgressIndicator(color: colorWhite, strokeWidth: 0.7.w))
-                            : Text('NEXT', style: textStyle13Bold(colorWhite)
-                        ),
+                                child: CircularProgressIndicator(
+                                    color: colorWhite, strokeWidth: 0.7.w))
+                            : Text('NEXT', style: textStyle13Bold(colorWhite)),
                       ),
                     ),
                     SizedBox(
@@ -320,8 +336,7 @@ class _SigInPageState extends State<SigInPage> {
                     ),
                     if (Platform.isIOS) ...[
                       Container()
-                    ]
-                    else ...[
+                    ] else ...[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -344,27 +359,27 @@ class _SigInPageState extends State<SigInPage> {
                         height: 3.h,
                       ),
                       logInWithButtons(
-                          icGoogle, 'Continue with Google',
-                          () {
-                            GoogleSignIn();
-                          },
+                        icGoogle,
+                        'Continue with Google',
+                        () {
+                          GoogleSignIn();
+                        },
                       ),
                       SizedBox(
                         height: 1.h,
                       ),
                       logInWithButtons(
-                          icFacebook, 'Continue with Facebook',
-                          () {
-                          },
+                        icFacebook,
+                        'Continue with Facebook',
+                        () {},
                       ),
                       SizedBox(
                         height: 1.h,
                       ),
                       logInWithButtons(
-                          icApple, 'Continue with Apple',
-                          () {
-
-                           },
+                        icApple,
+                        'Continue with Apple',
+                        () {},
                       ),
                       SizedBox(
                         height: 3.h,
@@ -380,9 +395,9 @@ class _SigInPageState extends State<SigInPage> {
     );
   }
 
-  logInWithButtons(String icon, String title,Function() onClick) {
+  logInWithButtons(String icon, String title, Function() onClick) {
     return InkWell(
-      onTap:onClick,
+      onTap: onClick,
       child: Container(
         height: 6.5.h,
         width: 90.w,
@@ -411,7 +426,7 @@ class _SigInPageState extends State<SigInPage> {
 
   GoogleSignIn() {
     signInWithGoogle().then((result) {
-      if(result != null) {
+      if (result != null) {
         Navigator.of(context).pushReplacementNamed(SocialLogin.route,
             arguments: SocialLoginData(
               loginType: '',
@@ -420,8 +435,7 @@ class _SigInPageState extends State<SigInPage> {
               email: email.toString(),
               phoneNo: phoneNo.toString(),
               selectedContact: 0,
-            )
-        );
+            ));
         print("result-->>$result");
         print("name-->>$name");
         print("userid-->>$userid");

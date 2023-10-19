@@ -29,7 +29,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
   String selectedUser = '';
   List<Memberlist> members = [];
   String mobileNo = '';
-  bool isCalculateInvestments=false;
+  bool isCalculateInvestments = false;
   double totalInvestment = 0.0;
 
   List<String> types = [
@@ -46,7 +46,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
         relation: 'You',
         familyid: ApiUser.membersList.isNotEmpty
             ? ApiUser.membersList.first.familyid
-            : 0, relativeUserId: 0));
+            : 0,
+        relativeUserId: 0));
     setState(() {});
     for (int i = 0; i < ApiUser.membersList.length; i++) {
       members.add(ApiUser.membersList[i]);
@@ -118,15 +119,17 @@ class _StocksInvestmentState extends State<StocksInvestment> {
               );
             }
             if (state is StockInvestmentLoadedState) {
-
-              if(!isCalculateInvestments) {
-                for (int i = 0; i < state.stockInvestmentPortfolio.stocks.length; i++) {
+              if (!isCalculateInvestments) {
+                for (int i = 0;
+                    i < state.stockInvestmentPortfolio.stocks.length;
+                    i++) {
                   totalInvestment +=
-                  ((state.stockInvestmentPortfolio.stocks[i].balanceQty) * state.stockInvestmentPortfolio.stocks[i].rate);
+                      ((state.stockInvestmentPortfolio.stocks[i].balanceQty) *
+                          state.stockInvestmentPortfolio.stocks[i].rate);
                 }
               }
-              isCalculateInvestments=true;
-              print("totalInvestments-->"+totalInvestment.toString());
+              isCalculateInvestments = true;
+              print("totalInvestments-->" + totalInvestment.toString());
 
               return Stack(
                 alignment: Alignment.topCenter,
@@ -148,42 +151,69 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            '₹${totalInvestment.toStringAsFixed(2)}/-',
-                                            style: textStyle22(colorWhite).copyWith(height: 1.2)),
+                                            '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(2))}/-',
+                                            style: textStyle22(colorWhite)
+                                                .copyWith(height: 1.2)),
                                         Text('STOCK PORTFOLIO',
-                                            style: textStyle10(colorE5E5).copyWith(height: 1.2)),
+                                            style: textStyle10(colorE5E5)
+                                                .copyWith(height: 1.2)),
                                       ],
                                     ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         IconButton(
-                                            constraints: BoxConstraints(minWidth: 5.h, minHeight: 5.h),
+                                            constraints: BoxConstraints(
+                                                minWidth: 5.h, minHeight: 5.h),
                                             padding: EdgeInsets.zero,
                                             splashRadius: 5.5.w,
                                             splashColor: colorWhite,
                                             onPressed: () {
-                                              CommonFunction().selectFormDialog(context, 'Select Member', members, (val) {
+                                              CommonFunction().selectFormDialog(
+                                                  context,
+                                                  'Select Member',
+                                                  members, (val) {
                                                 print('-----val---=---$val');
                                                 setState(() {
-                                                  selectedUser = val.name.substring(0, 1).toUpperCase();
-                                                  isCalculateInvestments=false;
-                                                  totalInvestment=0.0;
+                                                  selectedUser = val.name
+                                                      .substring(0, 1)
+                                                      .toUpperCase();
+                                                  isCalculateInvestments =
+                                                      false;
+                                                  totalInvestment = 0.0;
                                                 });
                                                 Navigator.of(context).pop();
-                                                BlocProvider.of<FetchingDataBloc>(
-                                                    context).add(LoadStockInvestmentEvent(
-                                                    userId: val.relation == "You" ? val.id.toString() : val.relativeUserId.toString(),
-                                                    investmentPortfolio: StockInvestmentModel(
-                                                      code: 0, message: '', portfolio: 0, investment: 0, gain: 0, stocks: [],
-                                                    )
-                                                ));
+                                                BlocProvider.of<
+                                                            FetchingDataBloc>(
+                                                        context)
+                                                    .add(
+                                                        LoadStockInvestmentEvent(
+                                                            userId: val
+                                                                        .relation ==
+                                                                    "You"
+                                                                ? val.id
+                                                                    .toString()
+                                                                : val
+                                                                    .relativeUserId
+                                                                    .toString(),
+                                                            investmentPortfolio:
+                                                                StockInvestmentModel(
+                                                              code: 0,
+                                                              message: '',
+                                                              portfolio: 0,
+                                                              investment: 0,
+                                                              gain: 0,
+                                                              stocks: [],
+                                                            )));
                                               });
                                             },
                                             icon: Container(
@@ -194,19 +224,22 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                     shape: BoxShape.circle),
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                    selectedUser.substring(0, 1).toUpperCase(),
-                                                    style: textStyle20Bold(colorRed)))),
+                                                    selectedUser
+                                                        .substring(0, 1)
+                                                        .toUpperCase(),
+                                                    style: textStyle20Bold(
+                                                        colorRed)))),
                                         const SizedBox(height: 5),
                                         popupButton(
                                             false,
                                             selectedType,
                                             List.generate(
                                                 types.length,
-                                                    (i) => menuItem(types[i], () {
-                                                  setState(() {
-                                                    selectedType = types[i];
-                                                  });
-                                                }))),
+                                                (i) => menuItem(types[i], () {
+                                                      setState(() {
+                                                        selectedType = types[i];
+                                                      });
+                                                    }))),
                                       ],
                                     )
                                   ],
@@ -216,13 +249,16 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                               SizedBox(
                                 width: 90.w,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     showValue(
                                         icStocksInvestment,
                                         color47D1,
                                         'Investment',
-                                        totalInvestment.toStringAsFixed(2)),
+                                        CommonFunction().splitString(
+                                            totalInvestment
+                                                .toStringAsFixed(2))),
                                     /*showValue(
                                         icStocksInvestment,
                                         colorFB83,
@@ -265,15 +301,13 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                             child: Text(
                                 'Track investments of your family members',
                                 style: textStyle12Bold(colorWhite)),
-                          )
-                      ),
+                          )),
                       SizedBox(height: 2.5.h)
                     ],
                   ),
                   Positioned(
                       top: 25.h,
-                      child:
-                      Container(
+                      child: Container(
                         height: state.stockInvestmentPortfolio.stocks.isNotEmpty
                             ? 52.h
                             : 0,
@@ -286,35 +320,56 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                 (index) => Column(
                                       children: [
                                         reviews(
-                                            state.stockInvestmentPortfolio.stocks[index].stockName.toString(),
-                                            state.stockInvestmentPortfolio.stocks[index].balanceQty.toString(),
+                                            state.stockInvestmentPortfolio
+                                                .stocks[index].stockName
+                                                .toString(),
+                                            state.stockInvestmentPortfolio
+                                                .stocks[index].balanceQty
+                                                .toString(),
                                             color47D1,
-                                            ((state.stockInvestmentPortfolio.stocks[index].balanceQty) * state.stockInvestmentPortfolio.stocks[index].rate).toStringAsFixed(2) ,
-                                                () => {
-                                              BlocProvider.of<StockTransactionBloc>(context).add(
-                                                  LoadStockTransactionEvent(
-                                                      userId: ApiUser.userId,
-                                                      stockName: state.stockInvestmentPortfolio.stocks[index].stockName.toString(),
-                                                      stockTransaction: StockInvestmentTransactionModel(
-                                                          code: 0,
-                                                          message: '',
-                                                          stockTransactions: []
-                                                      )
-                                                  )
-                                              ),
-                                              Navigator.of(context).pushNamed(StockInvestmentTransaction.route)
-                                            }
-                                        ),
-                                        if (index != state.stockInvestmentPortfolio.stocks.length - 1)
+                                            ((state
+                                                        .stockInvestmentPortfolio
+                                                        .stocks[index]
+                                                        .balanceQty) *
+                                                    state
+                                                        .stockInvestmentPortfolio
+                                                        .stocks[index]
+                                                        .rate)
+                                                .toStringAsFixed(2),
+                                            () => {
+                                                  BlocProvider.of<
+                                                              StockTransactionBloc>(
+                                                          context)
+                                                      .add(LoadStockTransactionEvent(
+                                                          userId:
+                                                              ApiUser.userId,
+                                                          stockName: state
+                                                              .stockInvestmentPortfolio
+                                                              .stocks[index]
+                                                              .stockName
+                                                              .toString(),
+                                                          stockTransaction:
+                                                              StockInvestmentTransactionModel(
+                                                                  code: 0,
+                                                                  message: '',
+                                                                  stockTransactions: []))),
+                                                  Navigator.of(context).pushNamed(
+                                                      StockInvestmentTransaction
+                                                          .route)
+                                                }),
+                                        if (index !=
+                                            state.stockInvestmentPortfolio
+                                                    .stocks.length -
+                                                1)
                                           Container(
                                               height: 1,
-                                              color: colorTextBCBC.withOpacity(0.36))
+                                              color: colorTextBCBC
+                                                  .withOpacity(0.36))
                                       ],
                                     )),
                           ),
                         ),
-                      )
-                  )
+                      ))
                 ],
               );
             }
@@ -349,7 +404,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
             child: Text(title, style: textStyle10(colorText3D3D))));
   }
 
-  popupButton(bool isMemberField, String selectedItem, List<PopupMenuItem> menuItemList) {
+  popupButton(bool isMemberField, String selectedItem,
+      List<PopupMenuItem> menuItemList) {
     return Container(
       height: 4.h,
       width: 30.w,
@@ -399,7 +455,12 @@ class _StocksInvestmentState extends State<StocksInvestment> {
               children: [
                 Text(title, style: textStyle9(colorText7070)),
                 SizedBox(height: 0.5.h),
-                Text('₹ $val/-', style: textStyle11Bold(colorBlack),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                Text(
+                  '₹ $val/-',
+                  style: textStyle11Bold(colorBlack),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           )
@@ -436,7 +497,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
               const Spacer(),
               Column(
                 children: [
-                  Text(percentageVal, style: textStyle8(colorText7070)),
+                  Text(CommonFunction().splitString(percentageVal),
+                      style: textStyle8(colorText7070)),
                 ],
               )
             ],

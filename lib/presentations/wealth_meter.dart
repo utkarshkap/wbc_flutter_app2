@@ -21,7 +21,6 @@ class WealthMeterScreen extends StatefulWidget {
 }
 
 class _WealthMeterScreenState extends State<WealthMeterScreen> {
-
   String stockInvestmentType = "StocksInvestment";
   String mfInvestmentType = "MutualFundsInvestment";
 
@@ -314,7 +313,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
             child: BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
               listener: (context, state) {
                 if (state is MFInvestmentsLoadedState) {
-                  Navigator.of(context).pushReplacementNamed(MutualFundsInvestment.route);
+                  Navigator.of(context)
+                      .pushReplacementNamed(MutualFundsInvestment.route);
                 } else if (state is StockInvestmentLoadedState) {
                   Navigator.of(context)
                       .pushReplacementNamed(StocksInvestment.route);

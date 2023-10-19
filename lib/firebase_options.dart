@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCUk50_FvGFaxTmcqbd6ujFpi3ngAwMewk',
-    appId: '1:217717536609:android:5165901ec8efd288bcb720',
+    appId: '1:217717536609:android:1874486d1773432cbcb720',
     messagingSenderId: '217717536609',
     projectId: 'wbcconnect-8cd0a',
     storageBucket: 'wbcconnect-8cd0a.appspot.com',
@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCONabpCVKA9VkPYoOUqLPE0UILYkiXloI',
-    appId: '1:217717536609:ios:d0c5a5087baf9f27bcb720',
+    appId: '1:217717536609:ios:61d0d4ba7f7ab442bcb720',
     messagingSenderId: '217717536609',
     projectId: 'wbcconnect-8cd0a',
     storageBucket: 'wbcconnect-8cd0a.appspot.com',
-    androidClientId: '217717536609-6ac5u4m9p5fegap9rgcec1evpvkdlc4b.apps.googleusercontent.com',
-    iosClientId: '217717536609-aaodjiqtabe0brjcg62e95reh8egddub.apps.googleusercontent.com',
-    iosBundleId: 'com.wbc-connect.app',
+    androidClientId: '217717536609-3ao99bm0ic46rhsi5ssrhscnk60c6vgs.apps.googleusercontent.com',
+    iosClientId: '217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5.apps.googleusercontent.com',
+    iosBundleId: 'in.kagroup.finer',
   );
 }

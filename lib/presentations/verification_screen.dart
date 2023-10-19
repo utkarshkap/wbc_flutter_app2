@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -36,7 +35,6 @@ import '../models/trending_data_model.dart';
 import '../resources/resource.dart';
 
 class VerificationScreenData {
-
   final String number;
   final String getNumber;
   final String verificationId;
@@ -64,7 +62,6 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-
   final GlobalKey<FormState> _formKey = GlobalKey();
   FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController _nameController = TextEditingController();
@@ -100,7 +97,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Duration myDuration = const Duration(seconds: 30);
 
   MapLatLng? _markerPosition;
-  final MapZoomPanBehavior _mapZoomPanBehavior =   MapZoomPanBehavior(zoomLevel: 10);
+  final MapZoomPanBehavior _mapZoomPanBehavior =
+      MapZoomPanBehavior(zoomLevel: 10);
   final MapTileLayerController _controller = MapTileLayerController();
 
   bool isEmptyContacts = false;
@@ -137,7 +135,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       setState(() {
         notificationToken = token!;
       });
-      print("notificationToken-->"+notificationToken.toString());
+      print("notificationToken-->" + notificationToken.toString());
     });
   }
 
@@ -154,31 +152,37 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   verifyOtp() async {
-    try {
-      setState(() {
-        isVerify = true;
-      });
-      print('verificationId-----${widget.verificationScreenData.verificationId}');
+    // try {
+    //   setState(() {
+    //     isVerify = true;
+    //   });
+    //   print('verificationId-----${widget.verificationScreenData.verificationId}');
 
-      print(resendVerificationId);
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: resendVerificationId.isNotEmpty
-              ? resendVerificationId
-              : widget.verificationScreenData.verificationId,
-          smsCode: sms);
+    //   print(resendVerificationId);
+    //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
+    //       verificationId: resendVerificationId.isNotEmpty
+    //           ? resendVerificationId
+    //           : widget.verificationScreenData.verificationId,
+    //       smsCode: sms);
 
-      await auth.signInWithCredential(credential);
-      getToken();
+    //   await auth.signInWithCredential(credential);
+    //   getToken();
 
-      BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+    //   BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
 
-    } catch (e) {
-      print('exception------');
-      setState(() {
-        isVerify = false;
-        pinValidationString = 'The Code Is Incorrect';
-      });
-    }
+    // } catch (e) {
+    //   print('exception------');
+    //   setState(() {
+    //     isVerify = false;
+    //     pinValidationString = 'The Code Is Incorrect';
+    //   });
+    // }
+
+    setState(() {
+      isVerify = true;
+    });
+    BlocProvider.of<SigningBloc>(context)
+        .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
   }
 
   reSendOtp() async {
@@ -287,7 +291,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
       _controller.clearMarkers();
     }
     _controller.insertMarker(0);
-    List<geo.Placemark> placeMarks = await geo.placemarkFromCoordinates(_markerPosition!.latitude, _markerPosition!.longitude);
+    List<geo.Placemark> placeMarks = await geo.placemarkFromCoordinates(
+        _markerPosition!.latitude, _markerPosition!.longitude);
     print(placeMarks);
     geo.Placemark place = placeMarks[0];
     _locationController.text = '${place.street}, ${place.subLocality}';
@@ -312,7 +317,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
         isContactPermissionDenied = true;
       });
       print('------is-perminatily---denied');
-    } else if (await contactPermission.Permission.contacts.request().isPermanentlyDenied) {
+    } else if (await contactPermission.Permission.contacts
+        .request()
+        .isPermanentlyDenied) {
       // setState(() {
       //   isContactPermission = false;
       //   isContactPermissionDenied = true;
@@ -345,8 +352,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         area: area.trim(),
         deviceId: notificationToken,
         dob: selectedDate,
-        tnc: isCheckedPrivacyPolicy
-    ));
+        tnc: isCheckedPrivacyPolicy));
     setState(() {
       ApiUser.termNdCondition = isCheckedPrivacyPolicy;
     });
@@ -372,10 +378,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   getContacts() async {
+    print("GET CONTACTS:::::::::::::::::::::");
     contactsList = [];
-    contactsList =
-        await FlutterContacts.getContacts(withProperties: true, withPhoto: true)
-            .then((value) {
+    //
+    //
+    contactsList = await FlutterContacts.getContacts(
+      withProperties: true,
+      withPhoto: false,
+    ).then((value) {
       print('-----contacts--all-----$value');
       print('-----phones------${value[6].phones}');
       if (value.isEmpty) {
@@ -429,11 +439,29 @@ class _VerificationScreenState extends State<VerificationScreen> {
             });
           }
           if (value[i].phones.isNotEmpty) {
-            if (value[i].phones.first.number.length >= 10) {
-              contactsList.add(ContactsData(
-                  contact: value[i],
-                  isAdd: false,
-                  color: colorContacts[count]));
+            if (value[i].phones.first.number.length >=   10) {
+              String num = value[i]
+                  .phones
+                  .first
+                  .number
+                  .replaceAll(' ', '')
+                  .replaceAll('-', '')
+                  .replaceAll('(', '')
+                  .replaceAll(')', '');
+              // print("ADD CONTACTS::::::::::::::::${value[i].phones.first.number}");
+              if (value[i]
+                      .displayName
+                      .substring(0, 1)
+                      .contains(RegExp("[0-9a-zA-Z]")) &&
+                  num.length <= 14) {
+                contactsList.add(ContactsData(
+                    contact: value[i],
+                    isAdd: false,
+                    color: colorContacts[count]));
+              }
+              // else{
+              //   print("FALSE:::::::::::::::::::::");
+              // }
             }
           }
         }
@@ -471,7 +499,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Widget build(BuildContext context) {
     print('isVerify----==---$isVerify');
     print('isContactApprove----==---$approveContactCount');
-    print('selectedcontact----==---${widget.verificationScreenData.selectedContact}');
+    print(
+        'selectedcontact----==---${widget.verificationScreenData.selectedContact}');
 
     String strDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = strDigits(myDuration.inMinutes.remainder(60));
@@ -530,7 +559,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
             },
             child: BlocConsumer<SigningBloc, SigningState>(
               listener: (context, state) {
-                if (state is SigningFailed || state is AddContactFailed || state is GetUserFailed) {
+                if (state is SigningFailed ||
+                    state is AddContactFailed ||
+                    state is GetUserFailed) {
                   AwesomeDialog(
                     btnCancelColor: colorRed,
                     padding: EdgeInsets.zero,
@@ -618,7 +649,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       : state.data!.data!.mobileNo.toString());
 
                   state.data!.data != null
-                      ? Preference.setFastTrackStatus(state.data!.data!.fastTrack) : "";
+                      ? Preference.setFastTrackStatus(
+                          state.data!.data!.fastTrack)
+                      : "";
 
                   Preference.setUserid(state.data!.data == null
                       ? ""
@@ -647,9 +680,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
                         popular: Popular(code: 0, message: '', products: []),
                         newArrival:
-                        NewArrival(code: 0, message: '', products: []),
+                            NewArrival(code: 0, message: '', products: []),
                         trending:
-                        Trending(code: 0, message: '', products: [])));
+                            Trending(code: 0, message: '', products: [])));
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         HomeScreen.route, (route) => false,
                         arguments: HomeScreenData());
@@ -690,12 +723,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 5.w),
                               child: IconButton(
-                                  constraints: BoxConstraints.loose(Size(5.w, 5.h)),
+                                  constraints:
+                                      BoxConstraints.loose(Size(5.w, 5.h)),
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
                                     if (step == 1 || step == 2) {
                                       Navigator.of(context)
-                                          .pushReplacementNamed(SigInPage.route);
+                                          .pushReplacementNamed(
+                                              SigInPage.route);
                                     }
                                     if (step == 3) {
                                       setState(() {
@@ -817,14 +852,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                   Pinput(
                                     length: 6,
                                     defaultPinTheme:
-                                    pinValidationString.isNotEmpty
-                                        ? focusedPinTheme
-                                        : defaultPinTheme,
+                                        pinValidationString.isNotEmpty
+                                            ? focusedPinTheme
+                                            : defaultPinTheme,
                                     focusedPinTheme: focusedPinTheme,
                                     submittedPinTheme:
-                                    pinValidationString.isNotEmpty
-                                        ? focusedPinTheme
-                                        : submittedPinTheme,
+                                        pinValidationString.isNotEmpty
+                                            ? focusedPinTheme
+                                            : submittedPinTheme,
                                     showCursor: true,
                                     onCompleted: (pin) {
                                       setState(() {
@@ -851,7 +886,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                             child: Text(
                                                 ' The Code Is Incorrect',
                                                 style:
-                                                textStyle9(colorErrorRed)),
+                                                    textStyle9(colorErrorRed)),
                                           ),
                                       ],
                                     ),
@@ -881,8 +916,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                         ),
                                   const Spacer(),
                                   button('NEXT',
-                                      isOtpCompleted ? null : verifyOtp, state
-                                  ),
+                                      isOtpCompleted ? null : verifyOtp, state),
                                   SizedBox(
                                     height: 2.h,
                                   ),
@@ -966,7 +1000,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   step2() {
     return Expanded(
-     child: Container(
+        child: Container(
       width: 100.w,
       color: colorBG,
       padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -1131,11 +1165,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
       print('----location----${value!}');
       _markerPosition = MapLatLng(value.latitude!, value.longitude!);
       setState(() {});
-      List<geo.Placemark> placeMarks = await geo.placemarkFromCoordinates(_markerPosition!.latitude, _markerPosition!.longitude);
+      List<geo.Placemark> placeMarks = await geo.placemarkFromCoordinates(
+          _markerPosition!.latitude, _markerPosition!.longitude);
       print(placeMarks);
       geo.Placemark place = placeMarks[0];
-      _locationController.text = '${place.street}, ${place.name}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-      _locationController.selection = TextSelection.fromPosition(TextPosition(offset: _locationController.text.length));
+      _locationController.text =
+          '${place.street}, ${place.name}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+      _locationController.selection = TextSelection.fromPosition(
+          TextPosition(offset: _locationController.text.length));
       _cityController.text = '${place.locality}';
       _countryController.text = '${place.country}';
       isLocationFieldTap = true;
@@ -1269,8 +1306,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                       ),
                                     ),
                                   ),
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -1474,7 +1510,27 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           .replaceAll('-', '')
                           .replaceAll('(', '')
                           .replaceAll(')', '');
-                      num = '${num.substring(0, 5)} ${num.substring(5, 10)}';
+                      if (num.length == 10) {
+                        num = '${num.substring(0, 5)} ${num.substring(5, 10)}';
+                      } else if (num.length == 11) {
+                        num =
+                            '${num.substring(0, 1)} ${num.substring(1, 6)} ${num.substring(6, 11)}';
+                      } else if (num.length == 12) {
+                        num =
+                            '${num.substring(0, 2)} ${num.substring(2, 7)} ${num.substring(7, 12)}';
+                      } else if (num.length == 13) {
+                        num =
+                            '${num.substring(0, 3)} ${num.substring(3, 8)} ${num.substring(8, 13)}';
+                      } else if (num.length == 14) {
+                        num =
+                            '${num.substring(0, 4)} ${num.substring(4, 9)} ${num.substring(9, 14)}';
+                      }
+                      // print(
+                      //     "NUM:length:::::::::::::::::::::::::::${num.length}");
+                      // num = '${num.substring(0, 5)} ${num.substring(5, 10)}';
+                      // print(
+                      // "data:::::::::::${contactsData[index].contact.phones.first.number}");
+                      // print("NUM::::::::::::::::::::::::::::${num}");
 
                       return contactsData[index]
                               .contact
@@ -1577,6 +1633,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                           !contactsData[index]
                                                               .isAdd;
                                                     });
+                                                    print(
+                                                        "IS ADDD:::::::::${contactsData[index].isAdd}");
                                                     setState(() {
                                                       if (contactsData[index]
                                                           .isAdd) {
@@ -1596,17 +1654,31 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                                     .contact
                                                                     .name
                                                                     .last;
-                                                        final selectedContactMono =
+                                                        var selectedContactMono =
                                                             contactsData[index]
                                                                 .contact
                                                                 .phones
                                                                 .first
                                                                 .number
                                                                 .replaceAll(
-                                                                    '-', '');
+                                                                    ' ', '')
+                                                                .replaceAll(
+                                                                    '-', '')
+                                                                .replaceAll(
+                                                                    '(', '')
+                                                                .replaceAll(
+                                                                    ')', '');
+                                                        selectedContactMono =
+                                                            selectedContactMono
+                                                                .substring(
+                                                                    selectedContactMono
+                                                                            .length -
+                                                                        10);
 
-                                                        // print('final name:$selectedContactName');
-                                                        // // print('final mono:$selectedContactMono');
+                                                        // print(
+                                                        //     'final name:::::::::::::$selectedContactName');
+                                                        // print(
+                                                        //     'final mono:::::::::::::$selectedContactMono');
 
                                                         selectedContacts.add(
                                                             ContactData(
@@ -1614,21 +1686,49 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                                     selectedContactName,
                                                                 mobileNo:
                                                                     selectedContactMono));
+
+                                                        print(
+                                                            "SELECTED ::::::::::::::${selectedContacts}");
                                                       } else {
-                                                        final selectedContactMono =
+                                                        print(
+                                                            "ELSE:::::::--------:::::::::::::::::::::::");
+                                                        // final selectedContactMono =
+                                                        //     contactsData[index]
+                                                        //         .contact
+                                                        //         .phones
+                                                        //         .first
+                                                        //         .number
+                                                        //         .replaceAll(
+                                                        //             '-', '');
+                                                        var selectedContactMono =
                                                             contactsData[index]
                                                                 .contact
                                                                 .phones
                                                                 .first
                                                                 .number
                                                                 .replaceAll(
-                                                                    '-', '');
+                                                                    ' ', '')
+                                                                .replaceAll(
+                                                                    '-', '')
+                                                                .replaceAll(
+                                                                    '(', '')
+                                                                .replaceAll(
+                                                                    ')', '');
+                                                        selectedContactMono =
+                                                            selectedContactMono
+                                                                .substring(
+                                                                    selectedContactMono
+                                                                            .length -
+                                                                        10);
                                                         contactCount--;
                                                         selectedContacts.removeWhere(
                                                             (element) =>
                                                                 element
                                                                     .mobileNo ==
                                                                 selectedContactMono);
+
+                                                        print(
+                                                            "REMOVE :::::::::::::${selectedContacts}");
 
                                                         print(
                                                             'removeselecteddata--------$selectedContacts');
@@ -1638,6 +1738,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                       widget
                                                           .verificationScreenData
                                                           .selectedContact) {
+                                                    print(
+                                                        "ELSE:if:::::::::--------:::::::::::::::::::::::");
+
                                                     if (contactsData[index]
                                                         .isAdd) {
                                                       setState(() {
@@ -1645,7 +1748,38 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                                 .isAdd =
                                                             !contactsData[index]
                                                                 .isAdd;
+                                                        // contactCount--;
+                                                        var selectedContactMono =
+                                                            contactsData[index]
+                                                                .contact
+                                                                .phones
+                                                                .first
+                                                                .number
+                                                                .replaceAll(
+                                                                    ' ', '')
+                                                                .replaceAll(
+                                                                    '-', '')
+                                                                .replaceAll(
+                                                                    '(', '')
+                                                                .replaceAll(
+                                                                    ')', '');
+                                                        selectedContactMono =
+                                                            selectedContactMono
+                                                                .substring(
+                                                                    selectedContactMono
+                                                                            .length -
+                                                                        10);
                                                         contactCount--;
+                                                        selectedContacts.removeWhere(
+                                                            (element) =>
+                                                                element
+                                                                    .mobileNo ==
+                                                                selectedContactMono);
+
+                                                        // print("ELSE IF::::::::${contactsData[index]
+                                                        //         .isAdd =
+                                                        //     !contactsData[index]
+                                                        //         .isAdd}::::::::::${contactCount--}}");
                                                       });
                                                     }
                                                   }
@@ -1784,7 +1918,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           : Text(text,
                               style: textStyle13Bold(
                                   text == 'SKIP' ? colorRed : colorWhite)),
-                 /* if (text == 'SAVE & EARN GP')
+                  /* if (text == 'SAVE & EARN GP')
                     state is AddContactLoading
                         ? Container()
                         : Text(' GP', style: textStyle13Bold(colorTextFFC1)),*/
@@ -1808,7 +1942,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
           decoration: BoxDecoration(
               color: colorWhite,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: isSelected ? colorRed : colorDFDF, width: 1)),
+              border: Border.all(
+                  color: isSelected ? colorRed : colorDFDF, width: 1)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1827,8 +1962,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                   letterSpacing:
                                       dob == "Select Your Date of Birth"
                                           ? 0
-                                          : 0.7)
-                      ) : TextFormField(
+                                          : 0.7))
+                          : TextFormField(
                               controller: controller,
                               validator: validator,
                               style: textStyle12(colorText3D3D)
@@ -1880,7 +2015,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 }
                               },
                               keyboardType: keyboardType,
-                              textInputAction: controller == _countryController ? TextInputAction.done : TextInputAction.next,
+                              textInputAction: controller == _countryController
+                                  ? TextInputAction.done
+                                  : TextInputAction.next,
                             ),
                     ),
                   ],
@@ -1897,5 +2034,4 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ),
     );
   }
-
 }

@@ -39,6 +39,7 @@ import 'package:wbc_connect_app/presentations/brokers_api/webview_IIFL.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/weview_fyers.dart';
 import 'package:wbc_connect_app/presentations/emisip_cal_result.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
+import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
@@ -83,8 +84,7 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       final data = arguments as HomeScreenData;
       return MaterialPageRoute(
         builder: (_) => ShowCaseWidget(
-          builder: Builder(
-              builder: (context) => HomeScreen(data)),
+          builder: Builder(builder: (context) => HomeScreen(data)),
         ),
       );
 
@@ -126,7 +126,7 @@ Route onGenerateRoute(RouteSettings routeSettings) {
         builder: (_) => ProductCategoryScreen(category: category),
       );
 
-      case '/Expand-Category':
+    case '/Expand-Category':
       final categoryData = arguments as ExpandCategoryData;
       return MaterialPageRoute(
         builder: (_) => ExpandCategory(categoryData: categoryData),
@@ -240,10 +240,11 @@ Route onGenerateRoute(RouteSettings routeSettings) {
     case '/Insurance-Investment':
       final insuranceInvestmentData = arguments as InsuranceInvestmentData;
       return MaterialPageRoute(
-          builder: (_) => InsuranceInvestmentScreen(insuranceInvestmentData: insuranceInvestmentData),
+        builder: (_) => InsuranceInvestmentScreen(
+            insuranceInvestmentData: insuranceInvestmentData),
       );
 
-      case '/Loan-Investment':
+    case '/Loan-Investment':
       return MaterialPageRoute(
         builder: (_) => const LoanInvestmentScreen(),
       );
@@ -370,7 +371,12 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (_) => RetirementCalculator(retirementCalculatorData: data),
       );
-      
+    case '/gold-point-history':
+      final data = arguments as GoldPointHistoryData;
+      return MaterialPageRoute(
+        builder: (_) => GoldPointHistoryScreen(goldPointHistoryData: data),
+      );
+
     default:
       return MaterialPageRoute(builder: (_) => Container());
   }

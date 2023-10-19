@@ -1,4 +1,4 @@
-package com.wbc_connect.app
+package `in`.kagroup.finer
 
 import io.flutter.embedding.android.FlutterActivity
 

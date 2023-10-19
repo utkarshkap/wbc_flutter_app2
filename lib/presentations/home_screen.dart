@@ -76,7 +76,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final GlobalKey globalKey = GlobalKey();
   bool isAddContact = false;
   bool isRenewContact = false;
@@ -89,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(
           msg: 'Press again to exit',
@@ -102,8 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getShowCase() async {
     isShowCase = await Preference.getShowCase();
-    if(!isShowCase){
-      WidgetsBinding.instance.addPostFrameCallback((_) => ShowCaseWidget.of(context).startShowCase([globalKey]));
+    if (!isShowCase) {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => ShowCaseWidget.of(context).startShowCase([globalKey]));
     }
     print('isShowCase-----$isShowCase');
   }
@@ -138,19 +139,22 @@ class _HomeScreenState extends State<HomeScreen> {
             'Thank You',
             'Your Family Member has been successfully Added.',
             jsonReviewSuccess,
-            mono,globalKey,isShowCase);
+            mono,
+            globalKey,
+            isShowCase);
       }
     });
-    BlocProvider.of<DashboardBloc>(context).add(GetDashboardData(userId: ApiUser.userId));
+    BlocProvider.of<DashboardBloc>(context)
+        .add(GetDashboardData(userId: ApiUser.userId));
   }
 
   getFastTrackStatus() async {
-    if(widget.homeScreenData.isFastTrackActivate==true){
+    if (widget.homeScreenData.isFastTrackActivate == true) {
       setState(() {
-        fastTrackStatus=true;
+        fastTrackStatus = true;
       });
       Preference.setFastTrackStatus(true);
-    }else{
+    } else {
       fastTrackStatus = await Preference.getFastTrackStatus();
     }
     print("fastTrackStatus-->$fastTrackStatus");
@@ -204,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             if (state is DashboardDataLoaded) {
               Preference.setApproveContactCount(
-              state.data!.data.addContacts.toString());
+                  state.data!.data.addContacts.toString());
               ApiUser.goldReferralPoint = state.data!.data.goldPoint;
               ApiUser.offersList = state.data!.data.offers;
               print('memberlistdetlete---------${state.data!.data.memberlist}');
@@ -219,7 +223,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 CommonFunction().successPopup(
                     context,
                     'Congratulations',
-                    'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!)} contacts are approved in WBC and you have received ${int.parse(widget.homeScreenData.acceptedContacts!) * 100} Gold Points for the same.',
+                    ApiUser.numberList.length == 0
+                        ? 'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!)} contacts are approved in WBC and you have received ${int.parse(widget.homeScreenData.acceptedContacts!) * 100} Gold Points for the same.'
+                        : 'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!)} contacts are approved in WBC and you have received ${int.parse(widget.homeScreenData.acceptedContacts!) * 100} Gold Points for the same.${ApiUser.numberList.toString().replaceAll('[', '').replaceAll(']', '')},are not added because its already available',
                     jsonRewardPopup);
               }
             }
@@ -256,12 +262,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               pointsView(
                                   icGoldCoin,
                                   'Your Gold Points',
-                                  state.data!.data.goldPoint.toString(),
+                                  CommonFunction().splitString(
+                                      state.data!.data.goldPoint.toString()),
                                   'Redeem Now',
                                   state.data!.data.history,
                                   state.data!.data.contactBase,
                                   state.data!.data.inActive,
-                                  state.data!.data.availableContacts, () {
+                                  state.data!.data.availableContacts,
+                                  state.data!.data.goldPoint,
+                                  state.data!.data.fastTrack,
+                                  state.data!.data.earning,
+                                  state.data!.data.redeemable,
+                                  state.data!.data.nonRedeemable,
+                                  state.data!.data.onTheSpot, () {
                                 BlocProvider.of<FetchingDataBloc>(context).add(
                                     LoadProductCategoryEvent(
                                         productCategory: ProductCategory(
@@ -278,23 +291,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                             code: 0,
                                             message: '',
                                             products: [])));
-                                Navigator.of(context).pushReplacementNamed(WbcMegaMall.route);
-                              },'Gold Points'),
+                                Navigator.of(context)
+                                    .pushReplacementNamed(WbcMegaMall.route);
+                              }, 'Gold Points'),
                               Container(
                                   height: 1,
                                   color: colorTextBCBC.withOpacity(0.36)),
                               pointsView(
                                   icFastTrackEarning,
                                   'Your FastTrack Earnings',
-                                  '₹ ${state.data!.data.fastTrack}',
+                                  '₹ ${CommonFunction().splitString(state.data!.data.fastTrack.toString())}',
                                   'Become Member',
                                   state.data!.data.history,
                                   state.data!.data.contactBase,
                                   state.data!.data.inActive,
-                                  state.data!.data.availableContacts, () {
-                                Navigator.of(context).pushNamed(FastTrackBenefits.route);
+                                  state.data!.data.availableContacts,
+                                  state.data!.data.goldPoint,
+                                  state.data!.data.fastTrack,
+                                  state.data!.data.earning,
+                                  state.data!.data.redeemable,
+                                  state.data!.data.nonRedeemable,
+                                  state.data!.data.onTheSpot, () {
+                                Navigator.of(context)
+                                    .pushNamed(FastTrackBenefits.route);
                                 // Navigator.of(context).pushNamed(RequestPayment.route);
-                              },'FastTrack')
+                              }, 'FastTrack')
                             ],
                           ),
                         ),
@@ -305,7 +326,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .pushNamed(MunafeKiClassScreen.route);
                             BlocProvider.of<FetchingDataBloc>(context).add(
                                 LoadMunafeKiClassEvent(
-                                    munafeKiClass: MunafeKiClass(code: 0, message: '', list: [])));
+                                    munafeKiClass: MunafeKiClass(
+                                        code: 0, message: '', list: [])));
                           },
                           child: Container(
                             width: 90.w,
@@ -313,7 +335,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.fromLTRB(2.5.w, 1.2.h, 2.5.w, 1.2.h),
+                                    padding: EdgeInsets.fromLTRB(
+                                        2.5.w, 1.2.h, 2.5.w, 1.2.h),
                                     child: Container(
                                       height: 4.2.h,
                                       width: 4.2.h,
@@ -344,7 +367,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(5.w, 2.5.h, 0, 1.5.h),
+                              padding:
+                                  EdgeInsets.fromLTRB(5.w, 2.5.h, 0, 1.5.h),
                               child: Text('YOUR PORTFOLIO',
                                   style: textStyle11Bold(colorBlack)
                                       .copyWith(letterSpacing: 0.7)),
@@ -360,11 +384,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               physics: const PageScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.5.w),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2.h, horizontal: 2.5.w),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
+                                    BlocListener<MFInvestmentsBloc,
+                                        MFInvestmentsState>(
                                       listener: (context, state) {
                                         if (state is MFInvestmentsLoadedState) {
                                           // Navigator.of(context).pushNamed(MutualFundsInvestment.route);
@@ -372,7 +398,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                       child: portFolioWidget(
                                           icMutualFunds, 'Mutual Funds', () {
-                                        BlocProvider.of<MFInvestmentsBloc>(context).add(LoadMFInvestmentsEvent(
+                                        BlocProvider.of<MFInvestmentsBloc>(
+                                                context)
+                                            .add(LoadMFInvestmentsEvent(
                                                 userId: ApiUser.userId,
                                                 investmentPortfolio:
                                                     InvestmentPortfolio(
@@ -381,64 +409,88 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         portfolio: 0,
                                                         investment: 0,
                                                         gain: 0,
-                                                        mFStocks: []))
-                                        );
-                                        Navigator.of(context).pushNamed(MutualFundsInvestment.route);
-
+                                                        mFStocks: [])));
+                                        Navigator.of(context).pushNamed(
+                                            MutualFundsInvestment.route);
                                       }, () {}),
                                     ),
-                                    BlocListener<FetchingDataBloc, FetchingDataState>(
+                                    BlocListener<FetchingDataBloc,
+                                        FetchingDataState>(
                                       listener: (context, state) {
-                                        if (state is StockInvestmentLoadedState) {
+                                        if (state
+                                            is StockInvestmentLoadedState) {
                                           // Navigator.of(context).pushNamed(StocksInvestment.route);
                                         }
                                       },
                                       child: portFolioWidget(icStocks, 'Stocks',
                                           () {
                                         BlocProvider.of<FetchingDataBloc>(
-                                                context).add(LoadStockInvestmentEvent(
+                                                context)
+                                            .add(LoadStockInvestmentEvent(
                                                 userId: ApiUser.userId,
-                                                investmentPortfolio: StockInvestmentModel(
-                                                  code: 0, message: '', portfolio: 0, investment: 0, gain: 0, stocks: [],
-                                                )
-                                        ));
-                                        Navigator.of(context).pushNamed(StocksInvestment.route);
-                                          }, () {}),
+                                                investmentPortfolio:
+                                                    StockInvestmentModel(
+                                                  code: 0,
+                                                  message: '',
+                                                  portfolio: 0,
+                                                  investment: 0,
+                                                  gain: 0,
+                                                  stocks: [],
+                                                )));
+                                        Navigator.of(context)
+                                            .pushNamed(StocksInvestment.route);
+                                      }, () {}),
                                     ),
-                                    BlocListener<InsuranceInvestmentBloc, InsuranceInvestmentState>(
+                                    BlocListener<InsuranceInvestmentBloc,
+                                        InsuranceInvestmentState>(
                                       listener: (context, state) {
-                                        if (state is InsuranceInvestmentLoadedState) {
-                                          print('--------insurance22---investment');
+                                        if (state
+                                            is InsuranceInvestmentLoadedState) {
+                                          print(
+                                              '--------insurance22---investment');
                                           // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
                                         }
                                       },
-                                      child: portFolioWidget(icLifeInsurance, 'Life Insurance', () {
-                                        print('--------insurance11---investment');
-                                        BlocProvider.of<InsuranceInvestmentBloc>(context).add(LoadInsuranceInvestmentEvent(
+                                      child: portFolioWidget(
+                                          icLifeInsurance, 'Life Insurance',
+                                          () {
+                                        print(
+                                            '--------insurance11---investment');
+                                        BlocProvider.of<
+                                                    InsuranceInvestmentBloc>(
+                                                context)
+                                            .add(LoadInsuranceInvestmentEvent(
                                                 userId: ApiUser.userId,
                                                 typeId: 4,
                                                 subTypeId: 5,
-                                                insuranceInvestment: InsuranceInvestment(
+                                                insuranceInvestment:
+                                                    InsuranceInvestment(
                                                         code: 0,
                                                         message: '',
                                                         totalInsuranceAmt: 0,
                                                         policies: [])));
                                         Navigator.of(context).pushNamed(
-                                            InsuranceInvestmentScreen.route,
+                                          InsuranceInvestmentScreen.route,
                                           arguments: InsuranceInvestmentData(
-                                              isFromLI : true
-                                          ),
+                                              isFromLI: true),
                                         );
                                       }, () {}),
                                     ),
-                                    BlocListener<InsuranceInvestmentBloc, InsuranceInvestmentState>(
+                                    BlocListener<InsuranceInvestmentBloc,
+                                        InsuranceInvestmentState>(
                                       listener: (context, state) {
-                                        if (state is InsuranceInvestmentLoadedState) {
+                                        if (state
+                                            is InsuranceInvestmentLoadedState) {
                                           // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
                                         }
                                       },
-                                      child: portFolioWidget(icLifeInsurance, 'General Insurance', () {
-                                        BlocProvider.of<InsuranceInvestmentBloc>(context).add(LoadInsuranceInvestmentEvent(
+                                      child: portFolioWidget(
+                                          icLifeInsurance, 'General Insurance',
+                                          () {
+                                        BlocProvider.of<
+                                                    InsuranceInvestmentBloc>(
+                                                context)
+                                            .add(LoadInsuranceInvestmentEvent(
                                                 userId: ApiUser.userId,
                                                 typeId: 4,
                                                 subTypeId: 7,
@@ -447,24 +499,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         code: 0,
                                                         message: '',
                                                         totalInsuranceAmt: 0,
-                                                        policies: []))
-                                        );
+                                                        policies: [])));
                                         Navigator.of(context).pushNamed(
                                           InsuranceInvestmentScreen.route,
-                                            arguments: InsuranceInvestmentData(
-                                                isFromLI : false
-                                            ),
+                                          arguments: InsuranceInvestmentData(
+                                              isFromLI: false),
                                         );
                                       }, () {}),
                                     ),
-                                    BlocListener<FetchingDataBloc, FetchingDataState>(
+                                    BlocListener<FetchingDataBloc,
+                                        FetchingDataState>(
                                       listener: (context, state) {
-                                        if (state is LoanInvestmentLoadedState) {
-                                          Navigator.of(context).pushNamed(LoanInvestmentScreen.route);
+                                        if (state
+                                            is LoanInvestmentLoadedState) {
+                                          Navigator.of(context).pushNamed(
+                                              LoanInvestmentScreen.route);
                                         }
                                       },
-                                      child: portFolioWidget(icLoan, 'Loan', () {
-                                        BlocProvider.of<FetchingDataBloc>(context)
+                                      child:
+                                          portFolioWidget(icLoan, 'Loan', () {
+                                        BlocProvider.of<FetchingDataBloc>(
+                                                context)
                                             .add(LoadLoanInvestmentEvent(
                                                 userId: ApiUser.userId,
                                                 loanInvestment: LoanInvestment(
@@ -576,112 +631,153 @@ class _HomeScreenState extends State<HomeScreen> {
                                               children: List.generate(
                                                 state.data!.data.memberlist
                                                     .length,
-                                                (i) => i==0?Padding(
-                                                  padding: EdgeInsets.only(right: 2.5.w),
-                                                  child: GestureDetector(
-                                                    onLongPress: () {
-                                                      CommonFunction()
-                                                          .confirmationDialog(
-                                                          context,
-                                                          'Are you sure you want to delete this member?',
-                                                              () {
-                                                            print(
-                                                                '--yes clicked--=----');
-                                                            BlocProvider.of<
-                                                                DeleteFamilyMemberBloc>(
-                                                                context)
-                                                                .add(DeleteFamilyMember(
-                                                                mobNo: ApiUser
-                                                                    .membersList[
-                                                                i]
-                                                                    .mobileno));
+                                                (i) => i == 0
+                                                    ? Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 2.5.w),
+                                                        child: GestureDetector(
+                                                          onLongPress: () {
+                                                            CommonFunction()
+                                                                .confirmationDialog(
+                                                                    context,
+                                                                    'Are you sure you want to delete this member?',
+                                                                    () {
+                                                              print(
+                                                                  '--yes clicked--=----');
+                                                              BlocProvider.of<
+                                                                          DeleteFamilyMemberBloc>(
+                                                                      context)
+                                                                  .add(DeleteFamilyMember(
+                                                                      mobNo: ApiUser
+                                                                          .membersList[
+                                                                              i]
+                                                                          .mobileno));
 
-                                                            setState(() {
-                                                              ApiUser.membersList
-                                                                  .removeWhere((element) =>
-                                                              element
-                                                                  .mobileno ==
-                                                                  ApiUser
-                                                                      .membersList[
-                                                                  i]
-                                                                      .mobileno);
+                                                              setState(() {
+                                                                ApiUser
+                                                                    .membersList
+                                                                    .removeWhere((element) =>
+                                                                        element
+                                                                            .mobileno ==
+                                                                        ApiUser
+                                                                            .membersList[i]
+                                                                            .mobileno);
+                                                              });
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
                                                             });
-                                                            Navigator.of(context)
-                                                                .pop();
-                                                          });
-                                                    },
-                                                    child: Column(
-                                                      children: [
-                                                        Showcase(
-                                                          key: globalKey,
-                                                          onTargetClick: (){
-                                                            print('-----onClick----showcase');
-                                                            Preference.setShowCase(true);
                                                           },
-                                                          disposeOnTap: true,
-                                                          targetShapeBorder: const CircleBorder(),
-                                                          description: 'Long press to delete member.',
-                                                          descTextStyle: textStyle10Medium(colorBlack),
-                                                          child: Container(
-                                                            height: 6.5.h,
-                                                            width: 6.5.h,
-                                                            decoration: BoxDecoration(
-                                                              color: colorRed.withOpacity(0.29),
-                                                              shape: BoxShape.circle,
-                                                            ),
-                                                            alignment: Alignment.center,
-                                                            child: Text(ApiUser.membersList[i]
-                                                                .name.substring(0,1).toUpperCase(), style: textStyle20(colorRed)),
+                                                          child: Column(
+                                                            children: [
+                                                              Showcase(
+                                                                key: globalKey,
+                                                                onTargetClick:
+                                                                    () {
+                                                                  print(
+                                                                      '-----onClick----showcase');
+                                                                  Preference
+                                                                      .setShowCase(
+                                                                          true);
+                                                                },
+                                                                disposeOnTap:
+                                                                    true,
+                                                                targetShapeBorder:
+                                                                    const CircleBorder(),
+                                                                description:
+                                                                    'Long press to delete member.',
+                                                                descTextStyle:
+                                                                    textStyle10Medium(
+                                                                        colorBlack),
+                                                                child:
+                                                                    Container(
+                                                                  height: 6.5.h,
+                                                                  width: 6.5.h,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: colorRed
+                                                                        .withOpacity(
+                                                                            0.29),
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      ApiUser
+                                                                          .membersList[
+                                                                              i]
+                                                                          .name
+                                                                          .substring(
+                                                                              0,
+                                                                              1)
+                                                                          .toUpperCase(),
+                                                                      style: textStyle20(
+                                                                          colorRed)),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  height:
+                                                                      1.2.h),
+                                                              SizedBox(
+                                                                width: 15.w,
+                                                                child: Text(
+                                                                    ApiUser
+                                                                        .membersList[
+                                                                            i]
+                                                                        .name,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: textStyle8(
+                                                                            colorText3D3D)
+                                                                        .copyWith(
+                                                                            height:
+                                                                                1.1)),
+                                                              )
+                                                            ],
                                                           ),
                                                         ),
-                                                        SizedBox(height: 1.2.h),
-                                                        SizedBox(
-                                                          width: 15.w,
-                                                          child: Text(ApiUser.membersList[i]
-                                                              .name,
-                                                              textAlign: TextAlign.center,
-                                                              style: textStyle8(colorText3D3D).copyWith(height: 1.1)),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ):portFolioWidget(
-                                                    ApiUser
-                                                        .membersList[i].name
-                                                        .substring(0, 1),
-                                                    ApiUser.membersList[i]
-                                                        .name,
+                                                      )
+                                                    : portFolioWidget(
+                                                        ApiUser
+                                                            .membersList[i].name
+                                                            .substring(0, 1),
+                                                        ApiUser.membersList[i]
+                                                            .name,
                                                         () {}, () {
-                                                  CommonFunction()
-                                                      .confirmationDialog(
-                                                      context,
-                                                      'Are you sure you want to delete this member?',
-                                                          () {
-                                                        print(
-                                                            '--yes clicked--=----');
-                                                        BlocProvider.of<
-                                                            DeleteFamilyMemberBloc>(
-                                                            context)
-                                                            .add(DeleteFamilyMember(
-                                                            mobNo: ApiUser
-                                                                .membersList[
-                                                            i]
-                                                                .mobileno));
+                                                        CommonFunction()
+                                                            .confirmationDialog(
+                                                                context,
+                                                                'Are you sure you want to delete this member?',
+                                                                () {
+                                                          print(
+                                                              '--yes clicked--=----');
+                                                          BlocProvider.of<
+                                                                      DeleteFamilyMemberBloc>(
+                                                                  context)
+                                                              .add(DeleteFamilyMember(
+                                                                  mobNo: ApiUser
+                                                                      .membersList[
+                                                                          i]
+                                                                      .mobileno));
 
-                                                        setState(() {
-                                                          ApiUser.membersList
-                                                              .removeWhere((element) =>
-                                                          element
-                                                              .mobileno ==
-                                                              ApiUser
-                                                                  .membersList[
-                                                              i]
-                                                                  .mobileno);
+                                                          setState(() {
+                                                            ApiUser.membersList
+                                                                .removeWhere((element) =>
+                                                                    element
+                                                                        .mobileno ==
+                                                                    ApiUser
+                                                                        .membersList[
+                                                                            i]
+                                                                        .mobileno);
+                                                          });
+                                                          Navigator.of(context)
+                                                              .pop();
                                                         });
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      });
-                                                }),
+                                                      }),
                                               )),
                                         ),
                                       ],
@@ -690,11 +786,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(5.w, 2.5.h, 0, 1.5.h),
+                              padding:
+                                  EdgeInsets.fromLTRB(5.w, 2.5.h, 0, 1.5.h),
                               child: Text('Utilities',
                                   style: textStyle11Bold(colorBlack)
                                       .copyWith(letterSpacing: 0.7)),
@@ -710,22 +806,32 @@ class _HomeScreenState extends State<HomeScreen> {
                               physics: const PageScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.5.w),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2.h, horizontal: 2.5.w),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    portFolioWidget(
-                                        icInsuranceCalculator, 'Insurance\nCalculator', () {
-                                      Navigator.of(context).pushNamed(InsuranceCalculator.route);
+                                    portFolioWidget(icInsuranceCalculator,
+                                        'Insurance\nCalculator', () {
+                                      Navigator.of(context)
+                                          .pushNamed(InsuranceCalculator.route);
                                     }, () {}),
-                                    portFolioWidget(icInsuranceCalculator, 'SIP\nCalculator', () {
-                                      Navigator.of(context).pushNamed(SIPCalculator.route);
+                                    portFolioWidget(icInsuranceCalculator,
+                                        'SIP\nCalculator', () {
+                                      Navigator.of(context)
+                                          .pushNamed(SIPCalculator.route);
                                     }, () {}),
-                                    portFolioWidget(icInsuranceCalculator, 'EMI SIP\nCalculator', () {
-                                      Navigator.of(context).pushNamed(EMISIPCalculator.route);
+                                    portFolioWidget(icInsuranceCalculator,
+                                        'EMI SIP\nCalculator', () {
+                                      Navigator.of(context)
+                                          .pushNamed(EMISIPCalculator.route);
                                     }, () {}),
-                                    portFolioWidget(icInsuranceCalculator, 'Retirement\nCalculator', () {
-                                      Navigator.of(context).pushNamed(RetirementCalculator.route, arguments: RetirementCalculatorData());
+                                    portFolioWidget(icInsuranceCalculator,
+                                        'Retirement\nCalculator', () {
+                                      Navigator.of(context).pushNamed(
+                                          RetirementCalculator.route,
+                                          arguments:
+                                              RetirementCalculatorData());
                                     }, () {}),
                                   ],
                                 ),
@@ -734,8 +840,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(height: 2.h),
-                        
-                        
                         if (state.data!.data.offers.isNotEmpty)
                           Column(
                             children: [
@@ -885,8 +989,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             text: 'GET',
                                                             style: textStyle8(
                                                                 colorWhite),
-                                                            children: <
-                                                                TextSpan>[
+                                                            children: <TextSpan>[
                                                               TextSpan(
                                                                   text:
                                                                       ' FREE ',
@@ -999,7 +1102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 5.w),
+                                            padding:
+                                                EdgeInsets.only(right: 5.w),
                                             child: Image.asset(imgWealthCheckup,
                                                 width: 22.w),
                                           )
@@ -1120,12 +1224,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text('LEARN FROM WBC TOP USERS',
-                                                  style: textStyle8(colorWhite)),
+                                                  style:
+                                                      textStyle8(colorWhite)),
                                               Image.asset(icNext,
                                                   color: colorWhite,
                                                   height: 1.2.h)
@@ -1191,21 +1297,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Text('My Referrals',
                                               style: textStyle9(colorText3D3D)),
                                           Text(
-                                              ApiUser.myContactsList!.length.toString(),
+                                              ApiUser.myContactsList!.length
+                                                  .toString(),
                                               style: textStyle18Bold(colorRed))
                                         ],
                                       ),
                                       Container(
                                           height: 9.h,
                                           width: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text('Clients converted',
                                               style: textStyle9(colorText3D3D)),
                                           Text('9',
-                                              style: textStyle18Bold(colorSplashBG))
+                                              style: textStyle18Bold(
+                                                  colorSplashBG))
                                         ],
                                       )
                                     ],
@@ -1221,7 +1331,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: SizedBox(
                               width: 90.w,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Shop & Smile',
                                       style: textStyle11Bold(colorBlack)
@@ -1230,9 +1341,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: EdgeInsets.only(right: 1.w),
                                     child: GestureDetector(
                                       onTap: () {
-                                        BlocProvider.of<FetchingDataBloc>(context)
+                                        BlocProvider.of<FetchingDataBloc>(
+                                                context)
                                             .add(LoadProductCategoryEvent(
-                                                productCategory: ProductCategory(
+                                                productCategory:
+                                                    ProductCategory(
                                                         code: 0,
                                                         message: '',
                                                         categories: [])));
@@ -1250,10 +1363,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     code: 0,
                                                     message: '',
                                                     products: [])));
-                                        Navigator.of(context).pushReplacementNamed(WbcMegaMall.route);
+                                        Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                WbcMegaMall.route);
                                       },
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text('View All',
                                               style: textStyle10(colorRed)),
@@ -1372,24 +1488,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           },
                                                           child: Container(
                                                             width: 42.w,
-                                                            decoration: decoration(),
-                                                            padding: EdgeInsets.all(2.w),
+                                                            decoration:
+                                                                decoration(),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2.w),
                                                             child: Column(
                                                               children: [
                                                                 Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
                                                                   children: [
                                                                     Container(
                                                                       decoration: BoxDecoration(
-                                                                          color: colorGreen,
-                                                                          borderRadius: BorderRadius.circular(5)),
-                                                                      child: Padding(
+                                                                          color:
+                                                                              colorGreen,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5)),
+                                                                      child:
+                                                                          Padding(
                                                                         padding: EdgeInsets.symmetric(
-                                                                            vertical: 0.5.h,
+                                                                            vertical:
+                                                                                0.5.h,
                                                                             horizontal: 1.w),
                                                                         child: Text(
                                                                             '${state.popular.products[index].discount}% off',
-                                                                            style: textStyle8(colorWhite)),
+                                                                            style:
+                                                                                textStyle8(colorWhite)),
                                                                       ),
                                                                     )
                                                                   ],
@@ -1433,35 +1559,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   ),
                                                                 ),
                                                                 Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Row(
                                                                       children: [
-                                                                        Image.asset(icGoldCoin, width: 2.w),
-                                                                        SizedBox(width: 1.w),
+                                                                        Image.asset(
+                                                                            icGoldCoin,
+                                                                            width:
+                                                                                2.w),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                1.w),
                                                                         Text(
                                                                             '${state.popular.products[index].price.toInt() - ((state.popular.products[index].price.toInt() * state.popular.products[index].discount) ~/ 100).toInt()}GP',
-                                                                            style: textStyle8Bold(colorTextFFC1)),
+                                                                            style:
+                                                                                textStyle8Bold(colorTextFFC1)),
                                                                       ],
                                                                     ),
                                                                     Row(
                                                                       children: [
-                                                                        Image.asset(icGoldCoin, width: 2.w),
-                                                                        SizedBox(width: 1.w),
+                                                                        Image.asset(
+                                                                            icGoldCoin,
+                                                                            width:
+                                                                                2.w),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                1.w),
                                                                         Text(
                                                                             '${state.popular.products[index].price.toInt()}GP',
-                                                                            style: textStyle8(colorText7070).copyWith(decoration: TextDecoration.lineThrough)),
+                                                                            style:
+                                                                                textStyle8(colorText7070).copyWith(decoration: TextDecoration.lineThrough)),
                                                                       ],
                                                                     ),
                                                                   ],
                                                                 ),
-                                                                SizedBox(height: 1.h),
+                                                                SizedBox(
+                                                                    height:
+                                                                        1.h),
                                                               ],
                                                             ),
                                                           ),
                                                         ),
-                                                      )
-                                        ),
+                                                      )),
                                       ),
                                     );
                             } else {
@@ -1533,7 +1674,14 @@ class _HomeScreenState extends State<HomeScreen> {
       List<ContactBase> contactBase,
       List<ContactBase> inActiveClients,
       int availableContacts,
-      Function() onClick, String type) {
+      int goldPoint,
+      double fastTrackEarning,
+      List earning,
+      int redeemable,
+      int nonRedeemable,
+      int onTheSpot,
+      Function() onClick,
+      String type) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Row(
@@ -1549,9 +1697,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             history: history,
                             contactBase: contactBase,
                             inActiveClients: inActiveClients,
-                            availableContacts: availableContacts
-                        )
-                    );
+                            availableContacts: availableContacts,
+                            goldPoint: goldPoint,
+                            fastTrackEarning: fastTrackEarning,
+                            earning: earning,
+                            redeemable: redeemable,
+                            nonRedeemable: nonRedeemable,
+                            onTheSpot: onTheSpot));
                   }
                 },
                 icon: Image.asset(icon, width: 10.w)),
@@ -1564,7 +1716,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         history: history,
                         contactBase: contactBase,
                         inActiveClients: inActiveClients,
-                        availableContacts: availableContacts));
+                        availableContacts: availableContacts,
+                        goldPoint: goldPoint,
+                        fastTrackEarning: fastTrackEarning,
+                        earning: earning,
+                        redeemable: redeemable,
+                        nonRedeemable: nonRedeemable,
+                        onTheSpot: onTheSpot));
               }
             },
             child: Container(
@@ -1580,19 +1738,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const Spacer(),
-          type=="FastTrack" && fastTrackStatus==true ? InkWell(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("FastTrack", style: textStyle10Bold(colorBlack)),
-                SizedBox(
-                  width: 3.w,
-                ),
-                Icon(Icons.done, size: 2.8.h, color: colorGreen),
-              ],
-            ),
-          ) :
-          button(buttonText, onClick),
+          type == "FastTrack" && fastTrackStatus == true
+              ? InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("FastTrack", style: textStyle10Bold(colorBlack)),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      Icon(Icons.done, size: 2.8.h, color: colorGreen),
+                    ],
+                  ),
+                )
+              : button(buttonText, onClick),
           SizedBox(width: 3.5.w)
         ],
       ),
@@ -1649,7 +1808,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  portFolioWidget(String icon, String title, Function() onClick, Function() onLongPress) {
+  portFolioWidget(
+      String icon, String title, Function() onClick, Function() onLongPress) {
     return GestureDetector(
       onTap: onClick,
       onLongPress: onLongPress,
@@ -1667,10 +1827,13 @@ class _HomeScreenState extends State<HomeScreen> {
               alignment: Alignment.center,
               child: icon.length == 1
                   ? Text(icon.toUpperCase(), style: textStyle20(colorRed))
-                  : Image.asset(
-                      icon,
+                  : Image.asset(icon,
                       color: colorRed,
-                      height: icon == icAddMmeber ? 3.5.h :  icon == icInsuranceCalculator ? 3.2.h : 4.h),
+                      height: icon == icAddMmeber
+                          ? 3.5.h
+                          : icon == icInsuranceCalculator
+                              ? 3.2.h
+                              : 4.h),
             ),
             SizedBox(height: 1.2.h),
             SizedBox(

@@ -18,6 +18,7 @@ import 'history.dart';
 
 class StocksReview extends StatefulWidget {
   static const route = '/Stocks-Review';
+
   const StocksReview({Key? key}) : super(key: key);
 
   @override
@@ -25,7 +26,6 @@ class StocksReview extends StatefulWidget {
 }
 
 class _StocksReviewState extends State<StocksReview> {
-
   String mobileNo = '';
   String selectedStocks = 'NSDL';
   bool isStocksFieldTap = true;
@@ -50,8 +50,10 @@ class _StocksReviewState extends State<StocksReview> {
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
+
     if (result != null) {
       uploadFile = File(result.files.single.path!);
+
       setState(() {
         fileName = uploadFile!.path.split('/').last;
         fileValidation = '';
@@ -131,7 +133,9 @@ class _StocksReviewState extends State<StocksReview> {
                       SizedBox(
                         height: 23.h, width: 90.w,
                         child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                          borderRadius:
+                          const BorderRadius.vertical(
+                              top: Radius.circular(10)),
                           child: YoutubeVideoPlayer(
                             key: ObjectKey(selectedStocks=='NSDL'?'gBX8Y9CHjfM':'cbvKi81qZNw'),
                             controller: YoutubePlayerController(
@@ -139,21 +143,25 @@ class _StocksReviewState extends State<StocksReview> {
                                 flags: const YoutubePlayerFlags(
                                     autoPlay: false,
                                     enableCaption: false,
-                                    showLiveFullscreenButton: false
-                                )
-                            ),
+                                    showLiveFullscreenButton:
+                                    false)),
                             bufferIndicator: SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: CircularProgressIndicator(color: colorRed, strokeWidth: 0.7.w)),
+                                child:
+                                CircularProgressIndicator(
+                                    color: colorRed,
+                                    strokeWidth: 0.7.w)),
                             bottomActions: [
                               CurrentPosition(),
                               SizedBox(width: 2.w),
                               ProgressBar(
                                   isExpanded: true,
                                   colors: ProgressBarColors(
-                                      backgroundColor: colorWhite,
-                                      bufferedColor: colorRed.withOpacity(0.5))),
+                                      backgroundColor:
+                                      colorWhite,
+                                      bufferedColor: colorRed
+                                          .withOpacity(0.5))),
                               SizedBox(width: 2.w),
                               RemainingDuration(),
                             ],
@@ -161,7 +169,8 @@ class _StocksReviewState extends State<StocksReview> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 3.w, vertical: 2.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -170,7 +179,9 @@ class _StocksReviewState extends State<StocksReview> {
                             GestureDetector(
                                 onTap: () {},
                                 child: Text('View more',
-                                    style: textStyle9(colorRed).copyWith(decoration: TextDecoration.underline)))
+                                    style: textStyle9(colorRed).copyWith(
+                                        decoration:
+                                            TextDecoration.underline)))
                           ],
                         ),
                       )
@@ -217,7 +228,8 @@ class _StocksReviewState extends State<StocksReview> {
                                   constraints: BoxConstraints(minWidth: 5.w),
                                   onPressed: () {
                                     setState(() {
-                                      fileName = 'Upload your stock investment PDF';
+                                      fileName =
+                                          'Upload your stock investment PDF';
                                       uploadFile = null;
                                     });
                                   },
@@ -263,6 +275,7 @@ class _StocksReviewState extends State<StocksReview> {
               const Spacer(),
               button(icSendReview, 'Send For Review', () {
                 print('selectedstock------$selectedStocks');
+
                 if (uploadFile == null) {
                   setState(() {
                     fileValidation = 'Empty file';
@@ -272,7 +285,8 @@ class _StocksReviewState extends State<StocksReview> {
                     fileValidation = '';
                   });
                 }
-                if (selectedStocks != 'Select Your Stocks Investment' && uploadFile != null) {}
+                if (selectedStocks != 'Select Your Stocks Investment' &&
+                    uploadFile != null) {}
               }),
               SizedBox(height: 2.h),
               button(icCheckReview, 'Check Review Report', () {
@@ -326,21 +340,25 @@ class _StocksReviewState extends State<StocksReview> {
         child: text == 'Send For Review' ? isSend ? SizedBox(
             height: 20,
             width: 20,
-            child: CircularProgressIndicator(color: colorWhite, strokeWidth: 0.6.w)) : Row(
+            child: CircularProgressIndicator(
+                color: colorWhite,
+                strokeWidth: 0.6.w)) : Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(icon, width: 4.w),
             SizedBox(width: 2.5.w),
-            Text(text, style: textStyle13Bold(colorWhite)),
+            Text(text,
+                style: textStyle13Bold(colorWhite)),
           ],
-        )  : Row(
+        )  :Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(icon, width: text == "Connect Your Brokers" ? 5.5.w : 4.w),
             SizedBox(width: 2.5.w),
-            Text(text, style: textStyle13Bold(colorRed)),
+            Text(text,
+                style: textStyle13Bold(colorRed)),
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class MFInvestmentsBloc extends Bloc<MFInvestmentsEvent, MFInvestmentsState> {
       emit(MFInvestmentsInitial());
       try {
         final mfInvestments = await FetchingApi().getMFInvestment(event.userId);
-        // log('-----mfData---$mfTransaction');
+        print('-----mfData---$mfInvestments');
         emit(MFInvestmentsLoadedState(mfInvestments));
       } catch (e) {
         emit(MFInvestmentsErrorState(e.toString()));
