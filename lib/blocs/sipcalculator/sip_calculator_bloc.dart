@@ -25,10 +25,10 @@ class SIPCalculatorBloc extends Bloc<SIPCalculatorEvent, SIPCalculatorState> {
 
         response.statusCode == 200
             ? emit(SIPCalculatorAdded(
-            maturityValue: data.maturityValue.toString(),
-            investedAmount: data.investedAmount.toString(),
-            returnValue: data.returnValue.toString(),
-            isDataPosted: true))
+                maturityValue: data.maturityValue.toString(),
+                investedAmount: data.investedAmount.toString(),
+                returnValue: data.returnValue.toString(),
+                isDataPosted: true))
             : emit(SIPCalculatorFailed());
       });
     });

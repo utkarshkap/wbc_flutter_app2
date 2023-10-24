@@ -114,6 +114,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "217717536609-5gemce6e4r7dm2hpaea5ldqvc4g0knun.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.kagroup.finer",
+            "certificate_hash": "4f17b84d4afa229e095b982b8a37c862f1725484"
+          }
+        },
+        {
           "client_id": "217717536609-clhjslv7qm9kplud7cd71rbp54v5b99e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

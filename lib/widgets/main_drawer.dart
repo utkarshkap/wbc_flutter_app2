@@ -93,7 +93,8 @@ class _MainDrawerState extends State<MainDrawer> {
                     SizedBox(
                       height: 1.h,
                     ),
-                    Text(ApiUser.userName.toString(), style: textStyle10Medium(colorWhite)),
+                    Text(ApiUser.userName.toString(),
+                        style: textStyle10Medium(colorWhite)),
                   ],
                 ),
                 automaticallyImplyLeading: false),
@@ -133,7 +134,7 @@ class _MainDrawerState extends State<MainDrawer> {
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                     ),
                     titles('WBC'),
-                    drawerWidget(icDashboard, 'DashBoard', () {
+                    drawerWidget(icDashboard, 'GP DashBoard', () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushReplacementNamed(
                           HomeScreen.route,
@@ -201,9 +202,9 @@ class _MainDrawerState extends State<MainDrawer> {
                       BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
                           popular: Popular(code: 0, message: '', products: []),
                           newArrival:
-                          NewArrival(code: 0, message: '', products: []),
+                              NewArrival(code: 0, message: '', products: []),
                           trending:
-                          Trending(code: 0, message: '', products: [])));
+                              Trending(code: 0, message: '', products: [])));
                       Navigator.of(context)
                           .pushReplacementNamed(WbcMegaMall.route);
                     }),
@@ -239,21 +240,27 @@ class _MainDrawerState extends State<MainDrawer> {
                     //       height: 1, color: colorTextBCBC.withOpacity(0.36)),
                     // ),
                     titles('Utilities'),
-                    drawerWidget(icInsuranceCalculator, 'Insurance Calculator', () {
-                          Scaffold.of(context).closeDrawer();
-                          Navigator.of(context).pushNamed(InsuranceCalculator.route);
+                    drawerWidget(icInsuranceCalculator, 'Insurance Calculator',
+                        () {
+                      Scaffold.of(context).closeDrawer();
+                      Navigator.of(context)
+                          .pushNamed(InsuranceCalculator.route);
                     }),
                     drawerWidget(icInsuranceCalculator, 'SIP Calculator', () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushNamed(SIPCalculator.route);
                     }),
-                    drawerWidget(icInsuranceCalculator, 'EMI SIP Calculator', () {
+                    drawerWidget(icInsuranceCalculator, 'EMI SIP Calculator',
+                        () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushNamed(EMISIPCalculator.route);
                     }),
-                    drawerWidget(icInsuranceCalculator, 'Retirement  Calculator', () {
+                    drawerWidget(
+                        icInsuranceCalculator, 'Retirement  Calculator', () {
                       Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushNamed(RetirementCalculator.route, arguments: RetirementCalculatorData());
+                      Navigator.of(context).pushNamed(
+                          RetirementCalculator.route,
+                          arguments: RetirementCalculatorData());
                     }),
 
                     Padding(
@@ -284,14 +291,14 @@ class _MainDrawerState extends State<MainDrawer> {
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                     ),
                     drawerWidget(icTermsAndConditions, 'Terms & Conditions',
-                            () {
-                          Scaffold.of(context).closeDrawer();
-                          BlocProvider.of<FetchingDataBloc>(context).add(
-                              LoadTermsConditionsEvent(
-                                  termsConditions: TermsConditions(
-                                      code: 0, message: '', terms: [])));
-                          Navigator.of(context).pushNamed(TermsNdConditions.route);
-                        }),
+                        () {
+                      Scaffold.of(context).closeDrawer();
+                      BlocProvider.of<FetchingDataBloc>(context).add(
+                          LoadTermsConditionsEvent(
+                              termsConditions: TermsConditions(
+                                  code: 0, message: '', terms: [])));
+                      Navigator.of(context).pushNamed(TermsNdConditions.route);
+                    }),
                     drawerWidget(icLogout, 'Log Out', () {
                       Scaffold.of(context).closeDrawer();
 
@@ -308,48 +315,53 @@ class _MainDrawerState extends State<MainDrawer> {
                                     child: StatefulBuilder(
                                       builder: (context, setState) =>
                                           AlertDialog(
-                                            contentPadding: EdgeInsets.zero,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
+                                        contentPadding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
                                                 BorderRadius.circular(20)),
-                                            content: SizedBox(
-                                              height: 20.h,
-                                              width: deviceWidth(context) * 0.778,
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 4.w),
-                                                child: Column(
-                                                  mainAxisAlignment:
+                                        content: SizedBox(
+                                          height: 20.h,
+                                          width: deviceWidth(context) * 0.778,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 4.w),
+                                            child: Column(
+                                              mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
-                                                  crossAxisAlignment:
+                                              crossAxisAlignment:
                                                   CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        'Are you sure you want to Log out?',
-                                                        style: textStyle12Medium(
+                                              children: [
+                                                Text(
+                                                    'Are you sure you want to Log out?',
+                                                    style: textStyle12Medium(
                                                             colorBlack)
-                                                            .copyWith(height: 1.2)),
-                                                    Row(
-                                                      mainAxisAlignment:
+                                                        .copyWith(height: 1.2)),
+                                                Row(
+                                                  mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceEvenly,
-                                                      children: [
-                                                        yesNoButton(
-                                                            'No',
-                                                                () => Navigator.of(
+                                                  children: [
+                                                    yesNoButton(
+                                                        'No',
+                                                        () => Navigator.of(
                                                                 context)
-                                                                .pop()),
-                                                        yesNoButton('Yes', () {
-                                                          signOut();
-                                                          Navigator.of(context).pushNamedAndRemoveUntil('/SigIn', (Route<dynamic> route) => false);
-                                                        }),
-                                                      ],
-                                                    )
+                                                            .pop()),
+                                                    yesNoButton('Yes', () {
+                                                      signOut();
+                                                      Navigator.of(context)
+                                                          .pushNamedAndRemoveUntil(
+                                                              '/SigIn',
+                                                              (Route<dynamic>
+                                                                      route) =>
+                                                                  false);
+                                                    }),
                                                   ],
-                                                ),
-                                              ),
+                                                )
+                                              ],
                                             ),
                                           ),
+                                        ),
+                                      ),
                                     )));
                           },
                           pageBuilder: (context, animation1, animation2) {
@@ -384,7 +396,7 @@ class _MainDrawerState extends State<MainDrawer> {
             color: text == 'No' ? colorWhite : colorRed,
             borderRadius: BorderRadius.circular(30),
             border:
-            text == 'No' ? Border.all(color: colorRed, width: 1) : null),
+                text == 'No' ? Border.all(color: colorRed, width: 1) : null),
         alignment: Alignment.center,
         child: Text(text,
             style: textStyle12Bold(text == 'No' ? colorRed : colorWhite)),

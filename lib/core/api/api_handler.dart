@@ -34,19 +34,19 @@ class ApiHandler {
 
   static Future<Response> post({required String url, required String body}) async {
     try {
-      log('----------------------------------------------------------------');
-      log(baseUrl + url);
-      log('----------------------------------------------------------------');
+      print('----------------------------------------------------------------');
+      print(baseUrl + url);
+      print('----------------------------------------------------------------');
       final response = await http.post(Uri.parse(baseUrl + url),
           body: body,
           headers: {
             "Accept": "application/json",
             "content-type": "application/json"
           }).timeout(const Duration(seconds: 60));
-      log('STATUS : ${response.statusCode}');
-      log('----------------------------------------------------------------');
-      log(response.body);
-      log('----------------------------------------------------------------');
+      print('STATUS : ${response.statusCode}');
+      print('----------------------------------------------------------------');
+      print(response.body);
+      print('----------------------------------------------------------------');
       return getResponse(response);
     } on SocketException {
       throw InternetException();

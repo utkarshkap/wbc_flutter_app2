@@ -156,7 +156,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
     //   setState(() {
     //     isVerify = true;
     //   });
-    //   print('verificationId-----${widget.verificationScreenData.verificationId}');
+    //   print(
+    //       'verificationId-----${widget.verificationScreenData.verificationId}');
 
     //   print(resendVerificationId);
     //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -168,8 +169,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
     //   await auth.signInWithCredential(credential);
     //   getToken();
 
-    //   BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
-
+    //   BlocProvider.of<SigningBloc>(context)
+    //       .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
     // } catch (e) {
     //   print('exception------');
     //   setState(() {
@@ -439,7 +440,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             });
           }
           if (value[i].phones.isNotEmpty) {
-            if (value[i].phones.first.number.length >=   10) {
+            if (value[i].phones.first.number.length >= 10) {
               String num = value[i]
                   .phones
                   .first
@@ -625,6 +626,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ApiUser.userName = state.data!.data == null
                       ? ""
                       : state.data!.data!.name.toString();
+                  ApiUser.userDob = state.data!.data == null
+                      ? ""
+                      : state.data!.data!.dob.toString();
 
                   ApiUser.emailId = state.data!.data == null
                       ? ""
@@ -665,6 +669,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ? ""
                       : state.data!.data!.name.toString();
 
+                  ApiUser.userDob = state.data!.data == null
+                      ? ""
+                      : state.data!.data!.dob.toString();
                   ApiUser.emailId = state.data!.data == null
                       ? ""
                       : state.data!.data!.email.toString();

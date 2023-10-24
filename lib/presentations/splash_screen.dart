@@ -72,8 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(
         const Duration(
-          microseconds: 10,
-            // milliseconds: 100
+          microseconds: 1000000,
+          // milliseconds: 100
         ),
         () => isLogin
             ? mono.isNotEmpty
@@ -106,6 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
             if (state is GetUserLoaded) {
               selectedContact = state.data!.data!.availableContacts;
               ApiUser.userName = state.data!.data!.name;
+              ApiUser.userDob = state.data!.data!.dob.toString();
               ApiUser.myContactsList = state.data!.goldReferrals;
               ApiUser.termNdCondition = state.data!.data!.tnc;
 
@@ -163,7 +164,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 SizedBox(
                   height: 7.h,
                 ),
-                Expanded(flex: 7, child: Image.asset(imgSplashLogo)),
+                Expanded(
+                    flex: 7,
+                    child: Image.asset(
+                      imgSplashLogo,
+                      width: 70.w,
+                    )),
                 SizedBox(
                   height: 5.h,
                 ),
@@ -180,11 +186,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 SizedBox(
                   height: 10.h,
                 ),
-                Text(
-                    'Made in India',
+                Text('Made in India',
                     textAlign: TextAlign.center,
-                    style: textStyle18(colorWhite)
-                ),
+                    style: textStyle18(colorWhite)),
                 SizedBox(
                   height: 1.5.h,
                 ),
@@ -207,9 +211,11 @@ class _SplashScreenState extends State<SplashScreen> {
                           } else {
                             isLogin
                                 ? mono.isNotEmpty
-                                    ? BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: mono))
+                                    ? BlocProvider.of<SigningBloc>(context)
+                                        .add(GetUserData(mobileNo: mono))
                                     : null
-                                : Navigator.of(context).pushNamed(SigInPage.route);
+                                : Navigator.of(context)
+                                    .pushNamed(SigInPage.route);
                           }
                         },
                         child: Container(
@@ -222,8 +228,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 BoxShadow(
                                     offset: Offset(0, 3),
                                     blurRadius: 6,
-                                    color: Color(0x00000029)
-                                )
+                                    color: Color(0x00000029))
                               ]),
                           alignment: Alignment.center,
                           child: state is GetUserLoading
@@ -234,8 +239,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                       child: CircularProgressIndicator(
                                           color: colorWhite,
                                           strokeWidth: 0.7.w)))
-                              : Text('GET STARTED', style: textStyle13Bold(colorWhite)
-                          ),
+                              : Text('GET STARTED',
+                                  style: textStyle13Bold(colorWhite)),
                         ),
                       ),
                 SizedBox(

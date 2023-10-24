@@ -13,8 +13,8 @@
 
     <application
         android:name="${applicationName}"
-        android:icon="@mipmap/wbc_logo"
-        android:label="WBC"
+        android:icon="@mipmap/finer_logo"
+        android:label="Finer"
         tools:replace="android:label">
         <activity
             android:name=".MainActivity"

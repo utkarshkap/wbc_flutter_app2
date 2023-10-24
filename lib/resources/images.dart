@@ -1,10 +1,11 @@
 const String _path = 'assets/images/';
 
-const String imgSplashLogo = '${_path}splash_logo.png';
+// const String imgSplashLogo = '${_path}splash_logo.png';
+const String imgSplashLogo = '${_path}finer_splash_logo.png';
 const String imgSplashBG = '${_path}splashBG.png';
 
 const String imgMunafeKiClass = '${_path}munafeKiClass.png';
-const String imgWealthCheckup = '${_path}wealth_checkup.png';  
+const String imgWealthCheckup = '${_path}wealth_checkup.png';
 const String imgWealthScore = '${_path}wealth_score.png';
 
 const String imgSmartwatch = '${_path}smartwatch.png';
@@ -30,7 +31,6 @@ const String jsonPaymentSuccess = '${_path}payment_success.json';
 const String jsonOrderSuccess = '${_path}order_success.json';
 const String jsonEmptyCart = '${_path}emptyCart.json';
 const String jsonReviewSuccess = '${_path}review_success.json';
-
 
 const String _fontPath = 'assets/fonts/';
 

@@ -28,14 +28,14 @@ class _SigInPageState extends State<SigInPage> {
   bool isSendOtp = false;
 
   sendOtp() async {
-    setState(() {
-      isSendOtp = true;
-    });
-    FocusManager.instance.primaryFocus?.unfocus();
-    Preference.setMobNo(_numController.text);
-    Preference.setCountryCode(countryCode);
+    // setState(() {
+    //   isSendOtp = true;
+    // });
+    // FocusManager.instance.primaryFocus?.unfocus();
+    // Preference.setMobNo(_numController.text);
+    // Preference.setCountryCode(countryCode);
 
-    print('Submitted your Number: $countryCode${_numController.text}');
+    // print('Submitted your Number: $countryCode${_numController.text}');
     // await FirebaseAuth.instance.verifyPhoneNumber(
     //   phoneNumber: countryCode + _numController.text,
     //   verificationCompleted: (PhoneAuthCredential credential) {},
@@ -48,9 +48,8 @@ class _SigInPageState extends State<SigInPage> {
     //     });
     //   },
     //   codeSent: (String verificationId, int? resendToken) {
-    //     print("verificationId--->"+verificationId.toString());
-    //     Navigator.of(context).pushReplacementNamed(
-    //         VerificationScreen.route,
+    //     print("verificationId--->" + verificationId.toString());
+    //     Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
     //         arguments: VerificationScreenData(
     //             getNumber: _numController.text.replaceAll(' ', ''),
     //             number: "$countryCode ${_numController.text}",

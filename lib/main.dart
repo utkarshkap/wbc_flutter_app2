@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:wbc_connect_app/blocs/bloc/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/blocs/dashboardbloc/dashboard_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
 import 'package:wbc_connect_app/blocs/insurancecalculator/insurance_calculator_bloc.dart';
@@ -93,6 +94,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => RetirementCalculatorBloc(),
           ),
+          BlocProvider(create: (context) => WealthMeterBloc())
         ],
         child: MaterialApp(
           title: 'Finer',
