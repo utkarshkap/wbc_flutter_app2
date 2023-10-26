@@ -23,14 +23,15 @@ class InsuranceInvestmentScreen extends StatefulWidget {
   static const route = '/Insurance-Investment';
   final InsuranceInvestmentData insuranceInvestmentData;
 
-  const InsuranceInvestmentScreen({super.key, required this.insuranceInvestmentData});
+  const InsuranceInvestmentScreen(
+      {super.key, required this.insuranceInvestmentData});
 
   @override
-  State<InsuranceInvestmentScreen> createState() => _InsuranceInvestmentScreenState();
+  State<InsuranceInvestmentScreen> createState() =>
+      _InsuranceInvestmentScreenState();
 }
 
 class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
-
   String selectedType = 'All';
   String selectedUser = '';
   List<Memberlist> members = [];
@@ -85,7 +86,11 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text(widget.insuranceInvestmentData.isFromLI ? 'My Insurance(Life)' : 'My Insurance(General)', style: textStyle14Bold(colorBlack)),
+          title: Text(
+              widget.insuranceInvestmentData.isFromLI
+                  ? 'My Insurance(Life)'
+                  : 'My Insurance(General)',
+              style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -152,7 +157,7 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                       children: [
                                         Text(
                                             // '₹ ${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toInt().toString())}/-',
-                                            '₹${state.insuranceInvestment.totalInsuranceAmt.toStringAsFixed(2)}/-',
+                                            '₹${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toStringAsFixed(2))}/-',
                                             style: textStyle22(colorWhite)
                                                 .copyWith(height: 1.2)),
                                         Text('INSURANCE PORTFOLIO',
@@ -177,21 +182,32 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                                   members, (val) {
                                                 print('-----val---=---$val');
                                                 setState(() {
-                                                  selectedUser = val.name.substring(0, 1).toUpperCase();
+                                                  selectedUser = val.name
+                                                      .substring(0, 1)
+                                                      .toUpperCase();
                                                 });
                                                 Navigator.of(context).pop();
-                                                BlocProvider.of<InsuranceInvestmentBloc>(context).add(LoadInsuranceInvestmentEvent(
-                                                        userId: val.relation == "You"
+                                                BlocProvider.of<
+                                                            InsuranceInvestmentBloc>(
+                                                        context)
+                                                    .add(LoadInsuranceInvestmentEvent(
+                                                        userId: val.relation ==
+                                                                "You"
                                                             ? val.id.toString()
-                                                            : val.relativeUserId.toString(),
+                                                            : val.relativeUserId
+                                                                .toString(),
                                                         typeId: 4,
-                                                        subTypeId: widget.insuranceInvestmentData.isFromLI
+                                                        subTypeId: widget
+                                                                .insuranceInvestmentData
+                                                                .isFromLI
                                                             ? 5
                                                             : 7,
-                                                        insuranceInvestment: InsuranceInvestment(
+                                                        insuranceInvestment:
+                                                            InsuranceInvestment(
                                                                 code: 0,
                                                                 message: '',
-                                                                totalInsuranceAmt: 0,
+                                                                totalInsuranceAmt:
+                                                                    0,
                                                                 policies: [])));
                                               });
                                             },
@@ -232,7 +248,8 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                       Expanded(child: Container()),
                       InkWell(
                           onTap: () {
-                            Navigator.of(context).pushNamed(InsuranceCalculator.route);
+                            Navigator.of(context)
+                                .pushNamed(InsuranceCalculator.route);
                           },
                           child: Container(
                             height: 6.5.h,
@@ -245,8 +262,7 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                       offset: const Offset(0, 3),
                                       blurRadius: 6,
                                       color: colorRed.withOpacity(0.35))
-                                ]
-                            ),
+                                ]),
                             alignment: Alignment.center,
                             child: Text(
                                 'Track investments of your family members',
@@ -272,15 +288,25 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                   (index) => Column(
                                         children: [
                                           reviews(
-                                              state.insuranceInvestment.policies[index].name,
-                                              state.insuranceInvestment.policies[index].amount.toStringAsFixed(2),
-                                              state.insuranceInvestment.policies[index].plan.toString(),
-                                              state.insuranceInvestment.policies[index].duedate,
+                                              state.insuranceInvestment
+                                                  .policies[index].name,
+                                              state.insuranceInvestment
+                                                  .policies[index].amount
+                                                  .toStringAsFixed(2),
+                                              state.insuranceInvestment
+                                                  .policies[index].plan
+                                                  .toString(),
+                                              state.insuranceInvestment
+                                                  .policies[index].duedate,
                                               () => null),
-                                          if (index != state.insuranceInvestment.policies.length - 1)
+                                          if (index !=
+                                              state.insuranceInvestment.policies
+                                                      .length -
+                                                  1)
                                             Container(
                                                 height: 1,
-                                                color: colorTextBCBC.withOpacity(0.36))
+                                                color: colorTextBCBC
+                                                    .withOpacity(0.36))
                                         ],
                                       )),
                             ),
@@ -321,7 +347,8 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
             child: Text(title, style: textStyle10(colorText3D3D))));
   }
 
-  popupButton(bool isMemberField, String selectedItem, List<PopupMenuItem> menuItemList) {
+  popupButton(bool isMemberField, String selectedItem,
+      List<PopupMenuItem> menuItemList) {
     return Container(
       height: 4.h,
       width: 30.w,
@@ -378,7 +405,8 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
     );
   }
 
-  reviews(String title, String value, String plan, String dueDate, Function() onClick) {
+  reviews(String title, String value, String plan, String dueDate,
+      Function() onClick) {
     var strToDateTime =
         DateTime.parse(DateTime.parse(dueDate).toUtc().toString());
     String updatedDt = DateFormat("dd-MM-yyyy").format(strToDateTime.toLocal());
@@ -397,7 +425,8 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(title, style: textStyle10Bold(colorBlack)),
-                  Text('₹ $value/-', style: textStyle10(colorText7070))
+                  Text('₹ ${CommonFunction().splitString(value)}/-',
+                      style: textStyle10(colorText7070))
                 ],
               ),
               SizedBox(height: 0.7.h),

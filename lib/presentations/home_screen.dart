@@ -493,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .add(LoadInsuranceInvestmentEvent(
                                                 userId: ApiUser.userId,
                                                 typeId: 4,
-                                                subTypeId: 7,
+                                                subTypeId: 15,
                                                 insuranceInvestment:
                                                     InsuranceInvestment(
                                                         code: 0,
