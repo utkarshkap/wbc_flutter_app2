@@ -100,9 +100,11 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       );
 
     case '/WBC-Connect':
-      final connectData = arguments as WBCConnectData;
+      // final connectData = arguments as WBCConnectData;
       return MaterialPageRoute(
-        builder: (_) => WBCConnect(connectData: connectData),
+        builder: (_) => WBCConnect(
+          // connectData: connectData
+          ),
       );
 
     case '/WBC-Progress':

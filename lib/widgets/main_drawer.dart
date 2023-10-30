@@ -12,6 +12,7 @@ import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/cart_screen.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
+import 'package:wbc_connect_app/presentations/wbc_connect.dart';
 import 'package:wbc_connect_app/presentations/wealth_meter.dart';
 
 import '../blocs/fetchingData/fetching_data_bloc.dart';
@@ -134,12 +135,26 @@ class _MainDrawerState extends State<MainDrawer> {
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                     ),
                     titles('WBC'),
-                    drawerWidget(icDashboard, 'GP DashBoard', () {
+                    drawerWidget(icDashboard, 'DashBoard', () {
                       Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushReplacementNamed(
-                          HomeScreen.route,
-                          arguments: HomeScreenData(
-                              rewardPopUpShow: false, acceptedContacts: ''));
+                      // Navigator.of(context).pushReplacementNamed(
+                      //     HomeScreen.route,
+                      //     arguments: HomeScreenData(
+                      //         rewardPopUpShow: false, acceptedContacts: ''));
+                      Navigator.of(context).pushNamed(
+                        WBCConnect.route,
+                        // arguments: WBCConnectData(
+                        //     history: history,
+                        //     contactBase: contactBase,
+                        //     inActiveClients: inActiveClients,
+                        //     availableContacts: availableContacts,
+                        //     goldPoint: goldPoint,
+                        //     fastTrackEarning: fastTrackEarning,
+                        //     earning: earning,
+                        //     redeemable: redeemable,
+                        //     nonRedeemable: nonRedeemable,
+                        //     onTheSpot: onTheSpot)
+                      );
                     }),
                     drawerWidget(icMyReferral, 'My Referrals', () {
                       Scaffold.of(context).closeDrawer();

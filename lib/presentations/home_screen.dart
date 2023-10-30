@@ -211,6 +211,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   state.data!.data.addContacts.toString());
               ApiUser.goldReferralPoint = state.data!.data.goldPoint;
               ApiUser.offersList = state.data!.data.offers;
+              GpDashBoardData.history = state.data!.data.history;
+              GpDashBoardData.contactBase = state.data!.data.contactBase;
+              GpDashBoardData.inActiveClients = state.data!.data.inActive;
+              GpDashBoardData.availableContacts =
+                  state.data!.data.availableContacts;
+              GpDashBoardData.goldPoint = state.data!.data.goldPoint;
+              GpDashBoardData.fastTrackEarning = state.data!.data.fastTrack;
+              GpDashBoardData.earning = state.data!.data.earning;
+              GpDashBoardData.redeemable = state.data!.data.redeemable;
+              GpDashBoardData.nonRedeemable = state.data!.data.nonRedeemable;
+              GpDashBoardData.onTheSpot = state.data!.data.onTheSpot;
+
               print('memberlistdetlete---------${state.data!.data.memberlist}');
 
               ApiUser.membersList = state.data!.data.memberlist;
@@ -1692,18 +1704,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   if (icon == icGoldCoin) {
-                    Navigator.of(context).pushNamed(WBCConnect.route,
-                        arguments: WBCConnectData(
-                            history: history,
-                            contactBase: contactBase,
-                            inActiveClients: inActiveClients,
-                            availableContacts: availableContacts,
-                            goldPoint: goldPoint,
-                            fastTrackEarning: fastTrackEarning,
-                            earning: earning,
-                            redeemable: redeemable,
-                            nonRedeemable: nonRedeemable,
-                            onTheSpot: onTheSpot));
+                    Navigator.of(context).pushNamed(
+                      WBCConnect.route,
+                      // arguments: WBCConnectData(
+                      //     history: history,
+                      //     contactBase: contactBase,
+                      //     inActiveClients: inActiveClients,
+                      //     availableContacts: availableContacts,
+                      //     goldPoint: goldPoint,
+                      //     fastTrackEarning: fastTrackEarning,
+                      //     earning: earning,
+                      //     redeemable: redeemable,
+                      //     nonRedeemable: nonRedeemable,
+                      //     onTheSpot: onTheSpot)
+                    );
                   }
                 },
                 icon: Image.asset(icon, width: 10.w)),
@@ -1711,18 +1725,20 @@ class _HomeScreenState extends State<HomeScreen> {
           GestureDetector(
             onTap: () {
               if (icon == icGoldCoin) {
-                Navigator.of(context).pushNamed(WBCConnect.route,
-                    arguments: WBCConnectData(
-                        history: history,
-                        contactBase: contactBase,
-                        inActiveClients: inActiveClients,
-                        availableContacts: availableContacts,
-                        goldPoint: goldPoint,
-                        fastTrackEarning: fastTrackEarning,
-                        earning: earning,
-                        redeemable: redeemable,
-                        nonRedeemable: nonRedeemable,
-                        onTheSpot: onTheSpot));
+                Navigator.of(context).pushNamed(
+                  WBCConnect.route,
+                  // arguments: WBCConnectData(
+                  //     history: history,
+                  //     contactBase: contactBase,
+                  //     inActiveClients: inActiveClients,
+                  //     availableContacts: availableContacts,
+                  //     goldPoint: goldPoint,
+                  //     fastTrackEarning: fastTrackEarning,
+                  //     earning: earning,
+                  //     redeemable: redeemable,
+                  //     nonRedeemable: nonRedeemable,
+                  //     onTheSpot: onTheSpot)
+                );
               }
             },
             child: Container(

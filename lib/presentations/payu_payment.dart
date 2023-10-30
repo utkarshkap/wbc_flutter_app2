@@ -24,7 +24,6 @@ class PayuPayment extends StatefulWidget {
 }
 
 class _Payu_paymentState extends State<PayuPayment> {
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -63,15 +62,16 @@ class _Payu_paymentState extends State<PayuPayment> {
             },
             builder: (context, state) {
               if (state is PayumoneyHashKeyLoadedState) {
-                if(state.customPayumoneyHashkeyModel.paymentHash!=null && state.customPayumoneyHashkeyModel.paymentHash!=""){
-                  BlocProvider.of<PayumoneyPaymentBloc>(context).add(UpdateFastTrackUserEvent(
-                      userId: int.parse(ApiUser.userId),
-                      mobile: ApiUser.mobileNo,
-                      date: DateTime.now().toString(),
-                      paymentAmount: fastTrackAmount,
-                      taxAmount: fastTrackGST,
-                  )
-                  );
+                if (state.customPayumoneyHashkeyModel.paymentHash != null &&
+                    state.customPayumoneyHashkeyModel.paymentHash != "") {
+                  BlocProvider.of<PayumoneyPaymentBloc>(context)
+                      .add(UpdateFastTrackUserEvent(
+                    userId: int.parse(ApiUser.userId),
+                    mobile: ApiUser.mobileNo,
+                    date: DateTime.now().toString(),
+                    paymentAmount: fastTrackAmount,
+                    taxAmount: fastTrackGST,
+                  ));
                   payuPayment(state.customPayumoneyHashkeyModel.paymentHash);
                 }
               }
@@ -79,49 +79,49 @@ class _Payu_paymentState extends State<PayuPayment> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Center(child: Text('Loading...', style: textStyle14Medium(colorBlack))),
+                  Center(
+                      child: Text('Loading...',
+                          style: textStyle14Medium(colorBlack))),
                 ],
               );
             },
           ),
-        )
-    );
+        ));
   }
 
   Future<void> payuPayment(String paymentHash) async {
-
     String orderId = DateTime.now().millisecondsSinceEpoch.toString();
 
     var response = await PayumoneyProUnofficial.payUParams(
-        email: ApiUser.emailId,
-        firstName: ApiUser.userName,
-        merchantName: ApiUser.userName,
-        isProduction: true,
-        merchantKey: merchantKey,
-        merchantSalt: merchantSalt,
-        amount: (int.parse(fastTrackAmount)+int.parse(fastTrackGST)).toString(),
-        productInfo: 'Become Merchant', // Enter Product Name
-        transactionId: orderId,
-        hashUrl: paymentHash.toString(),
-        userCredentials: ApiUser.emailId,
-        showLogs: true,
-        userPhoneNumber: ApiUser.mobileNo,
+      email: ApiUser.emailId,
+      firstName: ApiUser.userName,
+      merchantName: ApiUser.userName,
+      isProduction: true,
+      merchantKey: merchantKey,
+      merchantSalt: merchantSalt,
+      amount: (int.parse(fastTrackAmount) + int.parse(fastTrackGST)).toString(),
+      productInfo: 'Become Merchant', // Enter Product Name
+      transactionId: orderId,
+      hashUrl: paymentHash.toString(),
+      userCredentials: ApiUser.emailId,
+      showLogs: true,
+      userPhoneNumber: ApiUser.mobileNo,
     );
 
     print("response pay==> ${response}");
-    if (response['status'] == PayUParams.success){
-      BlocProvider.of<PayumoneyPaymentBloc>(context).add(UpdateFastTrackUserEvent(
-          userId: int.parse(ApiUser.userId),
-          mobile: ApiUser.mobileNo,
-          date: DateTime.now().toString(),
-        paymentAmount: fastTrackAmount,
-        taxAmount: fastTrackGST));
-      Navigator.of(context).pushReplacementNamed(
-          HomeScreen.route,
+    if (response['status'] == PayUParams.success) {
+      BlocProvider.of<PayumoneyPaymentBloc>(context).add(
+          UpdateFastTrackUserEvent(
+              userId: int.parse(ApiUser.userId),
+              mobile: ApiUser.mobileNo,
+              date: DateTime.now().toString(),
+              paymentAmount: fastTrackAmount,
+              taxAmount: fastTrackGST));
+      Navigator.of(context).pushReplacementNamed(HomeScreen.route,
           arguments: HomeScreenData(isFastTrackActivate: true));
       CommonFunction().errorDialog(context, response['message']);
     }
-    if (response['status'] == PayUParams.failed){
+    if (response['status'] == PayUParams.failed) {
       print("fail=== ");
       Navigator.pop(context);
       CommonFunction().errorDialog(context, response['message']);

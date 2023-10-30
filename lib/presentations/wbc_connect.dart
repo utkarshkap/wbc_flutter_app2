@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -14,37 +15,40 @@ import '../resources/resource.dart';
 import '../widgets/appbarButton.dart';
 import 'fastTrack_benefits.dart';
 
-class WBCConnectData {
-  final List<History> history;
-  final List<ContactBase> contactBase;
-  final List<ContactBase> inActiveClients;
-  final int availableContacts;
-  final int goldPoint;
-  final double fastTrackEarning;
-  final List earning;
-  final int redeemable;
-  final int nonRedeemable;
-  final int onTheSpot;
+// class WBCConnectData {
+//   final List<History> history;
+//   final List<ContactBase> contactBase;
+//   final List<ContactBase> inActiveClients;
+//   final int availableContacts;
+//   final int goldPoint;
+//   final double fastTrackEarning;
+//   final List earning;
+//   final int redeemable;
+//   final int nonRedeemable;
+//   final int onTheSpot;
 
-  WBCConnectData({
-    required this.history,
-    required this.contactBase,
-    required this.inActiveClients,
-    required this.availableContacts,
-    required this.goldPoint,
-    required this.fastTrackEarning,
-    required this.earning,
-    required this.redeemable,
-    required this.nonRedeemable,
-    required this.onTheSpot,
-  });
-}
+//   WBCConnectData({
+//     required this.history,
+//     required this.contactBase,
+//     required this.inActiveClients,
+//     required this.availableContacts,
+//     required this.goldPoint,
+//     required this.fastTrackEarning,
+//     required this.earning,
+//     required this.redeemable,
+//     required this.nonRedeemable,
+//     required this.onTheSpot,
+//   });
+// }
 
 class WBCConnect extends StatefulWidget {
   static const route = '/WBC-Connect';
-  final WBCConnectData connectData;
+  // final WBCConnectData connectData;
 
-  const WBCConnect({super.key, required this.connectData});
+  const WBCConnect({
+    super.key,
+    //  required this.connectData
+  });
 
   @override
   State<WBCConnect> createState() => _WBCConnectState();
@@ -91,25 +95,25 @@ class _WBCConnectState extends State<WBCConnect> {
   }
 
   getGoldPointData() {
-    if (widget.connectData.redeemable == 0 &&
-        widget.connectData.nonRedeemable == 0 &&
-        widget.connectData.onTheSpot == 0) {
+    if (GpDashBoardData.redeemable == 0 &&
+        GpDashBoardData.nonRedeemable == 0 &&
+        GpDashBoardData.onTheSpot == 0) {
       mainList.add(ChartData(activity: '', value: 100, color: colorF3F3));
     } else {
       for (int i = 0; i < 3; i++) {
         i == 0
             ? mainList.add(ChartData(
                 activity: 'Redeemable',
-                value: widget.connectData.redeemable.toDouble(),
+                value: GpDashBoardData.redeemable!.toDouble(),
                 color: colorTextFFC1))
             : i == 1
                 ? mainList.add(ChartData(
                     activity: 'Non-Redeemable',
-                    value: widget.connectData.nonRedeemable.toDouble(),
+                    value: GpDashBoardData.nonRedeemable!.toDouble(),
                     color: colorBoxGradiant0040))
                 : mainList.add(ChartData(
                     activity: 'On The Spot',
-                    value: widget.connectData.onTheSpot.toDouble(),
+                    value: GpDashBoardData.onTheSpot!.toDouble(),
                     color: colorRed));
       }
     }
@@ -128,8 +132,8 @@ class _WBCConnectState extends State<WBCConnect> {
     }
     years = List.from(years.reversed);
     print('----years--==----$years');
-    print('----history--==----${widget.connectData.history}');
-    print('----contactBase--==----${widget.connectData.contactBase}');
+    print('----history--==----${GpDashBoardData.history}');
+    print('----contactBase--==----${GpDashBoardData.contactBase}');
 
     super.initState();
   }
@@ -152,7 +156,7 @@ class _WBCConnectState extends State<WBCConnect> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text('WBC Dashboard', style: textStyle14Bold(colorBlack)),
+          title: Text('GP Dashboard', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -201,7 +205,7 @@ class _WBCConnectState extends State<WBCConnect> {
                         ),
                         Text(
                             CommonFunction().splitString(
-                                widget.connectData.goldPoint.toString()),
+                                GpDashBoardData.goldPoint.toString()),
                             style: textStyle26Bold(colorBlack)),
                         Padding(
                           padding: EdgeInsets.only(top: 3.h, bottom: 3.h),
@@ -220,7 +224,7 @@ class _WBCConnectState extends State<WBCConnect> {
                         pointsView(
                             icGoldCoin,
                             'Fastrack Earnings',
-                            '₹ ${CommonFunction().splitString(widget.connectData.fastTrackEarning.toString())}',
+                            '₹ ${CommonFunction().splitString(GpDashBoardData.fastTrackEarning.toString())}',
                             'Benefits', () {
                           Navigator.of(context)
                               .pushNamed(FastTrackBenefits.route);
@@ -267,7 +271,7 @@ class _WBCConnectState extends State<WBCConnect> {
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 2.h),
-                        child: widget.connectData.earning.isEmpty
+                        child: GpDashBoardData.earning!.isEmpty
                             ? Container(
                                 height: 3.h,
                                 alignment: Alignment.center,
@@ -325,14 +329,14 @@ class _WBCConnectState extends State<WBCConnect> {
                                         selectedHistoryTime = earningTime[i];
                                       });
                                     })),
-                            widget.connectData.history.isEmpty ? false : true),
+                            GpDashBoardData.history!.isEmpty ? false : true),
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
                         Column(
                           children: List.generate(
-                              widget.connectData.history.length > 4
+                              GpDashBoardData.history!.length > 4
                                   ? 4
-                                  : widget.connectData.history.length,
+                                  : GpDashBoardData.history!.length,
                               (index) => Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 4.w),
@@ -349,17 +353,15 @@ class _WBCConnectState extends State<WBCConnect> {
                                                 child: IconButton(
                                                     padding: EdgeInsets.zero,
                                                     onPressed: () {},
-                                                    icon: widget
-                                                            .connectData
-                                                            .history[index]
+                                                    icon: GpDashBoardData
+                                                            .history![index]
                                                             .imgUrl
                                                             .isEmpty
                                                         ? Image.asset(imgBurger,
                                                             height: 4.h)
                                                         : Image.network(
-                                                            widget
-                                                                .connectData
-                                                                .history[index]
+                                                            GpDashBoardData
+                                                                .history![index]
                                                                 .imgUrl,
                                                             height: 4.h)),
                                               ),
@@ -368,8 +370,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                      widget.connectData
-                                                          .history[index].name,
+                                                      GpDashBoardData
+                                                          .history![index].name,
                                                       style: textStyle11Bold(
                                                           colorText3D3D)),
                                                   SizedBox(height: 0.7.h),
@@ -380,10 +382,11 @@ class _WBCConnectState extends State<WBCConnect> {
                                                           colorText7070),
                                                       children: <TextSpan>[
                                                         TextSpan(
-                                                            text: widget
-                                                                .connectData
-                                                                .history[index]
-                                                                .status,
+                                                            text:
+                                                                GpDashBoardData
+                                                                    .history![
+                                                                        index]
+                                                                    .status,
                                                             style:
                                                                 textStyle10Medium(
                                                                     colorGreen)),
@@ -396,17 +399,15 @@ class _WBCConnectState extends State<WBCConnect> {
                                               Row(
                                                 children: [
                                                   Image.asset(
-                                                      widget
-                                                                  .connectData
-                                                                  .history[
+                                                      GpDashBoardData
+                                                                  .history![
                                                                       index]
                                                                   .status ==
                                                               'Completed'
                                                           ? icAdd
                                                           : icMinus,
-                                                      color: widget
-                                                                  .connectData
-                                                                  .history[
+                                                      color: GpDashBoardData
+                                                                  .history![
                                                                       index]
                                                                   .status ==
                                                               'Completed'
@@ -415,7 +416,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                                       width: 2.5.w),
                                                   SizedBox(width: 1.w),
                                                   Text(
-                                                      '${widget.connectData.history[index].gp}',
+                                                      '${GpDashBoardData.history![index].gp}',
                                                       style: textStyle13Medium(
                                                           colorGreen)),
                                                 ],
@@ -432,7 +433,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                     ),
                                   )),
                         ),
-                        widget.connectData.history.isEmpty
+                        GpDashBoardData.history!.isEmpty
                             ? Container(
                                 height: 6.h,
                                 alignment: Alignment.center,
@@ -441,12 +442,11 @@ class _WBCConnectState extends State<WBCConnect> {
                               )
                             : InkWell(
                                 onTap: () {
-                                  if (widget.connectData.history.length > 4) {
+                                  if (GpDashBoardData.history!.length > 4) {
                                     Navigator.of(context).pushNamed(
                                         GoldPointHistoryScreen.route,
                                         arguments: GoldPointHistoryData(
-                                            history:
-                                                widget.connectData.history));
+                                            history: GpDashBoardData.history!));
                                   }
                                 },
                                 child: Padding(
@@ -470,10 +470,10 @@ class _WBCConnectState extends State<WBCConnect> {
                 ),
                 standFastTrack(
                     'MY CONTACTS BASE',
-                    widget.connectData.contactBase[0].type,
-                    widget.connectData.contactBase[0].count,
-                    widget.connectData.contactBase[1].type,
-                    widget.connectData.contactBase[1].count),
+                    GpDashBoardData.contactBase![0].type,
+                    GpDashBoardData.contactBase![0].count,
+                    GpDashBoardData.contactBase![1].type,
+                    GpDashBoardData.contactBase![1].count),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: Container(
@@ -483,9 +483,9 @@ class _WBCConnectState extends State<WBCConnect> {
                         'Add Your Contacts You can add 96 contacts this month',
                         () {
                       print(
-                          'add contacts------${widget.connectData.availableContacts}');
+                          'add contacts------${GpDashBoardData.availableContacts}');
 
-                      if (widget.connectData.availableContacts != 0) {
+                      if (GpDashBoardData.availableContacts != 0) {
                         Preference.setRenewContact(true);
                         Navigator.of(context).pushNamed(
                             VerificationScreen.route,
@@ -495,7 +495,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                 verificationId: "",
                                 isLogin: true,
                                 selectedContact:
-                                    widget.connectData.availableContacts,
+                                    GpDashBoardData.availableContacts!,
                                 isHomeContactOpen: true));
                       } else {
                         CommonFunction().reachedMaxContactPopup(context);
@@ -505,18 +505,18 @@ class _WBCConnectState extends State<WBCConnect> {
                 ),
                 standFastTrack(
                     'INACTIVE CLIENTS',
-                    widget.connectData.inActiveClients[0].type,
-                    widget.connectData.inActiveClients[0].count,
-                    widget.connectData.inActiveClients[1].type,
-                    widget.connectData.inActiveClients[1].count),
+                    GpDashBoardData.inActiveClients![0].type,
+                    GpDashBoardData.inActiveClients![0].count,
+                    GpDashBoardData.inActiveClients![1].type,
+                    GpDashBoardData.inActiveClients![1].count),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: GestureDetector(
                     onTap: () {
                       print(
-                          'add contacts------${widget.connectData.availableContacts}');
+                          'add contacts------${GpDashBoardData.availableContacts}');
 
-                      if (widget.connectData.availableContacts != 0) {
+                      if (GpDashBoardData.availableContacts != 0) {
                         Preference.setRenewContact(true);
                         Navigator.of(context).pushNamed(
                             VerificationScreen.route,
@@ -526,7 +526,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                 verificationId: "",
                                 isLogin: true,
                                 selectedContact:
-                                    widget.connectData.availableContacts,
+                                    GpDashBoardData.availableContacts!,
                                 isHomeContactOpen: true));
                       } else {
                         CommonFunction().reachedMaxContactPopup(context);
@@ -852,7 +852,7 @@ class _WBCConnectState extends State<WBCConnect> {
               BarChartRodData(
                   toY: point.value,
                   width: 3.w,
-                  color: widget.connectData.earning.isEmpty
+                  color: GpDashBoardData.earning!.isEmpty
                       ? colorF3F3
                       : colorBoxGradiant0040,
                   borderRadius: BorderRadius.circular(5))

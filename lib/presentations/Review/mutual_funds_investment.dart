@@ -27,7 +27,7 @@ class MutualFundsInvestment extends StatefulWidget {
 }
 
 class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
-  String selectedType = 'All';
+  String selectedType = 'KA Group';
   String selectedUser = '';
   String selectedUserId = '';
   List<Memberlist> members = [];
@@ -36,8 +36,8 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
   bool isCalculateInvestments = false;
 
   List<String> types = [
-    'All',
     'KA Group',
+    'Others',
   ];
 
   getMobNo() async {
@@ -156,7 +156,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 3.h, bottom: 6.h),
+                          padding: EdgeInsets.only(top: 5.5.h, bottom: 6.h),
                           child: Column(
                             children: [
                               Padding(
@@ -165,27 +165,12 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            // '₹ ${CommonFunction().splitString(state.investmentPortfolio.portfolio.toInt().toString())}/-',
-                                            '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(2))}/-',
-                                            style: textStyle22(colorWhite)
-                                                .copyWith(height: 1.2)),
-                                        Text('MUTUAL FUND PORTFOLIO',
-                                            style: textStyle10(colorE5E5)
-                                                .copyWith(height: 1.2)),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    Row(
                                       children: [
                                         IconButton(
                                             constraints: BoxConstraints(
-                                                minWidth: 5.h, minHeight: 5.h),
+                                                minWidth: 5.5.h,
+                                                minHeight: 5.5.h),
                                             padding: EdgeInsets.zero,
                                             splashRadius: 5.5.w,
                                             splashColor: colorWhite,
@@ -232,8 +217,8 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                               });
                                             },
                                             icon: Container(
-                                                height: 5.h,
-                                                width: 5.h,
+                                                height: 5.5.h,
+                                                width: 5.5.h,
                                                 decoration: const BoxDecoration(
                                                     color: colorF3F3,
                                                     shape: BoxShape.circle),
@@ -244,19 +229,43 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                         .toUpperCase(),
                                                     style: textStyle17Bold(
                                                         colorRed)))),
-                                        const SizedBox(height: 5),
-                                        popupButton(
-                                            false,
-                                            selectedType,
-                                            List.generate(
-                                                types.length,
-                                                (i) => menuItem(types[i], () {
-                                                      setState(() {
-                                                        selectedType = types[i];
-                                                      });
-                                                    }))),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                // '₹ ${CommonFunction().splitString(state.investmentPortfolio.portfolio.toInt().toString())}/-',
+                                                '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(2))}/-',
+                                                style: textStyle22(colorWhite)
+                                                    .copyWith(height: 1.2)),
+                                            Text('MUTUAL FUND PORTFOLIO',
+                                                style: textStyle10(colorE5E5)
+                                                    .copyWith(height: 1.2)),
+                                          ],
+                                        ),
                                       ],
-                                    )
+                                    ),
+                                    // Column(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.end,
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: [
+                                    //     const SizedBox(height: 5),
+                                    //     popupButton(
+                                    //         false,
+                                    //         selectedType,
+                                    //         List.generate(
+                                    //             types.length,
+                                    //             (i) => menuItem(types[i], () {
+                                    //                   setState(() {
+                                    //                     selectedType = types[i];
+                                    //                   });
+                                    //                 }))),
+                                    //   ],
+                                    // )
                                   ],
                                 ),
                               ),
@@ -283,6 +292,16 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                         CommonFunction().splitString(state.investmentPortfolio.gain.toInt().isNegative
                                             ? (-state.investmentPortfolio.gain.toInt()).toString()
                                             : state.investmentPortfolio.gain.toInt().toString())),*/
+                                    popupButton(
+                                        false,
+                                        selectedType,
+                                        List.generate(
+                                            types.length,
+                                            (i) => menuItem(types[i], () {
+                                                  setState(() {
+                                                    selectedType = types[i];
+                                                  });
+                                                }))),
                                   ],
                                 ),
                               ),

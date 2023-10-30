@@ -250,8 +250,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                             needleLength: 1,
                                             needleStartWidth: 0.1,
                                             needleEndWidth: 7,
-                                            knobStyle:const
-                                                KnobStyle(knobRadius: 0.08),
+                                            knobStyle: const KnobStyle(
+                                                knobRadius: 0.08),
                                             enableAnimation: true,
                                           )
                                         ],
@@ -1002,7 +1002,9 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
   void ageCalculate() {
     setState(() {
-      if (ApiUser.userDob.isEmpty || ApiUser.userDob == null) {
+      if (ApiUser.userDob.isEmpty ||
+          ApiUser.userDob == 'null' ||
+          ApiUser.userDob == '') {
         userAge = 0;
         userDoB = '';
       } else {

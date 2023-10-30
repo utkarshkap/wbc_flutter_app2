@@ -121,3 +121,16 @@ class ApiUser {
   static bool termNdCondition = false;
   static List numberList = [];
 }
+
+class GpDashBoardData {
+  static List<History>? history;
+  static List<ContactBase>? contactBase;
+  static List<ContactBase>? inActiveClients;
+  static int? availableContacts;
+  static int? goldPoint;
+  static double? fastTrackEarning;
+  static List? earning;
+  static int? redeemable;
+  static int? nonRedeemable;
+  static int? onTheSpot;
+}

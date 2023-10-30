@@ -21,14 +21,14 @@ class LoanInvestmentScreen extends StatefulWidget {
 }
 
 class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
-  String selectedType = 'All';
+  String selectedType = 'KA Group';
   String selectedUser = '';
   List<Memberlist> members = [];
   String mobileNo = '';
 
   List<String> types = [
-    'All',
     'KA Group',
+    'Others',
   ];
 
   getMobNo() async {
@@ -40,7 +40,8 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
         relation: 'You',
         familyid: ApiUser.membersList.isNotEmpty
             ? ApiUser.membersList.first.familyid
-            : 0, relativeUserId: 0));
+            : 0,
+        relativeUserId: 0));
     setState(() {});
     for (int i = 0; i < ApiUser.membersList.length; i++) {
       members.add(ApiUser.membersList[i]);
@@ -127,7 +128,7 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 3.h, bottom: 5.h),
+                          padding: EdgeInsets.only(top: 4.h, bottom: 5.h),
                           child: Column(
                             children: [
                               Padding(
@@ -136,41 +137,32 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            '₹${CommonFunction().splitString(state.loanInvestment.totalLoanAmt.toInt().toString())}/-',
-                                            style: textStyle22(colorWhite)
-                                                .copyWith(height: 1.2)),
-                                        Text('LOAN PORTFOLIO',
-                                            style: textStyle10(colorE5E5)
-                                                .copyWith(height: 1.2)),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    Row(
                                       children: [
                                         IconButton(
                                             constraints: BoxConstraints(
-                                                minWidth: 5.h, minHeight: 5.h),
+                                                minWidth: 5.5.h,
+                                                minHeight: 5.5.h),
                                             padding: EdgeInsets.zero,
                                             splashRadius: 5.5.w,
                                             splashColor: colorWhite,
                                             onPressed: () {
-                                              CommonFunction().selectFormDialog(context, 'Select Member', members, (val) {
+                                              CommonFunction().selectFormDialog(
+                                                  context,
+                                                  'Select Member',
+                                                  members, (val) {
                                                 print('-----val---=---$val');
                                                 setState(() {
-                                                  selectedUser = val.name.substring(0, 1).toUpperCase();
+                                                  selectedUser = val.name
+                                                      .substring(0, 1)
+                                                      .toUpperCase();
                                                 });
                                                 Navigator.of(context).pop();
                                               });
                                             },
                                             icon: Container(
-                                                height: 5.h,
-                                                width: 5.h,
+                                                height: 5.5.h,
+                                                width: 5.5.h,
                                                 decoration: const BoxDecoration(
                                                     color: colorF3F3,
                                                     shape: BoxShape.circle),
@@ -181,23 +173,44 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
                                                         .toUpperCase(),
                                                     style: textStyle20Bold(
                                                         colorRed)))),
-                                        const SizedBox(height: 5),
-                                        popupButton(
-                                            false,
-                                            selectedType,
-                                            List.generate(
-                                                types.length,
-                                                (i) => menuItem(types[i], () {
-                                                      setState(() {
-                                                        selectedType = types[i];
-                                                      });
-                                                    }))),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                '₹${CommonFunction().splitString(state.loanInvestment.totalLoanAmt.toInt().toString())}/-',
+                                                style: textStyle22(colorWhite)
+                                                    .copyWith(height: 1.2)),
+                                            Text('LOAN PORTFOLIO',
+                                                style: textStyle10(colorE5E5)
+                                                    .copyWith(height: 1.2)),
+                                          ],
+                                        ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 3.h),
+                              SizedBox(height: 0.h),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: popupButton(
+                                      false,
+                                      selectedType,
+                                      List.generate(
+                                          types.length,
+                                          (i) => menuItem(types[i], () {
+                                                setState(() {
+                                                  selectedType = types[i];
+                                                });
+                                              }))),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -231,7 +244,8 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
                   Positioned(
                       top: 17.h,
                       child: Container(
-                        height: state.loanInvestment.loans.isNotEmpty?55.h:0,
+                        height:
+                            state.loanInvestment.loans.isNotEmpty ? 55.h : 0,
                         width: 90.w,
                         decoration: decoration(),
                         child: Column(

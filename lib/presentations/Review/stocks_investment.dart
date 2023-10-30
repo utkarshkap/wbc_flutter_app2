@@ -25,7 +25,7 @@ class StocksInvestment extends StatefulWidget {
 }
 
 class _StocksInvestmentState extends State<StocksInvestment> {
-  String selectedType = 'All';
+  String selectedType = 'KA Group';
   String selectedUser = '';
   List<Memberlist> members = [];
   String mobileNo = '';
@@ -33,8 +33,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
   double totalInvestment = 0.0;
 
   List<String> types = [
-    'All',
     'KA Group',
+    'Others',
   ];
 
   getMobNo() async {
@@ -145,7 +145,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 3.h, bottom: 6.h),
+                          padding: EdgeInsets.only(top: 5.5.h, bottom: 6.h),
                           child: Column(
                             children: [
                               Padding(
@@ -154,26 +154,12 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(2))}/-',
-                                            style: textStyle22(colorWhite)
-                                                .copyWith(height: 1.2)),
-                                        Text('STOCK PORTFOLIO',
-                                            style: textStyle10(colorE5E5)
-                                                .copyWith(height: 1.2)),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    Row(
                                       children: [
                                         IconButton(
                                             constraints: BoxConstraints(
-                                                minWidth: 5.h, minHeight: 5.h),
+                                                minWidth: 5.5.h,
+                                                minHeight: 5.5.h),
                                             padding: EdgeInsets.zero,
                                             splashRadius: 5.5.w,
                                             splashColor: colorWhite,
@@ -217,8 +203,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                               });
                                             },
                                             icon: Container(
-                                                height: 5.h,
-                                                width: 5.h,
+                                                height: 5.5.h,
+                                                width: 5.5.h,
                                                 decoration: const BoxDecoration(
                                                     color: colorF3F3,
                                                     shape: BoxShape.circle),
@@ -229,19 +215,41 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                         .toUpperCase(),
                                                     style: textStyle20Bold(
                                                         colorRed)))),
-                                        const SizedBox(height: 5),
-                                        popupButton(
-                                            false,
-                                            selectedType,
-                                            List.generate(
-                                                types.length,
-                                                (i) => menuItem(types[i], () {
-                                                      setState(() {
-                                                        selectedType = types[i];
-                                                      });
-                                                    }))),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(2))}/-',
+                                                style: textStyle22(colorWhite)
+                                                    .copyWith(height: 1.2)),
+                                            Text('STOCK PORTFOLIO',
+                                                style: textStyle10(colorE5E5)
+                                                    .copyWith(height: 1.2)),
+                                          ],
+                                        ),
                                       ],
-                                    )
+                                    ),
+                                    // Column(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.end,
+                                    //   children: [
+                                    //     const SizedBox(height: 5),
+                                    //     popupButton(
+                                    //         false,
+                                    //         selectedType,
+                                    //         List.generate(
+                                    //             types.length,
+                                    //             (i) => menuItem(types[i], () {
+                                    //                   setState(() {
+                                    //                     selectedType = types[i];
+                                    //                   });
+                                    //                 }))),
+                                    //   ],
+                                    // )
                                   ],
                                 ),
                               ),
@@ -273,6 +281,16 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                             : state.stockInvestmentPortfolio.gain
                                                 .toInt()
                                                 .toString())),*/
+                                    popupButton(
+                                        false,
+                                        selectedType,
+                                        List.generate(
+                                            types.length,
+                                            (i) => menuItem(types[i], () {
+                                                  setState(() {
+                                                    selectedType = types[i];
+                                                  });
+                                                }))),
                                   ],
                                 ),
                               ),

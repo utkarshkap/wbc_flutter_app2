@@ -32,14 +32,14 @@ class InsuranceInvestmentScreen extends StatefulWidget {
 }
 
 class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
-  String selectedType = 'All';
+  String selectedType = 'KA Group';
   String selectedUser = '';
   List<Memberlist> members = [];
   String mobileNo = '';
 
   List<String> types = [
-    'All',
     'KA Group',
+    'Others',
   ];
 
   getMobNo() async {
@@ -142,7 +142,7 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 3.h, bottom: 5.h),
+                          padding: EdgeInsets.only(top: 4.h, bottom: 5.h),
                           child: Column(
                             children: [
                               Padding(
@@ -151,27 +151,12 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            // '₹ ${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toInt().toString())}/-',
-                                            '₹${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toStringAsFixed(2))}/-',
-                                            style: textStyle22(colorWhite)
-                                                .copyWith(height: 1.2)),
-                                        Text('INSURANCE PORTFOLIO',
-                                            style: textStyle10(colorE5E5)
-                                                .copyWith(height: 1.2)),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    Row(
                                       children: [
                                         IconButton(
                                             constraints: BoxConstraints(
-                                                minWidth: 5.h, minHeight: 5.h),
+                                                minWidth: 5.5.h,
+                                                minHeight: 5.5.h),
                                             padding: EdgeInsets.zero,
                                             splashRadius: 5.5.w,
                                             splashColor: colorWhite,
@@ -212,8 +197,8 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                               });
                                             },
                                             icon: Container(
-                                                height: 5.h,
-                                                width: 5.h,
+                                                height: 5.5.h,
+                                                width: 5.5.h,
                                                 decoration: const BoxDecoration(
                                                     color: colorF3F3,
                                                     shape: BoxShape.circle),
@@ -224,23 +209,45 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                                         .toUpperCase(),
                                                     style: textStyle20Bold(
                                                         colorRed)))),
-                                        const SizedBox(height: 5),
-                                        popupButton(
-                                            false,
-                                            selectedType,
-                                            List.generate(
-                                                types.length,
-                                                (i) => menuItem(types[i], () {
-                                                      setState(() {
-                                                        selectedType = types[i];
-                                                      });
-                                                    }))),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                // '₹ ${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toInt().toString())}/-',
+                                                '₹${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toStringAsFixed(2))}/-',
+                                                style: textStyle22(colorWhite)
+                                                    .copyWith(height: 1.2)),
+                                            Text('INSURANCE PORTFOLIO',
+                                                style: textStyle10(colorE5E5)
+                                                    .copyWith(height: 1.2)),
+                                          ],
+                                        ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 3.h),
+                              SizedBox(height: 0.h),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: popupButton(
+                                      false,
+                                      selectedType,
+                                      List.generate(
+                                          types.length,
+                                          (i) => menuItem(types[i], () {
+                                                setState(() {
+                                                  selectedType = types[i];
+                                                });
+                                              }))),
+                                ),
+                              )
                             ],
                           ),
                         ),
