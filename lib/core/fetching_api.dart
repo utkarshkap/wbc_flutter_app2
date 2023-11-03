@@ -173,7 +173,7 @@ class FetchingApi {
     } else {
       throw Exception("Failed to load mGainLedger data");
     }
-  }
+  } 
 
   Future<InvestmentPortfolio> getMFInvestment(String userid) async {
     print('--getMFInvestment----URL---{$mfDashboardUrl$userid}');

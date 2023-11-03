@@ -122,6 +122,14 @@
           }
         },
         {
+          "client_id": "217717536609-alufrgao7cnfbc8c5irprp2mmaabl26h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.kagroup.finer",
+            "certificate_hash": "4cc7559a677f6b74587971a79c24c96b44379d08"
+          }
+        },
+        {
           "client_id": "217717536609-clhjslv7qm9kplud7cd71rbp54v5b99e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

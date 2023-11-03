@@ -12,6 +12,7 @@ const Color colorRedFFC = Color(0xffFFC2AF);
 const Color colorRedFF6 = Color(0xffFF6434);
 const Color colorECEC = Color(0xffECECEC);
 const Color colorGreen = Color(0xff0FA205);
+const Color colorGreenEFC = Color(0xffECFFEC);
 
 const Color colorText7070 = Color(0xff707070);
 const Color colorTextBCBC = Color(0xffBCBCBC);
@@ -36,6 +37,5 @@ const Color color47D1 = Color(0xff47D187);
 const Color colorBoxGradiant0020 = Color(0xff002058);
 const Color colorBoxGradiant0040 = Color(0xff0040AF);
 const Color colorBoxGradiant3333 = Color(0xff333399);
-const Color colorBoxGradiantD167 = Color(0xffD16795); 
+const Color colorBoxGradiantD167 = Color(0xffD16795);
 const Color colorBoxGradiant505E = Color(0xff505EBE);
-

@@ -386,6 +386,11 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                       state.investmentPortfolio
                                                           .mFStocks[index].nav)
                                                   .toStringAsFixed(2),
+                                              state.investmentPortfolio
+                                                      .mFStocks[index].unit -
+                                                  state.investmentPortfolio
+                                                      .mFStocks[index].sale_Unit
+                                                      .toDouble(),
                                               () => {
                                                     // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
 
@@ -532,7 +537,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
   }
 
   reviews(String icon, Color bgColor, String title, String value,
-      String percentageVal, Function() onClick) {
+      String percentageVal, double unitValue, Function() onClick) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.8.h, horizontal: 3.w),
       child: GestureDetector(
@@ -560,7 +565,11 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                 ),
               ),
               Expanded(
-                child: Column(
+                child:
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -569,19 +578,30 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 0.7.h),
+                    SizedBox(height: 0.5.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
                             Text('Last NAV: ',
-                                style: textStyle8(colorText7070)),
-                            Text('₹ $value/-', style: textStyle9(bgColor)),
+                                style: textStyle8Bold(colorText7070)),
+                            Text('₹ $value/-', style: textStyle8Bold(bgColor)),
                           ],
                         ),
-                        Text(CommonFunction().splitString(percentageVal),
-                            style: textStyle8(colorText7070)),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(unitValue.toStringAsFixed(2),
+                                  style: textStyle8Bold(colorText7070)),
+                              SizedBox(height: 0.7.h),
+                              Text(CommonFunction().splitString(percentageVal),
+                                  style: textStyle8Bold(colorText7070)),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ],

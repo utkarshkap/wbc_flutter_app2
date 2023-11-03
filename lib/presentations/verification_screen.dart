@@ -398,6 +398,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
       } else {
         count = 0;
         contactCount = 0;
+                   print("------ CONTACTS::::::::::::::::${value[0]}");
+
         for (int i = 0; i < value.length; i++) {
           if (i > 0) {
             print('---xxxx------$i---xxx----${value[i].name.first}');
@@ -439,6 +441,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
               count = 0;
             });
           }
+          print("ADD CONTACTS::::::::::::::::${value[i].groups}");
+
           if (value[i].phones.isNotEmpty) {
             if (value[i].phones.first.number.length >= 10) {
               String num = value[i]
@@ -449,7 +453,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   .replaceAll('-', '')
                   .replaceAll('(', '')
                   .replaceAll(')', '');
-              // print("ADD CONTACTS::::::::::::::::${value[i].phones.first.number}");
+
               if (value[i]
                       .displayName
                       .substring(0, 1)
@@ -1536,7 +1540,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       //     "NUM:length:::::::::::::::::::::::::::${num.length}");
                       // num = '${num.substring(0, 5)} ${num.substring(5, 10)}';
                       // print(
-                      // "data:::::::::::${contactsData[index].contact.phones.first.number}");
+                      // "data:::::::::::${contactsData[index].contact}");
                       // print("NUM::::::::::::::::::::::::::::${num}");
 
                       return contactsData[index]
@@ -1621,6 +1625,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                               ],
                                             ),
                                           ),
+                                          // if (index == 1 || index == 3)
+                                          //   Image.asset(familyIcon, width: 7.w),
                                           const Spacer(),
                                           Expanded(
                                             flex: 2,

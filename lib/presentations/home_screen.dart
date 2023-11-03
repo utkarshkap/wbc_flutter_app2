@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getShowCase();
+    // getShowCase();
     getFastTrackStatus();
     print('userId-----${ApiUser.userId}');
     print('rewardPopup-----${widget.homeScreenData.rewardPopUpShow}');
@@ -310,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 1,
                                   color: colorTextBCBC.withOpacity(0.36)),
                               pointsView(
-                                  icFastTrackEarning,
+                                  rupeeIcon,
                                   'Your FastTrack Earnings',
                                   '₹ ${CommonFunction().splitString(state.data!.data.fastTrack.toString())}',
                                   'Become Member',
@@ -344,28 +344,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             width: 90.w,
                             decoration: decoration(),
+                            padding: EdgeInsets.only(
+                                top: 2.h, bottom: 2.h, left: 4.w),
                             child: Row(
                               children: [
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        2.5.w, 1.2.h, 2.5.w, 1.2.h),
-                                    child: Container(
-                                      height: 4.2.h,
-                                      width: 4.2.h,
-                                      decoration: BoxDecoration(
-                                          color: colorRed,
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                offset: const Offset(0, 3),
-                                                blurRadius: 6,
-                                                color:
-                                                    colorRed.withOpacity(0.25))
-                                          ]),
-                                      alignment: Alignment.center,
-                                      child:
-                                          Image.asset(icCoinCash, height: 2.h),
-                                    )),
+                                Image.asset(icCoinCash, height: 3.h),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
                                 Text('Learn how to earn more',
                                     style: textStyle12Medium(colorBlack)),
                                 Text(' Gold ',
@@ -376,194 +362,262 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsets.fromLTRB(5.w, 2.5.h, 0, 1.5.h),
-                              child: Text('YOUR PORTFOLIO',
-                                  style: textStyle11Bold(colorBlack)
-                                      .copyWith(letterSpacing: 0.7)),
-                            ),
-                          ],
-                        ),
+                        SizedBox(height: 2.h),
                         Container(
                           width: 90.w,
                           decoration: decoration(),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: SingleChildScrollView(
-                              physics: const PageScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2.h, horizontal: 2.5.w),
-                                child: Row(
+                          padding: EdgeInsets.symmetric(vertical: 2.h),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 3.5.w),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    BlocListener<MFInvestmentsBloc,
-                                        MFInvestmentsState>(
-                                      listener: (context, state) {
-                                        if (state is MFInvestmentsLoadedState) {
-                                          // Navigator.of(context).pushNamed(MutualFundsInvestment.route);
-                                        }
-                                      },
-                                      child: portFolioWidget(
-                                          icMutualFunds, 'Mutual Funds', () {
-                                        BlocProvider.of<MFInvestmentsBloc>(
-                                                context)
-                                            .add(LoadMFInvestmentsEvent(
-                                                userId: ApiUser.userId,
-                                                investmentPortfolio:
-                                                    InvestmentPortfolio(
-                                                        code: 0,
-                                                        message: '',
-                                                        portfolio: 0,
-                                                        investment: 0,
-                                                        gain: 0,
-                                                        mFStocks: [])));
-                                        Navigator.of(context).pushNamed(
-                                            MutualFundsInvestment.route);
-                                      }, () {}),
+                                    Text('My Account',
+                                        style: textStyle12Bold(colorBlack)
+                                            .copyWith(letterSpacing: 0.16)),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 1.h, bottom: 2.h),
+                                      child: Container(
+                                          height: 1,
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
-                                    BlocListener<FetchingDataBloc,
-                                        FetchingDataState>(
-                                      listener: (context, state) {
-                                        if (state
-                                            is StockInvestmentLoadedState) {
-                                          // Navigator.of(context).pushNamed(StocksInvestment.route);
-                                        }
-                                      },
-                                      child: portFolioWidget(icStocks, 'Stocks',
-                                          () {
-                                        BlocProvider.of<FetchingDataBloc>(
-                                                context)
-                                            .add(LoadStockInvestmentEvent(
-                                                userId: ApiUser.userId,
-                                                investmentPortfolio:
-                                                    StockInvestmentModel(
-                                                  code: 0,
-                                                  message: '',
-                                                  portfolio: 0,
-                                                  investment: 0,
-                                                  gain: 0,
-                                                  stocks: [],
-                                                )));
-                                        Navigator.of(context)
-                                            .pushNamed(StocksInvestment.route);
-                                      }, () {}),
-                                    ),
-                                    BlocListener<InsuranceInvestmentBloc,
-                                        InsuranceInvestmentState>(
-                                      listener: (context, state) {
-                                        if (state
-                                            is InsuranceInvestmentLoadedState) {
-                                          print(
-                                              '--------insurance22---investment');
-                                          // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
-                                        }
-                                      },
-                                      child: portFolioWidget(
-                                          icLifeInsurance, 'Life Insurance',
-                                          () {
-                                        print(
-                                            '--------insurance11---investment');
-                                        BlocProvider.of<
-                                                    InsuranceInvestmentBloc>(
-                                                context)
-                                            .add(LoadInsuranceInvestmentEvent(
-                                                userId: ApiUser.userId,
-                                                typeId: 4,
-                                                subTypeId: 5,
-                                                insuranceInvestment:
-                                                    InsuranceInvestment(
-                                                        code: 0,
-                                                        message: '',
-                                                        totalInsuranceAmt: 0,
-                                                        policies: [])));
-                                        Navigator.of(context).pushNamed(
-                                          InsuranceInvestmentScreen.route,
-                                          arguments: InsuranceInvestmentData(
-                                              isFromLI: true),
-                                        );
-                                      }, () {}),
-                                    ),
-                                    BlocListener<InsuranceInvestmentBloc,
-                                        InsuranceInvestmentState>(
-                                      listener: (context, state) {
-                                        if (state
-                                            is InsuranceInvestmentLoadedState) {
-                                          // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
-                                        }
-                                      },
-                                      child: portFolioWidget(
-                                          icLifeInsurance, 'General Insurance',
-                                          () {
-                                        BlocProvider.of<
-                                                    InsuranceInvestmentBloc>(
-                                                context)
-                                            .add(LoadInsuranceInvestmentEvent(
-                                                userId: ApiUser.userId,
-                                                typeId: 4,
-                                                subTypeId: 15,
-                                                insuranceInvestment:
-                                                    InsuranceInvestment(
-                                                        code: 0,
-                                                        message: '',
-                                                        totalInsuranceAmt: 0,
-                                                        policies: [])));
-                                        Navigator.of(context).pushNamed(
-                                          InsuranceInvestmentScreen.route,
-                                          arguments: InsuranceInvestmentData(
-                                              isFromLI: false),
-                                        );
-                                      }, () {}),
-                                    ),
-                                    BlocListener<FetchingDataBloc,
-                                        FetchingDataState>(
-                                      listener: (context, state) {
-                                        if (state
-                                            is LoanInvestmentLoadedState) {
-                                          Navigator.of(context).pushNamed(
-                                              LoanInvestmentScreen.route);
-                                        }
-                                      },
-                                      child:
-                                          portFolioWidget(icLoan, 'Loan', () {
-                                        BlocProvider.of<FetchingDataBloc>(
-                                                context)
-                                            .add(LoadLoanInvestmentEvent(
-                                                userId: ApiUser.userId,
-                                                loanInvestment: LoanInvestment(
-                                                    code: 0,
-                                                    message: '',
-                                                    totalLoanAmt: 0,
-                                                    loans: [])));
-                                      }, () {}),
-                                    ),
-                                    portFolioWidget(
-                                        icRealEstate, 'Real\nEstate', () {
-                                      Navigator.of(context)
-                                          .pushNamed(RealEstateScreen.route);
-                                    }, () {}),
-                                    portFolioWidget(icInterestReceived, 'MGain',
-                                        () {
-                                      BlocProvider.of<FetchingDataBloc>(context)
-                                          .add(LoadMGainInvestmentEvent(
-                                              userId: ApiUser.userId,
-                                              mGainInvestment: MGainInvestment(
-                                                  code: 0,
-                                                  message: '',
-                                                  mGainTotalInvestment: 0,
-                                                  totalIntrestReceived: 0,
-                                                  mGains: [])));
-                                      Navigator.of(context).pushNamed(
-                                          MGainInvestmentScreen.route);
-                                    }, () {}),
                                   ],
                                 ),
                               ),
-                            ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Wrap(
+                                    runSpacing: 1.5.h,
+                                    children: [
+                                      BlocListener<MFInvestmentsBloc,
+                                          MFInvestmentsState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is MFInvestmentsLoadedState) {
+                                            // Navigator.of(context).pushNamed(MutualFundsInvestment.route);
+                                          }
+                                        },
+                                        child: portFolioWidget(icMutualFunds,
+                                            'Mutual Funds', false, () {
+                                          BlocProvider.of<MFInvestmentsBloc>(
+                                                  context)
+                                              .add(LoadMFInvestmentsEvent(
+                                                  userId: ApiUser.userId,
+                                                  investmentPortfolio:
+                                                      InvestmentPortfolio(
+                                                          code: 0,
+                                                          message: '',
+                                                          portfolio: 0,
+                                                          investment: 0,
+                                                          gain: 0,
+                                                          mFStocks: [])));
+                                          Navigator.of(context).pushNamed(
+                                              MutualFundsInvestment.route);
+                                        }, () {}),
+                                      ),
+                                      BlocListener<FetchingDataBloc,
+                                          FetchingDataState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is StockInvestmentLoadedState) {
+                                            // Navigator.of(context).pushNamed(StocksInvestment.route);
+                                          }
+                                        },
+                                        child: portFolioWidget(
+                                            icStocks, 'Stocks', false, () {
+                                          BlocProvider.of<FetchingDataBloc>(
+                                                  context)
+                                              .add(LoadStockInvestmentEvent(
+                                                  userId: ApiUser.userId,
+                                                  investmentPortfolio:
+                                                      StockInvestmentModel(
+                                                    code: 0,
+                                                    message: '',
+                                                    portfolio: 0,
+                                                    investment: 0,
+                                                    gain: 0,
+                                                    stocks: [],
+                                                  )));
+                                          Navigator.of(context).pushNamed(
+                                              StocksInvestment.route);
+                                        }, () {}),
+                                      ),
+                                      BlocListener<InsuranceInvestmentBloc,
+                                          InsuranceInvestmentState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is InsuranceInvestmentLoadedState) {
+                                            print(
+                                                '--------insurance22---investment');
+                                            // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
+                                          }
+                                        },
+                                        child: portFolioWidget(icLifeInsurance,
+                                            'Life Insurance', false, () {
+                                          print(
+                                              '--------insurance11---investment');
+                                          BlocProvider.of<
+                                                      InsuranceInvestmentBloc>(
+                                                  context)
+                                              .add(LoadInsuranceInvestmentEvent(
+                                                  userId: ApiUser.userId,
+                                                  typeId: 4,
+                                                  subTypeId: 5,
+                                                  insuranceInvestment:
+                                                      InsuranceInvestment(
+                                                          code: 0,
+                                                          message: '',
+                                                          totalInsuranceAmt: 0,
+                                                          policies: [])));
+                                          Navigator.of(context).pushNamed(
+                                            InsuranceInvestmentScreen.route,
+                                            arguments: InsuranceInvestmentData(
+                                                isFromLI: true),
+                                          );
+                                        }, () {}),
+                                      ),
+                                      BlocListener<InsuranceInvestmentBloc,
+                                          InsuranceInvestmentState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is InsuranceInvestmentLoadedState) {
+                                            // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
+                                          }
+                                        },
+                                        child: portFolioWidget(
+                                            icGeneralInsurance,
+                                            'General Insurance',
+                                            false, () {
+                                          BlocProvider.of<
+                                                      InsuranceInvestmentBloc>(
+                                                  context)
+                                              .add(LoadInsuranceInvestmentEvent(
+                                                  userId: ApiUser.userId,
+                                                  typeId: 4,
+                                                  subTypeId: 15,
+                                                  insuranceInvestment:
+                                                      InsuranceInvestment(
+                                                          code: 0,
+                                                          message: '',
+                                                          totalInsuranceAmt: 0,
+                                                          policies: [])));
+                                          Navigator.of(context).pushNamed(
+                                            InsuranceInvestmentScreen.route,
+                                            arguments: InsuranceInvestmentData(
+                                                isFromLI: false),
+                                          );
+                                        }, () {}),
+                                      ),
+                                      BlocListener<FetchingDataBloc,
+                                          FetchingDataState>(
+                                        listener: (context, state) {
+                                          if (state
+                                              is LoanInvestmentLoadedState) {
+                                            Navigator.of(context).pushNamed(
+                                                LoanInvestmentScreen.route);
+                                          }
+                                        },
+                                        child: portFolioWidget(
+                                            icLoan, 'Loan', false, () {
+                                          BlocProvider.of<FetchingDataBloc>(
+                                                  context)
+                                              .add(LoadLoanInvestmentEvent(
+                                                  userId: ApiUser.userId,
+                                                  loanInvestment:
+                                                      LoanInvestment(
+                                                          code: 0,
+                                                          message: '',
+                                                          totalLoanAmt: 0,
+                                                          loans: [])));
+                                        }, () {}),
+                                      ),
+                                      portFolioWidget(
+                                          icRealEstate, 'Real\nEstate', false,
+                                          () {
+                                        Navigator.of(context)
+                                            .pushNamed(RealEstateScreen.route);
+                                      }, () {}),
+                                      portFolioWidget(
+                                          icInterestReceived, 'MGain', true,
+                                          () {
+                                        BlocProvider.of<FetchingDataBloc>(
+                                                context)
+                                            .add(LoadMGainInvestmentEvent(
+                                                userId: ApiUser.userId,
+                                                mGainInvestment:
+                                                    MGainInvestment(
+                                                        code: 0,
+                                                        message: '',
+                                                        mGainTotalInvestment: 0,
+                                                        totalIntrestReceived: 0,
+                                                        mGains: [])));
+                                        Navigator.of(context).pushNamed(
+                                            MGainInvestmentScreen.route);
+                                      }, () {}),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 2.5.h),
+                        Container(
+                          width: 90.w,
+                          decoration: decoration(),
+                          child: Column(
+                            children: [
+                              contactsView(
+                                  icAddMmeber,
+                                  'Add Your Family',
+                                  '',
+                                  '+',
+                                  () => Navigator.of(context)
+                                      .pushNamed(AddMemberDetails.route)),
+                              Container(
+                                  height: 1,
+                                  color: colorTextBCBC.withOpacity(0.36)),
+                              contactsView(
+                                  icAddContacts, 'Add Your Contacts', '', '+',
+                                  () {
+                                print('add contact------');
+                                print(state.data!.data.availableContacts);
+
+                                if (state.data!.data.availableContacts != 0) {
+                                  Preference.setRenewContact(true);
+                                  Navigator.of(context).pushNamed(
+                                      VerificationScreen.route,
+                                      arguments: VerificationScreenData(
+                                          getNumber: "",
+                                          number: mono,
+                                          verificationId: "",
+                                          isLogin: true,
+                                          selectedContact: state
+                                              .data!.data.availableContacts,
+                                          isHomeContactOpen: true));
+                                } else {
+                                  CommonFunction()
+                                      .reachedMaxContactPopup(context);
+                                }
+                              }),
+                              Container(
+                                  height: 1,
+                                  color: colorTextBCBC.withOpacity(0.36)),
+                              contactsView(
+                                  icConnectFastTrack,
+                                  'Connect FastTrack',
+                                  'And earn on your team\'s business',
+                                  'Benefits',
+                                  () => Navigator.of(context)
+                                      .pushNamed(FastTrackBenefits.route))
+                            ],
                           ),
                         ),
                         SizedBox(height: 2.h),
@@ -598,13 +652,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: SingleChildScrollView(
                                     physics: const PageScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.only(left: 2.5.w),
+                                    padding: EdgeInsets.only(left: 1.0.w),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         portFolioWidget(
-                                            icAddMmeber, 'Add Member', () {
+                                            icAddMmeber, 'Add Member', true,
+                                            () {
                                           Navigator.of(context).pushNamed(
                                               AddMemberDetails.route);
                                         }, () {}),
@@ -683,53 +738,53 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           },
                                                           child: Column(
                                                             children: [
-                                                              Showcase(
-                                                                key: globalKey,
-                                                                onTargetClick:
-                                                                    () {
-                                                                  print(
-                                                                      '-----onClick----showcase');
-                                                                  Preference
-                                                                      .setShowCase(
-                                                                          true);
-                                                                },
-                                                                disposeOnTap:
-                                                                    true,
-                                                                targetShapeBorder:
-                                                                    const CircleBorder(),
-                                                                description:
-                                                                    'Long press to delete member.',
-                                                                descTextStyle:
-                                                                    textStyle10Medium(
-                                                                        colorBlack),
-                                                                child:
-                                                                    Container(
-                                                                  height: 6.5.h,
-                                                                  width: 6.5.h,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: colorRed
-                                                                        .withOpacity(
-                                                                            0.29),
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                  ),
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
-                                                                  child: Text(
-                                                                      ApiUser
-                                                                          .membersList[
-                                                                              i]
-                                                                          .name
-                                                                          .substring(
-                                                                              0,
-                                                                              1)
-                                                                          .toUpperCase(),
-                                                                      style: textStyle20(
-                                                                          colorRed)),
+                                                              // Showcase(
+                                                              //   key: globalKey,
+                                                              //   onTargetClick:
+                                                              //       () {
+                                                              //     print(
+                                                              //         '-----onClick----showcase');
+                                                              //     Preference
+                                                              //         .setShowCase(
+                                                              //             true);
+                                                              //   },
+                                                              //   disposeOnTap:
+                                                              //       true,
+                                                              //   targetShapeBorder:
+                                                              //       const CircleBorder(),
+                                                              //   description:
+                                                              //       'Long press to delete member.',
+                                                              //   descTextStyle:
+                                                              //       textStyle10Medium(
+                                                              //           colorBlack),
+                                                              //   child:
+                                                              Container(
+                                                                height: 6.5.h,
+                                                                width: 6.5.h,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: colorRed
+                                                                      .withOpacity(
+                                                                          0.29),
+                                                                  shape: BoxShape
+                                                                      .circle,
                                                                 ),
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: Text(
+                                                                    ApiUser
+                                                                        .membersList[
+                                                                            i]
+                                                                        .name
+                                                                        .substring(
+                                                                            0,
+                                                                            1)
+                                                                        .toUpperCase(),
+                                                                    style: textStyle20(
+                                                                        colorRed)),
                                                               ),
+                                                              // ),
                                                               SizedBox(
                                                                   height:
                                                                       1.2.h),
@@ -759,6 +814,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             .substring(0, 1),
                                                         ApiUser.membersList[i]
                                                             .name,
+                                                        true,
                                                         () {}, () {
                                                         CommonFunction()
                                                             .confirmationDialog(
@@ -798,57 +854,73 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsets.fromLTRB(5.w, 2.5.h, 0, 1.5.h),
-                              child: Text('Utilities',
-                                  style: textStyle11Bold(colorBlack)
-                                      .copyWith(letterSpacing: 0.7)),
-                            ),
-                          ],
-                        ),
+                        SizedBox(height: 2.h),
                         Container(
                           width: 90.w,
                           decoration: decoration(),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: SingleChildScrollView(
-                              physics: const PageScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2.h, horizontal: 2.5.w),
-                                child: Row(
+                          padding: EdgeInsets.symmetric(vertical: 2.h),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 3.5.w),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    portFolioWidget(icInsuranceCalculator,
-                                        'Insurance\nCalculator', () {
-                                      Navigator.of(context)
-                                          .pushNamed(InsuranceCalculator.route);
-                                    }, () {}),
-                                    portFolioWidget(icInsuranceCalculator,
-                                        'SIP\nCalculator', () {
-                                      Navigator.of(context)
-                                          .pushNamed(SIPCalculator.route);
-                                    }, () {}),
-                                    portFolioWidget(icInsuranceCalculator,
-                                        'EMI SIP\nCalculator', () {
-                                      Navigator.of(context)
-                                          .pushNamed(EMISIPCalculator.route);
-                                    }, () {}),
-                                    portFolioWidget(icInsuranceCalculator,
-                                        'Retirement\nCalculator', () {
-                                      Navigator.of(context).pushNamed(
-                                          RetirementCalculator.route,
-                                          arguments:
-                                              RetirementCalculatorData());
-                                    }, () {}),
+                                    Text('Utilities',
+                                        style: textStyle12Bold(colorBlack)
+                                            .copyWith(letterSpacing: 0.16)),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 1.h, bottom: 2.h),
+                                      child: Container(
+                                          height: 1,
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
+                                    ),
                                   ],
                                 ),
                               ),
-                            ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: SingleChildScrollView(
+                                    physics: const PageScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.only(left: 1.0.w),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        portFolioWidget(icInsuranceCalculator,
+                                            'Insurance\nCalculator', true, () {
+                                          Navigator.of(context).pushNamed(
+                                              InsuranceCalculator.route);
+                                        }, () {}),
+                                        portFolioWidget(icInsuranceCalculator,
+                                            'SIP\nCalculator', true, () {
+                                          Navigator.of(context)
+                                              .pushNamed(SIPCalculator.route);
+                                        }, () {}),
+                                        portFolioWidget(icInsuranceCalculator,
+                                            'EMI SIP\nCalculator', true, () {
+                                          Navigator.of(context).pushNamed(
+                                              EMISIPCalculator.route);
+                                        }, () {}),
+                                        portFolioWidget(icInsuranceCalculator,
+                                            'Retirement\nCalculator', true, () {
+                                          Navigator.of(context).pushNamed(
+                                              RetirementCalculator.route,
+                                              arguments:
+                                                  RetirementCalculatorData());
+                                        }, () {}),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 2.h),
@@ -1126,46 +1198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ],
                             ),
-                          ),
-                        ),
-                        SizedBox(height: 2.5.h),
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          child: Column(
-                            children: [
-                              contactsView(
-                                  icAddContacts, 'Add Your Contacts', '', () {
-                                print('add contact------');
-                                print(state.data!.data.availableContacts);
-
-                                if (state.data!.data.availableContacts != 0) {
-                                  Preference.setRenewContact(true);
-                                  Navigator.of(context).pushNamed(
-                                      VerificationScreen.route,
-                                      arguments: VerificationScreenData(
-                                          getNumber: "",
-                                          number: mono,
-                                          verificationId: "",
-                                          isLogin: true,
-                                          selectedContact: state
-                                              .data!.data.availableContacts,
-                                          isHomeContactOpen: true));
-                                } else {
-                                  CommonFunction()
-                                      .reachedMaxContactPopup(context);
-                                }
-                              }),
-                              Container(
-                                  height: 1,
-                                  color: colorTextBCBC.withOpacity(0.36)),
-                              contactsView(
-                                  icConnectFastTrack,
-                                  'Connect FastTrack',
-                                  'And earn on your team\'s business',
-                                  () => Navigator.of(context)
-                                      .pushNamed(FastTrackBenefits.route))
-                            ],
                           ),
                         ),
                         SizedBox(height: 2.5.h),
@@ -1655,26 +1687,47 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   button(String text, Function() onClick) {
-    return InkWell(
-      onTap: onClick,
-      child: Container(
-        height: text == '+' ? 4.h : 4.5.h,
-        width: text == '+' ? 4.h : 30.w,
-        decoration: BoxDecoration(
-            color: colorRed,
-            borderRadius: BorderRadius.circular(7),
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 3),
-                  blurRadius: 6,
-                  color: colorRed.withOpacity(0.35))
-            ]),
-        alignment: Alignment.center,
-        child: text == '+'
-            ? Image.asset(icAdd, color: colorWhite, width: 3.w)
-            : Text(text, style: textStyle9Bold(colorWhite)),
-      ),
-    );
+    return text == 'Benefits'
+        ? InkWell(
+            onTap: onClick,
+            child: Container(
+              height: text == '+' ? 4.h : 4.5.h,
+              width: text == '+' ? 8.5.h : 18.w,
+              decoration: BoxDecoration(
+                  color: colorRed,
+                  borderRadius: BorderRadius.circular(7),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(0, 3),
+                        blurRadius: 6,
+                        color: colorRed.withOpacity(0.35))
+                  ]),
+              alignment: Alignment.center,
+              child: text == '+'
+                  ? Image.asset(icAdd, color: colorWhite, width: 3.w)
+                  : Text(text, style: textStyle9Bold(colorWhite)),
+            ),
+          )
+        : InkWell(
+            onTap: onClick,
+            child: Container(
+              height: text == '+' ? 4.h : 4.5.h,
+              width: text == '+' ? 4.h : 30.w,
+              decoration: BoxDecoration(
+                  color: colorRed,
+                  borderRadius: BorderRadius.circular(7),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(0, 3),
+                        blurRadius: 6,
+                        color: colorRed.withOpacity(0.35))
+                  ]),
+              alignment: Alignment.center,
+              child: text == '+'
+                  ? Image.asset(icAdd, color: colorWhite, width: 3.w)
+                  : Text(text, style: textStyle9Bold(colorWhite)),
+            ),
+          );
   }
 
   pointsView(
@@ -1774,7 +1827,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  contactsView(String icon, String title, String subTitle, Function() onClick) {
+  contactsView(String icon, String title, String subTitle, String buttonText,
+      Function() onClick) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Row(
@@ -1789,7 +1843,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
-              child: Image.asset(icon, height: 2.5.h),
+              child: Image.asset(
+                icon,
+                height: 2.5.h,
+                color: colorRed,
+              ),
             ),
           ),
           Column(
@@ -1798,7 +1856,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(title, style: textStyle11Bold(colorBlack)),
               const SizedBox(height: 4),
               SizedBox(
-                width: 60.w,
+                width: buttonText == '+' ? 60.w : 50.w,
                 child: title == 'Add Your Contacts'
                     ? RichText(
                         text: TextSpan(
@@ -1817,7 +1875,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const Spacer(),
-          button('+', onClick),
+          button(buttonText, onClick),
           SizedBox(width: 3.w)
         ],
       ),
@@ -1825,26 +1883,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   portFolioWidget(
-      String icon, String title, Function() onClick, Function() onLongPress) {
+    String icon,
+    String title,
+    bool redColor,
+    Function() onClick,
+    Function() onLongPress,
+  ) {
     return GestureDetector(
       onTap: onClick,
       onLongPress: onLongPress,
       child: Padding(
-        padding: EdgeInsets.only(right: 2.5.w),
+        padding: EdgeInsets.symmetric(horizontal: 1.2.w),
         child: Column(
           children: [
             Container(
               height: 6.5.h,
               width: 6.5.h,
               decoration: BoxDecoration(
-                color: colorRed.withOpacity(0.29),
+                color: redColor == true ? colorRedFFC : colorGreenEFC,
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
               child: icon.length == 1
                   ? Text(icon.toUpperCase(), style: textStyle20(colorRed))
                   : Image.asset(icon,
-                      color: colorRed,
+                      color: redColor == true ? colorRed : null,
                       height: icon == icAddMmeber
                           ? 3.5.h
                           : icon == icInsuranceCalculator

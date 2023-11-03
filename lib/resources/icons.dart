@@ -10,6 +10,7 @@ const String icCalendar = '${_path}calendar.png';
 const String icBack = '${_path}back.png';
 const String icQuestionMark = '${_path}question_mark.png';
 const String icSearch = '${_path}search.png';
+const String familyIcon = '${_path}family_icon.png';
 const String icCheckContact = '${_path}check_contact.png';
 
 const String icMenu = '${_path}menu.png';
@@ -40,14 +41,18 @@ const String _homePath = 'assets/icons/home/';
 const String _brokerPath = 'assets/icons/brokers/';
 
 const String icFastTrackEarning = '${_homePath}fastTrack_earning.png';
-const String icCoinCash = '${_homePath}coin_cash.png';
+const String icCoinCash = '${_homePath}coin_cash_icon.png';
 
-const String icMutualFunds = '${_homePath}mutual_funds.png';
-const String icRealEstate = '${_homePath}realEstate.png';
-const String icStocks = '${_homePath}stocks.png';
-const String icLifeInsurance = '${_homePath}life_insurance.png';
-const String icGeneralInsurance = '${_homePath}general_insurance.png';
-const String icLoan = '${_homePath}loan.png';
+const String icMutualFunds = '${_homePath}mutual_funds_icon.png';
+const String icStocks = '${_homePath}stocks_icon.png';
+const String icLifeInsurance = '${_homePath}life_insurance_icon.png';
+const String icGeneralInsurance = '${_homePath}general_insurance_icon.png';
+const String icRealEstate = '${_homePath}real_estate_icon.png';
+
+
+const String icLoan = '${_homePath}loan_icon.png';
+
+const String rupeeIcon = '${_homePath}rupee_icon.png';
 
 const String icAddContacts = '${_homePath}add_contacts.png';
 const String icConnectFastTrack = '${_homePath}connect_fastTrack.png';
@@ -68,7 +73,6 @@ const String icAlice = '${_brokerPath}ic_alice.jpg';
 const String icTrustline = '${_brokerPath}ic_trustline.png';
 const String icIifl = '${_brokerPath}ic_iifl.jpg';
 const String icFyers = '${_brokerPath}ic_fyers.jpg';
-
 
 const String _drawerPath = 'assets/icons/drawer/';
 
@@ -91,7 +95,6 @@ const String icMunafeKiClass = '${_drawerPath}munafeKiClass.png';
 const String icTermsAndConditions = '${_drawerPath}termsAndConditions.png';
 const String icLogout = '${_drawerPath}logout.png';
 
-
 const String _mallPath = 'assets/icons/mall/';
 
 const String icDelete = '${_mallPath}delete.png';
@@ -112,7 +115,6 @@ const String icDollarCoin = '${_mallPath}dollar_coin.png';
 const String icCard = '${_mallPath}card.png';
 const String icFilledOrderHistory = '${_mallPath}filledOrderHistory.png';
 
-
 const String _portFolioPath = 'assets/icons/portfolio/';
 
 const String icStocksInvestment = '${_portFolioPath}stocks.png';
@@ -121,7 +123,6 @@ const String icCarLoan = '${_portFolioPath}car_loan.png';
 const String icBikeLoan = '${_portFolioPath}bike_loan.png';
 const String icFactory1 = '${_portFolioPath}factory1.png';
 const String icFactory = '${_portFolioPath}factory.png';
-
 
 const String _reviewPath = 'assets/icons/review/';
 
@@ -132,7 +133,6 @@ const String icDownload = '${_reviewPath}download.png';
 const String icInsurance = '${_reviewPath}insurance.png';
 const String icAddMmeber = '${_reviewPath}addMember.png';
 
-
 const String _mGainPath = 'assets/icons/mGain/';
 
 const String icCalender = '${_mGainPath}calender.png';
@@ -140,7 +140,6 @@ const String icDocument = '${_mGainPath}document.png';
 const String icMGainFilter = '${_mGainPath}filter.png';
 const String icInterestReceived = '${_mGainPath}interest_received.png';
 const String icInvestment = '${_mGainPath}investment.png';
-
 
 const String _progressPath = 'assets/icons/progress/';
 
