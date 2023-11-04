@@ -398,7 +398,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       } else {
         count = 0;
         contactCount = 0;
-                   print("------ CONTACTS::::::::::::::::${value[0]}");
+        print("------ CONTACTS::::::::::::::::${value[0]}");
 
         for (int i = 0; i < value.length; i++) {
           if (i > 0) {
@@ -1625,8 +1625,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                               ],
                                             ),
                                           ),
-                                          // if (index == 1 || index == 3)
-                                          //   Image.asset(familyIcon, width: 7.w),
                                           const Spacer(),
                                           Expanded(
                                             flex: 2,

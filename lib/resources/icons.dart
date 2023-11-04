@@ -48,6 +48,7 @@ const String icStocks = '${_homePath}stocks_icon.png';
 const String icLifeInsurance = '${_homePath}life_insurance_icon.png';
 const String icGeneralInsurance = '${_homePath}general_insurance_icon.png';
 const String icRealEstate = '${_homePath}real_estate_icon.png';
+const String icMGain = '${_homePath}m_gain_icon.png';
 
 
 const String icLoan = '${_homePath}loan_icon.png';

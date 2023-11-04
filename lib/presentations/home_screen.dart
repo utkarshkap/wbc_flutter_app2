@@ -544,8 +544,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigator.of(context)
                                             .pushNamed(RealEstateScreen.route);
                                       }, () {}),
-                                      portFolioWidget(
-                                          icInterestReceived, 'MGain', true,
+                                      portFolioWidget(icMGain, 'MGain', false,
                                           () {
                                         BlocProvider.of<FetchingDataBloc>(
                                                 context)
@@ -1912,7 +1911,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 3.5.h
                           : icon == icInsuranceCalculator
                               ? 3.2.h
-                              : 4.h),
+                              : title == 'MGain'
+                                  ? 1.8.h
+                                  : 4.h),
             ),
             SizedBox(height: 1.2.h),
             SizedBox(
