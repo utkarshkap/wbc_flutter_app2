@@ -208,14 +208,18 @@ class _WBCConnectState extends State<WBCConnect> {
                                 GpDashBoardData.goldPoint.toString()),
                             style: textStyle26Bold(colorBlack)),
                         Padding(
-                          padding: EdgeInsets.only(top: 3.h, bottom: 3.h),
+                          padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              wealthScoreIndicator(colorTextFFC1, 'Redeemable'),
+                              wealthScoreIndicator(colorTextFFC1, 'Redeemable',
+                                  GpDashBoardData.redeemable.toString()),
                               wealthScoreIndicator(
-                                  colorBoxGradiant0040, 'Non-Redeemable'),
-                              wealthScoreIndicator(colorRed, 'On The Spot'),
+                                  colorBoxGradiant0040,
+                                  'Non-Redeemable',
+                                  GpDashBoardData.nonRedeemable.toString()),
+                              wealthScoreIndicator(colorRed, 'On The Spot',
+                                  GpDashBoardData.onTheSpot.toString()),
                             ],
                           ),
                         ),
@@ -357,7 +361,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                                             .history![index]
                                                             .imgUrl
                                                             .isEmpty
-                                                        ? Image.asset(imgBurger,
+                                                        ? Image.asset(
+                                                            icGoldCoin,
                                                             height: 4.h)
                                                         : Image.network(
                                                             GpDashBoardData
@@ -775,15 +780,26 @@ class _WBCConnectState extends State<WBCConnect> {
     return list;
   }
 
-  wealthScoreIndicator(Color color, String text) {
-    return Row(
+  wealthScoreIndicator(Color color, String text, String point) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: 1.5.w,
-          backgroundColor: color,
+        Row(
+          children: [
+            CircleAvatar(
+              radius: 1.5.w,
+              backgroundColor: color,
+            ),
+            SizedBox(width: 1.5.w),
+            Text(text, style: textStyle9(colorText7070))
+          ],
         ),
-        SizedBox(width: 1.5.w),
-        Text(text, style: textStyle9(colorText7070))
+        SizedBox(height: 0.5.h),
+        Padding(
+          padding: EdgeInsets.only(left: 5.w),
+          child: Text(CommonFunction().splitString(point),
+              style: textStyle9(colorText7070)),
+        )
       ],
     );
   }

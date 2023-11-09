@@ -103,8 +103,8 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       // final connectData = arguments as WBCConnectData;
       return MaterialPageRoute(
         builder: (_) => WBCConnect(
-          // connectData: connectData
-          ),
+            // connectData: connectData
+            ),
       );
 
     case '/WBC-Progress':
@@ -210,8 +210,9 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       );
 
     case '/Add-Member-Details':
+      final data = arguments as AddMemberDetailsData;
       return MaterialPageRoute(
-        builder: (_) => const AddMemberDetails(),
+        builder: (_) => AddMemberDetails(addMemberDetailsData: data),
       );
 
     case '/Verification-Member':

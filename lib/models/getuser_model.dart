@@ -58,8 +58,7 @@ class Data {
       required this.availableContacts,
       this.dob,
       required this.tnc,
-      required this.fastTrack
-      });
+      required this.fastTrack});
 
   final int uid;
   final String name;
@@ -123,30 +122,31 @@ class Data {
 }
 
 class GoldReferral {
-  GoldReferral({
-    required this.refName,
-    required this.refMobile,
-    required this.refDate,
-  });
+  GoldReferral(
+      {required this.refName,
+      required this.refMobile,
+      required this.refDate,
+      required this.userexist});
 
   final String refName;
   final String refMobile;
   final DateTime refDate;
-
+  final bool userexist;
   factory GoldReferral.fromJson(Map<String, dynamic> json) => GoldReferral(
-        refName: json["ref_name"],
-        refMobile: json["ref_mobile"],
-        refDate: DateTime.parse(json["ref_date"]),
-      );
+      refName: json["ref_name"],
+      refMobile: json["ref_mobile"],
+      refDate: DateTime.parse(json["ref_date"]),
+      userexist: json['userexist']);
 
   Map<String, dynamic> toJson() => {
         "ref_name": refName,
         "ref_mobile": refMobile,
         "ref_date": refDate.toIso8601String(),
+        "userexist": userexist
       };
 
   @override
   String toString() {
-    return 'GoldReferral{refName: $refName, refMobile: $refMobile, refDate: $refDate}';
+    return 'GoldReferral{refName: $refName, refMobile: $refMobile, refDate: $refDate,userexist $userexist}';
   }
 }

@@ -13,10 +13,19 @@ import '../../widgets/country_picker/country.dart';
 import '../../widgets/country_picker/country_code_picker.dart';
 import '../home_screen.dart';
 
+class AddMemberDetailsData {
+  List familyList;
+
+  AddMemberDetailsData({required this.familyList});
+}
+
 class AddMemberDetails extends StatefulWidget {
   static const route = '/Add-Member-Details';
 
-  const AddMemberDetails({Key? key}) : super(key: key);
+  final AddMemberDetailsData addMemberDetailsData;
+
+  const AddMemberDetails({Key? key, required this.addMemberDetailsData})
+      : super(key: key);
 
   @override
   State<AddMemberDetails> createState() => _AddMemberDetailsState();
@@ -197,304 +206,407 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
           },
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 1.5.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                  child: Text(
-                      'Enter the details of your family members to\ntrack all the investments at one stop.',
-                      style: textStyle10(colorText4747).copyWith(height: 1.2)),
-                ),
-                textFormFieldContainer('Name of the Member', nameFieldTap, () {
-                  setState(() {
-                    nameFieldTap = true;
-                    numFieldTap = false;
-                    relationFieldTap = false;
-                  });
-                  nameFocus.requestFocus();
-                }, _nameController, TextInputType.name),
-                if (nameValidation.isNotEmpty)
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 1.5.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2.h),
+                    child: Text(
+                        'Enter the details of your family members to\ntrack all the investments at one stop.',
+                        style:
+                            textStyle10(colorText4747).copyWith(height: 1.2)),
+                  ),
+                  textFormFieldContainer('Name of the Member', nameFieldTap,
+                      () {
+                    setState(() {
+                      nameFieldTap = true;
+                      numFieldTap = false;
+                      relationFieldTap = false;
+                    });
+                    nameFocus.requestFocus();
+                  }, _nameController, TextInputType.name),
+                  if (nameValidation.isNotEmpty)
+                    SizedBox(
+                      height: 0.5.h,
+                    ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 2.w),
+                      child: nameValidation == 'Empty Name'
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.error,
+                                    color: colorRed, size: 13),
+                                const SizedBox(width: 4),
+                                Container(
+                                  height: 2.h,
+                                  alignment: Alignment.center,
+                                  child: Text('Please Enter a Name',
+                                      style: textStyle9(colorErrorRed)),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                    ),
+                  ),
                   SizedBox(
-                    height: 0.5.h,
+                    height: 1.5.h,
                   ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 2.w),
-                    child: nameValidation == 'Empty Name'
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                  Container(
+                    height: 9.h,
+                    decoration: BoxDecoration(
+                        color: colorWhite,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            color: !numFieldTap ? colorDFDF : colorErrorRed,
+                            width: 1)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 3.w),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(Icons.error,
-                                  color: colorRed, size: 13),
-                              const SizedBox(width: 4),
-                              Container(
-                                height: 2.h,
-                                alignment: Alignment.center,
-                                child: Text('Please Enter a Name',
-                                    style: textStyle9(colorErrorRed)),
-                              ),
-                            ],
-                          )
-                        : Container(),
-                  ),
-                ),
-                SizedBox(
-                  height: 1.5.h,
-                ),
-                Container(
-                  height: 9.h,
-                  decoration: BoxDecoration(
-                      color: colorWhite,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: !numFieldTap ? colorDFDF : colorErrorRed,
-                          width: 1)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 3.w),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Mobile Number',
-                                style: textStyle8(colorTextBCBC)),
-                            SizedBox(height: 0.5.h),
-                            SizedBox(
-                              height: 5.h,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  InkWell(
-                                    onTap: _showCountryPicker,
-                                    child: Container(
-                                      height: 4.5.h,
-                                      width: 20.w,
-                                      decoration: BoxDecoration(
-                                          color: colorTextBCBC.withOpacity(0.3),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 1.w),
-                                            child: Text(
-                                              countryCode,
-                                              style:
-                                                  textStyle13Bold(colorBlack),
+                              Text('Mobile Number',
+                                  style: textStyle8(colorTextBCBC)),
+                              SizedBox(height: 0.5.h),
+                              SizedBox(
+                                height: 5.h,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      onTap: _showCountryPicker,
+                                      child: Container(
+                                        height: 4.5.h,
+                                        width: 20.w,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                colorTextBCBC.withOpacity(0.3),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        alignment: Alignment.center,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 1.w),
+                                              child: Text(
+                                                countryCode,
+                                                style:
+                                                    textStyle13Bold(colorBlack),
+                                              ),
                                             ),
-                                          ),
-                                          const Icon(Icons.arrow_drop_down)
-                                        ],
+                                            const Icon(Icons.arrow_drop_down)
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 2.w),
-                                  SizedBox(
-                                      width: 60.w,
-                                      child: TextFormField(
-                                        onTap: () {
-                                          setState(() {
-                                            nameFieldTap = false;
-                                            numFieldTap = true;
-                                            relationFieldTap = false;
-                                          });
-                                          nameFocus.unfocus();
-                                          numFocus.requestFocus();
-                                        },
-                                        controller: _numController,
-                                        style: textStyle14Bold(colorBlack),
-                                        focusNode: numNode,
-                                        maxLength:
-                                            countryCode == '+91' ? 10 : 15,
-                                        decoration: InputDecoration(
-                                            hintText:
-                                                'Enter Your Mobile Number',
-                                            hintStyle:
-                                                textStyle11(colorText7070),
-                                            border: InputBorder.none,
-                                            counter: const SizedBox.shrink(),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 1.4.h)),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            numValidation = '';
-                                          });
-                                        },
-                                        keyboardType: TextInputType.number,
-                                        textInputAction: TextInputAction.next,
-                                      ))
-                                ],
+                                    SizedBox(width: 2.w),
+                                    SizedBox(
+                                        width: 60.w,
+                                        child: TextFormField(
+                                          onTap: () {
+                                            setState(() {
+                                              nameFieldTap = false;
+                                              numFieldTap = true;
+                                              relationFieldTap = false;
+                                            });
+                                            nameFocus.unfocus();
+                                            numFocus.requestFocus();
+                                          },
+                                          controller: _numController,
+                                          style: textStyle14Bold(colorBlack),
+                                          focusNode: numNode,
+                                          maxLength:
+                                              countryCode == '+91' ? 10 : 15,
+                                          decoration: InputDecoration(
+                                              hintText:
+                                                  'Enter Your Mobile Number',
+                                              hintStyle:
+                                                  textStyle11(colorText7070),
+                                              border: InputBorder.none,
+                                              counter: const SizedBox.shrink(),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 1.4.h)),
+                                          onChanged: (val) {
+                                            setState(() {
+                                              numValidation = '';
+                                            });
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          textInputAction: TextInputAction.next,
+                                        ))
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                if (numValidation.isNotEmpty)
-                  SizedBox(
-                    height: 0.5.h,
+                  if (numValidation.isNotEmpty)
+                    SizedBox(
+                      height: 0.5.h,
+                    ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 2.w),
+                      child: numValidation == 'Empty String' ||
+                              numValidation == 'Invalid String' ||
+                              numValidation == 'Invalid Number' ||
+                              numValidation == 'Logged Number'
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.error,
+                                    color: colorRed, size: 13),
+                                const SizedBox(width: 4),
+                                Column(
+                                  children: [
+                                    if (numValidation == 'Empty String')
+                                      Container(
+                                        height: 2.h,
+                                        alignment: Alignment.center,
+                                        child: Text('Please Enter a Number',
+                                            style: textStyle9(colorErrorRed)),
+                                      ),
+                                    if (numValidation == 'Invalid String')
+                                      Container(
+                                        height: 2.h,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                            'Please Enter a valid Number',
+                                            style: textStyle9(colorErrorRed)),
+                                      ),
+                                    if (numValidation == 'Invalid Number')
+                                      Container(
+                                        height: 2.h,
+                                        alignment: Alignment.center,
+                                        child: Text('Invalid Number',
+                                            style: textStyle9(colorErrorRed)),
+                                      ),
+                                    if (numValidation == 'Logged Number')
+                                      Container(
+                                        height: 3.h,
+                                        width: 80.w,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                            'This number is already Wbc user please enter others family member number',
+                                            style: textStyle9(colorErrorRed)
+                                                .copyWith(height: 1.2)),
+                                      ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Container(),
+                    ),
                   ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 2.w),
-                    child: numValidation == 'Empty String' ||
-                            numValidation == 'Invalid String' ||
-                            numValidation == 'Invalid Number' ||
-                            numValidation == 'Logged Number'
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.error,
-                                  color: colorRed, size: 13),
-                              const SizedBox(width: 4),
-                              Column(
-                                children: [
-                                  if (numValidation == 'Empty String')
-                                    Container(
-                                      height: 2.h,
-                                      alignment: Alignment.center,
-                                      child: Text('Please Enter a Number',
-                                          style: textStyle9(colorErrorRed)),
-                                    ),
-                                  if (numValidation == 'Invalid String')
-                                    Container(
-                                      height: 2.h,
-                                      alignment: Alignment.center,
-                                      child: Text('Please Enter a valid Number',
-                                          style: textStyle9(colorErrorRed)),
-                                    ),
-                                  if (numValidation == 'Invalid Number')
-                                    Container(
-                                      height: 2.h,
-                                      alignment: Alignment.center,
-                                      child: Text('Invalid Number',
-                                          style: textStyle9(colorErrorRed)),
-                                    ),
-                                  if (numValidation == 'Logged Number')
-                                    Container(
-                                      height: 3.h,
-                                      width: 80.w,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                          'This number is already Wbc user please enter others family member number',
-                                          style: textStyle9(colorErrorRed).copyWith(height: 1.2)),
-                                    ),
-                                ],
-                              ),
-                            ],
-                          )
-                        : Container(),
-                  ),
-                ),
-                dropDownWidget('Relation', selectedRelation, relationFieldTap,
-                    () {
-                  setState(() {
-                    nameFieldTap = false;
-                    numFieldTap = false;
-                    relationFieldTap = true;
-                  });
-                  nameFocus.unfocus();
-                  numFocus.unfocus();
-                  CommonFunction().selectFormDialog(
-                      context, 'Select Relation', relationType, (val) {
+                  dropDownWidget('Relation', selectedRelation, relationFieldTap,
+                      () {
                     setState(() {
-                      selectedRelation = val;
-                    });
-                    Navigator.of(context).pop();
-                  });
-                }),
-                if (relationValidation.isNotEmpty)
-                  SizedBox(
-                    height: 0.5.h,
-                  ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 2.w),
-                    child: relationValidation == 'Empty Relation'
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.error,
-                                  color: colorRed, size: 13),
-                              const SizedBox(width: 4),
-                              Container(
-                                height: 2.h,
-                                alignment: Alignment.center,
-                                child: Text('Please Select a Relation',
-                                    style: textStyle9(colorErrorRed)),
-                              ),
-                            ],
-                          )
-                        : Container(),
-                  ),
-                ),
-                const Spacer(),
-                button(icSendReview, 'Next', () {
-                  if (_nameController.text.isEmpty) {
-                    setState(() {
-                      nameValidation = 'Empty Name';
-                    });
-                  } else {
-                    setState(() {
-                      nameValidation = '';
                       nameFieldTap = false;
+                      numFieldTap = false;
+                      relationFieldTap = true;
                     });
-                  }
-                  if (_numController.text.isEmpty) {
-                    setState(() {
-                      numValidation = 'Empty String';
+                    nameFocus.unfocus();
+                    numFocus.unfocus();
+                    CommonFunction().selectFormDialog(
+                        context, 'Select Relation', relationType, (val) {
+                      setState(() {
+                        selectedRelation = val;
+                      });
+                      Navigator.of(context).pop();
                     });
-                  } else {
-                    print('--==-----num------${_numController.text.length}');
-                    if (_numController.text.replaceAll(' ', '').length < 10 ||
-                        _numController.text.replaceAll(' ', '').length > 10) {
+                  }),
+                  if (relationValidation.isNotEmpty)
+                    SizedBox(
+                      height: 0.5.h,
+                    ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 2.w),
+                      child: relationValidation == 'Empty Relation'
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.error,
+                                    color: colorRed, size: 13),
+                                const SizedBox(width: 4),
+                                Container(
+                                  height: 2.h,
+                                  alignment: Alignment.center,
+                                  child: Text('Please Select a Relation',
+                                      style: textStyle9(colorErrorRed)),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+                  if (widget.addMemberDetailsData.familyList.isNotEmpty)
+                    Container(
+                      width: 90.w,
+                      decoration: BoxDecoration(
+                          color: colorWhite,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                color: colorTextBCBC.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 6))
+                          ]),
+                      padding: EdgeInsets.only(top: 2.h),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3.5.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('My Family Members',
+                                    style: textStyle12Bold(colorBlack)
+                                        .copyWith(letterSpacing: 0.16)),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 1.h, bottom: 2.h),
+                                  child: Container(
+                                      height: 1,
+                                      color: colorTextBCBC.withOpacity(0.36)),
+                                ),
+                                ...List.generate(
+                                    widget
+                                        .addMemberDetailsData.familyList.length,
+                                    (index) => familyView(
+                                          widget.addMemberDetailsData
+                                              .familyList[index].name,
+                                        ))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  // Container(
+                  //   width: 90.w,
+                  //   decoration: BoxDecoration(
+                  //       color: colorWhite,
+                  //       borderRadius: const BorderRadius.only(
+                  //           topLeft: Radius.circular(10),
+                  //           topRight: Radius.circular(10)),
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //             color: colorTextBCBC.withOpacity(0.3),
+                  //             blurRadius: 8,
+                  //             offset: const Offset(0, 6))
+                  //       ]),
+                  //   padding: EdgeInsets.only(top: 2.h),
+                  //   child: Column(
+                  //     children: [
+                  //       Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: 3.5.w),
+                  //         child: Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             Text('My Family Members',
+                  //                 style: textStyle12Bold(colorBlack)
+                  //                     .copyWith(letterSpacing: 0.16)),
+                  //             Padding(
+                  //               padding: EdgeInsets.only(top: 1.h, bottom: 2.h),
+                  //               child: Container(
+                  //                   height: 1,
+                  //                   color: colorTextBCBC.withOpacity(0.36)),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //       itemCount: widget.addMemberDetailsData.familyList.length,
+                  //       itemBuilder: (context, index) {
+                  //         return familyView(
+                  //             widget.addMemberDetailsData.familyList[index].name,
+                  //             index,
+                  //             widget.addMemberDetailsData.familyList);
+                  //       }),
+                  // ),
+
+                  // const Spacer(),
+                  SizedBox(height: 3.h),
+
+                  button(icSendReview, 'Next', () {
+                    if (_nameController.text.isEmpty) {
                       setState(() {
-                        numValidation = 'Invalid Number';
+                        nameValidation = 'Empty Name';
                       });
-                    } else if (_numController.text == mobileNo) {
+                    } else {
                       setState(() {
-                        numValidation = 'Logged Number';
+                        nameValidation = '';
+                        nameFieldTap = false;
                       });
-                    } else if (_nameController.text.isNotEmpty &&
-                        _numController.text.isNotEmpty &&
-                        selectedRelation != 'Select Relation') {
-                      print(
-                          'Submitted your Number: ${_numController.text.trim()}');
-                      setState(() {
-                        numValidation = '';
-                      });
-                      sendOtp();
                     }
-                  }
-                  if (selectedRelation == 'Select Relation') {
-                    setState(() {
-                      relationValidation = 'Empty Relation';
-                    });
-                  } else {
-                    setState(() {
-                      relationValidation = '';
-                    });
-                  }
-                  if (_nameController.text.isNotEmpty &&
-                      _numController.text.isNotEmpty &&
-                      selectedRelation != 'Select Relation') {}
-                }),
-                SizedBox(height: 2.h)
-              ],
+                    if (_numController.text.isEmpty) {
+                      setState(() {
+                        numValidation = 'Empty String';
+                      });
+                    } else {
+                      print('--==-----num------${_numController.text.length}');
+                      if (_numController.text.replaceAll(' ', '').length < 10 ||
+                          _numController.text.replaceAll(' ', '').length > 10) {
+                        setState(() {
+                          numValidation = 'Invalid Number';
+                        });
+                      } else if (_numController.text == mobileNo) {
+                        setState(() {
+                          numValidation = 'Logged Number';
+                        });
+                      } else if (_nameController.text.isNotEmpty &&
+                          _numController.text.isNotEmpty &&
+                          selectedRelation != 'Select Relation') {
+                        print(
+                            'Submitted your Number: ${_numController.text.trim()}');
+                        setState(() {
+                          numValidation = '';
+                        });
+                        sendOtp();
+                      }
+                    }
+                    if (selectedRelation == 'Select Relation') {
+                      setState(() {
+                        relationValidation = 'Empty Relation';
+                      });
+                    } else {
+                      setState(() {
+                        relationValidation = '';
+                      });
+                    }
+                    if (_nameController.text.isNotEmpty &&
+                        _numController.text.isNotEmpty &&
+                        selectedRelation != 'Select Relation') {}
+                  }),
+                  SizedBox(height: 2.h)
+                ],
+              ),
             ),
           ),
         ),
@@ -637,6 +749,51 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
           ),
         ),
       ),
+    );
+  }
+
+  familyView(
+    String title,
+  ) {
+    return
+        // Container(
+        //   decoration: BoxDecoration(
+        //       color: colorWhite,
+        //       borderRadius: BorderRadius.only(
+        //         bottomLeft:
+        //             Radius.circular(familyList.length - 1 == index ? 10 : 0),
+        //         bottomRight:
+        //             Radius.circular(familyList.length - 1 == index ? 10 : 0),
+        //       ),
+        //       boxShadow: [
+        //         BoxShadow(
+        //             color: colorTextBCBC.withOpacity(0.3),
+        //             blurRadius: 8,
+        //             offset: const Offset(0, 6))
+        //       ]),
+        //   child:
+        Padding(
+      padding: EdgeInsets.only(bottom: 1.h),
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 3.w),
+            child: Container(
+              height: 4.5.h,
+              width: 4.5.h,
+              decoration: BoxDecoration(
+                color: colorRed.withOpacity(0.29),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(title.substring(0, 1).toUpperCase(),
+                  style: textStyle18(colorRed)),
+            ),
+          ),
+          Text(title, style: textStyle11Bold(colorBlack)),
+        ],
+      ),
+      // ),
     );
   }
 }

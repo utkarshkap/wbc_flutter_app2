@@ -1,134 +1,148 @@
 import 'dart:convert';
 
-GetFyersHoldingsModel getFyersHoldingsFromJson(String str) => GetFyersHoldingsModel.fromJson(json.decode(str));
-
-String getFyersHoldingsToJson(GetFyersHoldingsModel data) => json.encode(data.toJson());
+GetFyersHoldingsModel getFyersHoldingsModelFromJson(String str) =>
+    GetFyersHoldingsModel.fromJson(json.decode(str));
+String getFyersHoldingsModelToJson(GetFyersHoldingsModel data) =>
+    json.encode(data.toJson());
 
 class GetFyersHoldingsModel {
   String? s;
   int? code;
   String? message;
-  List<Holdings>? holdings;
+  List<Holding>? holdings;
   Overall? overall;
 
-  GetFyersHoldingsModel(
-      {this.s, this.code, this.message, this.holdings, this.overall});
+  GetFyersHoldingsModel({
+    this.s,
+    this.code,
+    this.message,
+    this.holdings,
+    this.overall,
+  });
 
-  GetFyersHoldingsModel.fromJson(Map<String, dynamic> json) {
-    s = json['s'];
-    code = json['code'];
-    message = json['message'];
-    if (json['holdings'] != null) {
-      holdings = <Holdings>[];
-      json['holdings'].forEach((v) {
-        holdings!.add(new Holdings.fromJson(v));
-      });
-    }
-    overall =
-    json['overall'] != null ? new Overall.fromJson(json['overall']) : null;
-  }
+  factory GetFyersHoldingsModel.fromJson(Map<String, dynamic> json) =>
+      GetFyersHoldingsModel(
+        s: json["s"],
+        code: json["code"],
+        message: json["message"],
+        holdings: List<Holding>.from(
+            json["holdings"].map((x) => Holding.fromJson(x))),
+        overall: Overall.fromJson(json["overall"]),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['s'] = this.s;
-    data['code'] = this.code;
-    data['message'] = this.message;
-    if (this.holdings != null) {
-      data['holdings'] = this.holdings!.map((v) => v.toJson()).toList();
-    }
-    if (this.overall != null) {
-      data['overall'] = this.overall!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "s": s,
+        "code": code,
+        "message": message,
+        "holdings": List<dynamic>.from(holdings!.map((x) => x.toJson())),
+        "overall": overall!.toJson(),
+      };
 }
 
-class Holdings {
-  String? holdingType;
+class Holding {
   int? quantity;
   double? costPrice;
-  double? marketVal;
   int? remainingQuantity;
   double? pl;
   double? ltp;
   int? id;
-  int? fyToken;
+  String? fyToken;
   int? exchange;
+  int? segment;
   String? symbol;
+  double? marketVal;
+  String? isin;
+  int? qtyT1;
+  int? remainingPledgeQuantity;
+  int? collateralQuantity;
+  String? holdingType;
 
-  Holdings(
-      {this.holdingType,
-        this.quantity,
-        this.costPrice,
-        this.marketVal,
-        this.remainingQuantity,
-        this.pl,
-        this.ltp,
-        this.id,
-        this.fyToken,
-        this.exchange,
-        this.symbol});
+  Holding({
+    this.quantity,
+    this.costPrice,
+    this.remainingQuantity,
+    this.pl,
+    this.ltp,
+    this.id,
+    this.fyToken,
+    this.exchange,
+    this.segment,
+    this.symbol,
+    this.marketVal,
+    this.isin,
+    this.qtyT1,
+    this.remainingPledgeQuantity,
+    this.collateralQuantity,
+    this.holdingType,
+  });
 
-  Holdings.fromJson(Map<String, dynamic> json) {
-    holdingType = json['holdingType'];
-    quantity = json['quantity'];
-    costPrice = json['costPrice'];
-    marketVal = json['marketVal'];
-    remainingQuantity = json['remainingQuantity'];
-    pl = json['pl'];
-    ltp = json['ltp'];
-    id = json['id'];
-    fyToken = json['fyToken'];
-    exchange = json['exchange'];
-    symbol = json['symbol'];
-  }
+  factory Holding.fromJson(Map<String, dynamic> json) => Holding(
+        quantity: json["quantity"],
+        costPrice: json["costPrice"].toDouble(),
+        remainingQuantity: json["remainingQuantity"],
+        pl: json["pl"].toDouble(),
+        ltp: json["ltp"].toDouble(),
+        id: json["id"],
+        fyToken: json["fyToken"],
+        exchange: json["exchange"],
+        segment: json["segment"],
+        symbol: json["symbol"],
+        marketVal: json["marketVal"].toDouble(),
+        isin: json["isin"],
+        qtyT1: json["qty_t1"],
+        remainingPledgeQuantity: json["remainingPledgeQuantity"],
+        collateralQuantity: json["collateralQuantity"],
+        holdingType: json["holdingType"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['holdingType'] = this.holdingType;
-    data['quantity'] = this.quantity;
-    data['costPrice'] = this.costPrice;
-    data['marketVal'] = this.marketVal;
-    data['remainingQuantity'] = this.remainingQuantity;
-    data['pl'] = this.pl;
-    data['ltp'] = this.ltp;
-    data['id'] = this.id;
-    data['fyToken'] = this.fyToken;
-    data['exchange'] = this.exchange;
-    data['symbol'] = this.symbol;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "quantity": quantity,
+        "costPrice": costPrice,
+        "remainingQuantity": remainingQuantity,
+        "pl": pl,
+        "ltp": ltp,
+        "id": id,
+        "fyToken": fyToken,
+        "exchange": exchange,
+        "segment": segment,
+        "symbol": symbol,
+        "marketVal": marketVal,
+        "isin": isin,
+        "qty_t1": qtyT1,
+        "remainingPledgeQuantity": remainingPledgeQuantity,
+        "collateralQuantity": collateralQuantity,
+        "holdingType": holdingType,
+      };
 }
 
 class Overall {
   int? countTotal;
-  int? pnlPerc;
-  int? totalCurrentValue;
-  int? totalInvestment;
-  int? totalPl;
+  double? pnlPerc;
+  double? totalCurrentValue;
+  double? totalInvestment;
+  double? totalPl;
 
-  Overall(
-      {this.countTotal,
-        this.pnlPerc,
-        this.totalCurrentValue,
-        this.totalInvestment,
-        this.totalPl});
+  Overall({
+    this.countTotal,
+    this.pnlPerc,
+    this.totalCurrentValue,
+    this.totalInvestment,
+    this.totalPl,
+  });
 
-  Overall.fromJson(Map<String, dynamic> json) {
-    countTotal = json['count_total'];
-    pnlPerc = json['pnl_perc'];
-    totalCurrentValue = json['total_current_value'];
-    totalInvestment = json['total_investment'];
-    totalPl = json['total_pl'];
-  }
+  factory Overall.fromJson(Map<String, dynamic> json) => Overall(
+        countTotal: json["count_total"],
+        pnlPerc: json["pnl_perc"].toDouble(),
+        totalCurrentValue: json["total_current_value"].toDouble(),
+        totalInvestment: json["total_investment"].toDouble(),
+        totalPl: json["total_pl"].toDouble(),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['count_total'] = this.countTotal;
-    data['pnl_perc'] = this.pnlPerc;
-    data['total_current_value'] = this.totalCurrentValue;
-    data['total_investment'] = this.totalInvestment;
-    data['total_pl'] = this.totalPl;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "count_total": countTotal,
+        "pnl_perc": pnlPerc,
+        "total_current_value": totalCurrentValue,
+        "total_investment": totalInvestment,
+        "total_pl": totalPl,
+      };
 }

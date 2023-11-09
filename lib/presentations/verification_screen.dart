@@ -116,6 +116,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   int count = 0;
   int contactCount = 0;
   String notificationToken = "";
+  bool fastTrackStatus = false;
 
   bool dialogTimer = false;
 
@@ -486,12 +487,21 @@ class _VerificationScreenState extends State<VerificationScreen> {
     approveContactCount = await Preference.getApproveContactCount();
   }
 
+  getFastTrackStatus() async {
+    fastTrackStatus = await Preference.getFastTrackStatus();
+
+    print("fastTrackStatus-->$fastTrackStatus");
+  }
+
   @override
   void initState() {
     super.initState();
     startTimer();
+    getFastTrackStatus();
 
     print('widget verification-------${widget.verificationScreenData.isLogin}');
+    print(
+        'widget CONTACTS-------${widget.verificationScreenData.selectedContact}');
 
     widget.verificationScreenData.isLogin ? getContactPermission() : null;
     setState(() {
@@ -563,7 +573,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               return false;
             },
             child: BlocConsumer<SigningBloc, SigningState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 if (state is SigningFailed ||
                     state is AddContactFailed ||
                     state is GetUserFailed) {
@@ -641,7 +651,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ApiUser.mobileNo = state.data!.data == null
                       ? ""
                       : state.data!.data!.mobileNo.toString();
-
                   widget.verificationScreenData.selectedContact =
                       state.data!.data!.availableContacts;
                 } else if (state is GetUserLoaded) {
@@ -777,7 +786,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                             ? 'Profile'
                                             : step == 3
                                                 ? 'Location'
-                                                : 'Add 10 Contacts',
+                                                : fastTrackStatus == true
+                                                    ? 'Add 30 Contacts'
+                                                    : 'Add 10 Contacts',
                                     style: textStyle14Bold(colorBlack)),
                                 SizedBox(height: 0.5.h),
                                 Text(
@@ -1749,9 +1760,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                       widget
                                                           .verificationScreenData
                                                           .selectedContact) {
-                                                    print(
-                                                        "ELSE:if:::::::::--------:::::::::::::::::::::::");
-
                                                     if (contactsData[index]
                                                         .isAdd) {
                                                       setState(() {

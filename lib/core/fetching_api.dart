@@ -30,7 +30,6 @@ import '../models/trending_data_model.dart';
 import 'api/api_consts.dart';
 
 class FetchingApi {
-
   Future<Popular> getPopularProducts() async {
     final response = await http.get(Uri.parse(popularUrl));
     if (response.statusCode == 200) {
@@ -142,7 +141,7 @@ class FetchingApi {
   }
 
   Future<ReviewHistory> getReviewHistory(String mobNo) async {
-    final response = await http.get(Uri.parse(getReviewHistoryUrl+mobNo));
+    final response = await http.get(Uri.parse(getReviewHistoryUrl + mobNo));
     if (response.statusCode == 200) {
       log('--ReviewHistory--statusCode----${response.statusCode}');
       log('--ReviewHistory--body----${response.body}');
@@ -173,7 +172,7 @@ class FetchingApi {
     } else {
       throw Exception("Failed to load mGainLedger data");
     }
-  } 
+  }
 
   Future<InvestmentPortfolio> getMFInvestment(String userid) async {
     print('--getMFInvestment----URL---{$mfDashboardUrl$userid}');
@@ -188,10 +187,18 @@ class FetchingApi {
     }
   }
 
-  Future<InvestmentTransaction> getMFTransaction(String userid, String folioNo, String schemeName) async {
-    print('--getMFTransaction----URL---'+mfTransactionUrl+userid+"&FolioNo="+folioNo+"&schemename="+Uri.encodeComponent(schemeName));
+  Future<InvestmentTransaction> getMFTransaction(
+      String userid, String folioNo, String schemeName) async {
+    print('--getMFTransaction----URL---' +
+        mfTransactionUrl +
+        userid +
+        "&FolioNo=" +
+        folioNo +
+        "&schemename=" +
+        Uri.encodeComponent(schemeName));
 
-    final response = await http.get(Uri.parse("$mfTransactionUrl$userid&FolioNo='$folioNo'&schemename='${Uri.encodeComponent(schemeName)}'"));
+    final response = await http.get(Uri.parse(
+        "$mfTransactionUrl$userid&FolioNo='$folioNo'&schemename='${Uri.encodeComponent(schemeName)}'"));
     if (response.statusCode == 200) {
       print('--InvestmentTransaction--statusCode----${response.statusCode}');
       print('--InvestmentTransaction--body----${response.body}');
@@ -201,10 +208,12 @@ class FetchingApi {
     }
   }
 
-  Future<StockInvestmentTransactionModel> getStockTransaction(String userid,String stockName) async {
-
-    final response = await http.get(Uri.parse("$stockTransactionUrl$userid&stockname='$stockName'"));
-    print('--StockTransaction--URL----$stockTransactionUrl$userid&stockname=$stockName');
+  Future<StockInvestmentTransactionModel> getStockTransaction(
+      String userid, String stockName) async {
+    final response = await http
+        .get(Uri.parse("$stockTransactionUrl$userid&stockname='$stockName'"));
+    print(
+        '--StockTransaction--URL----$stockTransactionUrl$userid&stockname=$stockName');
     if (response.statusCode == 200) {
       print('--StockTransaction--statusCode----${response.statusCode}');
       log('--StockTransaction--body----${response.body}');
@@ -214,9 +223,31 @@ class FetchingApi {
     }
   }
 
-  Future<CustomPayumoneyHashkeyModel> createPayumoneyHashKeyAPI(String amount, String txnid, String email, String productinfo, String firstname, String user_credentials) async {
-    print('--createPayumoneyHashKey----URL---'+createPayUMoneyHashKeyUrl+"&key="+merchantKey+"&amount="+amount+"&txnid"+txnid+"&email="+email+"&productinfo="+productinfo+"&firstname="+firstname+"&user_credentials="+user_credentials);
-    final response = await http.get(Uri.parse("$createPayUMoneyHashKeyUrl&key=$merchantKey&amount=$amount&txnid=$txnid&email=$email&productinfo=$productinfo&firstname=$firstname&user_credentials=$user_credentials "));
+  Future<CustomPayumoneyHashkeyModel> createPayumoneyHashKeyAPI(
+      String amount,
+      String txnid,
+      String email,
+      String productinfo,
+      String firstname,
+      String user_credentials) async {
+    print('--createPayumoneyHashKey----URL---' +
+        createPayUMoneyHashKeyUrl +
+        "&key=" +
+        merchantKey +
+        "&amount=" +
+        amount +
+        "&txnid" +
+        txnid +
+        "&email=" +
+        email +
+        "&productinfo=" +
+        productinfo +
+        "&firstname=" +
+        firstname +
+        "&user_credentials=" +
+        user_credentials);
+    final response = await http.get(Uri.parse(
+        "$createPayUMoneyHashKeyUrl&key=$merchantKey&amount=$amount&txnid=$txnid&email=$email&productinfo=$productinfo&firstname=$firstname&user_credentials=$user_credentials "));
     if (response.statusCode == 200) {
       print('--createPayumoneyHashKey--statusCode----${response.statusCode}');
       log('--createPayumoneyHashKey--body----${response.body}');
@@ -238,9 +269,17 @@ class FetchingApi {
     }
   }
 
-  Future<InsuranceInvestment> getInsuranceInvestment(String userid, int typeId, int subTypeId) async {
-    print('--InsuranceInvestment----URL---'+insuranceDashboardUrl+userid+"&typeId="+typeId.toString()+"&subTypeId="+subTypeId.toString());
-    final response = await http.get(Uri.parse("$insuranceDashboardUrl$userid&typeId=$typeId&subTypeId=$subTypeId"));
+  Future<InsuranceInvestment> getInsuranceInvestment(
+      String userid, int typeId, int subTypeId) async {
+    print('--InsuranceInvestment----URL---' +
+        insuranceDashboardUrl +
+        userid +
+        "&typeId=" +
+        typeId.toString() +
+        "&subTypeId=" +
+        subTypeId.toString());
+    final response = await http.get(Uri.parse(
+        "$insuranceDashboardUrl$userid&typeId=$typeId&subTypeId=$subTypeId"));
     if (response.statusCode == 200) {
       log('--InsuranceInvestment--statusCode----${response.statusCode}');
       log('--InsuranceInvestment--body----${response.body}');
@@ -296,13 +335,10 @@ class FetchingApi {
   }
 
   Future<GetGmailInboxModel> getGmailInboxAPI(String accessToken) async {
-    final response = await http.get(
-        Uri.parse(getGmailInbox),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization":"Bearer $accessToken"
-        }
-    );
+    final response = await http.get(Uri.parse(getGmailInbox), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $accessToken"
+    });
     if (response.statusCode == 200) {
       print('--getGmailInboxAPI--body----${response.body}');
       return getGmailInboxFromJson(response.body);
@@ -312,7 +348,8 @@ class FetchingApi {
   }
 
   Future<GetFyersAccessTokenModel> getFyersAccessTokenAPI() async {
-    final response = await http.get(Uri.parse(getFyersAccessTokenUrl+ApiUser.userId));
+    final response =
+        await http.get(Uri.parse(getFyersAccessTokenUrl + ApiUser.userId));
     if (response.statusCode == 200) {
       print('--FyersAccessToken--statusCode----${response.statusCode}');
       print('--FyersAccessToken--body----${response.body}');
@@ -323,19 +360,14 @@ class FetchingApi {
   }
 
   Future<GetFyersHoldingsModel> getFyersHoldingsAPI(fyersAccessToken) async {
-    final response = await http.get(
-        Uri.parse(getHoldingsUrl),
-        headers: {
-          "Authorization":"$clientId:$fyersAccessToken"
-        }
-    );
+    final response = await http.get(Uri.parse(getHoldingsUrl),
+        headers: {"Authorization": "$clientId:$fyersAccessToken"});
     if (response.statusCode == 200) {
       print('--FyersHoldings--statusCode----${response.statusCode}');
       print('--FyersHoldings--body----${response.body}');
-      return getFyersHoldingsFromJson(response.body);
+      return getFyersHoldingsModelFromJson(response.body);
     } else {
       throw Exception("Failed to load Faq");
     }
   }
-
 }

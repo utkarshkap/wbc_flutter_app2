@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -47,6 +48,7 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
   int? contactCount;
   bool isShowDateRange = false;
   List<bool> isFamilyMember = [];
+  int totalMonthCount = 1;
 
   getContacts() async {
     if (contactsList.isEmpty) {
@@ -213,33 +215,6 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
     });
   }
 
-  //   List<String> get showRecentTransactions {
-  //   DateTime now = DateTime.now();
-  //   late DateTime lastMonth;
-  //   late DateTime secondLastMonth;
-
-  //   if (now.month == 2) {
-  //     lastMonth = DateTime(now.year, 1, 10);
-  //     secondLastMonth = DateTime(now.year - 1, 12, 10);
-  //   } else if (now.month == 1) {
-  //     lastMonth = DateTime(now.year - 1, 12, 10);
-  //     secondLastMonth = DateTime(now.year - 1, 11, 10);
-  //   } else {
-  //     lastMonth = DateTime(now.year, now.month - 1, 10);
-  //     secondLastMonth = DateTime(now.year, now.month - 2, 10);
-  //   }
-
-  //   return _transactions
-  //       .where((element) =>
-  //           (element.date.year == now.year &&
-  //               element.date.month == now.month) ||
-  //           (element.date.year == lastMonth.year &&
-  //               element.date.month == lastMonth.month) ||
-  //           (element.date.year == secondLastMonth.year &&
-  //               element.date.month == secondLastMonth.month))
-  //       .toList();
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -248,6 +223,7 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
     print('myContact----------$contactsList');
 
     getfamilyMember();
+    getNumberMonthCount();
   }
 
   getfamilyMember() {
@@ -266,6 +242,47 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
         }
       }
     }
+  }
+
+  List<int> monthList = [];
+  List<String> monthNameList = [];
+  List<bool> contactMonthList = [];
+  String filteredItem = '';
+
+  getNumberMonthCount() {
+    int totalCount = 1;
+
+    for (int i = 0; i < sortedContactsData.length; i++) {
+      final String dateString =
+          sortedContactsData[i].contact.refDate.toString();
+      final DateTime date = DateTime.parse(dateString);
+      if (monthNameList
+          .contains(sortedContactsData[i].contact.refDate.formatDate())) {
+      } else {
+        monthNameList.add(sortedContactsData[i].contact.refDate.formatDate());
+      }
+
+      if (i != 0) {
+        final String prevDateString =
+            sortedContactsData[i - 1].contact.refDate.toString();
+        final DateTime prevDate = DateTime.parse(prevDateString);
+        if (prevDate.year == date.year && prevDate.month == date.month) {
+          totalCount++;
+
+          if (i == sortedContactsData.length - 1) {
+            monthList.add(totalCount);
+          }
+        } else {
+          monthList.add(totalCount);
+
+          totalCount = 1;
+        }
+      }
+    }
+
+    setState(() {
+      contactMonthList = List.generate(monthNameList.length, (index) => false);
+    });
   }
 
   @override
@@ -338,7 +355,8 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
                                   borderSide: BorderSide.none),
                             ),
                             onChanged: (val) async {
-                              filteredContacts = val;
+                              // filteredContacts = val;
+                              filteredItem = val;
                               setState(() {});
                             },
                             keyboardType: TextInputType.name,
@@ -414,251 +432,128 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
               ),
             ),
             Expanded(
-              child: sortedContactsData.isEmpty
-                  ? Center(
-                      child: Text('No Contacts Available',
-                          style: textStyle12(colorText7070)))
-                  : ListView.builder(
-                      itemCount: sortedContactsData.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        bool isSameDate = true;
-                        final String dateString = sortedContactsData[index]
-                            .contact
-                            .refDate
-                            .toString();
-                        final DateTime date = DateTime.parse(dateString);
-                        // final item = list[index];
-                        if (index == 0) {
-                          isSameDate = false;
-                        } else {
-                          final String prevDateString =
-                              sortedContactsData[index - 1]
-                                  .contact
-                                  .refDate
-                                  .toString();
-                          final DateTime prevDate =
-                              DateTime.parse(prevDateString);
-                          isSameDate = date.isSameDate(prevDate);
-                        }
-                        if (index == 0 || !(isSameDate)) {
-                          return Column(children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(vertical: 0.5.h),
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              color: colorF3F3,
-                              child: Text(
-                                date.formatDate(),
-                                style: textStyle11Medium(colorBlack)
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            sortedContactsData[index]
-                                    .contact
-                                    .refName
-                                    .toLowerCase()
-                                    .contains(filteredContacts.toLowerCase())
-                                ? sortedContactsData[index]
-                                        .contact
-                                        .refName
-                                        .isEmpty
-                                    ? Container()
-                                    : Padding(
-                                        padding: EdgeInsets.only(bottom: 0.3.h),
-                                        child: Container(
-                                          height: 9.h,
-                                          decoration: const BoxDecoration(
-                                              color: colorWhite,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: colorF3F3,
-                                                    offset: Offset(3, 4),
-                                                    blurRadius: 5)
-                                              ]),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5.w),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: CircleAvatar(
-                                                      radius: 22,
-                                                      backgroundColor:
-                                                          sortedContactsData[
-                                                                  index]
-                                                              .color
-                                                              .withOpacity(0.3),
-                                                      child: Text(
-                                                        sortedContactsData[
-                                                                index]
-                                                            .contact
-                                                            .refName
-                                                            .substring(0, 1)
-                                                            .toUpperCase(),
-                                                        style: textStyle16Bold(
+                child: sortedContactsData.isEmpty
+                    ? Center(
+                        child: Text('No Contacts Available',
+                            style: textStyle12(colorText7070)))
+                    : filteredItem.isEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: monthNameList.length,
+                            itemBuilder: (context, index) {
+                              return contactsMonthView(contactMonthList[index],
+                                  monthList[index], monthNameList[index], () {
+                                setState(() {
+                                  contactMonthList[index] =
+                                      !contactMonthList[index];
+                                });
+                              });
+                            })
+                        : ListView.builder(
+                            itemCount: sortedContactsData.length,
+                            itemBuilder: (context, index) {
+                              return sortedContactsData[index]
+                                      .contact
+                                      .refName
+                                      .toLowerCase()
+                                      .contains(filteredItem.toLowerCase())
+                                  ? sortedContactsData[index]
+                                          .contact
+                                          .refName
+                                          .isEmpty
+                                      ? Container()
+                                      : Padding(
+                                          padding:
+                                              EdgeInsets.only(bottom: 0.3.h),
+                                          child: Container(
+                                            height: 9.h,
+                                            decoration: const BoxDecoration(
+                                                color: colorWhite,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: colorF3F3,
+                                                      offset: Offset(3, 4),
+                                                      blurRadius: 5)
+                                                ]),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5.w),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: CircleAvatar(
+                                                        radius: 22,
+                                                        backgroundColor:
                                                             sortedContactsData[
                                                                     index]
-                                                                .color),
-                                                      )),
-                                                ),
-                                                SizedBox(width: 3.w),
-                                                Expanded(
-                                                  flex: 10,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        sortedContactsData[
-                                                                index]
-                                                            .contact
-                                                            .refName,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: textStyle10Medium(
-                                                                colorBlack)
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 0.8.h,
-                                                      ),
-                                                      Text(
+                                                                .color
+                                                                .withOpacity(
+                                                                    0.3),
+                                                        child: Text(
                                                           sortedContactsData[
                                                                   index]
                                                               .contact
-                                                              .refMobile,
-                                                          style: textStyle12(
-                                                              colorText7070))
-                                                    ],
+                                                              .refName
+                                                              .substring(0, 1)
+                                                              .toUpperCase(),
+                                                          style: textStyle16Bold(
+                                                              sortedContactsData[
+                                                                      index]
+                                                                  .color),
+                                                        )),
                                                   ),
-                                                ),
-                                                const Spacer(),
-                                                if (isFamilyMember[index] ==
-                                                    true)
-                                                  Image.asset(familyIcon,
-                                                      width: 7.w),
-                                                SizedBox(width: 1.5.w),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                : Container(),
-                          ]);
-                        } else {
-                          return sortedContactsData[index]
-                                  .contact
-                                  .refName
-                                  .toLowerCase()
-                                  .contains(filteredContacts.toLowerCase())
-                              ? sortedContactsData[index]
-                                      .contact
-                                      .refName
-                                      .isEmpty
-                                  ? Container()
-                                  : Padding(
-                                      padding: EdgeInsets.only(bottom: 0.3.h),
-                                      child: Container(
-                                        height: 9.h,
-                                        decoration: const BoxDecoration(
-                                            color: colorWhite,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: colorF3F3,
-                                                  offset: Offset(3, 4),
-                                                  blurRadius: 5)
-                                            ]),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5.w),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 2,
-                                                child: CircleAvatar(
-                                                    radius: 22,
-                                                    backgroundColor:
-                                                        sortedContactsData[
-                                                                index]
-                                                            .color
-                                                            .withOpacity(0.3),
-                                                    child: Text(
-                                                      sortedContactsData[index]
-                                                          .contact
-                                                          .refName
-                                                          .substring(0, 1)
-                                                          .toUpperCase(),
-                                                      style: textStyle16Bold(
+                                                  SizedBox(width: 3.w),
+                                                  Expanded(
+                                                    flex: 10,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
                                                           sortedContactsData[
                                                                   index]
-                                                              .color),
-                                                    )),
-                                              ),
-                                              SizedBox(width: 3.w),
-                                              Expanded(
-                                                flex: 10,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      sortedContactsData[index]
-                                                          .contact
-                                                          .refName,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: textStyle10Medium(
-                                                              colorBlack)
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
+                                                              .contact
+                                                              .refName,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: textStyle10Medium(
+                                                                  colorBlack)
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 0.8.h,
+                                                        ),
+                                                        Text(
+                                                            sortedContactsData[
+                                                                    index]
+                                                                .contact
+                                                                .refMobile,
+                                                            style: textStyle12(
+                                                                colorText7070))
+                                                      ],
                                                     ),
-                                                    SizedBox(
-                                                      height: 0.8.h,
-                                                    ),
-                                                    Text(
-                                                        sortedContactsData[
-                                                                index]
-                                                            .contact
-                                                            .refMobile,
-                                                        style: textStyle12(
-                                                            colorText7070))
-                                                  ],
-                                                ),
+                                                  ),
+                                                  const Spacer(),
+                                                  if (isFamilyMember[index] ==
+                                                      true)
+                                                    Image.asset(familyIcon,
+                                                        width: 7.w),
+                                                  SizedBox(width: 1.5.w),
+                                                ],
                                               ),
-                                              const Spacer(),
-                                              if (isFamilyMember[index] == true)
-                                                Image.asset(familyIcon,
-                                                    width: 7.w),
-                                              SizedBox(width: 1.5.w),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                              : Container();
-                        }
-                      },
-                    ),
-            ),
-            // Container(
-            //   height: 0.5.h,
-            //   decoration: const BoxDecoration(color: colorF3F3, boxShadow: [
-            //     BoxShadow(
-            //         color: colorF3F3, offset: Offset(3, 4), blurRadius: 5)
-            //   ]),
-            // ),
+                                        )
+                                  : Container();
+                            }))
           ],
         ));
   }
@@ -681,9 +576,155 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
       ),
     );
   }
+
+  contactsMonthView(
+      bool isSelect, int totalMonthCount, String question, Function() onOpen) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeOut,
+      decoration: BoxDecoration(color: colorWhite, boxShadow: [
+        BoxShadow(
+            color: colorTextBCBC.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 6))
+      ]),
+      margin: const EdgeInsets.only(bottom: 3),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.h),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Text('$totalMonthCount ',
+                          style: textStyle11Medium(colorBlack)
+                              .copyWith(fontWeight: FontWeight.w800))),
+                  Expanded(
+                    flex: 8,
+                    child: Text(question,
+                        style: textStyle11Medium(colorBlack)
+                            .copyWith(fontWeight: FontWeight.w800)),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                        constraints: BoxConstraints(minWidth: 4.w),
+                        padding: EdgeInsets.zero,
+                        onPressed: onOpen,
+                        icon: Image.asset(isSelect ? icMinus : icAdd,
+                            width: 4.w, color: colorTextBCBC)),
+                  )
+                ],
+              ),
+              if (isSelect) SizedBox(height: 1.h),
+              if (isSelect)
+                ...List.generate(
+                  sortedContactsData.length,
+                  (index) => sortedContactsData[index]
+                          .contact
+                          .refName
+                          .toLowerCase()
+                          .contains(filteredContacts.toLowerCase())
+                      ? sortedContactsData[index]
+                                  .contact
+                                  .refDate
+                                  .formatDate() ==
+                              question
+                          ? sortedContactsData[index].contact.refName.isEmpty
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsets.only(bottom: 0.3.h),
+                                  child: Container(
+                                    height: 9.h,
+                                    decoration: const BoxDecoration(
+                                        color: colorWhite,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: colorF3F3,
+                                              offset: Offset(3, 4),
+                                              blurRadius: 5)
+                                        ]),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 0.w),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor:
+                                                    sortedContactsData[index]
+                                                        .color
+                                                        .withOpacity(0.3),
+                                                child: Text(
+                                                  sortedContactsData[index]
+                                                      .contact
+                                                      .refName
+                                                      .substring(0, 1)
+                                                      .toUpperCase(),
+                                                  style: textStyle16Bold(
+                                                      sortedContactsData[index]
+                                                          .color),
+                                                )),
+                                          ),
+                                          SizedBox(width: 3.w),
+                                          Expanded(
+                                            flex: 10,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  sortedContactsData[index]
+                                                      .contact
+                                                      .refName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: textStyle10Medium(
+                                                          colorBlack)
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                ),
+                                                SizedBox(
+                                                  height: 0.8.h,
+                                                ),
+                                                Text(
+                                                    sortedContactsData[index]
+                                                        .contact
+                                                        .refMobile,
+                                                    style: textStyle12(
+                                                        colorText7070))
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          if (isFamilyMember[index] == true)
+                                            Image.asset(familyIcon, width: 7.w),
+                                          SizedBox(width: 1.5.w),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                          : Container()
+                      : Container(),
+                )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-const String dateFormatter = 'MMMM dd, y';
+const String dateFormatter = 'MMMM y';
 
 extension DateHelper on DateTime {
   String formatDate() {

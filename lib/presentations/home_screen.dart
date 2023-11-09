@@ -85,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isShowCase = false;
   DateTime? currentBackPressTime;
   bool fastTrackStatus = false;
+  num clientsConverted = 0;
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -112,6 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    getClientsConvertedMember();
+
     // getShowCase();
     getFastTrackStatus();
     print('userId-----${ApiUser.userId}');
@@ -166,6 +169,14 @@ class _HomeScreenState extends State<HomeScreen> {
     isRenewContact = await Preference.getRenewContact();
 
     print('isAddcontact-----$isAddContact');
+  }
+
+  getClientsConvertedMember() {
+    for (int i = 0; i < ApiUser.myContactsList!.length; i++) {
+      if (ApiUser.myContactsList![i].userexist == true) {
+        clientsConverted++;
+      }
+    }
   }
 
   @override
@@ -576,10 +587,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               contactsView(
                                   icAddMmeber,
                                   'Add Your Family',
-                                  '',
+                                  state.data!.data.memberlist.length.toString(),
                                   '+',
-                                  () => Navigator.of(context)
-                                      .pushNamed(AddMemberDetails.route)),
+                                  () => Navigator.of(context).pushNamed(
+                                      AddMemberDetails.route,
+                                      arguments: AddMemberDetailsData(
+                                          familyList:
+                                              state.data!.data.memberlist))),
                               Container(
                                   height: 1,
                                   color: colorTextBCBC.withOpacity(0.36)),
@@ -590,6 +604,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 print(state.data!.data.availableContacts);
 
                                 if (state.data!.data.availableContacts != 0) {
+                                  print(
+                                      "DATA::::::${state.data!.data.availableContacts}");
                                   Preference.setRenewContact(true);
                                   Navigator.of(context).pushNamed(
                                       VerificationScreen.route,
@@ -660,7 +676,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             icAddMmeber, 'Add Member', true,
                                             () {
                                           Navigator.of(context).pushNamed(
-                                              AddMemberDetails.route);
+                                              AddMemberDetails.route,
+                                              arguments: AddMemberDetailsData(
+                                                  familyList: state
+                                                      .data!.data.memberlist));
                                         }, () {}),
                                         BlocListener<DeleteFamilyMemberBloc,
                                             DeleteFamilyMemberState>(
@@ -1356,7 +1375,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: [
                                           Text('Clients converted',
                                               style: textStyle9(colorText3D3D)),
-                                          Text('9',
+                                          Text(clientsConverted.toString(),
                                               style: textStyle18Bold(
                                                   colorSplashBG))
                                         ],
@@ -1869,7 +1888,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       )
-                    : Text(subTitle, style: textStyle9(colorText3D3D)),
+                    : title == 'Add Your Family'
+                        ? RichText(
+                            text: TextSpan(
+                              text: 'Your',
+                              style: textStyle9(colorBlack),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: ' ${subTitle} ',
+                                    style: textStyle10Bold(colorRed)),
+                                const TextSpan(text: 'member connected'),
+                              ],
+                            ),
+                          )
+                        : Text(subTitle, style: textStyle9(colorText3D3D)),
               )
             ],
           ),

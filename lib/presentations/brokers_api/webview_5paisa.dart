@@ -9,7 +9,6 @@ import '../../core/api/api_consts.dart';
 import '../../models/get_5paisa_access_token_model.dart';
 
 class Webview5Paisa extends StatefulWidget {
-
   static const route = '/Webview-5Paisa';
   const Webview5Paisa({Key? key}) : super(key: key);
 
@@ -18,20 +17,19 @@ class Webview5Paisa extends StatefulWidget {
 }
 
 class _Webview5PaisaState extends State<Webview5Paisa> {
-
   InAppWebViewController? webViewController;
   String? url;
 
   @override
   void initState() {
-    url="${generateRequestTokenUrl}VendorKey=$userKey&ResponseURL=$paisaRedirectUrl&state=$userId";
+    url =
+        "${generateRequestTokenUrl}VendorKey=$userKey&ResponseURL=$paisaRedirectUrl&state=$userId";
     print("url-->$url");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     InAppWebViewController webView;
 
     return Scaffold(
@@ -45,49 +43,47 @@ class _Webview5PaisaState extends State<Webview5Paisa> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Image.asset(icBack, color: colorRed, width: 6.w)
-        ),
+            icon: Image.asset(icBack, color: colorRed, width: 6.w)),
       ),
       body: BlocConsumer<FetchingDataBloc, FetchingDataState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Column(
-              children: <Widget>[
-                Expanded(
-                    child: InAppWebView(
-                      initialUrlRequest: URLRequest(url: Uri.parse(url!)),
-                      onWebViewCreated: (InAppWebViewController controller) {
-                        webView = controller;
-                      },
-                      onLoadStop: (controller, url) async {
-                        setState(() {
-                          String finalUrl=url.toString();
-                          print("finalUrl-->$finalUrl");
-                          if(finalUrl.contains("RequestToken")){
+          return Column(children: <Widget>[
+            Expanded(
+                child: InAppWebView(
+              initialUrlRequest: URLRequest(url: Uri.parse(url!)),
+              onWebViewCreated: (InAppWebViewController controller) {
+                webView = controller;
+              },
+              onLoadStop: (controller, url) async {
+                setState(() {
+                  String finalUrl = url.toString();
+                  print("finalUrl-->$finalUrl");
+                  if (finalUrl.contains("RequestToken")) {
+                    int startIndex = finalUrl.indexOf("RequestToken=");
+                    int endIndex = finalUrl.indexOf("&", startIndex);
+                    String requestToken = finalUrl
+                        .substring(startIndex, endIndex)
+                        .trim()
+                        .replaceAll("RequestToken=", '');
 
-                            int startIndex = finalUrl.indexOf("RequestToken=");
-                            int endIndex = finalUrl.indexOf("&", startIndex);
-                            String requestToken = finalUrl.substring(startIndex, endIndex).trim().replaceAll("RequestToken=", '');
+                    print("requestToken--->" + requestToken);
 
-                            print("requestToken--->"+requestToken);
-
-                            Navigator.of(context).pushReplacementNamed(View5PaisaHoldings.route);
-                            BlocProvider.of<FetchingDataBloc>(context).add(
-                                Load5PaisaAccessTokenEvent(
-                                    get5PaisaAccessToken: Get5PaisaAccessTokenModel(),
-                                    requestToken: requestToken,
-                                )
-                            );
-                          }
-                        });
-                      },
-                      onConsoleMessage: (controller, consoleMessage) {
-                        print("consoleMessage-->$consoleMessage");
-                      },
-                    )
-                )
-              ]
-          );
+                    Navigator.of(context)
+                        .pushReplacementNamed(View5PaisaHoldings.route);
+                    BlocProvider.of<FetchingDataBloc>(context)
+                        .add(Load5PaisaAccessTokenEvent(
+                      get5PaisaAccessToken: Get5PaisaAccessTokenModel(),
+                      requestToken: requestToken,
+                    ));
+                  }
+                });
+              },
+              onConsoleMessage: (controller, consoleMessage) {
+                print("consoleMessage-->$consoleMessage");
+              },
+            ))
+          ]);
         },
       ),
     );

@@ -112,7 +112,7 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                                 .imgUrl
                                                                 .isEmpty
                                                             ? Image.asset(
-                                                                imgBurger,
+                                                                icGoldCoin,
                                                                 height: 4.h)
                                                             : Image.network(
                                                                 widget
