@@ -50,13 +50,12 @@ const String icGeneralInsurance = '${_homePath}general_insurance_icon.png';
 const String icRealEstate = '${_homePath}real_estate_icon.png';
 const String icMGain = '${_homePath}m_gain_icon.png';
 
-
 const String icLoan = '${_homePath}loan_icon.png';
 
 const String rupeeIcon = '${_homePath}rupee_icon.png';
 
-const String icAddContacts = '${_homePath}add_contacts.png';
-const String icConnectFastTrack = '${_homePath}connect_fastTrack.png';
+const String icAddContacts = '${_homePath}add_contacts_icon.png';
+const String icConnectFastTrack = '${_homePath}connect_fastTrack_icon.png';
 
 const String icRoundQuestionMark = '${_homePath}round_question_mark.png';
 

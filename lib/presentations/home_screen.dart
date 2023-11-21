@@ -585,7 +585,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             children: [
                               contactsView(
-                                  icAddMmeber,
+                                  familyIcon,
                                   'Add Your Family',
                                   state.data!.data.memberlist.length.toString(),
                                   '+',
@@ -604,8 +604,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 print(state.data!.data.availableContacts);
 
                                 if (state.data!.data.availableContacts != 0) {
-                                  print(
-                                      "DATA::::::${state.data!.data.availableContacts}");
                                   Preference.setRenewContact(true);
                                   Navigator.of(context).pushNamed(
                                       VerificationScreen.route,
@@ -1856,15 +1854,14 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               height: 4.5.h,
               width: 4.5.h,
-              decoration: BoxDecoration(
-                color: colorRed.withOpacity(0.29),
+              decoration: const BoxDecoration(
+                color: colorGreenEFC,
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
               child: Image.asset(
                 icon,
                 height: 2.5.h,
-                color: colorRed,
               ),
             ),
           ),

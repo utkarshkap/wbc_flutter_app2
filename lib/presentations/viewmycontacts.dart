@@ -274,9 +274,14 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
           }
         } else {
           monthList.add(totalCount);
-
           totalCount = 1;
+          if (i == sortedContactsData.length - 1) {
+            monthList.add(totalCount);
+          }
         }
+      }
+      if (sortedContactsData.length == 1) {
+        monthList.add(totalCount);
       }
     }
 

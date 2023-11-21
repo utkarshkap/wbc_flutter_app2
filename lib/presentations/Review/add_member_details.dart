@@ -504,53 +504,6 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                       ),
                     ),
 
-                  // Container(
-                  //   width: 90.w,
-                  //   decoration: BoxDecoration(
-                  //       color: colorWhite,
-                  //       borderRadius: const BorderRadius.only(
-                  //           topLeft: Radius.circular(10),
-                  //           topRight: Radius.circular(10)),
-                  //       boxShadow: [
-                  //         BoxShadow(
-                  //             color: colorTextBCBC.withOpacity(0.3),
-                  //             blurRadius: 8,
-                  //             offset: const Offset(0, 6))
-                  //       ]),
-                  //   padding: EdgeInsets.only(top: 2.h),
-                  //   child: Column(
-                  //     children: [
-                  //       Padding(
-                  //         padding: EdgeInsets.symmetric(horizontal: 3.5.w),
-                  //         child: Column(
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: [
-                  //             Text('My Family Members',
-                  //                 style: textStyle12Bold(colorBlack)
-                  //                     .copyWith(letterSpacing: 0.16)),
-                  //             Padding(
-                  //               padding: EdgeInsets.only(top: 1.h, bottom: 2.h),
-                  //               child: Container(
-                  //                   height: 1,
-                  //                   color: colorTextBCBC.withOpacity(0.36)),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //       itemCount: widget.addMemberDetailsData.familyList.length,
-                  //       itemBuilder: (context, index) {
-                  //         return familyView(
-                  //             widget.addMemberDetailsData.familyList[index].name,
-                  //             index,
-                  //             widget.addMemberDetailsData.familyList);
-                  //       }),
-                  // ),
-
                   // const Spacer(),
                   SizedBox(height: 3.h),
 

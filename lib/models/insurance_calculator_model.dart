@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-Insurancecaluculator insurancecaluculatorFromJson(String str) => Insurancecaluculator.fromJson(json.decode(str));
+Insurancecaluculator insurancecaluculatorFromJson(String str) =>
+    Insurancecaluculator.fromJson(json.decode(str));
 
-String insurancecaluculatorToJson(Insurancecaluculator data) => json.encode(data.toJson());
+String insurancecaluculatorToJson(Insurancecaluculator data) =>
+    json.encode(data.toJson());
 
 class Insurancecaluculator {
   Insurancecaluculator({
@@ -19,13 +21,15 @@ class Insurancecaluculator {
   final int code;
   final String message;
   final Insdeatils? insdeatils;
-  final int requiredinsurance;
+  final int? requiredinsurance;
 
   factory Insurancecaluculator.fromJson(Map<String, dynamic> json) =>
       Insurancecaluculator(
         code: json["code"],
         message: json["message"],
-        insdeatils: json["insdeatils"] == null ? null : Insdeatils.fromJson(json["insdeatils"]),
+        insdeatils: json["insdeatils"] == null
+            ? null
+            : Insdeatils.fromJson(json["insdeatils"]),
         requiredinsurance: json["requiredinsurance"],
       );
 
@@ -49,14 +53,14 @@ class Insdeatils {
     required this.insDate,
   });
 
-  final String name;
-  final String gender;
-  final int annualincome;
-  final int existinglifecover;
-  final int totalloandue;
-  final int totalsaving;
-  final int homeloandue;
-  final DateTime insDate;
+  final String? name;
+  final String? gender;
+  final int? annualincome;
+  final int? existinglifecover;
+  final int? totalloandue;
+  final int? totalsaving;
+  final int? homeloandue;
+  final DateTime? insDate;
 
   factory Insdeatils.fromJson(Map<String, dynamic> json) => Insdeatils(
         name: json["name"],
@@ -79,6 +83,6 @@ class Insdeatils {
         "totalsaving": totalsaving,
         "homeloandue": homeloandue,
         // "dob": dob.toIso8601String(),
-        "ins_date": insDate.toIso8601String(),
+        "ins_date": insDate!.toIso8601String(),
       };
 }

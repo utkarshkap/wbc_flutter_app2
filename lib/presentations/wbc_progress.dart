@@ -47,7 +47,9 @@ class _WBCProgressState extends State<WBCProgress> {
                 bgColor: colorF3F3,
                 icon: icProfile,
                 iconColor: colorText7070,
-                onClick: () {Navigator.of(context).pushNamed(ProfileScreen.route);}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(ProfileScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -57,7 +59,8 @@ class _WBCProgressState extends State<WBCProgress> {
             child: Column(
               children: [
                 SizedBox(height: 2.h),
-                standFastTrack('Your Base', 'Contacts entered', 200, 'Contacts converted', 9),
+                standFastTrack('Your Base', 'Contacts entered', 200,
+                    'Contacts converted', 9),
                 Row(
                   children: [
                     Padding(
@@ -80,7 +83,8 @@ class _WBCProgressState extends State<WBCProgress> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         portFolioWidget(icFamily, 'Family', () {}),
-                        portFolioWidget(icFriends, 'Friends & Relatives', () {}),
+                        portFolioWidget(
+                            icFriends, 'Friends & Relatives', () {}),
                         portFolioWidget(icNeighbour, 'Neighbours', () {}),
                         portFolioWidget(icVip, 'HNI/VIP', () {}),
                         portFolioWidget(icOthers, 'Others', () {}),
@@ -98,7 +102,8 @@ class _WBCProgressState extends State<WBCProgress> {
                       'Add Your Contacts You can add 96 contacts this month',
                       () => null),
                 ),
-                standFastTrack('Your Members', 'Standard', 398, 'FastTrack', 6754),
+                standFastTrack(
+                    'Your Members', 'Standard', 398, 'FastTrack', 6754),
                 Container(
                   width: 90.w,
                   decoration: decoration(colorWhite),
@@ -214,7 +219,8 @@ class _WBCProgressState extends State<WBCProgress> {
     );
   }
 
-  standFastTrack(String title, String title1, int title1Value, String title2, int title2Value) {
+  standFastTrack(String title, String title1, int title1Value, String title2,
+      int title2Value) {
     return Container(
       width: 90.w,
       decoration: decoration(colorWhite),
@@ -298,8 +304,8 @@ class _WBCProgressState extends State<WBCProgress> {
             child: Container(
               height: 4.5.h,
               width: 4.5.h,
-              decoration: BoxDecoration(
-                color: colorRed.withOpacity(0.29),
+              decoration:const BoxDecoration(
+                color: colorGreenEFC,
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
@@ -337,7 +343,8 @@ class _WBCProgressState extends State<WBCProgress> {
                   constraints: BoxConstraints(minWidth: 8.5.w, minHeight: 4.h),
                   padding: EdgeInsets.zero,
                   onPressed: onClick,
-                  icon: Image.asset(icDownload, color: colorRed, fit: BoxFit.fill)),
+                  icon: Image.asset(icDownload,
+                      color: colorRed, fit: BoxFit.fill)),
           SizedBox(width: 3.5.w)
         ],
       ),

@@ -105,6 +105,12 @@ class _WBCConnectState extends State<WBCConnect> {
             ? mainList.add(ChartData(
                 activity: 'Redeemable',
                 value: GpDashBoardData.redeemable!.toDouble(),
+                //  GpDashBoardData.redeemable!.toDouble().isNaN
+                //     ? GpDashBoardData.redeemable!.toDouble()
+                //     : double.parse(GpDashBoardData.redeemable!
+                //         .toDouble()
+                //         .toString()
+                //         .replaceAll('-', '')),
                 color: colorTextFFC1))
             : i == 1
                 ? mainList.add(ChartData(
@@ -226,7 +232,7 @@ class _WBCConnectState extends State<WBCConnect> {
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
                         pointsView(
-                            icGoldCoin,
+                            rupeeIcon,
                             'Fastrack Earnings',
                             '₹ ${CommonFunction().splitString(GpDashBoardData.fastTrackEarning.toString())}',
                             'Benefits', () {
@@ -972,8 +978,8 @@ class _WBCConnectState extends State<WBCConnect> {
             child: Container(
               height: 4.5.h,
               width: 4.5.h,
-              decoration: BoxDecoration(
-                color: colorRed.withOpacity(0.29),
+              decoration: const BoxDecoration(
+                color: colorGreenEFC,
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,

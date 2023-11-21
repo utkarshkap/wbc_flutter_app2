@@ -18,12 +18,16 @@ class InsuranceCalculator extends StatefulWidget {
 }
 
 class _InsuranceCalculatorState extends State<InsuranceCalculator> {
-
-  final TextEditingController _monthlyIncomeController = TextEditingController(text: "0");
-  final TextEditingController _lifeInsuranceController = TextEditingController(text: "0");
-  final TextEditingController _homeLoanController = TextEditingController(text: "0");
-  final TextEditingController _loanController = TextEditingController(text: "0");
-  final TextEditingController _savingsController = TextEditingController(text: "0");
+  final TextEditingController _monthlyIncomeController =
+      TextEditingController(text: "0");
+  final TextEditingController _lifeInsuranceController =
+      TextEditingController(text: "0");
+  final TextEditingController _homeLoanController =
+      TextEditingController(text: "0");
+  final TextEditingController _loanController =
+      TextEditingController(text: "0");
+  final TextEditingController _savingsController =
+      TextEditingController(text: "0");
 
   String annualIncomeValidation = "";
   String lifeInsuranceValidation = "";
@@ -43,7 +47,7 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
   FocusNode lifeInsuranceFocus = FocusNode();
   FocusNode savingFocus = FocusNode();
 
-  String requiredLifeCover="";
+  String requiredLifeCover = "";
 
   var formatter = NumberFormat('#,##,000');
   bool isSubmit = false;
@@ -54,7 +58,7 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        resizeToAvoidBottomInset  : true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: colorBG,
         appBar: AppBar(
           toolbarHeight: 8.h,
@@ -95,12 +99,14 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                 btnOkOnPress: () {},
                 btnOkColor: Colors.red,
               ).show();
-            }
-            else if (state is InsuranceCalculatorAdded) {
+            } else if (state is InsuranceCalculatorAdded) {
               setState(() {
                 isSubmit = false;
                 isDisplayResult = true;
-                requiredLifeCover=state.requiredInsurance;
+                requiredLifeCover = state.requiredInsurance;
+
+                print(
+                    "requiredInsurance::::::::::::${state.requiredInsurance}");
               });
             }
           },
@@ -137,8 +143,8 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                 decoration: BoxDecoration(
                                     color: colorWhite,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: colorDFDF, width: 1)),
+                                    border:
+                                        Border.all(color: colorDFDF, width: 1)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -163,20 +169,21 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 2.w),
-                                        child: annualIncomeValidation == 'Empty annual Income'
-                                            ? errorText('Please Enter Loan Amount.')
+                                        child: annualIncomeValidation ==
+                                                'Empty annual Income'
+                                            ? errorText(
+                                                'Please Enter Loan Amount.')
                                             : Container(),
                                       ),
                                     ),
-
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
-
                                     textFormFieldContainer(
                                         'Existing life cover, if any',
                                         'Enter your Existing life cover',
@@ -198,20 +205,21 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 2.w),
-                                        child: lifeInsuranceValidation == 'Empty Life Insurance'
-                                            ? errorText('Please Enter Life Insurance.')
+                                        child: lifeInsuranceValidation ==
+                                                'Empty Life Insurance'
+                                            ? errorText(
+                                                'Please Enter Life Insurance.')
                                             : Container(),
                                       ),
                                     ),
-
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
-
                                     textFormFieldContainer(
                                         'Outstanding home loan if any',
                                         'Enter your Outstanding home loan',
@@ -233,20 +241,21 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 2.w),
-                                        child: homeLoanValidation == 'Empty Home Loan'
-                                            ? errorText('Please Enter Home Loan.')
+                                        child: homeLoanValidation ==
+                                                'Empty Home Loan'
+                                            ? errorText(
+                                                'Please Enter Home Loan.')
                                             : Container(),
                                       ),
                                     ),
-
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
-
                                     textFormFieldContainer(
                                         'Other outstanding loans',
                                         'Enter your Other outstanding loans',
@@ -260,7 +269,6 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       });
                                       loanFocus.requestFocus();
                                     }, _loanController),
-
                                     if (loanValidation.isNotEmpty)
                                       SizedBox(
                                         height: 0.5.h,
@@ -275,13 +283,13 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
-
                                     textFormFieldContainer(
                                         'I have existing savings of',
                                         'Enter your Savings',
@@ -303,42 +311,48 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 2.w),
-                                        child: savingsValidation == 'Empty Savings'
+                                        child: savingsValidation ==
+                                                'Empty Savings'
                                             ? errorText('Please Enter Savings.')
                                             : Container(),
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 2.h, bottom: 2.5.h),
+                                padding:
+                                    EdgeInsets.only(top: 2.h, bottom: 2.5.h),
                                 child: InkWell(
                                     onTap: () {
-                                      if (_monthlyIncomeController.text.isEmpty) {
+                                      if (_monthlyIncomeController
+                                          .text.isEmpty) {
                                         setState(() {
-                                          annualIncomeValidation = 'Empty annual Income';
+                                          annualIncomeValidation =
+                                              'Empty annual Income';
                                         });
-                                      }else{
+                                      } else {
                                         setState(() {
                                           annualIncomeValidation = '';
                                         });
                                       }
-                                      if (_lifeInsuranceController.text.isEmpty) {
+                                      if (_lifeInsuranceController
+                                          .text.isEmpty) {
                                         setState(() {
-                                          lifeInsuranceValidation = 'Empty Life Insurance';
+                                          lifeInsuranceValidation =
+                                              'Empty Life Insurance';
                                         });
-                                      }else{
+                                      } else {
                                         setState(() {
                                           lifeInsuranceValidation = '';
                                         });
                                       }
                                       if (_homeLoanController.text.isEmpty) {
                                         setState(() {
-                                          homeLoanValidation = 'Empty Home Loan';
+                                          homeLoanValidation =
+                                              'Empty Home Loan';
                                         });
-                                      }else{
+                                      } else {
                                         setState(() {
                                           homeLoanValidation = '';
                                         });
@@ -347,7 +361,7 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                         setState(() {
                                           loanValidation = 'Empty Loan';
                                         });
-                                      }else{
+                                      } else {
                                         setState(() {
                                           loanValidation = '';
                                         });
@@ -356,18 +370,19 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                         setState(() {
                                           savingsValidation = 'Empty Savings';
                                         });
-                                      }else{
+                                      } else {
                                         setState(() {
                                           savingsValidation = '';
                                         });
                                       }
-                                      if(_monthlyIncomeController.text.isNotEmpty &&
-                                          _lifeInsuranceController.text.isNotEmpty &&
+                                      if (_monthlyIncomeController.text.isNotEmpty &&
+                                          _lifeInsuranceController
+                                              .text.isNotEmpty &&
                                           _homeLoanController.text.isNotEmpty &&
                                           _loanController.text.isNotEmpty &&
-                                          _savingsController.text.isNotEmpty){
+                                          _savingsController.text.isNotEmpty) {
                                         setState(() {
-                                          isSubmit=true;
+                                          isSubmit = true;
                                         });
                                         calculateInsurance();
                                       }
@@ -376,77 +391,98 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                       width: 90.w,
                                       decoration: BoxDecoration(
                                           color: colorRed,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           boxShadow: [
                                             BoxShadow(
                                                 offset: const Offset(0, 3),
                                                 blurRadius: 6,
-                                                color: colorRed.withOpacity(0.35))
-                                          ]
-                                      ),
+                                                color:
+                                                    colorRed.withOpacity(0.35))
+                                          ]),
                                       alignment: Alignment.center,
                                       child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 2.h),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 2.h),
                                         child: isSubmit
                                             ? SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(color: colorWhite, strokeWidth: 0.6.w))
-                                            : Text('CALCULATE', style: textStyle13Bold(colorWhite)),
+                                                height: 20,
+                                                width: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: colorWhite,
+                                                        strokeWidth: 0.6.w))
+                                            : Text('CALCULATE',
+                                                style: textStyle13Bold(
+                                                    colorWhite)),
                                       ),
-                                    )
-                                ),
+                                    )),
                               ),
-                              isDisplayResult ? Column(
-                                children: [
-                                  Table(
-                                    border: TableBorder.all(color: colorBG),
-                                    columnWidths: const <int, TableColumnWidth>{
-                                      0: FlexColumnWidth(1),
-                                    },
-                                    children: [
-                                      TableRow(
-                                        decoration: const BoxDecoration(color: colorE5E5),
-                                        children: [
-                                          Container(
-                                            height: 5.3.h,
-                                            alignment: Alignment.center,
-                                            child: Text('Required Cover',
-                                                textAlign: TextAlign.center,
-                                                style: textStyle10Bold(colorBlack)),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Table(
-                                    border: TableBorder.all(color: colorE5E5),
-                                    columnWidths: const <int, TableColumnWidth>{
-                                      0: FlexColumnWidth(1),
-                                    },
-                                    children: List<TableRow>.generate(
-                                      1, (index) {
-                                      return TableRow(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white
+                              isDisplayResult
+                                  ? Column(
+                                      children: [
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorBG),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: [
+                                            TableRow(
+                                              decoration: const BoxDecoration(
+                                                  color: colorE5E5),
+                                              children: [
+                                                Container(
+                                                  height: 5.3.h,
+                                                  alignment: Alignment.center,
+                                                  child: Text('Required Cover',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: textStyle10Bold(
+                                                          colorBlack)),
+                                                ),
+                                              ],
+                                            )
+                                          ],
                                         ),
-                                        children: [
-                                          Container(
-                                            height: 43,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                                formatter.format(double.parse(requiredLifeCover)),
-                                                textAlign: TextAlign.left,
-                                                style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
+                                        Table(
+                                          border:
+                                              TableBorder.all(color: colorE5E5),
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          children: List<TableRow>.generate(
+                                            1,
+                                            (index) {
+                                              return TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white),
+                                                children: [
+                                                  Container(
+                                                    height: 43,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        formatter.format(
+                                                            double.parse(
+                                                                requiredLifeCover)),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: textStyle11Bold(
+                                                                colorRedFF6)
+                                                            .copyWith(
+                                                                height: 1.2)),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            growable: false,
                                           ),
-                                        ],
-                                      );
-                                    },
-                                      growable: false,
-                                    ),
-                                  ),
-                                ],
-                              ) : Container()
+                                        ),
+                                      ],
+                                    )
+                                  : Container()
                             ],
                           ),
                         ],
@@ -466,8 +502,10 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
     BlocProvider.of<InsuranceCalculatorBloc>(context).add(PostInsuranceData(
       name: "",
       gender: "",
-      annualincome: int.parse(_monthlyIncomeController.text.replaceAll(',', '')),
-      existinglifecover: int.parse(_lifeInsuranceController.text.replaceAll(',', '')),
+      annualincome:
+          int.parse(_monthlyIncomeController.text.replaceAll(',', '')),
+      existinglifecover:
+          int.parse(_lifeInsuranceController.text.replaceAll(',', '')),
       totalloandue: int.parse(_loanController.text.replaceAll(',', '')),
       totalsaving: int.parse(_savingsController.text.replaceAll(',', '')),
       insDate: DateTime.now(),
@@ -479,7 +517,7 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
       String labelText, String hintText, bool isSelected, Function() onClick,
       [TextEditingController? controller]) {
     return Padding(
-      padding: EdgeInsets.only(top: 1.5.h,left: 2.5.w,right:2.5.w),
+      padding: EdgeInsets.only(top: 1.5.h, left: 2.5.w, right: 2.5.w),
       child: InkWell(
         onTap: onClick,
         child: Padding(
@@ -498,8 +536,7 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                   width: 84.w - 2,
                   child: TextFormField(
                     controller: controller,
-                    style: textStyle11(colorText3D3D)
-                        .copyWith(height: 1.3),
+                    style: textStyle11(colorText3D3D).copyWith(height: 1.3),
                     maxLines: 1,
                     decoration: InputDecoration.collapsed(
                         hintText: hintText,
@@ -511,14 +548,14 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                     focusNode: controller == _monthlyIncomeController
                         ? incomeFocus
                         : controller == _lifeInsuranceController
-                        ? lifeInsuranceFocus
-                        : controller == _homeLoanController
-                        ? homeLoanFocus
-                        : controller == _loanController
-                        ? loanFocus
-                        : controller == _savingsController
-                        ? savingFocus
-                        : incomeFocus,
+                            ? lifeInsuranceFocus
+                            : controller == _homeLoanController
+                                ? homeLoanFocus
+                                : controller == _loanController
+                                    ? loanFocus
+                                    : controller == _savingsController
+                                        ? savingFocus
+                                        : incomeFocus,
                     onTap: onClick,
                     onFieldSubmitted: (val) {
                       if (controller == _monthlyIncomeController) {
@@ -560,7 +597,7 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                     inputFormatters: [
                       ThousandsSeparatorInputFormatter(),
                     ],
-                    textInputAction:TextInputAction.done,
+                    textInputAction: TextInputAction.done,
                     textCapitalization: TextCapitalization.sentences,
                   ),
                 ),
@@ -586,5 +623,4 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
       ],
     );
   }
-
 }

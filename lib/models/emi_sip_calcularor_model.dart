@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-EMISIPCalculatorModel emiSIPCalculatorFromJson(String str) => EMISIPCalculatorModel.fromJson(json.decode(str));
+EMISIPCalculatorModel emiSIPCalculatorFromJson(String str) =>
+    EMISIPCalculatorModel.fromJson(json.decode(str));
 
-String emiSIPCalculatorToJson(EMISIPCalculatorModel data) => json.encode(data.toJson());
+String emiSIPCalculatorToJson(EMISIPCalculatorModel data) =>
+    json.encode(data.toJson());
 
 class EMISIPCalculatorModel {
   EMISIPCalculatorModel({
@@ -29,7 +31,9 @@ class EMISIPCalculatorModel {
       EMISIPCalculatorModel(
         code: json["code"],
         message: json["message"],
-        emiSIPDetails: json["emisipDetails"] == null ? null : EMISIPDetails.fromJson(json["emisipDetails"]),
+        emiSIPDetails: json["emisipDetails"] == null
+            ? null
+            : EMISIPDetails.fromJson(json["emisipDetails"]),
         principalAmount: json["principalAmount"],
         interestAmount: json["interestAmount"].toString(),
         emiAmount: json["emiAmount"].toString(),
@@ -38,16 +42,15 @@ class EMISIPCalculatorModel {
       );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-    "emisipDetails": emiSIPDetails == null ? null : emiSIPDetails!.toJson(),
-    "principalAmount": principalAmount,
-    "interestAmount": interestAmount,
-    "emiAmount": emiAmount,
-    "sipAmount": sipAmount,
-    "totalPayableAmount": totalPayableAmount,
-  };
-
+        "code": code,
+        "message": message,
+        "emisipDetails": emiSIPDetails == null ? null : emiSIPDetails!.toJson(),
+        "principalAmount": principalAmount,
+        "interestAmount": interestAmount,
+        "emiAmount": emiAmount,
+        "sipAmount": sipAmount,
+        "totalPayableAmount": totalPayableAmount,
+      };
 }
 
 class EMISIPDetails {
@@ -59,25 +62,25 @@ class EMISIPDetails {
     required this.interestRateOnInvestment,
   });
 
-  final String name;
-  final int loanAmount;
-  final int noOfYear;
-  final int loanInterestRate;
-  final int interestRateOnInvestment;
+  final String? name;
+  final int? loanAmount;
+  final int? noOfYear;
+  final int? loanInterestRate;
+  final int? interestRateOnInvestment;
 
   factory EMISIPDetails.fromJson(Map<String, dynamic> json) => EMISIPDetails(
-    name: json["name"],
-    loanAmount: json["LoanAmount"],
-    noOfYear: json["NoOfYear"],
-    loanInterestRate: json["LoanInterestRate"],
-    interestRateOnInvestment: json["InterestRateOnInvestment"],
-  );
+        name: json["name"],
+        loanAmount: json["LoanAmount"],
+        noOfYear: json["NoOfYear"],
+        loanInterestRate: json["LoanInterestRate"],
+        interestRateOnInvestment: json["InterestRateOnInvestment"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "LoanAmount": loanAmount,
-    "NoOfYear": noOfYear,
-    "LoanInterestRate": loanInterestRate,
-    "InterestRateOnInvestment": interestRateOnInvestment,
-  };
+        "name": name,
+        "LoanAmount": loanAmount,
+        "NoOfYear": noOfYear,
+        "LoanInterestRate": loanInterestRate,
+        "InterestRateOnInvestment": interestRateOnInvestment,
+      };
 }

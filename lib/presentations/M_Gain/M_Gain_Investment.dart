@@ -121,8 +121,10 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
         body: BlocConsumer<FetchingDataBloc, FetchingDataState>(
           listener: (context, state) {
             if (state is MGainInvestmentLoadedState) {
-              progressList = List.generate(state.mGainInvestment.mGains.length, (index) => 0);
-              isDownloadList = List.generate(state.mGainInvestment.mGains.length, (index) => false);
+              progressList = List.generate(
+                  state.mGainInvestment.mGains.length, (index) => 0);
+              isDownloadList = List.generate(
+                  state.mGainInvestment.mGains.length, (index) => false);
             }
             if (state is MGainInvestmentErrorState) {
               AwesomeDialog(
@@ -213,7 +215,8 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                                 .amount
                                                 .toInt()
                                                 .toString()),
-                                            state.mGainInvestment.mGains[index].rate
+                                            state.mGainInvestment.mGains[index]
+                                                .rate
                                                 .toInt(),
                                             DateFormat('dd MMM yy').format(state
                                                 .mGainInvestment
@@ -225,7 +228,8 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                                 .maturityDate), () {
                                           print(
                                               '----mGainId--=---${state.mGainInvestment.mGains[index].mGainId}');
-                                          BlocProvider.of<FetchingDataBloc>(context)
+                                          BlocProvider.of<FetchingDataBloc>(
+                                                  context)
                                               .add(LoadMGainLedgerEvent(
                                                   mGainId: state.mGainInvestment
                                                       .mGains[index].mGainId,
@@ -233,7 +237,9 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                                       code: 0,
                                                       message: '',
                                                       ledgerEntries: [])));
-                                          Navigator.of(context).pushReplacementNamed(MGainLedgerScreen.route);
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
+                                                  MGainLedgerScreen.route);
                                         }, () {
                                           startDownloading(index);
                                         })),
