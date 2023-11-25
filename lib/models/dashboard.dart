@@ -160,21 +160,27 @@ class History {
     required this.id,
     required this.name,
     required this.imgUrl,
-    required this.gp,
+    required this.credit,
+    required this.debit,
+    required this.description,
     required this.status,
   });
 
   final int id;
   final String name;
   final String imgUrl;
-  final int gp;
+  final int? credit;
+  final int? debit;
+  final String description;
   final String status;
 
   factory History.fromJson(Map<String, dynamic> json) => History(
         id: json["id"],
         name: json["name"],
         imgUrl: json["imgUrl"],
-        gp: json["gp"],
+        credit: json["credit"],
+        debit: json["debit"],
+        description: json["description"],
         status: json["status"],
       );
 
@@ -182,13 +188,15 @@ class History {
         "id": id,
         "name": name,
         "imgUrl": imgUrl,
-        "gp": gp,
+        "credit": credit,
+        "debit": debit,
+        "description": description,
         "status": status,
       };
 
   @override
   String toString() {
-    return 'History{id: $id, name: $name, imgUrl: $imgUrl, gp: $gp, status: $status}';
+    return 'History{id: $id, name: $name, imgUrl: $imgUrl, credit: $credit, debit: $debit, description: $description, status: $status}';
   }
 }
 

@@ -7,6 +7,9 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:wbc_connect_app/blocs/bloc/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
+import 'package:wbc_connect_app/models/stock_investment_model.dart';
+import 'package:wbc_connect_app/presentations/Review/mutual_funds_investment.dart';
 import '../blocs/MFInvestments/mf_investments_bloc.dart';
 import '../core/api/api_consts.dart';
 import '../resources/resource.dart';
@@ -321,19 +324,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               colorF9C1,
                               stockInvestmentType,
                               mfInvestmentType),
-
-                          SizedBox(height: 2.h),
-                          birdEyeView(
-                              'ASSETS',
-                              icCarLoan,
-                              'Car Loan',
-                              '42,405',
-                              icBikeLoan,
-                              'Bike Loan',
-                              '9,87,863',
-                              colorFB83,
-                              carAssetsType,
-                              bikeAssetsType),
                           SizedBox(height: 2.h),
                           birdEyeView(
                               'INCOME',
@@ -370,6 +360,18 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               colorFB83,
                               carInsuranceType,
                               bikeInsuranceType),
+                          SizedBox(height: 2.h),
+                          birdEyeView(
+                              'ASSETS',
+                              icCarLoan,
+                              'Car Loan',
+                              '42,405',
+                              icBikeLoan,
+                              'Bike Loan',
+                              '9,87,863',
+                              colorFB83,
+                              carAssetsType,
+                              bikeAssetsType),
                           // Padding(
                           //   padding: EdgeInsets.symmetric(vertical: 3.h),
                           //   child: Container(
@@ -488,9 +490,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
             child: BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
               listener: (context, state) {
                 if (state is MFInvestmentsLoadedState) {
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(MutualFundsInvestment.route);
-                } else if (state is StockInvestmentLoadedState) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(MutualFundsInvestment.route);
+                }
+                if (state is StockInvestmentLoadedState) {
                   Navigator.of(context)
                       .pushReplacementNamed(StocksInvestment.route);
                 }
@@ -499,19 +502,20 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                 children: [
                   iconTextValue(icon1, bgColor, text1, value1, () {
                     if (firstRouteName == stockInvestmentType) {
-                      /*BlocProvider.of<FetchingDataBloc>(context).add(
-                          LoadStockInvestmentEvent(
-                            userId: ApiUser.userId,
-                            stockInvestments: StockInvestmentsModel(
+                      BlocProvider.of<FetchingDataBloc>(context)
+                          .add(LoadStockInvestmentEvent(
+                              userId: ApiUser.userId,
+                              investmentPortfolio: StockInvestmentModel(
                                 code: 0,
                                 message: '',
                                 portfolio: 0,
                                 investment: 0,
                                 gain: 0,
-                                stocks: []
-                            ),
-                          ));*/
-                      selectFormDialog(stockInvestmentType);
+                                stocks: [],
+                              )));
+                      Navigator.of(context)
+                          .pushReplacementNamed(StocksInvestment.route);
+                      // selectFormDialog(stockInvestmentType);
                     } else if (firstRouteName == carAssetsType) {
                       selectFormDialog(carAssetsType);
                     } else if (firstRouteName == homeIncomeType) {
@@ -528,17 +532,17 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       color: colorTextBCBC.withOpacity(0.36)),
                   iconTextValue(icon2, bgColor, text2, value2, () {
                     if (secondRouteName == mfInvestmentType) {
-                      // BlocProvider.of<MFInvestmentsBloc>(context).add(
-                      //     LoadMFInvestmentsEvent(
-                      //         userId: ApiUser.userId,
-                      //         investmentPortfolio: InvestmentPortfolio(
-                      //             code: 0,
-                      //             message: '',
-                      //             portfolio: 0,
-                      //             investment: 0,
-                      //             gain: 0,
-                      //             mFStocks: [])));
-                      selectFormDialog(mfInvestmentType);
+                      BlocProvider.of<MFInvestmentsBloc>(context).add(
+                          LoadMFInvestmentsEvent(
+                              userId: ApiUser.userId,
+                              investmentPortfolio: InvestmentPortfolio(
+                                  code: 0,
+                                  message: '',
+                                  portfolio: 0,
+                                  investment: 0,
+                                  gain: 0,
+                                  mFStocks: [])));
+                      // selectFormDialog(mfInvestmentType);
                     } else if (secondRouteName == bikeAssetsType) {
                       selectFormDialog(bikeAssetsType);
                     } else if (secondRouteName == factoryIncomeType) {

@@ -304,7 +304,7 @@ class _WBCProgressState extends State<WBCProgress> {
             child: Container(
               height: 4.5.h,
               width: 4.5.h,
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                 color: colorGreenEFC,
                 shape: BoxShape.circle,
               ),

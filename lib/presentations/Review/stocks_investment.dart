@@ -145,7 +145,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 5.5.h, bottom: 6.h),
+                          padding: EdgeInsets.only(top: 4.h, bottom: 6.h),
                           child: Column(
                             children: [
                               Padding(
@@ -223,7 +223,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                                '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(2))}/-',
+                                                '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(0))}',
                                                 style: textStyle22(colorWhite)
                                                     .copyWith(height: 1.2)),
                                             Text('STOCK PORTFOLIO',
@@ -266,7 +266,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                         'Investment',
                                         CommonFunction().splitString(
                                             totalInvestment
-                                                .toStringAsFixed(2))),
+                                                .toStringAsFixed(0))),
                                     /*showValue(
                                         icStocksInvestment,
                                         colorFB83,
@@ -316,18 +316,17 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                       color: colorRed.withOpacity(0.35))
                                 ]),
                             alignment: Alignment.center,
-                            child: Text(
-                                'Track investments of your family members',
+                            child: Text('Connect Your Brokers',
                                 style: textStyle12Bold(colorWhite)),
                           )),
                       SizedBox(height: 2.5.h)
                     ],
                   ),
                   Positioned(
-                      top: 25.h,
+                      top: 23.5.h,
                       child: Container(
                         height: state.stockInvestmentPortfolio.stocks.isNotEmpty
-                            ? 52.h
+                            ? 48.5.h
                             : 0,
                         width: 90.w,
                         decoration: decoration(),
@@ -471,10 +470,10 @@ class _StocksInvestmentState extends State<StocksInvestment> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: textStyle9(colorText7070)),
+                Text(title, style: textStyle9Bold(colorText7070)),
                 SizedBox(height: 0.5.h),
                 Text(
-                  '₹ $val/-',
+                  '₹ $val',
                   style: textStyle11Bold(colorBlack),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -506,8 +505,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                   SizedBox(height: 0.7.h),
                   Row(
                     children: [
-                      Text('Qty: ', style: textStyle8(colorText7070)),
-                      Text('₹ $value/-', style: textStyle9(textColor)),
+                      Text('Qty: ', style: textStyle9Bold(colorText7070)),
+                      Text('$value', style: textStyle9Bold(colorText7070)),
                     ],
                   ),
                 ],
@@ -516,7 +515,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
               Column(
                 children: [
                   Text(CommonFunction().splitString(percentageVal),
-                      style: textStyle8(colorText7070)),
+                      style: textStyle9Bold(colorText7070)),
                 ],
               )
             ],

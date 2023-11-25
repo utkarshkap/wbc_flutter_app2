@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (state is DashboardDataLoaded) {
               Preference.setApproveContactCount(
                   state.data!.data.addContacts.toString());
-              ApiUser.goldReferralPoint = state.data!.data.goldPoint;
+              ApiUser.goldReferralPoint = state.data!.data.goldPoint!;
               ApiUser.offersList = state.data!.data.offers;
               GpDashBoardData.history = state.data!.data.history;
               GpDashBoardData.contactBase = state.data!.data.contactBase;
@@ -291,13 +291,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   state.data!.data.history,
                                   state.data!.data.contactBase,
                                   state.data!.data.inActive,
-                                  state.data!.data.availableContacts,
-                                  state.data!.data.goldPoint,
+                                  state.data!.data.availableContacts!,
+                                  state.data!.data.goldPoint!,
                                   state.data!.data.fastTrack,
                                   state.data!.data.earning,
-                                  state.data!.data.redeemable,
-                                  state.data!.data.nonRedeemable,
-                                  state.data!.data.onTheSpot, () {
+                                  state.data!.data.redeemable!,
+                                  state.data!.data.nonRedeemable!,
+                                  state.data!.data.onTheSpot!, () {
                                 BlocProvider.of<FetchingDataBloc>(context).add(
                                     LoadProductCategoryEvent(
                                         productCategory: ProductCategory(
@@ -328,13 +328,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   state.data!.data.history,
                                   state.data!.data.contactBase,
                                   state.data!.data.inActive,
-                                  state.data!.data.availableContacts,
-                                  state.data!.data.goldPoint,
+                                  state.data!.data.availableContacts!,
+                                  state.data!.data.goldPoint!,
                                   state.data!.data.fastTrack,
                                   state.data!.data.earning,
-                                  state.data!.data.redeemable,
-                                  state.data!.data.nonRedeemable,
-                                  state.data!.data.onTheSpot, () {
+                                  state.data!.data.redeemable!,
+                                  state.data!.data.nonRedeemable!,
+                                  state.data!.data.onTheSpot!, () {
                                 Navigator.of(context)
                                     .pushNamed(FastTrackBenefits.route);
                                 // Navigator.of(context).pushNamed(RequestPayment.route);
@@ -613,7 +613,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           verificationId: "",
                                           isLogin: true,
                                           selectedContact: state
-                                              .data!.data.availableContacts,
+                                              .data!.data.availableContacts!,
                                           isHomeContactOpen: true));
                                 } else {
                                   CommonFunction()

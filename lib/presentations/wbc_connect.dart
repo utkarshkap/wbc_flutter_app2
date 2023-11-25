@@ -58,12 +58,12 @@ class _WBCConnectState extends State<WBCConnect> {
   DateTime currentDate = DateTime(DateTime.now().year, 1, 1);
   String mono = "";
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
-  String selectedEarningTime = 'All Time';
+  String selectedEarningTime = 'Monthly';
   String selectedHistoryTime = 'All Time';
   List<String> years = [];
+  bool fastTrackStatus = false;
 
   List<String> earningTime = [
-    'All Time',
     'Weekly',
     'Monthly',
     'Yearly',
@@ -125,8 +125,13 @@ class _WBCConnectState extends State<WBCConnect> {
     }
   }
 
+  getFastTrackStatus() async {
+    fastTrackStatus = await Preference.getFastTrackStatus();
+  }
+
   @override
   void initState() {
+    getFastTrackStatus();
     getMobNog();
     getGoldPointData();
 
@@ -376,60 +381,102 @@ class _WBCConnectState extends State<WBCConnect> {
                                                                 .imgUrl,
                                                             height: 4.h)),
                                               ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      GpDashBoardData
-                                                          .history![index].name,
-                                                      style: textStyle11Bold(
-                                                          colorText3D3D)),
-                                                  SizedBox(height: 0.7.h),
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text: '4 transactions - ',
-                                                      style: textStyle9(
-                                                          colorText7070),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                            text:
-                                                                GpDashBoardData
-                                                                    .history![
-                                                                        index]
-                                                                    .status,
-                                                            style:
-                                                                textStyle10Medium(
-                                                                    colorGreen)),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
+                                              // Column(
+                                              //   crossAxisAlignment:
+                                              //       CrossAxisAlignment.start,
+                                              //   children: [
+                                              //     Text(
+                                              //         GpDashBoardData
+                                              //             .history![index].name,
+                                              //         style: textStyle11Bold(
+                                              //             colorText3D3D)),
+                                              //     SizedBox(height: 0.7.h),
+                                              //     RichText(
+                                              //       text: TextSpan(
+                                              //         text: '4 transactions - ',
+                                              //         style: textStyle9(
+                                              //             colorText7070),
+                                              //         children: <TextSpan>[
+                                              //           TextSpan(
+                                              //               text:
+                                              //                   GpDashBoardData
+                                              //                       .history![
+                                              //                           index]
+                                              //                       .status,
+                                              //               style:
+                                              //                   textStyle10Medium(
+                                              //                       colorGreen)),
+                                              //         ],
+                                              //       ),
+                                              //     )
+                                              //   ],
+                                              // ),
+
+                                              Flexible(
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    text:
+                                                        '${GpDashBoardData.history![index].description} - ',
+                                                    style: textStyle10Bold(
+                                                        colorText3D3D),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text: GpDashBoardData
+                                                              .history![index]
+                                                              .status,
+                                                          style:
+                                                              textStyle10Medium(
+                                                                  colorGreen)),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              const Spacer(),
+                                              SizedBox(
+                                                width: 2.w,
+                                              ),
+                                              // const Spacer(),
                                               Row(
                                                 children: [
                                                   Image.asset(
                                                       GpDashBoardData
                                                                   .history![
                                                                       index]
-                                                                  .status ==
-                                                              'Completed'
+                                                                  .credit !=
+                                                              0
                                                           ? icAdd
                                                           : icMinus,
                                                       color: GpDashBoardData
                                                                   .history![
                                                                       index]
-                                                                  .status ==
-                                                              'Completed'
+                                                                  .credit !=
+                                                              0
                                                           ? colorGreen
                                                           : colorRed,
                                                       width: 2.5.w),
                                                   SizedBox(width: 1.w),
-                                                  Text(
-                                                      '${GpDashBoardData.history![index].gp}',
-                                                      style: textStyle13Medium(
-                                                          colorGreen)),
+                                                  if (GpDashBoardData
+                                                          .history![index]
+                                                          .credit !=
+                                                      0)
+                                                    Text(
+                                                        '${GpDashBoardData.history![index].credit}',
+                                                        style:
+                                                            textStyle13Medium(
+                                                                colorGreen)),
+                                                  if (GpDashBoardData
+                                                          .history![index]
+                                                          .debit !=
+                                                      0)
+                                                    Text(
+                                                        GpDashBoardData
+                                                            .history![index]
+                                                            .debit
+                                                            .toString()
+                                                            .replaceAll(
+                                                                '-', ''),
+                                                        style:
+                                                            textStyle13Medium(
+                                                                colorRed)),
                                                 ],
                                               )
                                             ],
@@ -491,7 +538,7 @@ class _WBCConnectState extends State<WBCConnect> {
                     width: 90.w,
                     decoration: decoration(colorWhite),
                     child: contactsView(icAddContacts, 'Add Your Contacts',
-                        'Add Your Contacts You can add 96 contacts this month',
+                        'Add Your Contacts You can add  contacts this month',
                         () {
                       print(
                           'add contacts------${GpDashBoardData.availableContacts}');
@@ -999,7 +1046,9 @@ class _WBCConnectState extends State<WBCConnect> {
                     style: textStyle9(colorBlack),
                     children: <TextSpan>[
                       TextSpan(
-                          text: ' 96 Contacts ',
+                          text: fastTrackStatus == true
+                              ? ' 30 Contacts '
+                              : ' 10 Contacts ',
                           style: textStyle10Bold(colorRed)),
                       const TextSpan(text: 'this month'),
                     ],

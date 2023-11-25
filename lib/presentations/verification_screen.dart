@@ -511,6 +511,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   @override
+  void dispose() {
+    countdownTimer!.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('isVerify----==---$isVerify');
     print('isContactApprove----==---$approveContactCount');

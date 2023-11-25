@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/presentations/Review/emi_sip_calculator.dart';
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../common_functions.dart';
 import '../../core/api/api_consts.dart';
@@ -216,6 +217,28 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
                         ),
                       ),
                       Expanded(child: Container()),
+                      InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(EMISIPCalculator.route);
+                          },
+                          child: Container(
+                            height: 6.5.h,
+                            width: 90.w,
+                            decoration: BoxDecoration(
+                                color: colorRed,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: const Offset(0, 3),
+                                      blurRadius: 6,
+                                      color: colorRed.withOpacity(0.35))
+                                ]),
+                            alignment: Alignment.center,
+                            child: Text('Calculate Your EMI Sip',
+                                style: textStyle12Bold(colorWhite)),
+                          )),
+                      SizedBox(height: 1.5.h),
                       InkWell(
                           onTap: () {
                             Navigator.of(context)

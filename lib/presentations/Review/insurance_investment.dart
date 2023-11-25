@@ -271,8 +271,7 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                       color: colorRed.withOpacity(0.35))
                                 ]),
                             alignment: Alignment.center,
-                            child: Text(
-                                'Track investments of your family members',
+                            child: Text('Calculate Your Insurance',
                                 style: textStyle12Bold(colorWhite)),
                           )),
                       SizedBox(height: 2.5.h)
@@ -433,21 +432,21 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                 children: [
                   Text(title, style: textStyle10Bold(colorBlack)),
                   Text('₹ ${CommonFunction().splitString(value)}/-',
-                      style: textStyle10(colorText7070))
+                      style: textStyle10Bold(colorText7070))
                 ],
               ),
               SizedBox(height: 0.7.h),
               Row(
                 children: [
-                  Text('PLAN: ', style: textStyle9Medium(colorText7070)),
-                  Text(plan, style: textStyle9(colorText7070)),
+                  Text('PLAN: ', style: textStyle9Bold(colorText7070)),
+                  Text(plan, style: textStyle9Bold(colorText7070)),
                 ],
               ),
               SizedBox(height: 0.4.h),
               Row(
                 children: [
-                  Text('Due date: ', style: textStyle9Medium(colorText7070)),
-                  Text(updatedDt, style: textStyle9(colorText7070)),
+                  Text('Due date: ', style: textStyle9Bold(colorText7070)),
+                  Text(updatedDt, style: textStyle9Bold(colorText7070)),
                 ],
               ),
             ],

@@ -156,7 +156,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 5.5.h, bottom: 6.h),
+                          padding: EdgeInsets.only(top: 4.h, bottom: 6.h),
                           child: Column(
                             children: [
                               Padding(
@@ -238,7 +238,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                           children: [
                                             Text(
                                                 // '₹ ${CommonFunction().splitString(state.investmentPortfolio.portfolio.toInt().toString())}/-',
-                                                '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(2))}/-',
+                                                '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(0))}',
                                                 style: textStyle22(colorWhite)
                                                     .copyWith(height: 1.2)),
                                             Text('MUTUAL FUND PORTFOLIO',
@@ -279,10 +279,10 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                     showValue(
                                       icStocksInvestment,
                                       color47D1,
-                                      'Investment',
+                                      'MMF-Investment',
                                       // totalInvestments.toStringAsFixed(2)
                                       CommonFunction().splitString(
-                                          totalInvestments.toStringAsFixed(2)),
+                                          totalInvestments.toStringAsFixed(0)),
                                       // CommonFunction().splitString(state.investmentPortfolio.investment.toInt().toString())
                                     ),
                                     /*showValue(
@@ -337,10 +337,10 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                     ],
                   ),
                   Positioned(
-                      top: 25.h,
+                      top: 23.5.h,
                       child: Container(
                         height: state.investmentPortfolio.mFStocks.isNotEmpty
-                            ? 52.h
+                            ? 48.5.h
                             : 0,
                         width: 90.w,
                         decoration: decoration(),
@@ -520,10 +520,10 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: textStyle9(colorText7070)),
+                Text(title, style: textStyle9Bold(colorText7070)),
                 SizedBox(height: 0.5.h),
                 Text(
-                  '₹ $val/-',
+                  '₹ $val',
                   style: textStyle11Bold(colorBlack),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -585,23 +585,30 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                         Row(
                           children: [
                             Text('Last NAV: ',
-                                style: textStyle8Bold(colorText7070)),
-                            Text('₹ $value/-', style: textStyle8Bold(bgColor)),
+                                style: textStyle9Bold(colorText7070)),
+                            Text('₹ $value/-', style: textStyle9Bold(bgColor)),
+                            SizedBox(width: 2.w),
+                            Text('Unit: ',
+                                style: textStyle9Bold(colorText7070)),
+                            Text(unitValue.toStringAsFixed(2),
+                                style: textStyle9Bold(colorText7070)),
                           ],
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(unitValue.toStringAsFixed(2),
-                                  style: textStyle8Bold(colorText7070)),
-                              SizedBox(height: 0.7.h),
-                              Text(CommonFunction().splitString(percentageVal),
-                                  style: textStyle8Bold(colorText7070)),
-                            ],
-                          ),
-                        ),
+                        Text(CommonFunction().splitString(percentageVal),
+                            style: textStyle9Bold(colorText7070)),
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.end,
+                        //     children: [
+                        //       Text(unitValue.toStringAsFixed(2),
+                        //           style: textStyle8Bold(colorText7070)),
+                        //       SizedBox(height: 0.7.h),
+                        //       Text(CommonFunction().splitString(percentageVal),
+                        //           style: textStyle8Bold(colorText7070)),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
