@@ -10,8 +10,19 @@ class FileHelper {
   FileHelper._();
 
   getDirectoryPath() async {
+    // final directory = await getDownloadsDirectory();
+    // print("FILE PATH::::::::::::::::${directory!.path}");
+
+    // String fullPath = '${storageInfo[0].rootDir}' + '/Download' + '/boo2.pdf';
+    // /storage/emulated/0/Download
+    Directory? documents = await getExternalStorageDirectory();
+
     Directory filePath = await getApplicationDocumentsDirectory();
-    return filePath.path;
+
+    print(
+        "PATH****************************${documents!.path}=======${filePath.path}");
+
+    return '/storage/emulated/0/Download';
   }
 }
 
@@ -22,17 +33,20 @@ class PermissionClass {
 
   Future<bool> getStoragePermission() async {
     if (Platform.isAndroid) {
-      return true;
-      PermissionStatus storage;
+      // return true;
+      // PermissionStatus storage;
+      bool storage;
       final deviceInfoPlugin = DeviceInfoPlugin();
       final deviceInfo = await deviceInfoPlugin.androidInfo;
-      if (deviceInfo.version.sdkInt >= 30) {
-        storage = await Permission.manageExternalStorage.request();
-        log("External Stoarge ${storage.isGranted}");
+
+      if (deviceInfo.version.sdkInt >= 32) {
+        // storage = await Permission.manageExternalStorage.request();
+
+        storage = await Permission.photos.request().isGranted;
       } else {
-        storage = await Permission.storage.request();
+        storage = await Permission.storage.request().isGranted;
       }
-      if (storage.isGranted) {
+      if (storage) {
         return true;
       } else {
         openAppSettings();

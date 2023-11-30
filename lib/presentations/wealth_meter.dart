@@ -7,6 +7,7 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:wbc_connect_app/blocs/bloc/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
 import 'package:wbc_connect_app/models/stock_investment_model.dart';
 import 'package:wbc_connect_app/presentations/Review/mutual_funds_investment.dart';
@@ -31,8 +32,28 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
   @override
   void initState() {
+    BlocProvider.of<MFInvestmentsBloc>(context).add(LoadMFInvestmentsEvent(
+        userId: ApiUser.userId,
+        investmentPortfolio: InvestmentPortfolio(
+            code: 0,
+            message: '',
+            portfolio: 0,
+            investment: 0,
+            gain: 0,
+            mFStocks: [])));
+    BlocProvider.of<FetchingDataBloc>(context).add(LoadStockInvestmentEvent(
+        userId: ApiUser.userId,
+        investmentPortfolio: StockInvestmentModel(
+          code: 0,
+          message: '',
+          portfolio: 0,
+          investment: 0,
+          gain: 0,
+          stocks: [],
+        )));
     showCase();
     ageCalculate();
+
     super.initState();
   }
 
@@ -43,6 +64,9 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       ]),
     );
   }
+
+  double stocksValue = 0;
+  double mutualFundsValue = 0;
 
   // User Details
   String userDoB = '';
@@ -317,10 +341,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               'INVESTMENTS',
                               icStocksInvestment,
                               'Stocks',
-                              '87,903',
+                              stocksValue.toStringAsFixed(0),
                               icMutualFundsInvestment,
                               'Mutual Funds',
-                              '97,404',
+                              mutualFundsValue.toStringAsFixed(0),
                               colorF9C1,
                               stockInvestmentType,
                               mfInvestmentType),
@@ -329,10 +353,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               'INCOME',
                               icHome,
                               'Home',
-                              '87,903',
+                              '87903',
                               icFactory1,
                               'Factory\'s',
-                              '97,404',
+                              '97404',
                               color6C6C,
                               homeIncomeType,
                               factoryIncomeType),
@@ -341,10 +365,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               'LOAN (LIABILITIES)',
                               icCarLoan,
                               'Car Loan',
-                              '42,405',
+                              '42405',
                               icBikeLoan,
                               'Bike Loan',
-                              '9,87,863',
+                              '987863',
                               colorFB83,
                               carLoanType,
                               bikeLoanType),
@@ -353,10 +377,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               'INSURANCE',
                               icCarLoan,
                               'Car Loan',
-                              '42,405',
+                              '42405',
                               icBikeLoan,
                               'Bike Loan',
-                              '9,87,863',
+                              '987863',
                               colorFB83,
                               carInsuranceType,
                               bikeInsuranceType),
@@ -365,10 +389,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               'ASSETS',
                               icCarLoan,
                               'Car Loan',
-                              '42,405',
+                              '42405',
                               icBikeLoan,
                               'Bike Loan',
-                              '9,87,863',
+                              '987863',
                               colorFB83,
                               carAssetsType,
                               bikeAssetsType),
@@ -490,70 +514,97 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
             child: BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
               listener: (context, state) {
                 if (state is MFInvestmentsLoadedState) {
-                  Navigator.of(context)
-                      .pushReplacementNamed(MutualFundsInvestment.route);
-                }
-                if (state is StockInvestmentLoadedState) {
-                  Navigator.of(context)
-                      .pushReplacementNamed(StocksInvestment.route);
+                  mutualFundsValue = 0;
+                  for (int i = 0;
+                      i < state.investmentPortfolio.mFStocks.length;
+                      i++) {
+                    if (state.investmentPortfolio.mFStocks[i].unit.toInt() !=
+                        0) {
+                      mutualFundsValue += ((state.investmentPortfolio
+                                  .mFStocks[i].investment_Unit -
+                              state.investmentPortfolio.mFStocks[i].sale_Unit) *
+                          state.investmentPortfolio.mFStocks[i].nav);
+                    }
+                  }
+                  setState(() {});
                 }
               },
-              child: Row(
-                children: [
-                  iconTextValue(icon1, bgColor, text1, value1, () {
-                    if (firstRouteName == stockInvestmentType) {
-                      BlocProvider.of<FetchingDataBloc>(context)
-                          .add(LoadStockInvestmentEvent(
-                              userId: ApiUser.userId,
-                              investmentPortfolio: StockInvestmentModel(
-                                code: 0,
-                                message: '',
-                                portfolio: 0,
-                                investment: 0,
-                                gain: 0,
-                                stocks: [],
-                              )));
-                      Navigator.of(context)
-                          .pushReplacementNamed(StocksInvestment.route);
-                      // selectFormDialog(stockInvestmentType);
-                    } else if (firstRouteName == carAssetsType) {
-                      selectFormDialog(carAssetsType);
-                    } else if (firstRouteName == homeIncomeType) {
-                      selectFormDialog(homeIncomeType);
-                    } else if (firstRouteName == carLoanType) {
-                      selectFormDialog(carLoanType);
-                    } else if (firstRouteName == carInsuranceType) {
-                      selectFormDialog(carInsuranceType);
+              child: BlocListener<FetchingDataBloc, FetchingDataState>(
+                listener: (context, state) {
+                  if (state is StockInvestmentLoadedState) {
+                    stocksValue = 0;
+                    // Navigator.of(context)
+                    //     .pushReplacementNamed(StocksInvestment.route);
+
+                    for (int i = 0;
+                        i < state.stockInvestmentPortfolio.stocks.length;
+                        i++) {
+                      stocksValue += ((state
+                              .stockInvestmentPortfolio.stocks[i].balanceQty) *
+                          state.stockInvestmentPortfolio.stocks[i].rate);
                     }
-                  }),
-                  Container(
-                      height: 9.h,
-                      width: 1,
-                      color: colorTextBCBC.withOpacity(0.36)),
-                  iconTextValue(icon2, bgColor, text2, value2, () {
-                    if (secondRouteName == mfInvestmentType) {
-                      BlocProvider.of<MFInvestmentsBloc>(context).add(
-                          LoadMFInvestmentsEvent(
-                              userId: ApiUser.userId,
-                              investmentPortfolio: InvestmentPortfolio(
+                    setState(() {});
+                  }
+                },
+                child: Row(
+                  children: [
+                    iconTextValue(icon1, bgColor, text1, value1, () {
+                      if (firstRouteName == stockInvestmentType) {
+                        BlocProvider.of<FetchingDataBloc>(context)
+                            .add(LoadStockInvestmentEvent(
+                                userId: ApiUser.userId,
+                                investmentPortfolio: StockInvestmentModel(
                                   code: 0,
                                   message: '',
                                   portfolio: 0,
                                   investment: 0,
                                   gain: 0,
-                                  mFStocks: [])));
-                      // selectFormDialog(mfInvestmentType);
-                    } else if (secondRouteName == bikeAssetsType) {
-                      selectFormDialog(bikeAssetsType);
-                    } else if (secondRouteName == factoryIncomeType) {
-                      selectFormDialog(factoryIncomeType);
-                    } else if (secondRouteName == bikeLoanType) {
-                      selectFormDialog(bikeLoanType);
-                    } else if (secondRouteName == bikeInsuranceType) {
-                      selectFormDialog(bikeInsuranceType);
-                    }
-                  })
-                ],
+                                  stocks: [],
+                                )));
+                        Navigator.of(context)
+                            .pushReplacementNamed(StocksInvestment.route);
+                        // selectFormDialog(stockInvestmentType);
+                      } else if (firstRouteName == carAssetsType) {
+                        selectFormDialog(carAssetsType);
+                      } else if (firstRouteName == homeIncomeType) {
+                        selectFormDialog(homeIncomeType);
+                      } else if (firstRouteName == carLoanType) {
+                        selectFormDialog(carLoanType);
+                      } else if (firstRouteName == carInsuranceType) {
+                        selectFormDialog(carInsuranceType);
+                      }
+                    }),
+                    Container(
+                        height: 9.h,
+                        width: 1,
+                        color: colorTextBCBC.withOpacity(0.36)),
+                    iconTextValue(icon2, bgColor, text2, value2, () {
+                      if (secondRouteName == mfInvestmentType) {
+                        BlocProvider.of<MFInvestmentsBloc>(context).add(
+                            LoadMFInvestmentsEvent(
+                                userId: ApiUser.userId,
+                                investmentPortfolio: InvestmentPortfolio(
+                                    code: 0,
+                                    message: '',
+                                    portfolio: 0,
+                                    investment: 0,
+                                    gain: 0,
+                                    mFStocks: [])));
+                        Navigator.of(context)
+                            .pushReplacementNamed(MutualFundsInvestment.route);
+                        // selectFormDialog(mfInvestmentType);
+                      } else if (secondRouteName == bikeAssetsType) {
+                        selectFormDialog(bikeAssetsType);
+                      } else if (secondRouteName == factoryIncomeType) {
+                        selectFormDialog(factoryIncomeType);
+                      } else if (secondRouteName == bikeLoanType) {
+                        selectFormDialog(bikeLoanType);
+                      } else if (secondRouteName == bikeInsuranceType) {
+                        selectFormDialog(bikeInsuranceType);
+                      }
+                    })
+                  ],
+                ),
               ),
             ),
           )
@@ -661,45 +712,53 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
                                               if (lable ==
                                                   stockInvestmentType) ...[
-                                                cTextFormField('Salary',
+                                                cTextFormField('Enter Salary',
                                                     (value) {
                                                   salary = num.parse(value);
                                                 }),
-                                                cTextFormField('Professional',
+                                                cTextFormField(
+                                                    'Enter Professional',
                                                     (value) {
                                                   professional =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('SpouseIncome',
+                                                cTextFormField(
+                                                    'Enter SpouseIncome',
                                                     (value) {
                                                   spouseIncome =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('OtherIncome',
+                                                cTextFormField(
+                                                    'Enter OtherIncome',
                                                     (value) {
                                                   otherIncome =
                                                       num.parse(value);
                                                 }),
                                               ] else if (lable ==
                                                   mfInvestmentType) ...[
-                                                cTextFormField('MutualFunds',
+                                                cTextFormField(
+                                                    'Enter MutualFunds',
                                                     (value) {
                                                   mutualFunds =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('EmergencyFunds',
+                                                cTextFormField(
+                                                    'Enter EmergencyFunds',
                                                     (value) {
                                                   emergencyFunds =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('PPF', (value) {
+                                                cTextFormField('Enter PPF',
+                                                    (value) {
                                                   pPF = num.parse(value);
                                                 }),
-                                                cTextFormField('SIPMonthly',
+                                                cTextFormField(
+                                                    'Enter SIPMonthly',
                                                     (value) {
                                                   sIPMonthly = num.parse(value);
                                                 }),
-                                                cTextFormField('PPFMonthly',
+                                                cTextFormField(
+                                                    'Enter PPFMonthly',
                                                     (value) {
                                                   pPFMonthly = num.parse(value);
                                                 }),
@@ -707,47 +766,52 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                               // Assets
                                               else if (lable ==
                                                   carAssetsType) ...[
-                                                cTextFormField('Gold', (value) {
+                                                cTextFormField('Enter Gold',
+                                                    (value) {
                                                   gold = num.parse(value);
                                                 }),
-                                                cTextFormField('Cash', (value) {
+                                                cTextFormField('Enter Cash',
+                                                    (value) {
                                                   cash = num.parse(value);
                                                 }),
-                                                cTextFormField('StockPortfolio',
+                                                cTextFormField(
+                                                    'Enter StockPortfolio',
                                                     (value) {
                                                   stockPortfolio =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('SavingAccount',
+                                                cTextFormField(
+                                                    'Enter SavingAccount',
                                                     (value) {
                                                   savingAccount =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'PostOfficeOrVikasPatra',
+                                                    'Enter PostOfficeOrVikasPatra',
                                                     (value) {
                                                   postOfficeOrVikasPatra =
                                                       num.parse(value);
                                                 }),
                                               ] else if (lable ==
                                                   bikeAssetsType) ...[
-                                                cTextFormField('Vehicle',
+                                                cTextFormField('Enter Vehicle',
                                                     (value) {
                                                   vehicle = num.parse(value);
                                                 }),
-                                                cTextFormField('Guided',
+                                                cTextFormField('Enter Guided',
                                                     (value) {
                                                   guided = num.parse(value);
                                                 }),
-                                                cTextFormField('Unguided',
+                                                cTextFormField('Enter Unguided',
                                                     (value) {
                                                   unguided = num.parse(value);
                                                 }),
-                                                cTextFormField('Overdraft',
-                                                    (value) {
+                                                cTextFormField(
+                                                    'Enter Overdraft', (value) {
                                                   overdraft = num.parse(value);
                                                 }),
-                                                cTextFormField('OtherAsset',
+                                                cTextFormField(
+                                                    'Enter OtherAsset',
                                                     (value) {
                                                   otherAsset = num.parse(value);
                                                 }),
@@ -756,59 +820,63 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                               else if (lable ==
                                                   homeIncomeType) ...[
                                                 cTextFormField(
-                                                    'HouseHoldMonthly',
+                                                    'Enter HouseHoldMonthly',
                                                     (value) {
                                                   houseHoldMonthly =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'TotalMonthlyEmi', (value) {
+                                                    'Enter TotalMonthlyEmi',
+                                                    (value) {
                                                   totalMonthlyEmi =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'TotalInsurancePremiumYearly',
+                                                    'Enter TotalInsurancePremiumYearly',
                                                     (value) {
                                                   totalInsurancePremiumYearly =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'ChildrenEducationYearly',
+                                                    'Enter ChildrenEducationYearly',
                                                     (value) {
                                                   childrenEducationYearly =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'OtherExpenseYearly',
+                                                    'Enter OtherExpenseYearly',
                                                     (value) {
                                                   otherExpenseYearly =
                                                       num.parse(value);
                                                 }),
                                               ] else if (lable ==
                                                   factoryIncomeType) ...[
-                                                cTextFormField('Debenture',
-                                                    (value) {
+                                                cTextFormField(
+                                                    'Enter Debenture', (value) {
                                                   debenture = num.parse(value);
                                                 }),
-                                                cTextFormField('FixedDeposite',
+                                                cTextFormField(
+                                                    'Enter FixedDeposite',
                                                     (value) {
                                                   fixedDeposite =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('PMS', (value) {
+                                                cTextFormField('Enter PMS',
+                                                    (value) {
                                                   pMS = num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'PrivateInvestmentScheme',
+                                                    'Enter PrivateInvestmentScheme',
                                                     (value) {
                                                   privateInvestmentScheme =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('RealEstate',
+                                                cTextFormField(
+                                                    'Enter RealEstate',
                                                     (value) {
                                                   realEstate = num.parse(value);
                                                 }),
-                                                cTextFormField('Business',
+                                                cTextFormField('Enter Business',
                                                     (value) {
                                                   business = num.parse(value);
                                                 }),
@@ -816,69 +884,78 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                               //  Loan
                                               else if (lable ==
                                                   carLoanType) ...[
-                                                cTextFormField('HousingLoan',
+                                                cTextFormField(
+                                                    'Enter HousingLoan',
                                                     (value) {
                                                   housingLoan =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('EducationLoan',
+                                                cTextFormField(
+                                                    'Enter EducationLoan',
                                                     (value) {
                                                   educationLoan =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('PersonalLoan',
+                                                cTextFormField(
+                                                    'Enter PersonalLoan',
                                                     (value) {
                                                   personalLoan =
                                                       num.parse(value);
                                                 }),
                                               ] else if (lable ==
                                                   bikeLoanType) ...[
-                                                cTextFormField('MortgageLoan',
+                                                cTextFormField(
+                                                    'Enter MortgageLoan',
                                                     (value) {
                                                   mortgageLoan =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('VehicleLoan',
+                                                cTextFormField(
+                                                    'Enter VehicleLoan',
                                                     (value) {
                                                   vehicleLoan =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('OtherLoan',
-                                                    (value) {
+                                                cTextFormField(
+                                                    'Enter OtherLoan', (value) {
                                                   otherLoan = num.parse(value);
                                                 }),
                                               ]
                                               // Insurance
                                               else if (lable ==
                                                   carInsuranceType) ...[
-                                                cTextFormField('TermInsurance',
+                                                cTextFormField(
+                                                    'Enter TermInsurance',
                                                     (value) {
                                                   termInsurance =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'TraditionalInsurance',
+                                                    'Enter TraditionalInsurance',
                                                     (value) {
                                                   traditionalInsurance =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'HealthInsurance', (value) {
+                                                    'Enter HealthInsurance',
+                                                    (value) {
                                                   healthInsurance =
                                                       num.parse(value);
                                                 }),
                                               ] else if (lable ==
                                                   bikeInsuranceType) ...[
                                                 cTextFormField(
-                                                    'VehicleInsurance',
+                                                    'Enter VehicleInsurance',
                                                     (value) {
                                                   vehicleInsurance =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField('ULIP', (value) {
+                                                cTextFormField('Enter ULIP',
+                                                    (value) {
                                                   uLIP = num.parse(value);
                                                 }),
-                                                cTextFormField('OtherInsurance',
+                                                cTextFormField(
+                                                    'Enter OtherInsurance',
                                                     (value) {
                                                   otherInsurance =
                                                       num.parse(value);
@@ -931,7 +1008,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
   iconTextValue(String icon, Color bgColor, String text, String value,
       Function() onClick) {
-    return text == 'Stocks'
+    return text == 'Home'
         ? Showcase(
             key: showGlobalKey,
             description: 'Press here to calculate score',
@@ -961,7 +1038,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       children: [
                         Text(text, style: textStyle9(colorText3D3D)),
                         SizedBox(height: 0.5.h),
-                        Text('₹ $value/-', style: textStyle13Bold(colorBlack))
+                        Text('₹ ${CommonFunction().splitString(value)}/-',
+                            style: textStyle13Bold(colorBlack))
                       ],
                     ),
                   ],
@@ -995,7 +1073,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                     children: [
                       Text(text, style: textStyle9(colorText3D3D)),
                       SizedBox(height: 0.5.h),
-                      Text('₹ $value/-', style: textStyle13Bold(colorBlack))
+                      Text('₹ ${CommonFunction().splitString(value)}/-',
+                          style: textStyle13Bold(colorBlack))
                     ],
                   ),
                 ],
@@ -1091,9 +1170,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       width: 77.8.w,
       decoration: BoxDecoration(color: colorWhite, boxShadow: [
         BoxShadow(
-            color: colorTextBCBC.withOpacity(0.5),
-            offset: const Offset(0, 3),
-            blurRadius: 6)
+            color: colorTextBCBC, offset: const Offset(0, 3), blurRadius: 6)
       ]),
       child: SizedBox(
         width: 56.w,

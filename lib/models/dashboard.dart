@@ -163,6 +163,7 @@ class History {
     required this.credit,
     required this.debit,
     required this.description,
+    required this.date,
     required this.status,
   });
 
@@ -172,6 +173,7 @@ class History {
   final int? credit;
   final int? debit;
   final String description;
+  final String date;
   final String status;
 
   factory History.fromJson(Map<String, dynamic> json) => History(
@@ -181,6 +183,7 @@ class History {
         credit: json["credit"],
         debit: json["debit"],
         description: json["description"],
+        date: json["date"],
         status: json["status"],
       );
 
@@ -191,12 +194,13 @@ class History {
         "credit": credit,
         "debit": debit,
         "description": description,
+        "date": date,
         "status": status,
       };
 
   @override
   String toString() {
-    return 'History{id: $id, name: $name, imgUrl: $imgUrl, credit: $credit, debit: $debit, description: $description, status: $status}';
+    return 'History{id: $id, name: $name, imgUrl: $imgUrl, credit: $credit, debit: $debit, description: $description,  date: $date, status: $status}';
   }
 }
 
@@ -214,8 +218,8 @@ class Earning {
 
   final int ftId;
   final String timestamp;
-  final int credit;
-  final int debit;
+  final double credit;
+  final double debit;
   final int userid;
   final String invetmentType;
   final String invetmentSubType;

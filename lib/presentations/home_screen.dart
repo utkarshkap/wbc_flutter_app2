@@ -439,7 +439,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           if (state
                                               is StockInvestmentLoadedState) {
                                             // Navigator.of(context).pushNamed(StocksInvestment.route);
-                                          }
+                                          } 
                                         },
                                         child: portFolioWidget(
                                             icStocks, 'Stocks', false, () {

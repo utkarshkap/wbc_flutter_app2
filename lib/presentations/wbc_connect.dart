@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
@@ -43,8 +44,8 @@ import 'fastTrack_benefits.dart';
 
 class WBCConnect extends StatefulWidget {
   static const route = '/WBC-Connect';
-  // final WBCConnectData connectData;
 
+  // final WBCConnectData connectData;
   const WBCConnect({
     super.key,
     //  required this.connectData
@@ -62,13 +63,14 @@ class _WBCConnectState extends State<WBCConnect> {
   String selectedHistoryTime = 'All Time';
   List<String> years = [];
   bool fastTrackStatus = false;
+  double totalEarning = 0.0;
 
   List<String> earningTime = [
     'Weekly',
     'Monthly',
     'Yearly',
   ];
-
+  List<ChartData> mainList = [];
   // List<ChartData> mainList = [
   //   ChartData(activity: 'Redeemable', value: 955, color: colorTextFFC1),
   //   ChartData(
@@ -76,16 +78,29 @@ class _WBCConnectState extends State<WBCConnect> {
   //   ChartData(activity: 'On The Spot', value: 15, color: colorRed),
   // ];
 
-  List<ChartData> mainList = [];
+  List<EarningDataYearly> earningDataYearlyList = [
+    // EarningDataYearly(year: 2017, value: 1000),
+    // EarningDataYearly(year: 2018, value: 300),
+    // EarningDataYearly(year: 2019, value: 700),
+    // EarningDataYearly(year: 2020, value: 867),
+    // EarningDataYearly(year: 2021, value: 500),
+    // EarningDataYearly(year: 2022, value: 400),
+    // EarningDataYearly(year: 2023, value: 650),
+  ];
 
-  List<EarningData> earningDataList = [
-    EarningData(year: 2017, value: 1000),
-    EarningData(year: 2018, value: 300),
-    EarningData(year: 2019, value: 700),
-    EarningData(year: 2020, value: 867),
-    EarningData(year: 2021, value: 500),
-    EarningData(year: 2022, value: 400),
-    EarningData(year: 2023, value: 650),
+  List<EarningDataMonthly> earningDataMonthlyList = [
+    EarningDataMonthly(month: 01, monthName: 'Jan', value: 1200),
+    EarningDataMonthly(month: 02, monthName: 'Feb', value: 1000),
+    EarningDataMonthly(month: 03, monthName: 'Mar', value: 500),
+    EarningDataMonthly(month: 04, monthName: 'Apr', value: 700),
+    EarningDataMonthly(month: 05, monthName: 'May', value: 846),
+    EarningDataMonthly(month: 06, monthName: 'Jun', value: 200),
+    EarningDataMonthly(month: 07, monthName: 'Jul', value: 400),
+    EarningDataMonthly(month: 08, monthName: 'Aug', value: 900),
+    EarningDataMonthly(month: 09, monthName: 'Sep', value: 800),
+    EarningDataMonthly(month: 10, monthName: 'Oct', value: 1000),
+    EarningDataMonthly(month: 11, monthName: 'Nov', value: 1100),
+    EarningDataMonthly(month: 12, monthName: 'Dec', value: 1500),
   ];
 
   getMobNog() async {
@@ -129,12 +144,7 @@ class _WBCConnectState extends State<WBCConnect> {
     fastTrackStatus = await Preference.getFastTrackStatus();
   }
 
-  @override
-  void initState() {
-    getFastTrackStatus();
-    getMobNog();
-    getGoldPointData();
-
+  getLast7Years() {
     years.add(currentDate.year.toString());
     for (int i = 0; i < 6; i++) {
       var date = currentDate.subtract(const Duration(days: 365));
@@ -142,9 +152,115 @@ class _WBCConnectState extends State<WBCConnect> {
       currentDate = date;
     }
     years = List.from(years.reversed);
-    print('----years--==----$years');
-    print('----history--==----${GpDashBoardData.history}');
-    print('----contactBase--==----${GpDashBoardData.contactBase}');
+    for (int i = 0; i < years.length; i++) {
+      earningDataYearlyList
+          .add(EarningDataYearly(year: int.parse(years[i]), value: 0));
+    }
+  }
+
+  calculateYearlyEarningAnalysis() {
+    if (GpDashBoardData.earning!.isNotEmpty) {
+      var date = DateTime.now();
+      for (int i = 0; i < GpDashBoardData.earning!.length; i++) {
+        var formatDate = DateFormat('yyyy')
+            .format(DateTime.parse(GpDashBoardData.earning![i].timestamp));
+        if (formatDate == DateFormat('yyyy').format(date)) {
+          earningDataYearlyList[6].value += GpDashBoardData.earning![i].credit;
+        }
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year - 1))) {
+          earningDataYearlyList[5].value += GpDashBoardData.earning![i].credit;
+        }
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year - 2))) {
+          earningDataYearlyList[4].value += GpDashBoardData.earning![i].credit;
+        }
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year - 3))) {
+          earningDataYearlyList[3].value += GpDashBoardData.earning![i].credit;
+        }
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year - 4))) {
+          earningDataYearlyList[2].value += GpDashBoardData.earning![i].credit;
+        }
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year - 5))) {
+          earningDataYearlyList[1].value += GpDashBoardData.earning![i].credit;
+        }
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year - 6))) {
+          earningDataYearlyList[0].value += GpDashBoardData.earning![i].credit;
+        }
+        totalEarning += GpDashBoardData.earning![i].credit;
+      }
+    }
+  }
+
+  calculateMonthlyEarningAnalysis() {
+    if (GpDashBoardData.earning!.isNotEmpty) {
+      var date = DateTime.now();
+      for (int i = 0; i < GpDashBoardData.earning!.length; i++) {
+        var formatDate = DateFormat('yyyy')
+            .format(DateTime.parse(GpDashBoardData.earning![i].timestamp));
+        var month = DateFormat('MM')
+            .format(DateTime.parse(GpDashBoardData.earning![i].timestamp));
+        if (formatDate == DateFormat('yyyy').format(DateTime(date.year))) {
+          if (month.toString() == '01') {
+            earningDataMonthlyList[0].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '02') {
+            earningDataMonthlyList[1].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '03') {
+            earningDataMonthlyList[2].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '04') {
+            earningDataMonthlyList[3].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '05') {
+            earningDataMonthlyList[4].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '06') {
+            earningDataMonthlyList[5].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '07') {
+            earningDataMonthlyList[6].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '08') {
+            earningDataMonthlyList[7].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '09') {
+            earningDataMonthlyList[8].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '10') {
+            earningDataMonthlyList[9].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+
+          if (month.toString() == '11') {
+            earningDataMonthlyList[10].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+          if (month.toString() == '12') {
+            earningDataMonthlyList[11].value +=
+                GpDashBoardData.earning![i].credit;
+          }
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getFastTrackStatus();
+    getMobNog();
+    getGoldPointData();
+    getLast7Years();
+    calculateMonthlyEarningAnalysis();
+    calculateYearlyEarningAnalysis();
 
     super.initState();
   }
@@ -250,9 +366,6 @@ class _WBCConnectState extends State<WBCConnect> {
                     ),
                   ),
                 ),
-                // widget.connectData.earning.isEmpty
-                //     ? Container()
-                //     :
                 Container(
                   width: 90.w,
                   decoration: decoration(colorWhite),
@@ -275,11 +388,9 @@ class _WBCConnectState extends State<WBCConnect> {
                         padding: EdgeInsets.only(top: 5.h, bottom: 3.h),
                         child: AspectRatio(
                           aspectRatio: 1.8,
-                          child:
-                              // selectedEarningTime == 'Monthly'
-                              //     ? monthView()
-                              //     :
-                              weekView(),
+                          child: selectedEarningTime == 'Monthly'
+                              ? monthView()
+                              : yearView(),
                         ),
                       ),
                       Container(
@@ -300,7 +411,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('₹45,525',
+                                      Text(
+                                          '₹${CommonFunction().splitString(totalEarning.toStringAsFixed(0))}',
                                           style: textStyle13Bold(
                                               colorBoxGradiant0040)),
                                       SizedBox(height: 0.5.h),
@@ -313,7 +425,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('₹25,525',
+                                      Text(
+                                          '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toStringAsFixed(0))}',
                                           style:
                                               textStyle12Bold(colorText4747)),
                                       SizedBox(height: 0.5.h),
@@ -362,24 +475,28 @@ class _WBCConnectState extends State<WBCConnect> {
                                               vertical: 1.5.h),
                                           child: Row(
                                             children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 3.w),
-                                                child: IconButton(
-                                                    padding: EdgeInsets.zero,
-                                                    onPressed: () {},
-                                                    icon: GpDashBoardData
-                                                            .history![index]
-                                                            .imgUrl
-                                                            .isEmpty
-                                                        ? Image.asset(
-                                                            icGoldCoin,
-                                                            height: 4.h)
-                                                        : Image.network(
-                                                            GpDashBoardData
-                                                                .history![index]
-                                                                .imgUrl,
-                                                            height: 4.h)),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 3.w),
+                                                  child: IconButton(
+                                                      padding: EdgeInsets.zero,
+                                                      onPressed: () {},
+                                                      icon: GpDashBoardData
+                                                              .history![index]
+                                                              .imgUrl
+                                                              .isEmpty
+                                                          ? Image.asset(
+                                                              icGoldCoin,
+                                                              height: 4.h)
+                                                          : Image.network(
+                                                              GpDashBoardData
+                                                                  .history![
+                                                                      index]
+                                                                  .imgUrl,
+                                                              height: 4.h)),
+                                                ),
                                               ),
                                               // Column(
                                               //   crossAxisAlignment:
@@ -412,72 +529,92 @@ class _WBCConnectState extends State<WBCConnect> {
                                               //   ],
                                               // ),
 
-                                              Flexible(
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    text:
-                                                        '${GpDashBoardData.history![index].description} - ',
-                                                    style: textStyle10Bold(
-                                                        colorText3D3D),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: GpDashBoardData
-                                                              .history![index]
-                                                              .status,
-                                                          style:
-                                                              textStyle10Medium(
+                                              Expanded(
+                                                flex: 6,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text:
+                                                            '${GpDashBoardData.history![index].description} - ',
+                                                        style: textStyle10(
+                                                            colorText7070),
+                                                        children: <TextSpan>[
+                                                          TextSpan(
+                                                              text:
+                                                                  GpDashBoardData
+                                                                      .history![
+                                                                          index]
+                                                                      .status,
+                                                              style: textStyle10Medium(
                                                                   colorGreen)),
-                                                    ],
-                                                  ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 0.2.h,
+                                                    ),
+                                                    Text(
+                                                        "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(GpDashBoardData.history![index].date))}",
+                                                        style: textStyle10(
+                                                            colorText7070))
+                                                  ],
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 2.w,
-                                              ),
+                                              // SizedBox(
+                                              //   width: 2.w,
+                                              // ),
                                               // const Spacer(),
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                      GpDashBoardData
-                                                                  .history![
-                                                                      index]
-                                                                  .credit !=
-                                                              0
-                                                          ? icAdd
-                                                          : icMinus,
-                                                      color: GpDashBoardData
-                                                                  .history![
-                                                                      index]
-                                                                  .credit !=
-                                                              0
-                                                          ? colorGreen
-                                                          : colorRed,
-                                                      width: 2.5.w),
-                                                  SizedBox(width: 1.w),
-                                                  if (GpDashBoardData
-                                                          .history![index]
-                                                          .credit !=
-                                                      0)
-                                                    Text(
-                                                        '${GpDashBoardData.history![index].credit}',
-                                                        style:
-                                                            textStyle13Medium(
-                                                                colorGreen)),
-                                                  if (GpDashBoardData
-                                                          .history![index]
-                                                          .debit !=
-                                                      0)
-                                                    Text(
+                                              Expanded(
+                                                flex: 2,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Image.asset(
                                                         GpDashBoardData
+                                                                    .history![
+                                                                        index]
+                                                                    .credit !=
+                                                                0
+                                                            ? icAdd
+                                                            : icMinus,
+                                                        color: GpDashBoardData
+                                                                    .history![
+                                                                        index]
+                                                                    .credit !=
+                                                                0
+                                                            ? colorGreen
+                                                            : colorRed,
+                                                        width: 2.5.w),
+                                                    SizedBox(width: 1.w),
+                                                    if (GpDashBoardData
                                                             .history![index]
-                                                            .debit
-                                                            .toString()
-                                                            .replaceAll(
-                                                                '-', ''),
-                                                        style:
-                                                            textStyle13Medium(
-                                                                colorRed)),
-                                                ],
+                                                            .credit !=
+                                                        0)
+                                                      Text(
+                                                          '${GpDashBoardData.history![index].credit}',
+                                                          style:
+                                                              textStyle13Medium(
+                                                                  colorGreen)),
+                                                    if (GpDashBoardData
+                                                            .history![index]
+                                                            .debit !=
+                                                        0)
+                                                      Text(
+                                                          GpDashBoardData
+                                                              .history![index]
+                                                              .debit
+                                                              .toString()
+                                                              .replaceAll(
+                                                                  '-', ''),
+                                                          style:
+                                                              textStyle13Medium(
+                                                                  colorRed)),
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           ),
@@ -619,7 +756,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(top: 1.h),
-                                          child: Text('Add 10 Contacts To',
+                                          child: Text(
+                                              'Add ${fastTrackStatus == true ? '30' : '10'} Contacts To',
                                               style: textStyle13Bold(colorRed)),
                                         ),
                                         Padding(
@@ -629,7 +767,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Text('900 On The Sport',
+                                              Text(
+                                                  '${fastTrackStatus == true ? '3000' : '1000'} On The Sport',
                                                   style: textStyle10Bold(
                                                           colorWhite)
                                                       .copyWith(
@@ -696,128 +835,6 @@ class _WBCConnectState extends State<WBCConnect> {
     );
   }
 
-  BoxDecoration decoration(Color bgColor) {
-    return BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          if (bgColor == colorWhite)
-            BoxShadow(
-                color: colorTextBCBC.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 6))
-        ]);
-  }
-
-  monthView() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        height: 400,
-        width: deviceWidth(context) * 3.7,
-        child: BarChart(
-          BarChartData(
-            barGroups: _chartGroups(),
-            borderData: FlBorderData(show: false),
-            barTouchData: BarTouchData(
-              enabled: true,
-              touchTooltipData: BarTouchTooltipData(
-                tooltipBgColor: colorBG,
-                tooltipPadding: EdgeInsets.fromLTRB(1.5.w, 1.2.h, 1.5.w, 0.5.h),
-                tooltipMargin: 0.5.h,
-                getTooltipItem: (
-                  BarChartGroupData group,
-                  int groupIndex,
-                  BarChartRodData rod,
-                  int rodIndex,
-                ) {
-                  return BarTooltipItem('', textStyle11(colorGreen),
-                      children: <TextSpan>[
-                        TextSpan(text: '+ ', style: textStyle11(colorGreen)),
-                        TextSpan(
-                            text: '\$${rod.toY.round()}',
-                            style: textStyle9(colorGreen)),
-                      ]);
-                },
-              ),
-            ),
-            gridData: FlGridData(show: false),
-            titlesData: FlTitlesData(
-              show: true,
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 30,
-                  getTitlesWidget: getTitles,
-                ),
-              ),
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  weekView() {
-    return BarChart(
-      BarChartData(
-        barGroups: _chartGroups(),
-        borderData: FlBorderData(show: false),
-        barTouchData: BarTouchData(
-          enabled: true,
-          touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: colorBG,
-            tooltipPadding: EdgeInsets.fromLTRB(1.5.w, 1.2.h, 1.5.w, 0.5.h),
-            tooltipMargin: 0.5.h,
-            getTooltipItem: (
-              BarChartGroupData group,
-              int groupIndex,
-              BarChartRodData rod,
-              int rodIndex,
-            ) {
-              return BarTooltipItem('', textStyle11(colorGreen),
-                  children: <TextSpan>[
-                    TextSpan(text: '+ ', style: textStyle11(colorGreen)),
-                    TextSpan(
-                        text: '\$${rod.toY.round()}',
-                        style: textStyle9(colorGreen)),
-                  ]);
-            },
-          ),
-        ),
-        gridData: FlGridData(show: false),
-        titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 30,
-              getTitlesWidget: getTitles,
-            ),
-          ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          topTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-        ),
-      ),
-    );
-  }
-
   List<PieChartSectionData> _chartSections() {
     final List<PieChartSectionData> list = [];
     for (var i in mainList) {
@@ -854,6 +871,230 @@ class _WBCConnectState extends State<WBCConnect> {
               style: textStyle9(colorText7070)),
         )
       ],
+    );
+  }
+
+  monthView() {
+    return BarChart(
+      BarChartData(
+        barGroups: _chartGroupsMonthly(),
+        borderData: FlBorderData(show: false),
+        barTouchData: BarTouchData(
+          enabled: true,
+          touchTooltipData: BarTouchTooltipData(
+            tooltipBgColor: colorBG,
+            tooltipPadding: EdgeInsets.fromLTRB(1.5.w, 1.2.h, 1.5.w, 0.5.h),
+            tooltipMargin: 0.5.h,
+            getTooltipItem: (
+              BarChartGroupData group,
+              int groupIndex,
+              BarChartRodData rod,
+              int rodIndex,
+            ) {
+              return BarTooltipItem('', textStyle11(colorGreen),
+                  children: <TextSpan>[
+                    TextSpan(text: '+ ', style: textStyle11(colorGreen)),
+                    TextSpan(
+                        text: '\$${rod.toY.round()}',
+                        style: textStyle9(colorGreen)),
+                  ]);
+            },
+          ),
+        ),
+        gridData: const FlGridData(show: false),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 30,
+              getTitlesWidget: getTitlesMonthly,
+            ),
+          ),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+        ),
+      ),
+    );
+  }
+
+  yearView() {
+    return BarChart(
+      BarChartData(
+        barGroups: _chartGroupsYearly(),
+        borderData: FlBorderData(show: false),
+        barTouchData: BarTouchData(
+          enabled: true,
+          touchTooltipData: BarTouchTooltipData(
+            tooltipBgColor: colorBG,
+            tooltipPadding: EdgeInsets.fromLTRB(1.5.w, 1.2.h, 1.5.w, 0.5.h),
+            tooltipMargin: 0.5.h,
+            getTooltipItem: (
+              BarChartGroupData group,
+              int groupIndex,
+              BarChartRodData rod,
+              int rodIndex,
+            ) {
+              return BarTooltipItem('', textStyle11(colorGreen),
+                  children: <TextSpan>[
+                    TextSpan(text: '+ ', style: textStyle11(colorGreen)),
+                    TextSpan(
+                        text: '\$${rod.toY.round()}',
+                        style: textStyle9(colorGreen)),
+                  ]);
+            },
+          ),
+        ),
+        gridData: const FlGridData(show: false),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 30,
+              getTitlesWidget: getTitlesYearly,
+            ),
+          ),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<BarChartGroupData> _chartGroupsYearly() {
+    return earningDataYearlyList
+        .map((point) => BarChartGroupData(x: point.year, barRods: [
+              BarChartRodData(
+                  backDrawRodData: BackgroundBarChartRodData(
+                      color: colorF3F3, show: true, toY: 1500.0),
+                  toY: point.value,
+                  width: 3.w,
+                  color:
+                      // GpDashBoardData.earning!.isEmpty
+                      //     ? colorF3F3
+                      //     :
+                      colorBoxGradiant0040,
+                  borderRadius: BorderRadius.circular(5))
+            ]))
+        .toList();
+  }
+
+  List<BarChartGroupData> _chartGroupsMonthly() {
+    return earningDataMonthlyList
+        .map((point) => BarChartGroupData(x: point.month, barRods: [
+              BarChartRodData(
+                  // rodStackItems: [BarChartRodStackItem(10, 700, Colors.red)],
+                  backDrawRodData: BackgroundBarChartRodData(
+                      color: colorF3F3, show: true, toY: 1500.0),
+                  toY: point.value,
+                  width: 3.w,
+                  color:
+                      //  GpDashBoardData.earning!.isEmpty
+                      //     ? colorF3F3
+                      //     :
+                      colorBoxGradiant0040,
+                  borderRadius: BorderRadius.circular(5))
+            ]))
+        .toList();
+  }
+
+  Widget getTitlesYearly(double value, TitleMeta meta) {
+    String text;
+    switch (value.toInt() - (int.parse(years.last) - 6)) {
+      case 0:
+        text = years[0];
+        break;
+      case 1:
+        text = years[1];
+        break;
+      case 2:
+        text = years[2];
+        break;
+      case 3:
+        text = years[3];
+        break;
+      case 4:
+        text = years[4];
+        break;
+      case 5:
+        text = years[5];
+        break;
+      case 6:
+        text = years[6];
+        break;
+      default:
+        text = '';
+        break;
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 2.h,
+      child: Text(text, style: textStyle9(colorText7070)),
+    );
+  }
+
+  Widget getTitlesMonthly(double value, TitleMeta meta) {
+    String text;
+    switch (value.toInt()) {
+      case 01:
+        text = earningDataMonthlyList[0].monthName;
+        break;
+      case 02:
+        text = earningDataMonthlyList[1].monthName;
+        break;
+      case 03:
+        text = earningDataMonthlyList[2].monthName;
+        break;
+      case 04:
+        text = earningDataMonthlyList[3].monthName;
+        break;
+      case 05:
+        text = earningDataMonthlyList[4].monthName;
+        break;
+      case 06:
+        text = earningDataMonthlyList[5].monthName;
+        break;
+      case 07:
+        text = earningDataMonthlyList[6].monthName;
+        break;
+      case 08:
+        text = earningDataMonthlyList[7].monthName;
+        break;
+      case 09:
+        text = earningDataMonthlyList[8].monthName;
+        break;
+      case 10:
+        text = earningDataMonthlyList[9].monthName;
+        break;
+      case 11:
+        text = earningDataMonthlyList[10].monthName;
+        break;
+      case 12:
+        text = earningDataMonthlyList[11].monthName;
+        break;
+      default:
+        text = '';
+        break;
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 2.h,
+      child: Text(text, style: textStyle9(colorText7070)),
     );
   }
 
@@ -913,55 +1154,6 @@ class _WBCConnectState extends State<WBCConnect> {
             color: colorTransparent,
             padding: const EdgeInsets.only(left: 10),
             child: Text(title, style: textStyle10(colorText3D3D))));
-  }
-
-  List<BarChartGroupData> _chartGroups() {
-    return earningDataList
-        .map((point) => BarChartGroupData(x: point.year, barRods: [
-              BarChartRodData(
-                  toY: point.value,
-                  width: 3.w,
-                  color: GpDashBoardData.earning!.isEmpty
-                      ? colorF3F3
-                      : colorBoxGradiant0040,
-                  borderRadius: BorderRadius.circular(5))
-            ]))
-        .toList();
-  }
-
-  Widget getTitles(double value, TitleMeta meta) {
-    String text;
-    switch (value.toInt() - (int.parse(years.last) - 6)) {
-      case 0:
-        text = years[0];
-        break;
-      case 1:
-        text = years[1];
-        break;
-      case 2:
-        text = years[2];
-        break;
-      case 3:
-        text = years[3];
-        break;
-      case 4:
-        text = years[4];
-        break;
-      case 5:
-        text = years[5];
-        break;
-      case 6:
-        text = years[6];
-        break;
-      default:
-        text = '';
-        break;
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 2.h,
-      child: Text(text, style: textStyle9(colorText7070)),
-    );
   }
 
   button(String text, Function() onClick) {
@@ -1129,5 +1321,18 @@ class _WBCConnectState extends State<WBCConnect> {
         ],
       ),
     );
+  }
+
+  BoxDecoration decoration(Color bgColor) {
+    return BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          if (bgColor == colorWhite)
+            BoxShadow(
+                color: colorTextBCBC.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 6))
+        ]);
   }
 }

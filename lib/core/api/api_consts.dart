@@ -129,7 +129,7 @@ class GpDashBoardData {
   static int? availableContacts;
   static int? goldPoint;
   static double? fastTrackEarning;
-  static List? earning;
+  static List<Earning>? earning;
   static int? redeemable;
   static int? nonRedeemable;
   static int? onTheSpot;

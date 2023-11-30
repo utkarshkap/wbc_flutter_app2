@@ -20,22 +20,53 @@ class ConnectBrokers extends StatefulWidget {
 }
 
 class _ConnectBrokersState extends State<ConnectBrokers> {
-
   List<BrokersModel> brokersList = [
-    BrokersModel(companyName: 'Fyers',companyLogo:icFyers,isSelected: false),
-    BrokersModel(companyName: '5paisa Capital Limited',companyLogo:ic5paisa,isSelected: false),
-    BrokersModel(companyName: 'IIFL Wealth Management Limited',companyLogo:icIifl,isSelected: false),
-    BrokersModel(companyName: 'Zerodha Securities Private Limited',companyLogo:icZerodha,isSelected: false),
-    BrokersModel(companyName: 'Upstox',companyLogo:icUpstox,isSelected: false),
-    BrokersModel(companyName: 'Groww',companyLogo:icGroww,isSelected: false),
-    BrokersModel(companyName: 'Angel Broking Limited',companyLogo:icAngelbroking,isSelected: false),
-    BrokersModel(companyName: 'Hdfc Bank Limited',companyLogo:icHdfc,isSelected: false),
-    BrokersModel(companyName: 'ICICI Bank Limited',companyLogo:icIcici,isSelected: false),
-    BrokersModel(companyName: 'Motilal Oswal Financial Services Limited',companyLogo:icMotilal,isSelected: false),
-    BrokersModel(companyName: 'Paytm Moeny',companyLogo:icPaytm,isSelected: false),
-    BrokersModel(companyName: 'Kotak Securities Limited',companyLogo:icKotak,isSelected: false),
-    BrokersModel(companyName: 'Alice Blue Financial Services Private Limited',companyLogo:icAlice,isSelected: false),
-    BrokersModel(companyName: 'Trustline Securities Limited',companyLogo:icTrustline,isSelected: false),
+    BrokersModel(companyName: 'Fyers', companyLogo: icFyers, isSelected: false),
+    BrokersModel(
+        companyName: '5paisa Capital Limited',
+        companyLogo: ic5paisa,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'IIFL Wealth Management Limited',
+        companyLogo: icIifl,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Zerodha Securities Private Limited',
+        companyLogo: icZerodha,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Upstox', companyLogo: icUpstox, isSelected: false),
+    BrokersModel(companyName: 'Groww', companyLogo: icGroww, isSelected: false),
+    BrokersModel(
+        companyName: 'Angel Broking Limited',
+        companyLogo: icAngelbroking,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Hdfc Bank Limited',
+        companyLogo: icHdfc,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'ICICI Bank Limited',
+        companyLogo: icIcici,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Motilal Oswal Financial Services Limited',
+        companyLogo: icMotilal,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Paytm Moeny', companyLogo: icPaytm, isSelected: false),
+    BrokersModel(
+        companyName: 'Kotak Securities Limited',
+        companyLogo: icKotak,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Alice Blue Financial Services Private Limited',
+        companyLogo: icAlice,
+        isSelected: false),
+    BrokersModel(
+        companyName: 'Trustline Securities Limited',
+        companyLogo: icTrustline,
+        isSelected: false),
   ];
 
   @override
@@ -56,7 +87,8 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text('Connect your brokers', style: textStyle14Bold(colorBlack)),
+          title:
+              Text('Connect your brokers', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -77,90 +109,89 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
           ],
         ),
         body: Stack(
-        alignment: Alignment.topCenter,
-        clipBehavior: Clip.none,
-        children: [
-          Column(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [colorRed, colorBoxGradiant3333])),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 3.h, bottom: 6.h),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
+          alignment: Alignment.topCenter,
+          clipBehavior: Clip.none,
+          children: [
+            Column(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [colorRed, colorBoxGradiant3333])),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 3.h, bottom: 6.h),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
                                 "The only Auto Tracking across all your brokers in India",
                                 style: textStyle14Bold(colorWhite)
                                     .copyWith(height: 1.2),
-                            ),
-                            SizedBox(
-                              height: 0.8.w,
-                            ),
-                            Text('Analyse your stock investments with multiple brokers in a single step',
-                                style: textStyle9(colorE5E5).copyWith(height: 1.2),
-                            ),
-                          ],
+                              ),
+                              SizedBox(
+                                height: 0.8.w,
+                              ),
+                              Text(
+                                'Analyse your stock investments with multiple brokers in a single step',
+                                style:
+                                    textStyle9(colorE5E5).copyWith(height: 1.2),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 3.h),
-                    ],
+                        SizedBox(height: 3.h),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(child: Container()),
-              InkWell(
-                  onTap: () {
-                    String selectedBroker='';
-                    for(int i=0;i<brokersList.length;i++){
-                      if(brokersList[i].isSelected){
-                        selectedBroker=brokersList[i].companyName.toString();
+                Expanded(child: Container()),
+                InkWell(
+                    onTap: () {
+                      String selectedBroker = '';
+                      for (int i = 0; i < brokersList.length; i++) {
+                        if (brokersList[i].isSelected) {
+                          selectedBroker =
+                              brokersList[i].companyName.toString();
+                        }
                       }
-                    }
-                    if(selectedBroker == 'Fyers'){
-                      Navigator.of(context).pushNamed(WebviewFyers.route);
-                    }else if(selectedBroker == '5paisa Capital Limited'){
-                      Navigator.of(context).pushNamed(Webview5Paisa.route);
-                    }else if(selectedBroker == 'IIFL Wealth Management Limited'){
-                      Navigator.of(context).pushNamed(WebviewIIFL.route);
-                    }
-                    else{
-                    }
-                  },
-                  child: Container(
-                    height: 6.5.h,
-                    width: 90.w,
-                    decoration: BoxDecoration(
-                        color: colorRed,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: const Offset(0, 3),
-                              blurRadius: 6,
-                              color: colorRed.withOpacity(0.35))
-                        ]),
-                    alignment: Alignment.center,
-                    child: Text(
-                        'SUBMIT',
-                        style: textStyle12Bold(colorWhite)),
-                  )
-              ),
-              SizedBox(height: 2.5.h)
-            ],
-          ),
-          Positioned(
-              top: 17.h,
+                      if (selectedBroker == 'Fyers') {
+                        Navigator.of(context).pushNamed(WebviewFyers.route);
+                      } else if (selectedBroker == '5paisa Capital Limited') {
+                        Navigator.of(context).pushNamed(Webview5Paisa.route);
+                      } else if (selectedBroker ==
+                          'IIFL Wealth Management Limited') {
+                        Navigator.of(context).pushNamed(WebviewIIFL.route);
+                      } else {}
+                    },
+                    child: Container(
+                      height: 6.5.h,
+                      width: 90.w,
+                      decoration: BoxDecoration(
+                          color: colorRed,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(0, 3),
+                                blurRadius: 6,
+                                color: colorRed.withOpacity(0.35))
+                          ]),
+                      alignment: Alignment.center,
+                      child: Text('SUBMIT', style: textStyle12Bold(colorWhite)),
+                    )),
+                SizedBox(height: 2.5.h)
+              ],
+            ),
+            Positioned(
+              top: 19.h,
               child: Container(
-                height: 59.h,
+                height: 53.h,
                 width: 90.w,
                 decoration: BoxDecoration(
                     color: colorWhite,
@@ -169,86 +200,89 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
                       BoxShadow(
                           color: colorTextBCBC.withOpacity(0.3),
                           blurRadius: 8,
-                          offset: const Offset(0, 6)
-                      )
+                          offset: const Offset(0, 6))
                     ]),
                 child: SingleChildScrollView(
                   child: Column(
                       children: List.generate(brokersList.length, (index) {
-                        return Column(
-                          children: [
-                            GestureDetector(
-                              onTap:(){
-                                setState(() {
-                                  brokersList.forEach((element) => element.isSelected = false);
-                                  brokersList[index].isSelected =! brokersList[index].isSelected;
-                                });
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(color: Colors.transparent),
-                                margin: EdgeInsets.only(top: 0.3.h),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.5.w),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 4.w),
-                                        child: Image.asset(
-                                            brokersList[index].companyLogo.toString(),
-                                            height: 2.5.h
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(brokersList[index].companyName.toString(), style: textStyle9Bold(colorBlack)),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 5.w),
-                                        child:SizedBox(
-                                          height: 2.5.h,
-                                          width: 2.h,
-                                          child: Image.asset(
-                                              icCheckMark,
-                                              color: brokersList[index].isSelected
-                                                  ? colorRed
-                                                  : colorTextBCBC
-                                                  .withOpacity(0.62),
-                                              width: 5.w),
-                                        ),
-                                      ),
-                                    ],
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              brokersList.forEach(
+                                  (element) => element.isSelected = false);
+                              brokersList[index].isSelected =
+                                  !brokersList[index].isSelected;
+                            });
+                          },
+                          child: Container(
+                            decoration:
+                                const BoxDecoration(color: Colors.transparent),
+                            margin: EdgeInsets.only(top: 0.3.h),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 2.h, horizontal: 4.5.w),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 4.w),
+                                    child: Image.asset(
+                                        brokersList[index]
+                                            .companyLogo
+                                            .toString(),
+                                        height: 2.5.h),
                                   ),
-                                ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            brokersList[index]
+                                                .companyName
+                                                .toString(),
+                                            style: textStyle9Bold(colorBlack)),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 5.w),
+                                    child: SizedBox(
+                                      height: 2.5.h,
+                                      width: 2.h,
+                                      child: Image.asset(icCheckMark,
+                                          color: brokersList[index].isSelected
+                                              ? colorRed
+                                              : colorTextBCBC.withOpacity(0.62),
+                                          width: 5.w),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            if (index != brokersList.length-1)
-                              Container(
-                                  height: 1,
-                                  color: colorTextBCBC.withOpacity(0.36)
-                              )
-                          ],
-                        );
-                      })
-                  ),
+                          ),
+                        ),
+                        if (index != brokersList.length - 1)
+                          Container(
+                              height: 1, color: colorTextBCBC.withOpacity(0.36))
+                      ],
+                    );
+                  })),
                 ),
               ),
-          )
-        ],
-       ),
+            )
+          ],
+        ),
       ),
     );
   }
-
 }
 
-class BrokersModel{
+class BrokersModel {
   String? companyName;
   String? companyLogo;
   bool isSelected = false;
 
-  BrokersModel({this.companyName,this.companyLogo, required this.isSelected});
+  BrokersModel({this.companyName, this.companyLogo, required this.isSelected});
 }

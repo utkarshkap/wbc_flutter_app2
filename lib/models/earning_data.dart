@@ -1,6 +1,15 @@
-class EarningData {
+class EarningDataYearly {
   final int year;
-  final double value;
+  double value;
 
-  EarningData({required this.year, required this.value});
+  EarningDataYearly({required this.year, required this.value});
+}
+
+class EarningDataMonthly {
+  final int month;
+  final String monthName;
+  double value;
+
+  EarningDataMonthly(
+      {required this.month, required this.monthName, required this.value});
 }

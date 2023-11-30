@@ -47,6 +47,7 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
       if (await PermissionClass.i.getStoragePermission()) {
         String path = await FileHelper.i.getDirectoryPath();
         Dio dio = Dio();
+        print("PATH:::::::::${'$path/${pdf.split('/').last}'}");
         await dio.download(
           pdf,
           '$path/${pdf.split('/').last}',

@@ -799,7 +799,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 SizedBox(height: 0.5.h),
                                 Text(
                                     step == 4
-                                        ? 'And Get 1000 Gold Points (GP)'
+                                        ? 'And Get ${fastTrackStatus == true ? '3000' : '1000'} Gold Points (GP)'
                                         : 'Step $step',
                                     style: textStyle8(colorText7070)),
                               ],
