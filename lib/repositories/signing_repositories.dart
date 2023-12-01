@@ -8,6 +8,23 @@ import '../core/api/api_handler.dart';
 import '../models/signing_screen_model.dart' as sigingmodel;
 
 class SigningRepository {
+  getPendingDeleteUser(String moNo) async {
+    try {
+      final response = await ApiHandler.get(getPendingDeleteUserKey + moNo);
+
+      print('responsedata------${response.statusCode}');
+
+      print('jsondecode-------${jsonDecode(response.body)}');
+
+      return ApiResponse.withSuccess(response);
+    } on BadRequestException {
+      return ApiResponse.withError('Something went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
 
   setLoginUser(
       {required String name,
@@ -96,6 +113,28 @@ class SigningRepository {
 
       print('data------$data');
       final response = await ApiHandler.post(url: addContact, body: data);
+
+      print('addcontactapi--------------response-------------${response.body}');
+      print(response.statusCode);
+      return response;
+    } on BadRequestException {
+      return ApiResponse.withError('Something went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
+
+  deleteUserAccount() async {
+    try {
+      final data = jsonEncode({'': ''}
+          // AddContact(mobileNo: mobileNo, date: date, contacts: contacts)
+          );
+
+      print('data------$data');
+      final response =
+          await ApiHandler.delete(url: '$deleteAccountKey${ApiUser.mobileNo}');
 
       print('addcontactapi--------------response-------------${response.body}');
       print(response.statusCode);

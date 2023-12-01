@@ -23,7 +23,8 @@ class AddContactLoaded extends SigningState {
   final String acceptedContacts;
   final List<GoldReferral> myContacts;
 
-  AddContactLoaded(this.data, this.userId,this.acceptedContacts,this.myContacts);
+  AddContactLoaded(
+      this.data, this.userId, this.acceptedContacts, this.myContacts);
 }
 
 class AddContactFailed extends SigningState {}

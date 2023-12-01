@@ -1168,9 +1168,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       alignment: Alignment.centerLeft,
       height: 6.h,
       width: 77.8.w,
-      decoration: BoxDecoration(color: colorWhite, boxShadow: [
-        BoxShadow(
-            color: colorTextBCBC, offset: const Offset(0, 3), blurRadius: 6)
+      decoration: const BoxDecoration(color: colorWhite, boxShadow: [
+        BoxShadow(color: colorTextBCBC, offset: Offset(0, 3), blurRadius: 6)
       ]),
       child: SizedBox(
         width: 56.w,

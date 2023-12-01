@@ -35,10 +35,6 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
   String selectedHistoryTime = 'All Time';
   String filteredItem = '';
 
-//  Center(
-//                         child: Text('No Contacts Available',
-//                             style: textStyle12(colorText7070)))
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -99,7 +95,6 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                             print(
                                                 '*********${date.weekday - 1}');
                                           }
-
                                           if (selectedHistoryTime ==
                                               'Monthly') {
                                             filteredItem = DateFormat('MM-yyyy')

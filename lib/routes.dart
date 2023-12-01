@@ -37,6 +37,7 @@ import 'package:wbc_connect_app/presentations/brokers_api/view_fyers_holding.dar
 import 'package:wbc_connect_app/presentations/brokers_api/webview_5paisa.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/webview_IIFL.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/weview_fyers.dart';
+import 'package:wbc_connect_app/presentations/close_account/close_account_screen.dart';
 import 'package:wbc_connect_app/presentations/emisip_cal_result.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
@@ -378,6 +379,10 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       final data = arguments as GoldPointHistoryData;
       return MaterialPageRoute(
         builder: (_) => GoldPointHistoryScreen(goldPointHistoryData: data),
+      );
+    case '/close-account':
+      return MaterialPageRoute(
+        builder: (_) => const CloseAccountScreen(),
       );
 
     default:

@@ -4,10 +4,12 @@ import '../../models/dashboard.dart';
 const setUser = 'setUser';
 const addContact = 'addContacts';
 const getUserKey = 'getUser?MobileNo=';
+const getPendingDeleteUserKey = 'pendingdeleteuser?mobileNo=';
 const getDashboardKey = 'getGPDashboard?userid=';
 const getContactKey = 'getContact?id=';
 const setOrderKey = 'wbcOrder';
 const getAllOrderKey = 'getallorder?userid=';
+const deleteAccountKey = 'deleteaccount?mobileno=';
 
 const setInsuranceReviewKey = 'addreviewInsurance';
 const setFamilyMember = 'addfamilymember';
