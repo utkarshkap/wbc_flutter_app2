@@ -50,3 +50,15 @@ class UserIdData extends SigningEvent {
 
   UserIdData({required this.mobileNo});
 }
+
+class DeleteUserAccount extends SigningEvent {
+  final String mobileNo;
+
+  DeleteUserAccount({required this.mobileNo});
+}
+
+class GetPendingDeleteUser extends SigningEvent {
+  final String mobileNo;
+
+  GetPendingDeleteUser({required this.mobileNo});
+}

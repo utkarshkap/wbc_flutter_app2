@@ -48,3 +48,23 @@ class UserIdLoaded extends SigningState {
 }
 
 class UserIdFailed extends SigningState {}
+
+class PendingDeleteUserDataAdding extends SigningState {}
+
+class PendingDeleteUserDataAdded extends SigningState {
+  final String message;
+
+  PendingDeleteUserDataAdded(this.message);
+}
+
+class PendingDeleteUserFailed extends SigningState {}
+
+class DeleteUserAccountDataAdding extends SigningState {}
+
+class DeleteUserAccountDataAdded extends SigningState {
+  final int code;
+
+  DeleteUserAccountDataAdded(this.code);
+}
+
+class DeleteUserAccountFailed extends SigningState {}

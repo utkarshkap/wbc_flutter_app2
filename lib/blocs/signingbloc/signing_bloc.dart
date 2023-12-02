@@ -30,8 +30,7 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
             area: event.area,
             address: event.address,
             deviceId: event.deviceId,
-            tnc: event.tnc
-        );
+            tnc: event.tnc);
 
         print('Create user status code-----${response.statusCode}');
 
@@ -54,19 +53,17 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
             mobileNo: event.mobileNo,
             date: event.date,
             contacts: event.contacts);
-                   print("event.mobileNo:::::::::-::::::-::::${event.contacts}");
+        print("event.mobileNo:::::::::-::::::-::::${event.contacts}");
 
         final addContactResponse = addContactResponseFromJson(response.body);
 
         for (var element in addContactResponse.contacts) {
           if (element.status == "Accepted") {
             count++;
-          }
-          else{
-          ApiUser.numberList.add(element.mobileNo);
+          } else {
+            ApiUser.numberList.add(element.mobileNo);
           }
           // print("ELEMENT LIST:::::::${ApiUser.numberList}");
-
         }
         print('accepted contact count-----$count');
 
@@ -116,7 +113,7 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
 
         final data = getUserFromJson(response.data!.body);
 
-          print('data-------${response.data!.statusCode}');
+        print('data-------${response.data!.statusCode}');
 
         print('getUser Response------$data');
         print('contactData------${data.goldReferrals}');
@@ -125,8 +122,22 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
             ? emit(UserIdLoaded(data))
             : emit(UserIdFailed());
       });
+    });
 
-      // TODO: implement event handler
+    on<DeleteUserAccount>((event, emit) async {
+      emit(DeleteUserAccountDataAdding());
+      final signingRepo = SigningRepository();
+
+      final response = await signingRepo.deleteUserAccount(event.mobileNo);
+      emit(DeleteUserAccountDataAdded(response));
+    });
+
+    on<GetPendingDeleteUser>((event, emit) async {
+      emit(PendingDeleteUserDataAdding());
+      final signingRepo = SigningRepository();
+
+      final response = await signingRepo.getPendingDeleteUser(event.mobileNo);
+      emit(PendingDeleteUserDataAdded(response));
     });
   }
 }

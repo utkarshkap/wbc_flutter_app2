@@ -1,21 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 
-class CloseAccountScreen extends StatefulWidget {
+class DeleteAccountScreen extends StatefulWidget {
   static const route = '/close-account';
-  const CloseAccountScreen({super.key});
+  const DeleteAccountScreen({super.key});
 
   @override
-  State<CloseAccountScreen> createState() => _CloseAccountScreenState();
+  State<DeleteAccountScreen> createState() => _DeleteAccountScreenState();
 }
 
-class _CloseAccountScreenState extends State<CloseAccountScreen> {
+class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  bool closeAccount = false;
+  bool deleteAccount = false;
   signOut() async {
     await auth.signOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -39,7 +43,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
               leadingWidth: 15.w,
               leading: IconButton(
                   onPressed: () {
-                    if (closeAccount == false) {
+                    if (deleteAccount == false) {
                       Navigator.of(context).pop();
                     } else {
                       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -49,7 +53,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                   icon: Image.asset(icBack, color: colorRed, width: 6.w)),
               titleSpacing: 0,
               title: Text(
-                  closeAccount == false ? 'Delete account' : 'Account Deleted',
+                  deleteAccount == false ? 'Delete account' : 'Account Deleted',
                   style: textStyle14Bold(colorBlack)),
             ),
             body: SingleChildScrollView(
@@ -60,7 +64,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (closeAccount == false) ...[
+                        if (deleteAccount == false) ...[
                           Text("app, we're sorry to see you go",
                               style: textStyle15Bold(colorBlack)),
                           SizedBox(
@@ -72,29 +76,43 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                           SizedBox(
                             height: 3.h,
                           ),
-                          InkWell(
-                              onTap: () {
-                                setState(() {
-                                  closeAccount = true;
-                                  signOut();
-                                });
-                              },
-                              child: Container(
-                                width: 40.w,
-                                height: 6.5.h,
-                                decoration: BoxDecoration(
-                                    color: colorRed,
-                                    borderRadius: BorderRadius.circular(30),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: const Offset(0, 3),
-                                          blurRadius: 6,
-                                          color: colorRed.withOpacity(0.35))
-                                    ]),
-                                alignment: Alignment.center,
-                                child: Text('Delete Account',
-                                    style: textStyle13Bold(colorWhite)),
-                              )),
+                          BlocConsumer<SigningBloc, SigningState>(
+                            listener: (context, state) {
+                              if (state is DeleteUserAccountDataAdded) {
+                                if (state.code == 200) {
+                                  setState(() {
+                                    deleteAccount = true;
+                                    signOut();
+                                  });
+                                }
+                              }
+                            },
+                            builder: (context, state) {
+                              return InkWell(
+                                  onTap: () async {
+                                    BlocProvider.of<SigningBloc>(context).add(
+                                        DeleteUserAccount(
+                                            mobileNo:
+                                                await Preference.getMobNo()));
+                                  },
+                                  child: Container(
+                                    width: 40.w,
+                                    height: 6.5.h,
+                                    decoration: BoxDecoration(
+                                        color: colorRed,
+                                        borderRadius: BorderRadius.circular(30),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: const Offset(0, 3),
+                                              blurRadius: 6,
+                                              color: colorRed.withOpacity(0.35))
+                                        ]),
+                                    alignment: Alignment.center,
+                                    child: Text('Delete Account',
+                                        style: textStyle13Bold(colorWhite)),
+                                  ));
+                            },
+                          ),
                         ] else ...[
                           SizedBox(
                             height: 3.h,

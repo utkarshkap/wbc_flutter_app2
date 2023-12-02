@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/presentations/social_login.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
@@ -26,44 +28,45 @@ class _SigInPageState extends State<SigInPage> {
   String countryCode = '+91';
   String validationString = "";
   bool isSendOtp = false;
+  bool isLoading = false;
 
   sendOtp() async {
-    // setState(() {
-    //   isSendOtp = true;
-    // });
-    // FocusManager.instance.primaryFocus?.unfocus();
-    // Preference.setMobNo(_numController.text);
-    // Preference.setCountryCode(countryCode);
+    setState(() {
+      isSendOtp = true;
+    });
+    FocusManager.instance.primaryFocus?.unfocus();
+    Preference.setMobNo(_numController.text);
+    Preference.setCountryCode(countryCode);
 
-    // print('Submitted your Number: $countryCode${_numController.text}');
-    // await FirebaseAuth.instance.verifyPhoneNumber(
-    //   phoneNumber: countryCode + _numController.text,
-    //   verificationCompleted: (PhoneAuthCredential credential) {},
-    //   verificationFailed: (FirebaseAuthException e) {
-    //     print('verification failed exception------$e');
+    print('Submitted your Number: $countryCode${_numController.text}');
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: countryCode + _numController.text,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        print('verification failed exception------$e');
 
-    //     setState(() {
-    //       validationString = 'Invalid Number';
-    //       isSendOtp = false;
-    //     });
-    //   },
-    //   codeSent: (String verificationId, int? resendToken) {
-    //     print("verificationId--->" + verificationId.toString());
-    //     Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
-    //         arguments: VerificationScreenData(
-    //             getNumber: _numController.text.replaceAll(' ', ''),
-    //             number: "$countryCode ${_numController.text}",
-    //             verificationId: verificationId.toString(),
-    //             selectedContact: 0));
-    //   },
-    //   codeAutoRetrievalTimeout: (String verificationId) {},
-    // );
-    Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
-        arguments: VerificationScreenData(
-            getNumber: _numController.text.replaceAll(' ', ''),
-            number: "$countryCode ${_numController.text}",
-            verificationId: "",
-            selectedContact: 0));
+        setState(() {
+          validationString = 'Invalid Number';
+          isSendOtp = false;
+        });
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print("verificationId--->" + verificationId.toString());
+        Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
+            arguments: VerificationScreenData(
+                getNumber: _numController.text.replaceAll(' ', ''),
+                number: "$countryCode ${_numController.text}",
+                verificationId: verificationId.toString(),
+                selectedContact: 0));
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+    // Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
+    //     arguments: VerificationScreenData(
+    //         getNumber: _numController.text.replaceAll(' ', ''),
+    //         number: "$countryCode ${_numController.text}",
+    //         verificationId: "",
+    //         selectedContact: 0));
   }
 
   void _showCountryPicker() async {
@@ -277,54 +280,73 @@ class _SigInPageState extends State<SigInPage> {
                     SizedBox(
                       height: 2.h,
                     ),
-                    InkWell(
-                      onTap: () {
-                        if (_numController.text.isEmpty) {
+                    BlocListener<SigningBloc, SigningState>(
+                      listener: (context, state) {
+                        if (state is PendingDeleteUserDataAdded) {
                           setState(() {
-                            validationString = 'Empty String';
+                            isLoading = false;
                           });
-                        } else {
-                          print(
-                              '--==-----num------${_numController.text.length}');
-                          if (_numController.text.replaceAll(' ', '').length <
-                                  10 ||
-                              _numController.text.replaceAll(' ', '').length >
-                                  10) {
-                            setState(() {
-                              validationString = 'Invalid String';
-                            });
+                          if (state.message ==
+                              'Your account is queued for deletion.') {
+                            accountRestricteDialogBox();
                           } else {
-                            print(
-                                'Submitted your Number: ${_numController.text.trim()}');
-                            setState(() {
-                              validationString = '';
-                            });
                             sendOtp();
                           }
                         }
-                        print(
-                            '--==-----validationString------$validationString');
                       },
-                      child: Container(
-                        height: 6.5.h,
-                        width: 90.w,
-                        decoration: BoxDecoration(
-                            color: colorRed,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                  color: Color(0x00000029))
-                            ]),
-                        alignment: Alignment.center,
-                        child: isSendOtp
-                            ? SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                    color: colorWhite, strokeWidth: 0.7.w))
-                            : Text('NEXT', style: textStyle13Bold(colorWhite)),
+                      child: InkWell(
+                        onTap: () {
+                          if (_numController.text.isEmpty) {
+                            setState(() {
+                              validationString = 'Empty String';
+                            });
+                          } else {
+                            print(
+                                '--==-----num------${_numController.text.length}');
+                            if (_numController.text.replaceAll(' ', '').length <
+                                    10 ||
+                                _numController.text.replaceAll(' ', '').length >
+                                    10) {
+                              setState(() {
+                                validationString = 'Invalid String';
+                              });
+                            } else {
+                              print(
+                                  'Submitted your Number: ${_numController.text.trim()}');
+                              setState(() {
+                                validationString = '';
+                              });
+                              BlocProvider.of<SigningBloc>(context).add(
+                                  GetPendingDeleteUser(
+                                      mobileNo: _numController.text));
+                              isLoading = true;
+                            }
+                          }
+                          print(
+                              '--==-----validationString------$validationString');
+                        },
+                        child: Container(
+                          height: 6.5.h,
+                          width: 90.w,
+                          decoration: BoxDecoration(
+                              color: colorRed,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6,
+                                    color: Color(0x00000029))
+                              ]),
+                          alignment: Alignment.center,
+                          child: isSendOtp || isLoading == true
+                              ? SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                      color: colorWhite, strokeWidth: 0.7.w))
+                              : Text('NEXT',
+                                  style: textStyle13Bold(colorWhite)),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -445,6 +467,56 @@ class _SigInPageState extends State<SigInPage> {
         print("idToken-->>$idToken");
       }
     });
+  }
+
+  accountRestricteDialogBox() {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: false,
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                  opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                  child: StatefulBuilder(
+                    builder: (context, setState) => AlertDialog(
+                      contentPadding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      content: SizedBox(
+                        height: 20.h,
+                        width: deviceWidth(context) * 0.778,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Your account is restricted. Please contact to support@kagroup.in for more information',
+                                  style: textStyle13Medium(colorBlack)
+                                      .copyWith(height: 1.2)),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: InkWell(
+                                  splashColor: colorWhite,
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('okay',
+                                      style: textStyle13Bold(colorBlack)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
   }
 }
 

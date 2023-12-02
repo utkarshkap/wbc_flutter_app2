@@ -9,7 +9,7 @@ import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Investment.dart';
 import 'package:wbc_connect_app/presentations/Review/loan_EMI.dart';
 import 'package:wbc_connect_app/presentations/Review/munafe_ki_class.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/cart_screen.dart';
-import 'package:wbc_connect_app/presentations/close_account/close_account_screen.dart';
+import 'package:wbc_connect_app/presentations/delete_account/delete_account_screen.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
@@ -392,7 +392,8 @@ class _MainDrawerState extends State<MainDrawer> {
                     }),
                     drawerWidget(icLogout, 'Delete account', () {
                       Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushNamed(CloseAccountScreen.route);
+                      Navigator.of(context)
+                          .pushNamed(DeleteAccountScreen.route);
                     }),
                     SizedBox(height: 1.5.h)
                   ],

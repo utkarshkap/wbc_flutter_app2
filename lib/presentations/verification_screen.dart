@@ -153,38 +153,38 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   verifyOtp() async {
-    // try {
-    //   setState(() {
-    //     isVerify = true;
-    //   });
-    //   print(
-    //       'verificationId-----${widget.verificationScreenData.verificationId}');
+    try {
+      setState(() {
+        isVerify = true;
+      });
+      print(
+          'verificationId-----${widget.verificationScreenData.verificationId}');
 
-    //   print(resendVerificationId);
-    //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-    //       verificationId: resendVerificationId.isNotEmpty
-    //           ? resendVerificationId
-    //           : widget.verificationScreenData.verificationId,
-    //       smsCode: sms);
+      print(resendVerificationId);
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: resendVerificationId.isNotEmpty
+              ? resendVerificationId
+              : widget.verificationScreenData.verificationId,
+          smsCode: sms);
 
-    //   await auth.signInWithCredential(credential);
-    //   getToken();
+      await auth.signInWithCredential(credential);
+      getToken();
 
-    //   BlocProvider.of<SigningBloc>(context)
-    //       .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
-    // } catch (e) {
-    //   print('exception------');
-    //   setState(() {
-    //     isVerify = false;
-    //     pinValidationString = 'The Code Is Incorrect';
-    //   });
-    // }
+      BlocProvider.of<SigningBloc>(context)
+          .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+    } catch (e) {
+      print('exception------');
+      setState(() {
+        isVerify = false;
+        pinValidationString = 'The Code Is Incorrect';
+      });
+    }
 
-    setState(() {
-      isVerify = true;
-    });
-    BlocProvider.of<SigningBloc>(context)
-        .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+    // setState(() {
+    //   isVerify = true;
+    // });
+    // BlocProvider.of<SigningBloc>(context)
+    //     .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
   }
 
   reSendOtp() async {

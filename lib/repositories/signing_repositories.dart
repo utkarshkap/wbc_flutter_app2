@@ -8,24 +8,6 @@ import '../core/api/api_handler.dart';
 import '../models/signing_screen_model.dart' as sigingmodel;
 
 class SigningRepository {
-  getPendingDeleteUser(String moNo) async {
-    try {
-      final response = await ApiHandler.get(getPendingDeleteUserKey + moNo);
-
-      print('responsedata------${response.statusCode}');
-
-      print('jsondecode-------${jsonDecode(response.body)}');
-
-      return ApiResponse.withSuccess(response);
-    } on BadRequestException {
-      return ApiResponse.withError('Something went wrong', statusCode: 400);
-    } on ApiException catch (e) {
-      return ApiResponse.withError(e.message);
-    } catch (e) {
-      return ApiResponse.withError('Unable to load page');
-    }
-  }
-
   setLoginUser(
       {required String name,
       required String mobileNo,
@@ -126,19 +108,23 @@ class SigningRepository {
     }
   }
 
-  deleteUserAccount() async {
+  deleteUserAccount(String moNo) async {
     try {
-      final data = jsonEncode({'': ''}
-          // AddContact(mobileNo: mobileNo, date: date, contacts: contacts)
-          );
+      final response = await ApiHandler.get(deleteAccountKey + moNo);
+      return jsonDecode(response.body)['code'];
+    } on BadRequestException {
+      return ApiResponse.withError('Something went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
 
-      print('data------$data');
-      final response =
-          await ApiHandler.delete(url: '$deleteAccountKey${ApiUser.mobileNo}');
-
-      print('addcontactapi--------------response-------------${response.body}');
-      print(response.statusCode);
-      return response;
+  getPendingDeleteUser(String moNo) async {
+    try {
+      final response = await ApiHandler.get(getPendingDeleteUserKey + moNo);
+      return jsonDecode(response.body)['message'];
     } on BadRequestException {
       return ApiResponse.withError('Something went wrong', statusCode: 400);
     } on ApiException catch (e) {
