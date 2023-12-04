@@ -629,16 +629,13 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             content: SizedBox(
-                              height: lable == stockInvestmentType
+                              height: lable == stockInvestmentType ||
+                                      lable == bikeLoanType
                                   ? 31.5.h + 60
-                                  : lable == homeIncomeType ||
-                                          lable == mfInvestmentType ||
-                                          lable == carAssetsType ||
-                                          lable == bikeAssetsType ||
-                                          lable == homeIncomeType
+                                  : lable == mfInvestmentType
                                       ? 38.5.h + 60
                                       : lable == factoryIncomeType
-                                          ? 45.5.h + 60
+                                          ? 19.5.h + 60
                                           : 25.5.h + 60,
                               width: 77.8.w,
                               child: Column(
@@ -691,16 +688,13 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                         ],
                                       )),
                                   SizedBox(
-                                      height: lable == stockInvestmentType
+                                      height: lable == stockInvestmentType ||
+                                              lable == bikeLoanType
                                           ? 31.5.h
-                                          : lable == homeIncomeType ||
-                                                  lable == mfInvestmentType ||
-                                                  lable == carAssetsType ||
-                                                  lable == bikeAssetsType ||
-                                                  lable == homeIncomeType
+                                          : lable == mfInvestmentType
                                               ? 38.5.h
                                               : lable == factoryIncomeType
-                                                  ? 45.5.h
+                                                  ? 19.5.h
                                                   : 25.5.h,
                                       child: Column(
                                         mainAxisAlignment:
@@ -710,42 +704,14 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                             children: [
                                               //  Investments
 
-                                              if (lable ==
-                                                  stockInvestmentType) ...[
-                                                cTextFormField('Enter Salary',
-                                                    (value) {
-                                                  salary = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter Professional',
-                                                    (value) {
-                                                  professional =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter SpouseIncome',
-                                                    (value) {
-                                                  spouseIncome =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter OtherIncome',
-                                                    (value) {
-                                                  otherIncome =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
+                                              if (lable == stockInvestmentType)
+                                                ...[]
+                                              else if (lable ==
                                                   mfInvestmentType) ...[
                                                 cTextFormField(
                                                     'Enter MutualFunds',
                                                     (value) {
                                                   mutualFunds =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter EmergencyFunds',
-                                                    (value) {
-                                                  emergencyFunds =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField('Enter PPF',
@@ -763,22 +729,48 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                   pPFMonthly = num.parse(value);
                                                 }),
                                               ]
+                                              // Income
+                                              else if (lable ==
+                                                  homeIncomeType) ...[
+                                                cTextFormField('Enter Business',
+                                                    (value) {
+                                                  business = num.parse(value);
+                                                }),
+                                                cTextFormField('Enter Salary',
+                                                    (value) {
+                                                  salary = num.parse(value);
+                                                }),
+                                                cTextFormField(
+                                                    'Enter Professional',
+                                                    (value) {
+                                                  professional =
+                                                      num.parse(value);
+                                                }),
+                                              ] else if (lable ==
+                                                  factoryIncomeType) ...[
+                                                cTextFormField(
+                                                    'Enter SpouseIncome',
+                                                    (value) {
+                                                  spouseIncome =
+                                                      num.parse(value);
+                                                }),
+                                                cTextFormField(
+                                                    'Enter OtherIncome',
+                                                    (value) {
+                                                  otherIncome =
+                                                      num.parse(value);
+                                                }),
+                                              ]
                                               // Assets
                                               else if (lable ==
                                                   carAssetsType) ...[
+                                                cTextFormField('Enter Vehicle',
+                                                    (value) {
+                                                  vehicle = num.parse(value);
+                                                }),
                                                 cTextFormField('Enter Gold',
                                                     (value) {
                                                   gold = num.parse(value);
-                                                }),
-                                                cTextFormField('Enter Cash',
-                                                    (value) {
-                                                  cash = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter StockPortfolio',
-                                                    (value) {
-                                                  stockPortfolio =
-                                                      num.parse(value);
                                                 }),
                                                 cTextFormField(
                                                     'Enter SavingAccount',
@@ -786,29 +778,17 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                   savingAccount =
                                                       num.parse(value);
                                                 }),
-                                                cTextFormField(
-                                                    'Enter PostOfficeOrVikasPatra',
-                                                    (value) {
-                                                  postOfficeOrVikasPatra =
-                                                      num.parse(value);
-                                                }),
                                               ] else if (lable ==
                                                   bikeAssetsType) ...[
-                                                cTextFormField('Enter Vehicle',
+                                                cTextFormField('Enter Cash',
                                                     (value) {
-                                                  vehicle = num.parse(value);
-                                                }),
-                                                cTextFormField('Enter Guided',
-                                                    (value) {
-                                                  guided = num.parse(value);
-                                                }),
-                                                cTextFormField('Enter Unguided',
-                                                    (value) {
-                                                  unguided = num.parse(value);
+                                                  cash = num.parse(value);
                                                 }),
                                                 cTextFormField(
-                                                    'Enter Overdraft', (value) {
-                                                  overdraft = num.parse(value);
+                                                    'Enter EmergencyFunds',
+                                                    (value) {
+                                                  emergencyFunds =
+                                                      num.parse(value);
                                                 }),
                                                 cTextFormField(
                                                     'Enter OtherAsset',
@@ -816,71 +796,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                   otherAsset = num.parse(value);
                                                 }),
                                               ]
-                                              // Income
-                                              else if (lable ==
-                                                  homeIncomeType) ...[
-                                                cTextFormField(
-                                                    'Enter HouseHoldMonthly',
-                                                    (value) {
-                                                  houseHoldMonthly =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter TotalMonthlyEmi',
-                                                    (value) {
-                                                  totalMonthlyEmi =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter TotalInsurancePremiumYearly',
-                                                    (value) {
-                                                  totalInsurancePremiumYearly =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter ChildrenEducationYearly',
-                                                    (value) {
-                                                  childrenEducationYearly =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter OtherExpenseYearly',
-                                                    (value) {
-                                                  otherExpenseYearly =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
-                                                  factoryIncomeType) ...[
-                                                cTextFormField(
-                                                    'Enter Debenture', (value) {
-                                                  debenture = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter FixedDeposite',
-                                                    (value) {
-                                                  fixedDeposite =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField('Enter PMS',
-                                                    (value) {
-                                                  pMS = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter PrivateInvestmentScheme',
-                                                    (value) {
-                                                  privateInvestmentScheme =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter RealEstate',
-                                                    (value) {
-                                                  realEstate = num.parse(value);
-                                                }),
-                                                cTextFormField('Enter Business',
-                                                    (value) {
-                                                  business = num.parse(value);
-                                                }),
-                                              ]
+
                                               //  Loan
                                               else if (lable ==
                                                   carLoanType) ...[
@@ -891,23 +807,23 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
+                                                    'Enter MortgageLoan',
+                                                    (value) {
+                                                  mortgageLoan =
+                                                      num.parse(value);
+                                                }),
+                                                cTextFormField(
                                                     'Enter EducationLoan',
                                                     (value) {
                                                   educationLoan =
                                                       num.parse(value);
                                                 }),
+                                              ] else if (lable ==
+                                                  bikeLoanType) ...[
                                                 cTextFormField(
                                                     'Enter PersonalLoan',
                                                     (value) {
                                                   personalLoan =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
-                                                  bikeLoanType) ...[
-                                                cTextFormField(
-                                                    'Enter MortgageLoan',
-                                                    (value) {
-                                                  mortgageLoan =
                                                       num.parse(value);
                                                 }),
                                                 cTextFormField(
@@ -915,6 +831,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                     (value) {
                                                   vehicleLoan =
                                                       num.parse(value);
+                                                }),
+                                                cTextFormField(
+                                                    'Enter Overdraft', (value) {
+                                                  overdraft = num.parse(value);
                                                 }),
                                                 cTextFormField(
                                                     'Enter OtherLoan', (value) {
@@ -968,7 +888,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                 splashColor: colorWhite,
                                                 onTap: () {
                                                   // if(salary == 0){
-
+                                                        
                                                   // }else{
                                                   // wealthMeter();
                                                   // }

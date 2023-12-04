@@ -24,18 +24,17 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
   int totalDebit = 0;
   int totalCredit = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Scaffold(
-            backgroundColor: colorWhite,
+            backgroundColor: colorBG,
             appBar: AppBar(
               toolbarHeight: 8.h,
               backgroundColor: colorWhite,
               elevation: 6,
-              shadowColor: colorTextBCBC.withOpacity(0.4),
+              shadowColor: colorTextBCBC.withOpacity(0.3),
               leadingWidth: 15.w,
               leading: IconButton(
                   onPressed: () {
@@ -48,7 +47,8 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                                 mGainTotalInvestment: 0,
                                 totalIntrestReceived: 0,
                                 mGains: [])));
-                    Navigator.of(context).pushReplacementNamed(MGainInvestmentScreen.route);
+                    Navigator.of(context)
+                        .pushReplacementNamed(MGainInvestmentScreen.route);
                   },
                   icon: Image.asset(icBack, color: colorRed, width: 6.w)),
               titleSpacing: 0,
@@ -105,7 +105,7 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                               padding: EdgeInsets.only(left: 5.w),
                               child: Text('Particulars',
                                   textAlign: TextAlign.center,
-                                  style: textStyle11Bold(colorBlack)),
+                                  style: textStyle10Bold(colorBlack)),
                             ),
                           ),
                           Container(
@@ -115,7 +115,7 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: Text('Debit',
                                     textAlign: TextAlign.center,
-                                    style: textStyle11Bold(colorBlack)),
+                                    style: textStyle10Bold(colorBlack)),
                               )),
                           Container(
                               height: 6.h,
@@ -124,7 +124,7 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: Text('Credit',
                                     textAlign: TextAlign.center,
-                                    style: textStyle11Bold(colorBlack)),
+                                    style: textStyle10Bold(colorBlack)),
                               )),
                         ],
                       )
@@ -184,88 +184,102 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                                     child: Text('No Data Available',
                                         style: textStyle13Medium(colorBlack))),
                               )
-                            : Table(
-                                border: TableBorder.all(color: colorBG),
-                                columnWidths: const <int, TableColumnWidth>{
-                                  0: FlexColumnWidth(2),
-                                  1: FlexColumnWidth(1),
-                                  2: FlexColumnWidth(1),
-                                },
-                                children: List<TableRow>.generate(
-                                  state.mGainLedger.ledgerEntries.length,
-                                  (index) {
-                                    return TableRow(
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          alignment: Alignment.centerLeft,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 5.w, right: 1.5.w),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    state
-                                                        .mGainLedger
-                                                        .ledgerEntries[index]
-                                                        .name,
-                                                    textAlign: TextAlign.left,
-                                                    style: textStyle9Bold(
-                                                            colorBlack)
-                                                        .copyWith(height: 1.2)),
-                                                SizedBox(height: 0.5.h),
-                                                Row(
+                            : Expanded(
+                                child: SingleChildScrollView(
+                                  child: Table(
+                                    border: TableBorder.all(color: colorE5E5),
+                                    columnWidths: const <int, TableColumnWidth>{
+                                      0: FlexColumnWidth(2),
+                                      1: FlexColumnWidth(1),
+                                      2: FlexColumnWidth(1),
+                                    },
+                                    children: List<TableRow>.generate(
+                                      state.mGainLedger.ledgerEntries.length,
+                                      (index) {
+                                        return TableRow(
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white),
+                                          children: [
+                                            Container(
+                                              height: 60,
+                                              alignment: Alignment.centerLeft,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 5.w, right: 1.5.w),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Image.asset(icCalender,
-                                                        color: colorText3D3D,
-                                                        width: 3.w),
-                                                    SizedBox(width: 1.w),
                                                     Text(
-                                                        DateFormat(
-                                                                'dd MMM yyyy')
-                                                            .format(state
-                                                                .mGainLedger
-                                                                .ledgerEntries[
-                                                                    index]
-                                                                .investmentDate),
-                                                        style: textStyle9(
-                                                            colorText7070)),
+                                                        state
+                                                            .mGainLedger
+                                                            .ledgerEntries[
+                                                                index]
+                                                            .name,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: textStyle9Bold(
+                                                                colorBlack)
+                                                            .copyWith(
+                                                                height: 1.2)),
+                                                    SizedBox(height: 0.5.h),
+                                                    Row(
+                                                      children: [
+                                                        Image.asset(icCalender,
+                                                            color:
+                                                                colorText3D3D,
+                                                            width: 3.w),
+                                                        SizedBox(width: 1.w),
+                                                        Text(
+                                                            DateFormat(
+                                                                    'dd MMM yyyy')
+                                                                .format(state
+                                                                    .mGainLedger
+                                                                    .ledgerEntries[
+                                                                        index]
+                                                                    .investmentDate),
+                                                            style: textStyle9(
+                                                                colorText7070)),
+                                                      ],
+                                                    )
                                                   ],
-                                                )
-                                              ],
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        Container(
-                                            height: 60,
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 3.w),
-                                              child: Text(
-                                                  '${CommonFunction().splitString(state.mGainLedger.ledgerEntries[index].debit.toInt().toString())}/-',
-                                                  style: textStyle9(
-                                                      colorText7070)),
-                                            )),
-                                        Container(
-                                            height: 60,
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 3.w),
-                                              child: Text(
-                                                  '${CommonFunction().splitString(state.mGainLedger.ledgerEntries[index].credit.toInt().toString())}/-',
-                                                  style: textStyle9(
-                                                      colorText7070)),
-                                            )),
-                                      ],
-                                    );
-                                  },
-                                  growable: false,
+                                            Container(
+                                                height: 60,
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 3.w),
+                                                  child: Text(
+                                                      '${CommonFunction().splitString(state.mGainLedger.ledgerEntries[index].debit.toInt().toString())}/-',
+                                                      style: textStyle9Bold(
+                                                              colorBlack)
+                                                          .copyWith(
+                                                              height: 1.2)),
+                                                )),
+                                            Container(
+                                                height: 60,
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 3.w),
+                                                  child: Text(
+                                                      '${CommonFunction().splitString(state.mGainLedger.ledgerEntries[index].credit.toInt().toString())}/-',
+                                                      style: textStyle9Bold(
+                                                              colorBlack)
+                                                          .copyWith(
+                                                              height: 1.2)),
+                                                )),
+                                          ],
+                                        );
+                                      },
+                                      growable: false,
+                                    ),
+                                  ),
                                 ),
                               );
                       }
