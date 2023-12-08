@@ -15,14 +15,15 @@ class FileHelper {
 
     // String fullPath = '${storageInfo[0].rootDir}' + '/Download' + '/boo2.pdf';
     // /storage/emulated/0/Download
-    Directory? documents = await getExternalStorageDirectory();
+    // Directory? documents = await getExternalStorageDirectory();
 
     Directory filePath = await getApplicationDocumentsDirectory();
 
-    print(
-        "PATH****************************${documents!.path}=======${filePath.path}");
+    // print(
+    // "PATH****************************${documents!.path}=======${filePath.path}");
 
-    return '/storage/emulated/0/Download';
+    // return '/storage/emulated/0/Download';
+    return filePath.path;
   }
 }
 

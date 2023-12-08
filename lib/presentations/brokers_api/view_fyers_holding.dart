@@ -12,7 +12,6 @@ import '../../resources/icons.dart';
 import '../../resources/styles.dart';
 
 class ViewFyersHolding extends StatefulWidget {
-
   static const route = '/View-Holding';
   const ViewFyersHolding({Key? key}) : super(key: key);
 
@@ -21,7 +20,6 @@ class ViewFyersHolding extends StatefulWidget {
 }
 
 class _ViewFyersHoldingState extends State<ViewFyersHolding> {
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -60,13 +58,16 @@ class _ViewFyersHoldingState extends State<ViewFyersHolding> {
             },
             builder: (context, state) {
               if (state is GetFyersAccessTokenLoadedState) {
-                if(state.getFyersAccessToken.data!.accessToken!=null && state.getFyersAccessToken.data!.accessToken!=""){
-                  print("AccessToken->"+state.getFyersAccessToken.data!.accessToken.toString());
+                if (state.getFyersAccessToken.data!.accessToken != null &&
+                    state.getFyersAccessToken.data!.accessToken != "") {
+                  print(
+                      "AccessToken->${state.getFyersAccessToken.data!.accessToken}");
                   BlocProvider.of<FetchingDataBloc>(context).add(
                       LoadFyersHoldingsEvent(
-                      getFyersHoldings: GetFyersHoldingsModel(),
-                      fyersAccessToken:state.getFyersAccessToken.data!.accessToken.toString())
-                  );
+                          getFyersHoldings: GetFyersHoldingsModel(),
+                          fyersAccessToken: state
+                              .getFyersAccessToken.data!.accessToken
+                              .toString()));
                 }
               }
               return BlocConsumer<FetchingDataBloc, FetchingDataState>(
@@ -96,39 +97,88 @@ class _ViewFyersHoldingState extends State<ViewFyersHolding> {
                     );
                   }
                   if (state is GetFyersHoldingsLoadedState) {
-                    return
-                      state.getFyersHoldings.holdings!.isEmpty
+                    return state.getFyersHoldings.holdings!.isEmpty
                         ? Center(
-                        child: Text('No Data Available',
-                            style: textStyle13Medium(colorBlack)))
+                            child: Text('No Data Available',
+                                style: textStyle13Medium(colorBlack)))
                         : SingleChildScrollView(
-                        child: Column(
-                          children: List.generate(
-                              state.getFyersHoldings.holdings!.length,
-                                  (index) => Padding(
-                                padding: EdgeInsets.fromLTRB(3.w,3.w,3.w,2.w),
-                                child: Column(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: 8.0.h,
+                              ),
+                              child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("Holding Type:- "+state.getFyersHoldings.holdings![index].holdingType.toString()),
-                                    Text("Quantity:- "+state.getFyersHoldings.holdings![index].quantity.toString()),
-                                    Text("Cost Price:- "+state.getFyersHoldings.holdings![index].costPrice.toString()),
-                                    Text("PL:- "+state.getFyersHoldings.holdings![index].pl.toString()),
-                                  ],
-                                ),
-                              )
-                          ),
-                        ),
-                      );
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        icFyers,
+                                        height: 15.h,
+                                      ),
+                                    ),
+                                    ...List.generate(
+                                        state.getFyersHoldings.holdings!.length,
+                                        (index) => Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 3.h,
+                                                  horizontal: 5.w),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  cRichText(
+                                                      'Holding Type:- ',
+                                                      state
+                                                          .getFyersHoldings
+                                                          .holdings![index]
+                                                          .holdingType!),
+                                                  cRichText(
+                                                      'Quantity:- ',
+                                                      state
+                                                          .getFyersHoldings
+                                                          .holdings![index]
+                                                          .quantity
+                                                          .toString()),
+                                                  cRichText(
+                                                      'Cost Price:- ',
+                                                      state
+                                                          .getFyersHoldings
+                                                          .holdings![index]
+                                                          .costPrice
+                                                          .toString()),
+                                                  cRichText(
+                                                      'PL:- ',
+                                                      state.getFyersHoldings
+                                                          .holdings![index].pl
+                                                          .toString()),
+                                                  // Text(
+                                                  //     "PL:- ${state.getFyersHoldings.holdings![index].pl}"),
+                                                ],
+                                              ),
+                                            )),
+                                  ]),
+                            ),
+                          );
                   }
                   return Container();
                 },
               );
             },
           ),
-        )
-    );
+        ));
   }
 
+  cRichText(String title, String value) {
+    return RichText(
+      text: TextSpan(
+        text: title,
+        style: textStyle12Bold(colorBlack),
+        children: <TextSpan>[
+          TextSpan(text: value, style: textStyle11Bold(colorText7070)),
+        ],
+      ),
+    );
+  }
 }

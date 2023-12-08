@@ -86,6 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime? currentBackPressTime;
   bool fastTrackStatus = false;
   num clientsConverted = 0;
+  double stocksValue = 0;
+  double mutualFundsValue = 0;
+  double total = 0;
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -147,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             isShowCase);
       }
     });
+
     BlocProvider.of<DashboardBloc>(context)
         .add(GetDashboardData(userId: ApiUser.userId));
   }
@@ -216,11 +220,31 @@ class _HomeScreenState extends State<HomeScreen> {
         body: BlocConsumer<DashboardBloc, DashboardState>(
           listener: (context, state) {
             print('state=====$state');
-
             if (state is DashboardDataLoaded) {
+              BlocProvider.of<MFInvestmentsBloc>(context).add(
+                  LoadMFInvestmentsEvent(
+                      userId: ApiUser.userId,
+                      investmentPortfolio: InvestmentPortfolio(
+                          code: 0,
+                          message: '',
+                          portfolio: 0,
+                          investment: 0,
+                          gain: 0,
+                          mFStocks: [])));
+              BlocProvider.of<FetchingDataBloc>(context)
+                  .add(LoadStockInvestmentEvent(
+                      userId: ApiUser.userId,
+                      investmentPortfolio: StockInvestmentModel(
+                        code: 0,
+                        message: '',
+                        portfolio: 0,
+                        investment: 0,
+                        gain: 0,
+                        stocks: [],
+                      )));
               Preference.setApproveContactCount(
                   state.data!.data.addContacts.toString());
-              ApiUser.goldReferralPoint = state.data!.data.goldPoint!;
+              ApiUser.goldReferralPoint = state.data!.data.goldPoint;
               ApiUser.offersList = state.data!.data.offers;
               GpDashBoardData.history = state.data!.data.history;
               GpDashBoardData.contactBase = state.data!.data.contactBase;
@@ -277,6 +301,117 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
+                          listener: (context, state) {
+                            if (state is MFInvestmentsLoadedState) {
+                              mutualFundsValue = 0;
+                              for (int i = 0;
+                                  i < state.investmentPortfolio.mFStocks.length;
+                                  i++) {
+                                if (state.investmentPortfolio.mFStocks[i].unit
+                                        .toInt() !=
+                                    0) {
+                                  mutualFundsValue += ((state
+                                              .investmentPortfolio
+                                              .mFStocks[i]
+                                              .investment_Unit -
+                                          state.investmentPortfolio.mFStocks[i]
+                                              .sale_Unit) *
+                                      state
+                                          .investmentPortfolio.mFStocks[i].nav);
+                                }
+                              }
+                              setState(() {});
+                            }
+                          },
+                          child:
+                              BlocListener<FetchingDataBloc, FetchingDataState>(
+                            listener: (context, state) {
+                              if (state is StockInvestmentLoadedState) {
+                                stocksValue = 0;
+                                for (int i = 0;
+                                    i <
+                                        state.stockInvestmentPortfolio.stocks
+                                            .length;
+                                    i++) {
+                                  stocksValue += ((state
+                                          .stockInvestmentPortfolio
+                                          .stocks[i]
+                                          .balanceQty) *
+                                      state.stockInvestmentPortfolio.stocks[i]
+                                          .rate);
+                                }
+                                setState(() {});
+                              }
+                              total = mutualFundsValue + stocksValue;
+                            },
+                            child: Container(
+                              width: 90.w,
+                              decoration: decoration(),
+                              padding: EdgeInsets.only(
+                                  top: 1.h, bottom: 1.h, left: 0.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 4.w, bottom: 1.h),
+                                    child: Text(
+                                        'Your Net Worth: ₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                        style: textStyle14Bold(colorBlack)),
+                                  ),
+                                  Container(
+                                      height: 1,
+                                      color: colorTextBCBC.withOpacity(0.36)),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        right: 4.w, left: 0.w, top: 1.h),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 1.5.w),
+                                            width: 13.w,
+                                            child: Image.asset(
+                                                'assets/images/portfolio-icon.png',
+                                                width: 13.w),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Mutual Funds: ',
+                                              style: textStyle10(colorText7070),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text:
+                                                        '₹ ${CommonFunction().splitString(mutualFundsValue.toStringAsFixed(0))}',
+                                                    style: textStyle10Bold(
+                                                        colorBlack)),
+                                              ],
+                                            ),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Stocks: ',
+                                              style: textStyle10(colorText7070),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text:
+                                                        '₹ ${CommonFunction().splitString(stocksValue.toStringAsFixed(0))}',
+                                                    style: textStyle10Bold(
+                                                        colorBlack)),
+                                              ],
+                                            ),
+                                          )
+                                        ]),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
                         Container(
                           width: 90.w,
                           decoration: decoration(),
@@ -291,13 +426,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   state.data!.data.history,
                                   state.data!.data.contactBase,
                                   state.data!.data.inActive,
-                                  state.data!.data.availableContacts!,
-                                  state.data!.data.goldPoint!,
+                                  state.data!.data.availableContacts,
+                                  state.data!.data.goldPoint,
                                   state.data!.data.fastTrack,
                                   state.data!.data.earning,
-                                  state.data!.data.redeemable!,
-                                  state.data!.data.nonRedeemable!,
-                                  state.data!.data.onTheSpot!, () {
+                                  state.data!.data.redeemable,
+                                  state.data!.data.nonRedeemable,
+                                  state.data!.data.onTheSpot, () {
                                 BlocProvider.of<FetchingDataBloc>(context).add(
                                     LoadProductCategoryEvent(
                                         productCategory: ProductCategory(
@@ -328,13 +463,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   state.data!.data.history,
                                   state.data!.data.contactBase,
                                   state.data!.data.inActive,
-                                  state.data!.data.availableContacts!,
-                                  state.data!.data.goldPoint!,
+                                  state.data!.data.availableContacts,
+                                  state.data!.data.goldPoint,
                                   state.data!.data.fastTrack,
                                   state.data!.data.earning,
-                                  state.data!.data.redeemable!,
-                                  state.data!.data.nonRedeemable!,
-                                  state.data!.data.onTheSpot!, () {
+                                  state.data!.data.redeemable,
+                                  state.data!.data.nonRedeemable,
+                                  state.data!.data.onTheSpot, () {
                                 Navigator.of(context)
                                     .pushNamed(FastTrackBenefits.route);
                                 // Navigator.of(context).pushNamed(RequestPayment.route);
@@ -371,6 +506,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: textStyle12Medium(colorBlack)),
                               ],
                             ),
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Container(
+                          width: 90.w,
+                          height: 16.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/NRI-CARNIVAL-7-BANNER.jpg'),
+                                fit: BoxFit.cover),
                           ),
                         ),
                         SizedBox(height: 2.h),
@@ -439,7 +586,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           if (state
                                               is StockInvestmentLoadedState) {
                                             // Navigator.of(context).pushNamed(StocksInvestment.route);
-                                          } 
+                                          }
                                         },
                                         child: portFolioWidget(
                                             icStocks, 'Stocks', false, () {

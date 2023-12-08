@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     setState(() {
                       isSave = true;
                     });
-                    print("isSave..."+isSave.toString());
+                    print("isSave..." + isSave.toString());
                   }),
             if (isSave)
               AppBarButton(
@@ -150,10 +150,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     print('state--------${_stateController.text.trim()}');
                     print('country--------${_countryController.text.trim()}');
                     print('pinCode--------${_pinController.text}');
-                    print('dob--------$dob');
+                    print(
+                        'dob--------${DateFormat('yyyy-MM-dd').format(selectedDate)}');
                     print('notificationToken--------$notificationToken');
                     print('tnc--------${ApiUser.termNdCondition}');
-
                     BlocProvider.of<SigningBloc>(context).add(CreateUser(
                         name: _nameController.text.trim(),
                         mobileNo: mobNo,
@@ -161,11 +161,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         address: _addressController.text.trim(),
                         city: _cityController.text.trim(),
                         country: _countryController.text.trim(),
-                        pincode: _pinController.text.isEmpty?0:int.parse(_pinController.text.trim()),
-                        area: '',
-                        // area: _stateController.text.trim(),
+                        pincode: _pinController.text.isEmpty
+                            ? 0
+                            : int.parse(_pinController.text.trim()),
+                        // area: '',
+                        area: _stateController.text.trim(),
                         deviceId: notificationToken,
-                        dob: selectedDate,
+                        dob: DateTime.parse(
+                            DateFormat('yyyy-MM-dd').format(selectedDate)),
                         tnc: ApiUser.termNdCondition));
                   }),
             SizedBox(width: 5.w)
@@ -173,21 +176,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         body: BlocConsumer<SigningBloc, SigningState>(
           listener: (context, state) {
-            if(state is SigningDataAdded){
+            if (state is SigningDataAdded) {
               print('----state-=-----$state');
               print('----userLoaded-=-----${state.data.body}');
-              BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: mobNo));
+              BlocProvider.of<SigningBloc>(context)
+                  .add(GetUserData(mobileNo: mobNo));
             }
             if (state is GetUserLoaded) {
-              if(state.data!.data!.dob!=null && state.data!.data!.dob!=""){
+              if (state.data!.data!.dob != null &&
+                  state.data!.data!.dob != "") {
                 setState(() {
                   initialDate = state.data!.data!.dob!;
+                  selectedDate = state.data!.data!.dob!;
                   dob = DateFormat('dd/MM/yyyy').format(state.data!.data!.dob!);
                 });
               }
               setState(() {
                 notificationToken = state.data!.data!.deviceid;
               });
+
+              print("data::::::::::${state.data!.data}");
+
+              _nameController.text = state.data!.data!.name.trim();
+              _emailController.text = state.data!.data!.email.trim();
+              _pinController.text = state.data!.data!.pincode.toString();
+              _countryController.text = state.data!.data!.country!;
+              _stateController.text = state.data!.data!.area;
+              _cityController.text = state.data!.data!.city!;
+              _addressController.text = state.data!.data!.address!;
             }
             if (state is GetUserFailed) {
               AwesomeDialog(
@@ -238,10 +254,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           userDetail('Email id', state.data!.data!.email,
                               _emailController, TextInputType.emailAddress),
                         userDetail('Mobile No.', state.data!.data!.mobileNo),
-                        if (state.data!.data!.dob.toString().trim().isNotEmpty || isSave)
+                        if (state.data!.data!.dob
+                                .toString()
+                                .trim()
+                                .isNotEmpty ||
+                            isSave)
                           userDetail(
                               'Date of Birth',
-                              state.data!.data!.dob!="" && state.data!.data!.dob!=null ? DateFormat('dd/MM/yyyy').format(state.data!.data!.dob!) : ""),
+                              state.data!.data!.dob != "" &&
+                                      state.data!.data!.dob != null
+                                  ? DateFormat('dd/MM/yyyy')
+                                      .format(state.data!.data!.dob!)
+                                  : ""),
                         if (state.data!.data!.pincode != 0 || isSave)
                           userDetail(
                               'Pincode',
@@ -255,10 +279,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           userDetail('Country', state.data!.data!.country!,
                               _countryController, TextInputType.streetAddress),
                         if (state.data!.data!.area.trim().isNotEmpty || isSave)
-                          userDetail('State', state.data!.data!.area, _stateController, TextInputType.streetAddress),
+                          userDetail('State', state.data!.data!.area,
+                              _stateController, TextInputType.streetAddress),
                         if (state.data!.data!.city!.trim().isNotEmpty || isSave)
-                          userDetail('City', state.data!.data!.city!, _cityController, TextInputType.streetAddress),
-                        if (state.data!.data!.address!.trim().isNotEmpty || isSave)
+                          userDetail('City', state.data!.data!.city!,
+                              _cityController, TextInputType.streetAddress),
+                        if (state.data!.data!.address!.trim().isNotEmpty ||
+                            isSave)
                           userDetail('Address', state.data!.data!.address!,
                               _addressController, TextInputType.streetAddress),
                       ],
@@ -271,8 +298,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: SizedBox(
                   height: 25,
                   width: 25,
-                  child: CircularProgressIndicator(color: colorRed, strokeWidth: 0.7.w)
-              ),
+                  child: CircularProgressIndicator(
+                      color: colorRed, strokeWidth: 0.7.w)),
             );
           },
         ),
@@ -283,8 +310,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   userDetail(String title, String value,
       [TextEditingController? controller, TextInputType? keyboardType]) {
     if (value.isNotEmpty && title != 'Mobile No.' && title != 'Date of Birth') {
-      controller!.text = value;
-      controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+      // controller!.text = value;
+      value = controller!.text;
+      print("CONTROLLERL::::::::::::::::${controller.text}");
+      controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length));
     }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 4.w),
@@ -347,17 +377,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               : title == 'Date of Birth' && isSave
                   ? GestureDetector(
-                      onTap:dateOfBirth,
+                      onTap: dateOfBirth,
                       child: Padding(
                         padding: EdgeInsets.only(top: 1.5.h, bottom: 2.5),
-                        child: Text(dob!="null" && dob!="" ? dob.toString(): "Enter Date of Birth", style: textStyle13Bold(colorText8181)),
+                        child: Text(
+                            dob != "null" && dob != ""
+                                ? dob.toString()
+                                : "Enter Date of Birth",
+                            style: textStyle13Bold(colorText8181)),
                       ),
                     )
                   : Padding(
                       padding: EdgeInsets.only(top: 1.5.h, bottom: 2.5),
                       child: Text(value, style: textStyle13Bold(colorText8181)),
                     ),
-          title!="Address"?Container(height: 1, color: colorTextBCBC.withOpacity(0.36)):Container()
+          title != "Address"
+              ? Container(height: 1, color: colorTextBCBC.withOpacity(0.36))
+              : Container()
         ],
       ),
     );

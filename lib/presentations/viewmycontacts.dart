@@ -334,7 +334,7 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
               children: [
                 Container(
                   height: 6.h,
-                  width: 80.w,
+                  width: 93.w,
                   decoration: BoxDecoration(
                       color: colorF3F3,
                       borderRadius: BorderRadius.circular(10)),
@@ -371,25 +371,25 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
                     ],
                   ),
                 ),
-                IconButton(
-                    constraints: BoxConstraints(minWidth: 10.w, minHeight: 6.h),
-                    padding: EdgeInsets.zero,
-                    splashRadius: 5.5.w,
-                    splashColor: colorWhite,
-                    onPressed: () {
-                      setState(() {
-                        isShowDateRange = !isShowDateRange;
-                      });
-                    },
-                    icon: Container(
-                      height: 6.h,
-                      width: 10.w,
-                      decoration: const BoxDecoration(
-                          color: colorF3F3, shape: BoxShape.circle),
-                      alignment: Alignment.center,
-                      child:
-                          Image.asset(icSort, width: 4.w, color: colorText4D4D),
-                    ))
+                // IconButton(
+                //     constraints: BoxConstraints(minWidth: 10.w, minHeight: 6.h),
+                //     padding: EdgeInsets.zero,
+                //     splashRadius: 5.5.w,
+                //     splashColor: colorWhite,
+                //     onPressed: () {
+                //       setState(() {
+                //         isShowDateRange = !isShowDateRange;
+                //       });
+                //     },
+                //     icon: Container(
+                //       height: 6.h,
+                //       width: 10.w,
+                //       decoration: const BoxDecoration(
+                //           color: colorF3F3, shape: BoxShape.circle),
+                //       alignment: Alignment.center,
+                //       child:
+                //           Image.asset(icSort, width: 4.w, color: colorText4D4D),
+                //     ))
               ],
             ),
             SizedBox(height: 1.5.h),

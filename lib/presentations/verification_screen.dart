@@ -15,9 +15,12 @@ import 'package:permission_handler/permission_handler.dart'
     as contactPermission;
 import 'package:pinput/pinput.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
+import 'package:wbc_connect_app/blocs/MFInvestments/mf_investments_bloc.dart';
 import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
 import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
+import 'package:wbc_connect_app/models/stock_investment_model.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/sigIn_screen.dart';
 import 'package:wbc_connect_app/presentations/splash_screen.dart';
@@ -840,7 +843,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                         : step == 4
                                             ? contactCount > 0
                                                 ? (100.w / 4) * 3 +
-                                                    (((100.w / 4) / 10) *
+                                                    (((100.w / 4) /
+                                                            (fastTrackStatus ==
+                                                                    true
+                                                                ? 30
+                                                                : 10)) *
                                                         contactCount)
                                                 : (100.w / 4) * 3
                                             : (100.w / 4) * 3,

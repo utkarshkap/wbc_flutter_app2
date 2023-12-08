@@ -888,7 +888,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                 splashColor: colorWhite,
                                                 onTap: () {
                                                   // if(salary == 0){
-                                                        
+
                                                   // }else{
                                                   // wealthMeter();
                                                   // }
