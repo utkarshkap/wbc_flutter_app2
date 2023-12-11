@@ -272,7 +272,9 @@ class _MutualFundsTransactionState extends State<MutualFundsTransaction> {
                                                 .investmentTransaction
                                                 .mFStocks[index]
                                                 .transactionType ==
-                                            "SWI" ||
+                                            "Sale" ||
+
+                                        //  "SWI"
                                         state
                                                 .investmentTransaction
                                                 .mFStocks[index]

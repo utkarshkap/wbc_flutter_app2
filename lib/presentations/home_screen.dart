@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double stocksValue = 0;
   double mutualFundsValue = 0;
   double total = 0;
+  bool isLoading = true;
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -323,6 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                               setState(() {});
                             }
+                            total = mutualFundsValue + stocksValue;
                           },
                           child:
                               BlocListener<FetchingDataBloc, FetchingDataState>(
@@ -343,71 +347,84 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
                                 setState(() {});
                               }
+
                               total = mutualFundsValue + stocksValue;
+                              isLoading = false;
                             },
                             child: Container(
                               width: 90.w,
                               decoration: decoration(),
                               padding: EdgeInsets.only(
                                   top: 1.h, bottom: 1.h, left: 0.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 4.w, bottom: 1.h),
-                                    child: Text(
-                                        'Your Net Worth: ₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
-                                        style: textStyle14Bold(colorBlack)),
-                                  ),
-                                  Container(
-                                      height: 1,
-                                      color: colorTextBCBC.withOpacity(0.36)),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 4.w, left: 0.w, top: 1.h),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 1.5.w),
-                                            width: 13.w,
-                                            child: Image.asset(
-                                                'assets/images/portfolio-icon.png',
-                                                width: 13.w),
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Mutual Funds: ',
-                                              style: textStyle10(colorText7070),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                    text:
-                                                        '₹ ${CommonFunction().splitString(mutualFundsValue.toStringAsFixed(0))}',
-                                                    style: textStyle10Bold(
-                                                        colorBlack)),
-                                              ],
+                              child: isLoading == true
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                          color: colorRed, strokeWidth: 0.7.w),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 4.w, bottom: 1.h),
+                                          child: Text(
+                                              'Your Net Worth: ₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                              style:
+                                                  textStyle14Bold(colorBlack)),
+                                        ),
+                                        Container(
+                                            height: 1,
+                                            color: colorTextBCBC
+                                                .withOpacity(0.36)),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 1.h),
+                                          child: Row(children: [
+                                            Container(
+                                              // color: Colors.red,
+                                              alignment: Alignment.centerLeft,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0.w),
+                                              width: 13.w,
+                                              child: Image.asset(
+                                                  'assets/images/portfolio-icon.png',
+                                                  width: 13.w),
                                             ),
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Stocks: ',
-                                              style: textStyle10(colorText7070),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                    text:
-                                                        '₹ ${CommonFunction().splitString(stocksValue.toStringAsFixed(0))}',
-                                                    style: textStyle10Bold(
-                                                        colorBlack)),
-                                              ],
+                                            RichText(
+                                              text: TextSpan(
+                                                text: 'Mutual Funds: ',
+                                                style:
+                                                    textStyle10(colorText7070),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                      text:
+                                                          '₹ ${CommonFunction().splitString(mutualFundsValue.toStringAsFixed(0))}',
+                                                      style: textStyle10Bold(
+                                                          colorBlack)),
+                                                ],
+                                              ),
                                             ),
-                                          )
-                                        ]),
-                                  )
-                                ],
-                              ),
+                                            SizedBox(
+                                              width: 1.w,
+                                            ),
+                                            RichText(
+                                              text: TextSpan(
+                                                text: 'Stocks: ',
+                                                style:
+                                                    textStyle10(colorText7070),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                      text:
+                                                          '₹ ${CommonFunction().splitString(stocksValue.toStringAsFixed(0))}',
+                                                      style: textStyle10Bold(
+                                                          colorBlack)),
+                                                ],
+                                              ),
+                                            )
+                                          ]),
+                                        )
+                                      ],
+                                    ),
                             ),
                           ),
                         ),

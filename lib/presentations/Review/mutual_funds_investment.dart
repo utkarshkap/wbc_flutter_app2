@@ -183,6 +183,8 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                   context,
                                                   'Select Member',
                                                   members, (val) {
+                                                print(
+                                                    "MEMBERS:::::::::::::::::::::${val}");
                                                 setState(() {
                                                   selectedUser = val.name
                                                       .substring(0, 1)
@@ -248,6 +250,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                         ),
                                       ],
                                     ),
+
                                     // Column(
                                     //   crossAxisAlignment:
                                     //       CrossAxisAlignment.end,
@@ -269,6 +272,36 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                   ],
                                 ),
                               ),
+                              if (members.length != 1)
+                                Container(
+                                  margin: EdgeInsets.only(top: 1.h),
+                                  padding: EdgeInsets.only(
+                                    left: 5.w,
+                                  ),
+                                  // color: Colors.red,
+                                  height: 4.h,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: members.length,
+                                      itemBuilder: (context, index) {
+                                        return index == 0
+                                            ? Container()
+                                            : Container(
+                                                height: 5.5.h,
+                                                width: 5.0.h,
+                                                decoration: const BoxDecoration(
+                                                    color: colorF3F3,
+                                                    shape: BoxShape.circle),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                    members[index]
+                                                        .name
+                                                        .substring(0, 1)
+                                                        .toUpperCase(),
+                                                    style: textStyle13Bold(
+                                                        colorRed)));
+                                      }),
+                                ),
                               SizedBox(height: 3.h),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -337,10 +370,12 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                     ],
                   ),
                   Positioned(
-                      top: 23.5.h,
+                      top: members.length == 1 ? 23.5.h : 27.5.h,
                       child: Container(
                         height: state.investmentPortfolio.mFStocks.isNotEmpty
-                            ? 48.5.h
+                            ? members.length == 1
+                                ? 48.5.h
+                                : 44.5.h
                             : 0,
                         width: 90.w,
                         decoration: decoration(),
@@ -387,10 +422,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                           .mFStocks[index].nav)
                                                   .toStringAsFixed(2),
                                               state.investmentPortfolio
-                                                      .mFStocks[index].unit -
-                                                  state.investmentPortfolio
-                                                      .mFStocks[index].sale_Unit
-                                                      .toDouble(),
+                                                  .mFStocks[index].unit,
                                               () => {
                                                     // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
 
