@@ -33,6 +33,7 @@ const Color colorFB83 = Color(0xffFB8385);
 const Color color6C6C = Color(0xff6C6CF9);
 const Color color9C8B = Color(0xff9C8BFF);
 const Color color47D1 = Color(0xff47D187);
+const Color color3061 = Color(0xff3061A4);
 
 const Color colorBoxGradiant0020 = Color(0xff002058);
 const Color colorBoxGradiant0040 = Color(0xff0040AF);

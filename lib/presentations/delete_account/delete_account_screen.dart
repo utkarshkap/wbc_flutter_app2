@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
-import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
-  static const route = '/close-account';
+  static const route = '/delete-account';
   const DeleteAccountScreen({super.key});
 
   @override

@@ -211,7 +211,9 @@ class _MutualFundsTransactionState extends State<MutualFundsTransaction> {
                               "SWO" ||
                           state.investmentTransaction.mFStocks[i]
                                   .transactionType ==
-                              "SWI" ||
+                              "Sale"
+                          // "SWI"
+                          ||
                           state.investmentTransaction.mFStocks[i]
                                   .transactionType ==
                               "RED") {

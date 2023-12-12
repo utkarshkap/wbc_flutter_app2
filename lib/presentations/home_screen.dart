@@ -11,6 +11,7 @@ import 'package:wbc_connect_app/blocs/deletefamilymember/delete_family_member_bl
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/models/munafe_ki_class_model.dart';
 import 'package:wbc_connect_app/models/product_category_model.dart';
+import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -526,15 +527,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(height: 2.h),
-                        Container(
-                          width: 90.w,
-                          height: 16.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/NRI-CARNIVAL-7-BANNER.jpg'),
-                                fit: BoxFit.cover),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(NRICarnivalScreen.route);
+                          },
+                          child: Container(
+                            width: 90.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: const DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/NRI-CARNIVAL-7-BANNER.jpg'),
+                                  fit: BoxFit.cover),
+                            ),
                           ),
                         ),
                         SizedBox(height: 2.h),

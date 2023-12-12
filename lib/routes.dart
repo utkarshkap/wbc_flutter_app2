@@ -3,6 +3,7 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:wbc_connect_app/presentations/FAQs_screen.dart';
 import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Investment.dart';
 import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Ledger.dart';
+import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
 import 'package:wbc_connect_app/presentations/Payment/request_payment.dart';
 import 'package:wbc_connect_app/presentations/Payment/withdraw_amount.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_property.dart';
@@ -380,9 +381,13 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (_) => GoldPointHistoryScreen(goldPointHistoryData: data),
       );
-    case '/close-account':
+    case '/delete-account':
       return MaterialPageRoute(
         builder: (_) => const DeleteAccountScreen(),
+      );
+    case '/nri-carnival':
+      return MaterialPageRoute(
+        builder: (_) => const NRICarnivalScreen(),
       );
 
     default:
