@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wbc_connect_app/common_functions.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/core/preferences.dart';
+import 'package:wbc_connect_app/presentations/verification_screen.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 
 class NRICarnivalScreen extends StatefulWidget {
@@ -11,6 +15,19 @@ class NRICarnivalScreen extends StatefulWidget {
 }
 
 class _NRICarnivalScreenState extends State<NRICarnivalScreen> {
+  String mono = "";
+  @override
+  void initState() {
+    getMobNog();
+    super.initState();
+  }
+
+  getMobNog() async {
+    mono = await Preference.getMobNo();
+    setState(() {});
+    print('mono-----$mono');
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -49,7 +66,7 @@ class _NRICarnivalScreenState extends State<NRICarnivalScreen> {
                               height: 1.5.h,
                             ),
                             Text(
-                              'From 20th Nov, 2022 To 31st March, 2023',
+                              'From 20th Nov, 2023 To 31st March, 2024',
                               style: textStyle10Bold(colorSplashBG),
                             )
                           ],
@@ -102,7 +119,24 @@ class _NRICarnivalScreenState extends State<NRICarnivalScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            if (GpDashBoardData.availableContacts != 0) {
+                              Preference.setRenewContact(true);
+                              Navigator.of(context).pushNamed(
+                                  VerificationScreen.route,
+                                  arguments: VerificationScreenData(
+                                      getNumber: "",
+                                      number: mono,
+                                      verificationId: "",
+                                      isLogin: true,
+                                      isNRICarnivalPage: true,
+                                      selectedContact:
+                                          GpDashBoardData.availableContacts!,
+                                      isHomeContactOpen: true));
+                            } else {
+                              CommonFunction().reachedMaxContactPopup(context);
+                            }
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             height: 5.h,

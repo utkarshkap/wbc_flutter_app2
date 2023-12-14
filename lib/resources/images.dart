@@ -35,3 +35,5 @@ const String jsonReviewSuccess = '${_path}review_success.json';
 const String _fontPath = 'assets/fonts/';
 
 const String txtCongrats = '${_fontPath}congrats.png';
+
+const String nriCarnival7Banner = '${_path}nri_carnival_7_banner.jpg';

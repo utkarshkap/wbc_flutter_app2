@@ -15,12 +15,9 @@ import 'package:permission_handler/permission_handler.dart'
     as contactPermission;
 import 'package:pinput/pinput.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
-import 'package:wbc_connect_app/blocs/MFInvestments/mf_investments_bloc.dart';
 import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
 import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
-import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
-import 'package:wbc_connect_app/models/stock_investment_model.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/sigIn_screen.dart';
 import 'package:wbc_connect_app/presentations/splash_screen.dart';
@@ -43,6 +40,7 @@ class VerificationScreenData {
   final String verificationId;
   final bool isLogin;
   final bool isHomeContactOpen;
+  final bool isNRICarnivalPage;
   int selectedContact;
 
   VerificationScreenData(
@@ -51,6 +49,7 @@ class VerificationScreenData {
       required this.verificationId,
       this.isLogin = false,
       this.isHomeContactOpen = false,
+      this.isNRICarnivalPage = false,
       required this.selectedContact});
 }
 
@@ -402,7 +401,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       } else {
         count = 0;
         contactCount = 0;
-        print("------ CONTACTS::::::::::::::::${value[0]}");
+        print("------ CONTACTS::::::::::::::::${value.length}");
 
         for (int i = 0; i < value.length; i++) {
           if (i > 0) {
@@ -467,10 +466,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     contact: value[i],
                     isAdd: false,
                     color: colorContacts[count]));
+              } else {
+                print("FALSE:::::::::::::::::::::${value[i]}");
               }
-              // else{
-              //   print("FALSE:::::::::::::::::::::");
-              // }
             }
           }
         }
@@ -624,6 +622,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       HomeScreen.route, (route) => false,
                       arguments: HomeScreenData(
                           rewardPopUpShow: true,
+                          isNRIReferral:
+                              widget.verificationScreenData.isNRICarnivalPage ==
+                                      true
+                                  ? true
+                                  : false,
                           acceptedContacts: state.acceptedContacts));
                 } else if (state is UserIdLoaded) {
                   print('useridloaded---------${state.data!.data}');
@@ -807,6 +810,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     style: textStyle8(colorText7070)),
                               ],
                             ),
+                            SizedBox(
+                              width: 2.5.w,
+                            ),
+                            if (widget
+                                    .verificationScreenData.isNRICarnivalPage ==
+                                true)
+                              Text(
+                                'NRI Carnival-VII',
+                                style: textStyle11Bold(colorSplashBG),
+                              ),
                             const Spacer(),
                             if (step != 4) SizedBox(height: 8.h, width: 8.w),
                             if (step == 4)
@@ -1703,6 +1716,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                                     '(', '')
                                                                 .replaceAll(
                                                                     ')', '');
+
+                                                        print(
+                                                            "NUMBER ::::::::::${selectedContactMono.substring(0, selectedContactMono.length - 10)}");
+                                                        var countryCode =
+                                                            selectedContactMono
+                                                                .substring(
+                                                                    0,
+                                                                    selectedContactMono
+                                                                            .length -
+                                                                        10);
                                                         selectedContactMono =
                                                             selectedContactMono
                                                                 .substring(
@@ -1710,17 +1733,25 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                                             .length -
                                                                         10);
 
-                                                        // print(
-                                                        //     'final name:::::::::::::$selectedContactName');
-                                                        // print(
-                                                        //     'final mono:::::::::::::$selectedContactMono');
+                                                        print(
+                                                            'final name:::::::::::::$selectedContactName');
+                                                        print(
+                                                            'final mono:::::::::::::$selectedContactMono');
 
-                                                        selectedContacts.add(
-                                                            ContactData(
-                                                                name:
-                                                                    selectedContactName,
-                                                                mobileNo:
-                                                                    selectedContactMono));
+                                                        selectedContacts
+                                                            .add(ContactData(
+                                                          name:
+                                                              selectedContactName,
+                                                          mobileNo:
+                                                              selectedContactMono,
+                                                          nriRefferal: widget
+                                                                      .verificationScreenData
+                                                                      .isNRICarnivalPage ==
+                                                                  true
+                                                              ? true
+                                                              : false,
+                                                          country: countryCode,
+                                                        ));
 
                                                         print(
                                                             "SELECTED ::::::::::::::${selectedContacts}");

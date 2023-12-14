@@ -58,12 +58,14 @@ class HomeScreenData {
   final bool isFastTrackActivate;
   final String isSendReview;
   final String? acceptedContacts;
+  final bool isNRIReferral;
 
   HomeScreenData({
     this.rewardPopUpShow = false,
     this.isFastTrackActivate = false,
     this.isSendReview = '',
     this.acceptedContacts,
+    this.isNRIReferral = false
   });
 }
 
@@ -538,8 +540,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               image: const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/NRI-CARNIVAL-7-BANNER.jpg'),
+                                  image: AssetImage(nriCarnival7Banner),
                                   fit: BoxFit.cover),
                             ),
                           ),
