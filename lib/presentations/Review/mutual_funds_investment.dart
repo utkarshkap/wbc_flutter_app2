@@ -286,20 +286,48 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                       itemBuilder: (context, index) {
                                         return index == 0
                                             ? Container()
-                                            : Container(
-                                                height: 5.5.h,
-                                                width: 5.0.h,
-                                                decoration: const BoxDecoration(
-                                                    color: colorF3F3,
-                                                    shape: BoxShape.circle),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                    members[index]
-                                                        .name
-                                                        .substring(0, 1)
-                                                        .toUpperCase(),
-                                                    style: textStyle13Bold(
-                                                        colorRed)));
+                                            : InkWell(
+                                                onTap: () {
+                                                  isCalculateInvestments =
+                                                      false;
+                                                  totalInvestments = 0.0;
+                                                  BlocProvider.of<
+                                                              MFInvestmentsBloc>(
+                                                          context)
+                                                      .add(LoadMFInvestmentsEvent(
+                                                          userId: members[index]
+                                                              .relativeUserId
+                                                              .toString(),
+                                                          investmentPortfolio:
+                                                              InvestmentPortfolio(
+                                                                  code: 0,
+                                                                  message: '',
+                                                                  portfolio: 0,
+                                                                  investment: 0,
+                                                                  gain: 0,
+                                                                  mFStocks: [])));
+                                                  selectedUserId =
+                                                      members[index]
+                                                          .relativeUserId
+                                                          .toString();
+                                                },
+                                                child: Container(
+                                                    height: 5.5.h,
+                                                    width: 5.0.h,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            color: colorF3F3,
+                                                            shape: BoxShape
+                                                                .circle),
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        members[index]
+                                                            .name
+                                                            .substring(0, 1)
+                                                            .toUpperCase(),
+                                                        style: textStyle13Bold(
+                                                            colorRed))),
+                                              );
                                       }),
                                 ),
                               SizedBox(height: 3.h),

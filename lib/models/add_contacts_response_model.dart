@@ -40,18 +40,26 @@ class Contact {
   Contact({
     required this.mobileNo,
     required this.status,
+    required this.nriRefferal,
+    required this.country,
   });
 
   final String mobileNo;
   final String status;
+  final bool nriRefferal;
+  final String country;
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         mobileNo: json["mobileNo"],
         status: json["status"],
+        nriRefferal: json["nrI_refferal"],
+        country: json["country"],
       );
 
   Map<String, dynamic> toJson() => {
         "mobileNo": mobileNo,
         "status": status,
+        "nrI_refferal": nriRefferal,
+        "country": country,
       };
 }

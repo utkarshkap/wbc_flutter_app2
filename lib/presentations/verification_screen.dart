@@ -622,11 +622,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       HomeScreen.route, (route) => false,
                       arguments: HomeScreenData(
                           rewardPopUpShow: true,
-                          isNRIReferral:
-                              widget.verificationScreenData.isNRICarnivalPage ==
-                                      true
-                                  ? true
-                                  : false,
+                          acceptedNRIContacts:
+                             state.acceptedNRIContacts,
                           acceptedContacts: state.acceptedContacts));
                 } else if (state is UserIdLoaded) {
                   print('useridloaded---------${state.data!.data}');

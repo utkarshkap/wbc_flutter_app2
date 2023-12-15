@@ -58,14 +58,14 @@ class HomeScreenData {
   final bool isFastTrackActivate;
   final String isSendReview;
   final String? acceptedContacts;
-  final bool isNRIReferral;
+  final String? acceptedNRIContacts;
 
   HomeScreenData({
     this.rewardPopUpShow = false,
     this.isFastTrackActivate = false,
     this.isSendReview = '',
     this.acceptedContacts,
-    this.isNRIReferral = false
+    this.acceptedNRIContacts,
   });
 }
 
@@ -277,8 +277,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     'Congratulations',
                     ApiUser.numberList.length == 0
-                        ? 'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!)} contacts are approved in WBC and you have received ${int.parse(widget.homeScreenData.acceptedContacts!) * 100} Gold Points for the same.'
-                        : 'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!)} contacts are approved in WBC and you have received ${int.parse(widget.homeScreenData.acceptedContacts!) * 100} Gold Points for the same.${ApiUser.numberList.toString().replaceAll('[', '').replaceAll(']', '')},are not added because its already available',
+                        ? 'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!) + int.parse(widget.homeScreenData.acceptedNRIContacts!)} contacts are approved in WBC and you have received ${(int.parse(widget.homeScreenData.acceptedContacts!) * 100) + (int.parse(widget.homeScreenData.acceptedNRIContacts!) * 250)} Gold Points for the same.'
+                        : 'Congratulations! Your ${int.parse(widget.homeScreenData.acceptedContacts!) + int.parse(widget.homeScreenData.acceptedNRIContacts!)} contacts are approved in WBC and you have received ${(int.parse(widget.homeScreenData.acceptedContacts!) * 100) + (int.parse(widget.homeScreenData.acceptedNRIContacts!) * 250)} Gold Points for the same.${ApiUser.numberList.toString().replaceAll('[', '').replaceAll(']', '')},are not added because its already available',
                     jsonRewardPopup);
               }
             }

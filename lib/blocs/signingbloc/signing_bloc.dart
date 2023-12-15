@@ -47,6 +47,7 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
       await Future.delayed(const Duration(seconds: 3), () async {
         final signingRepo = SigningRepository();
         int count = 0;
+        int nRIContactCount = 0;
         ApiUser.numberList = [];
 
         final response = await signingRepo.postContactsData(
@@ -59,11 +60,19 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
 
         for (var element in addContactResponse.contacts) {
           if (element.status == "Accepted") {
-            count++;
+            if (element.nriRefferal == true &&
+                (element.country == '+91' || element.country == ''
+                // ||element.country.substring(0, 1) != '+'
+                )) {
+              count++;
+            } else if (element.nriRefferal == false) {
+              count++;
+            } else {
+              nRIContactCount++;
+            }
           } else {
             ApiUser.numberList.add(element.mobileNo);
           }
-          // print("ELEMENT LIST:::::::${ApiUser.numberList}");
         }
         print('accepted contact count-----$count');
 
@@ -72,8 +81,12 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
         final data = getUserFromJson(getUserData.data!.body);
 
         response.statusCode == 200
-            ? emit(AddContactLoaded(response, data.data!.uid.toString(),
-                count.toString(), data.goldReferrals!))
+            ? emit(AddContactLoaded(
+                response,
+                data.data!.uid.toString(),
+                count.toString(),
+                nRIContactCount.toString(),
+                data.goldReferrals!))
             : emit(AddContactFailed());
       });
 
