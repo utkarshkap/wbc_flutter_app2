@@ -398,12 +398,12 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                     ],
                   ),
                   Positioned(
-                      top: members.length == 1 ? 23.5.h : 27.5.h,
+                      top: members.length == 1 ? 23.5.h : 28.5.h,
                       child: Container(
                         height: state.investmentPortfolio.mFStocks.isNotEmpty
                             ? members.length == 1
-                                ? 48.5.h
-                                : 44.5.h
+                                ? 49.5.h
+                                : 45.5.h
                             : 0,
                         width: 90.w,
                         decoration: decoration(),

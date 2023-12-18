@@ -94,6 +94,7 @@ const String icFAQs = '${_drawerPath}faqs.png';
 const String icMunafeKiClass = '${_drawerPath}munafeKiClass.png';
 const String icTermsAndConditions = '${_drawerPath}termsAndConditions.png';
 const String icLogout = '${_drawerPath}logout.png';
+const String icDeleteMyAccount = '${_drawerPath}delete_my_account.png';
 
 const String _mallPath = 'assets/icons/mall/';
 

@@ -390,7 +390,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       //   Navigator.of(context).pushNamed(SigInPage.route);
                       // });
                     }),
-                    drawerWidget(icLogout, 'Delete account', () {
+                    drawerWidget(icDeleteMyAccount, 'Delete account', () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context)
                           .pushNamed(DeleteAccountScreen.route);

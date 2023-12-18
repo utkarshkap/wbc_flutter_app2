@@ -85,6 +85,7 @@ dependencies:
   firebase_core: ^2.16.0
   firebase_messaging: ^14.6.8
   pinput: ^3.0.1
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:
