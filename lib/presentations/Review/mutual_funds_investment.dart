@@ -33,6 +33,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
   List<Memberlist> members = [];
   String mobileNo = '';
   double totalInvestments = 0.0;
+  double totalUnit = 0.0;
   bool isCalculateInvestments = false;
 
   List<String> types = [
@@ -134,6 +135,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                           .toStringAsFixed(2)
                           .toString() !=
                       "0.00") {
+                    totalUnit += state.investmentPortfolio.mFStocks[i].unit;
                     totalInvestments += ((state.investmentPortfolio.mFStocks[i]
                                 .investment_Unit -
                             state.investmentPortfolio.mFStocks[i].sale_Unit) *
@@ -156,7 +158,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 4.h, bottom: 6.h),
+                          padding: EdgeInsets.only(top: 4.h, bottom: 2.h),
                           child: Column(
                             children: [
                               Padding(
@@ -192,6 +194,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                   isCalculateInvestments =
                                                       false;
                                                   totalInvestments = 0.0;
+                                                  totalUnit = 0.0;
                                                   print(
                                                       "relativeUSerId:-${val.relativeUserId}");
                                                 });
@@ -272,88 +275,104 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                   ],
                                 ),
                               ),
-                              if (members.length != 1)
-                                Container(
-                                  margin: EdgeInsets.only(top: 1.h),
-                                  padding: EdgeInsets.only(
-                                    left: 5.w,
-                                  ),
-                                  // color: Colors.red,
-                                  height: 4.h,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: members.length,
-                                      itemBuilder: (context, index) {
-                                        return index == 0
-                                            ? Container()
-                                            : InkWell(
-                                                onTap: () {
-                                                  isCalculateInvestments =
-                                                      false;
-                                                  totalInvestments = 0.0;
-                                                  BlocProvider.of<
-                                                              MFInvestmentsBloc>(
-                                                          context)
-                                                      .add(LoadMFInvestmentsEvent(
-                                                          userId: members[index]
-                                                              .relativeUserId
-                                                              .toString(),
-                                                          investmentPortfolio:
-                                                              InvestmentPortfolio(
-                                                                  code: 0,
-                                                                  message: '',
-                                                                  portfolio: 0,
-                                                                  investment: 0,
-                                                                  gain: 0,
-                                                                  mFStocks: [])));
-                                                  selectedUserId =
-                                                      members[index]
-                                                          .relativeUserId
-                                                          .toString();
-                                                },
-                                                child: Container(
-                                                    height: 5.5.h,
-                                                    width: 5.0.h,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            color: colorF3F3,
-                                                            shape: BoxShape
-                                                                .circle),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                        members[index]
-                                                            .name
-                                                            .substring(0, 1)
-                                                            .toUpperCase(),
-                                                        style: textStyle13Bold(
-                                                            colorRed))),
-                                              );
-                                      }),
-                                ),
-                              SizedBox(height: 3.h),
+                              SizedBox(
+                                height: 3.h,
+                              ),
+                              if(members.length == 1)
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                padding:  EdgeInsets.only( right: 5.w),
+                                child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: popupButton(
+                                          false,
+                                          selectedType,
+                                          List.generate(
+                                              types.length,
+                                              (i) => menuItem(types[i], () {
+                                                    setState(() {
+                                                      selectedType = types[i];
+                                                    });
+                                                  }))),
+                                      ),
+                              ),
+                              if (members.length != 1)
+                              Padding(
+                                padding: EdgeInsets.only(left: 2.w, right: 5.w),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    showValue(
-                                      icStocksInvestment,
-                                      color47D1,
-                                      'MMF-Investment',
-                                      // totalInvestments.toStringAsFixed(2)
-                                      CommonFunction().splitString(
-                                          totalInvestments.toStringAsFixed(0)),
-                                      // CommonFunction().splitString(state.investmentPortfolio.investment.toInt().toString())
-                                    ),
-                                    /*showValue(
-                                        icStocksInvestment,
-                                        colorFB83,
-                                        'Gain/Loss',
-                                        CommonFunction().splitString(state.investmentPortfolio.gain.toInt().isNegative
-                                            ? (-state.investmentPortfolio.gain.toInt()).toString()
-                                            : state.investmentPortfolio.gain.toInt().toString())),*/
-                                    popupButton(
+                                    
+                                      Container(
+                                        margin: EdgeInsets.only(left: 2.5.w),
+                                        // padding: EdgeInsets.only(
+                                        //   left: 5.w,
+                                        // ),
+                                        // color: Colors.red,
+                                        height: 4.h,
+                                        width: 50.w,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: members.length,
+                                            itemBuilder: (context, index) {
+                                              return index == 0
+                                                  ? Container()
+                                                  : InkWell(
+                                                      onTap: () {
+                                                        isCalculateInvestments =
+                                                            false;
+                                                        totalInvestments = 0.0;
+                                                        totalUnit = 0.0;
+                                                        BlocProvider.of<
+                                                                    MFInvestmentsBloc>(
+                                                                context)
+                                                            .add(LoadMFInvestmentsEvent(
+                                                                userId: members[
+                                                                        index]
+                                                                    .relativeUserId
+                                                                    .toString(),
+                                                                investmentPortfolio:
+                                                                    InvestmentPortfolio(
+                                                                        code: 0,
+                                                                        message:
+                                                                            '',
+                                                                        portfolio:
+                                                                            0,
+                                                                        investment:
+                                                                            0,
+                                                                        gain: 0,
+                                                                        mFStocks: [])));
+                                                        selectedUserId =
+                                                            members[index]
+                                                                .relativeUserId
+                                                                .toString();
+                                                      },
+                                                      child: Container(
+                                                          height: 5.5.h,
+                                                          width: 5.0.h,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                                  color:
+                                                                      colorF3F3,
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                              members[index]
+                                                                  .name
+                                                                  .substring(
+                                                                      0, 1)
+                                                                  .toUpperCase(),
+                                                              style:
+                                                                  textStyle13Bold(
+                                                                      colorRed))),
+                                                    );
+                                            }),
+                                      ),
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: popupButton(
                                         false,
                                         selectedType,
                                         List.generate(
@@ -363,9 +382,47 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                     selectedType = types[i];
                                                   });
                                                 }))),
+                                    )
                                   ],
                                 ),
                               ),
+
+                              SizedBox(height: 3.h),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              //   child: Row(
+                              //     mainAxisAlignment:
+                              //         MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       showValue(
+                              //         icStocksInvestment,
+                              //         color47D1,
+                              //         'MMF-Investment',
+                              //         // totalInvestments.toStringAsFixed(2)
+                              //         CommonFunction().splitString(
+                              //             totalInvestments.toStringAsFixed(0)),
+                              //         // CommonFunction().splitString(state.investmentPortfolio.investment.toInt().toString())
+                              //       ),
+                              //       /*showValue(
+                              //           icStocksInvestment,
+                              //           colorFB83,
+                              //           'Gain/Loss',
+                              //           CommonFunction().splitString(state.investmentPortfolio.gain.toInt().isNegative
+                              //               ? (-state.investmentPortfolio.gain.toInt()).toString()
+                              //               : state.investmentPortfolio.gain.toInt().toString())),*/
+                              //       popupButton(
+                              //           false,
+                              //           selectedType,
+                              //           List.generate(
+                              //               types.length,
+                              //               (i) => menuItem(types[i], () {
+                              //                     setState(() {
+                              //                       selectedType = types[i];
+                              //                     });
+                              //                   }))),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -398,104 +455,259 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                     ],
                   ),
                   Positioned(
-                      top: members.length == 1 ? 23.5.h : 28.5.h,
+                      top: 20.5.h,
                       child: Container(
                         height: state.investmentPortfolio.mFStocks.isNotEmpty
-                            ? members.length == 1
-                                ? 49.5.h
-                                : 45.5.h
+                            ? 52.5.h
                             : 0,
                         width: 90.w,
                         decoration: decoration(),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: List.generate(
-                                state.investmentPortfolio.mFStocks.length,
-                                (index) => state.investmentPortfolio
-                                            .mFStocks[index].unit
-                                            .toStringAsFixed(2)
-                                            .toString() !=
-                                        "0.00"
-                                    ? Column(
-                                        children: [
-                                          reviews(
-                                              state
-                                                      .investmentPortfolio
-                                                      .mFStocks[index]
-                                                      .nav
-                                                      .isNegative
-                                                  ? icStocksInvestment
-                                                  : icStocksInvestment,
-                                              state
-                                                      .investmentPortfolio
-                                                      .mFStocks[index]
-                                                      .nav
-                                                      .isNegative
-                                                  ? colorFB83
-                                                  : color47D1,
-                                              state.investmentPortfolio
-                                                  .mFStocks[index].mFStockName,
-                                              state.investmentPortfolio
-                                                  .mFStocks[index].nav
-                                                  .toStringAsFixed(2),
-                                              ((state
-                                                              .investmentPortfolio
-                                                              .mFStocks[index]
-                                                              .investment_Unit -
-                                                          state
-                                                              .investmentPortfolio
-                                                              .mFStocks[index]
-                                                              .sale_Unit) *
-                                                      state.investmentPortfolio
-                                                          .mFStocks[index].nav)
-                                                  .toStringAsFixed(2),
-                                              state.investmentPortfolio
-                                                  .mFStocks[index].unit,
-                                              () => {
-                                                    // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
-
-                                                    BlocProvider.of<
-                                                                MFTransactionBloc>(
-                                                            context)
-                                                        .add(LoadMFTransactionEvent(
-                                                            userId: selectedUserId ==
-                                                                        '0' ||
-                                                                    selectedUserId ==
-                                                                        ''
-                                                                ? ApiUser.userId
-                                                                : selectedUserId,
-                                                            folioNo: state
+                        child: Column(children: [
+                          Expanded(
+                            flex: 6,
+                            child: ListView.builder(
+                                itemCount:
+                                    state.investmentPortfolio.mFStocks.length,
+                                itemBuilder: (context, index) {
+                                  return state.investmentPortfolio
+                                              .mFStocks[index].unit
+                                              .toStringAsFixed(2)
+                                              .toString() !=
+                                          "0.00"
+                                      ? Column(
+                                          children: [
+                                            reviews(
+                                                state
+                                                        .investmentPortfolio
+                                                        .mFStocks[index]
+                                                        .nav
+                                                        .isNegative
+                                                    ? icStocksInvestment
+                                                    : icStocksInvestment,
+                                                state
+                                                        .investmentPortfolio
+                                                        .mFStocks[index]
+                                                        .nav
+                                                        .isNegative
+                                                    ? colorFB83
+                                                    : color47D1,
+                                                state
+                                                    .investmentPortfolio
+                                                    .mFStocks[index]
+                                                    .mFStockName,
+                                                state.investmentPortfolio
+                                                    .mFStocks[index].nav
+                                                    .toStringAsFixed(2),
+                                                ((state
                                                                 .investmentPortfolio
                                                                 .mFStocks[index]
-                                                                .folioNo,
-                                                            schemeName: state
+                                                                .investment_Unit -
+                                                            state
                                                                 .investmentPortfolio
                                                                 .mFStocks[index]
-                                                                .mFStockName,
-                                                            investmentTransaction:
-                                                                InvestmentTransaction(
-                                                                    code: 0,
-                                                                    message: '',
-                                                                    mFStocks: []))),
+                                                                .sale_Unit) *
+                                                        state
+                                                            .investmentPortfolio
+                                                            .mFStocks[index]
+                                                            .nav)
+                                                    .toStringAsFixed(2),
+                                                state.investmentPortfolio
+                                                    .mFStocks[index].unit,
+                                                () => {
+                                                      // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
 
-                                                    Navigator.of(context)
-                                                        .pushNamed(
-                                                            MutualFundsTransaction
-                                                                .route)
-                                                  }),
-                                          if (index !=
-                                              state.investmentPortfolio.mFStocks
-                                                      .length -
-                                                  1)
-                                            Container(
-                                                height: 1,
-                                                color: colorTextBCBC
-                                                    .withOpacity(0.36))
-                                        ],
-                                      )
-                                    : Container()),
+                                                      BlocProvider.of<
+                                                                  MFTransactionBloc>(
+                                                              context)
+                                                          .add(LoadMFTransactionEvent(
+                                                              userId: selectedUserId ==
+                                                                          '0' ||
+                                                                      selectedUserId ==
+                                                                          ''
+                                                                  ? ApiUser
+                                                                      .userId
+                                                                  : selectedUserId,
+                                                              folioNo: state
+                                                                  .investmentPortfolio
+                                                                  .mFStocks[
+                                                                      index]
+                                                                  .folioNo,
+                                                              schemeName: state
+                                                                  .investmentPortfolio
+                                                                  .mFStocks[
+                                                                      index]
+                                                                  .mFStockName,
+                                                              investmentTransaction:
+                                                                  InvestmentTransaction(
+                                                                      code: 0,
+                                                                      message:
+                                                                          '',
+                                                                      mFStocks: []))),
+
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                              MutualFundsTransaction
+                                                                  .route)
+                                                    }),
+                                            if (index !=
+                                                state.investmentPortfolio
+                                                        .mFStocks.length -
+                                                    1)
+                                              Container(
+                                                  height: 1,
+                                                  color: colorTextBCBC
+                                                      .withOpacity(0.36)),
+                                          ],
+                                        )
+                                      : Container();
+                                }),
                           ),
-                        ),
+                          // ...List.generate(
+                          //     state.investmentPortfolio.mFStocks.length,
+                          //     (index) => state.investmentPortfolio
+                          //                 .mFStocks[index].unit
+                          //                 .toStringAsFixed(2)
+                          //                 .toString() !=
+                          //             "0.00"
+                          //         ? Column(
+                          //             children: [
+                          //               reviews(
+                          //                   state
+                          //                           .investmentPortfolio
+                          //                           .mFStocks[index]
+                          //                           .nav
+                          //                           .isNegative
+                          //                       ? icStocksInvestment
+                          //                       : icStocksInvestment,
+                          //                   state
+                          //                           .investmentPortfolio
+                          //                           .mFStocks[index]
+                          //                           .nav
+                          //                           .isNegative
+                          //                       ? colorFB83
+                          //                       : color47D1,
+                          //                   state.investmentPortfolio
+                          //                       .mFStocks[index].mFStockName,
+                          //                   state.investmentPortfolio
+                          //                       .mFStocks[index].nav
+                          //                       .toStringAsFixed(2),
+                          //                   ((state
+                          //                                   .investmentPortfolio
+                          //                                   .mFStocks[index]
+                          //                                   .investment_Unit -
+                          //                               state
+                          //                                   .investmentPortfolio
+                          //                                   .mFStocks[index]
+                          //                                   .sale_Unit) *
+                          //                           state.investmentPortfolio
+                          //                               .mFStocks[index].nav)
+                          //                       .toStringAsFixed(2),
+                          //                   state.investmentPortfolio
+                          //                       .mFStocks[index].unit,
+                          //                   () => {
+                          //                         // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
+
+                          //                         BlocProvider.of<
+                          //                                     MFTransactionBloc>(
+                          //                                 context)
+                          //                             .add(LoadMFTransactionEvent(
+                          //                                 userId: selectedUserId ==
+                          //                                             '0' ||
+                          //                                         selectedUserId ==
+                          //                                             ''
+                          //                                     ? ApiUser.userId
+                          //                                     : selectedUserId,
+                          //                                 folioNo: state
+                          //                                     .investmentPortfolio
+                          //                                     .mFStocks[index]
+                          //                                     .folioNo,
+                          //                                 schemeName: state
+                          //                                     .investmentPortfolio
+                          //                                     .mFStocks[index]
+                          //                                     .mFStockName,
+                          //                                 investmentTransaction:
+                          //                                     InvestmentTransaction(
+                          //                                         code: 0,
+                          //                                         message: '',
+                          //                                         mFStocks: []))),
+
+                          //                         Navigator.of(context)
+                          //                             .pushNamed(
+                          //                                 MutualFundsTransaction
+                          //                                     .route)
+                          //                       }),
+                          //               if (index !=
+                          //                   state.investmentPortfolio.mFStocks
+                          //                           .length -
+                          //                       1)
+                          //                 Container(
+                          //                     height: 1,
+                          //                     color: colorTextBCBC
+                          //                         .withOpacity(0.36)),
+                          //             ],
+                          //           )
+                          //         : Container()),
+                          // SizedBox(
+                          //   height: 2.h,
+                          // ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 1,
+                                    color: colorTextBCBC.withOpacity(0.36)),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 3.w, vertical: 1.3.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('Unit Total',
+                                              style: textStyle10Bold(
+                                                  colorText7070)),
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          ),
+                                          Text(
+                                            '${CommonFunction().splitString(totalUnit.toStringAsFixed(2))}',
+                                            style: textStyle11Bold(colorBlack),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                         crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('MF-Investment',
+                                              style: textStyle10Bold(
+                                                  colorText7070)),
+                                                   SizedBox(
+                                                      height: 0.5.h,
+                                                     ),
+                                          Text(
+                                            '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(0))}',
+                                            style: textStyle11Bold(colorBlack),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ]),
                       ))
                 ],
               );

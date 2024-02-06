@@ -10,6 +10,21 @@ class FileHelper {
   FileHelper._();
 
   getDirectoryPath() async {
+    Directory? directory;
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        // directory = Directory('/storage/emulated/0/Download');
+        // if (!await directory.exists()) {
+        directory = await getExternalStorageDirectory();
+        // }
+      }
+    } catch (err) {
+      print("Cannot get download folder path::::::");
+    }
+    return directory?.path;
+
     // final directory = await getDownloadsDirectory();
     // print("FILE PATH::::::::::::::::${directory!.path}");
 
@@ -17,13 +32,16 @@ class FileHelper {
     // /storage/emulated/0/Download
     // Directory? documents = await getExternalStorageDirectory();
 
-    Directory filePath = await getApplicationDocumentsDirectory();
+    // final filePath = await getExternalStorageDirectory();
+    // if (!await filePath!.exists())
+    //   directory = await getExternalStorageDirectory();
+    // getApplicationDocumentsDirectory();
 
     // print(
     // "PATH****************************${documents!.path}=======${filePath.path}");
 
     // return '/storage/emulated/0/Download';
-    return filePath.path;
+    // return filePath!.path;
   }
 }
 

@@ -420,7 +420,6 @@ class Get5PaisaAccessTokenLoadedState extends FetchingDataState {
 class Get5PaisaAccessTokenErrorState extends FetchingDataState {
   @override
   List<Object?> get props => throw UnimplementedError();
-
 }
 
 class Get5PaisaHoldingsInitial extends FetchingDataState {
@@ -438,4 +437,27 @@ class Get5PaisaHoldingsLoadedState extends FetchingDataState {
 class Get5PaisaHoldingsErrorState extends FetchingDataState {
   @override
   List<Object?> get props => throw UnimplementedError();
+}
+
+class GetAngelHoldingsInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetAngelHoldingsLoadedState extends FetchingDataState {
+  final getAngelHoldings;
+
+  const GetAngelHoldingsLoadedState(this.getAngelHoldings);
+
+  @override
+  List<Object?> get props => [getAngelHoldings];
+}
+
+class GetAngelHoldingsErrorState extends FetchingDataState {
+  final String error;
+
+  const GetAngelHoldingsErrorState(this.error);
+
+  @override
+  List<Object?> get props => [error];
 }

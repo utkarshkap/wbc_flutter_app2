@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/ICICI/webview_ICICI.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/angel/webview_angel.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
-import '../../blocs/fetchingData/fetching_data_bloc.dart';
-import '../../models/get_5paisa_access_token_model.dart';
 import '../../widgets/appbarButton.dart';
-import '../brokers_api/view_5paisa_holdings.dart';
-import '../brokers_api/webview_5paisa.dart';
-import '../brokers_api/webview_IIFL.dart';
-import '../brokers_api/weview_fyers.dart';
+import '../brokers_api/5paisa/webview_5paisa.dart';
+import '../brokers_api/IIFL/webview_IIFL.dart';
+import '../brokers_api/fyers/weview_fyers.dart';
 import '../profile_screen.dart';
 
 class ConnectBrokers extends StatefulWidget {
@@ -68,6 +66,13 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
         companyLogo: icTrustline,
         isSelected: false),
   ];
+  navigateScreen(int index, String screenName) {
+    Navigator.of(context).pushNamed(screenName).then((value) {
+      setState(() {
+        brokersList[index].isSelected = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,52 +151,18 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 3.h),
                       ],
                     ),
                   ),
                 ),
                 Expanded(child: Container()),
-                InkWell(
-                    onTap: () {
-                      String selectedBroker = '';
-                      for (int i = 0; i < brokersList.length; i++) {
-                        if (brokersList[i].isSelected) {
-                          selectedBroker =
-                              brokersList[i].companyName.toString();
-                        }
-                      }
-                      if (selectedBroker == 'Fyers') {
-                        Navigator.of(context).pushNamed(WebviewFyers.route);
-                      } else if (selectedBroker == '5paisa Capital Limited') {
-                        Navigator.of(context).pushNamed(Webview5Paisa.route);
-                      } else if (selectedBroker ==
-                          'IIFL Wealth Management Limited') {
-                        Navigator.of(context).pushNamed(WebviewIIFL.route);
-                      } else {}
-                    },
-                    child: Container(
-                      height: 6.5.h,
-                      width: 90.w,
-                      decoration: BoxDecoration(
-                          color: colorRed,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: const Offset(0, 3),
-                                blurRadius: 6,
-                                color: colorRed.withOpacity(0.35))
-                          ]),
-                      alignment: Alignment.center,
-                      child: Text('SUBMIT', style: textStyle12Bold(colorWhite)),
-                    )),
                 SizedBox(height: 2.5.h)
               ],
             ),
             Positioned(
-              top: 19.h,
+              top: 15.5.h,
               child: Container(
-                height: 53.h,
+                height: 63.h,
                 width: 90.w,
                 decoration: BoxDecoration(
                     color: colorWhite,
@@ -215,6 +186,27 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
                               brokersList[index].isSelected =
                                   !brokersList[index].isSelected;
                             });
+                            String selectedBroker = '';
+                            for (int i = 0; i < brokersList.length; i++) {
+                              if (brokersList[i].isSelected) {
+                                selectedBroker =
+                                    brokersList[i].companyName.toString();
+                              }
+                            }
+                            if (selectedBroker == 'Fyers') {
+                              navigateScreen(index, WebviewFyers.route);
+                            } else if (selectedBroker ==
+                                '5paisa Capital Limited') {
+                              navigateScreen(index, Webview5Paisa.route);
+                            } else if (selectedBroker ==
+                                'IIFL Wealth Management Limited') {
+                              navigateScreen(index, WebviewIIFL.route);
+                            } else if (selectedBroker ==
+                                'Angel Broking Limited') {
+                              navigateScreen(index, WebViewAngel.route);
+                            } else if (selectedBroker == 'ICICI Bank Limited') {
+                              navigateScreen(index, WebViewICICI.route);
+                            }
                           },
                           child: Container(
                             decoration:

@@ -29,7 +29,7 @@ class Get5PaisaHoldingModel {
 
 class Body {
   int? cacheTime;
-  List<Null>? data;
+  List? data;
   String? message;
   int? status;
 
@@ -39,9 +39,9 @@ class Body {
     cacheTime = json['CacheTime'];
     if (json['Data'] != null) {
       data = <Null>[];
-      // json['Data'].forEach((v) {
-      //   data!.add(new Null.fromJson(v));
-      // });
+      json['Data'].forEach((v) {
+        data!.add(Body.fromJson(v));
+      });
     }
     message = json['Message'];
     status = json['Status'];
@@ -51,7 +51,7 @@ class Body {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['CacheTime'] = this.cacheTime;
     if (this.data != null) {
-      // data['Data'] = this.data!.map((v) => v.toJson()).toList();
+      data['Data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['Message'] = this.message;
     data['Status'] = this.status;

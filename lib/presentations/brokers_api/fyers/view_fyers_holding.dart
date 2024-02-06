@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
 
-import '../../models/get_fyers_holdings_model.dart';
-import '../../resources/colors.dart';
-import '../../resources/icons.dart';
-import '../../resources/styles.dart';
+import '../../../models/get_fyers_holdings_model.dart';
+import '../../../resources/colors.dart';
+import '../../../resources/icons.dart';
+import '../../../resources/styles.dart';
 
 class ViewFyersHolding extends StatefulWidget {
   static const route = '/View-Holding';

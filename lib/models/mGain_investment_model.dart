@@ -20,20 +20,20 @@ class MGainInvestment {
   List<MGain> mGains;
 
   factory MGainInvestment.fromJson(Map<String, dynamic> json) => MGainInvestment(
-    code: json["code"],
-    message: json["message"],
-    mGainTotalInvestment: json["mGain_total_Investment"],
-    totalIntrestReceived: json["total_Intrest_received"],
-    mGains: List<MGain>.from(json["mGains"].map((x) => MGain.fromJson(x))),
-  );
+        code: json["code"],
+        message: json["message"],
+        mGainTotalInvestment: json["mGain_total_Investment"],
+        totalIntrestReceived: json["total_Intrest_received"],
+        mGains: List<MGain>.from(json["mGains"].map((x) => MGain.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-    "mGain_total_Investment": mGainTotalInvestment,
-    "total_Intrest_received": totalIntrestReceived,
-    "mGains": List<dynamic>.from(mGains.map((x) => x.toJson())),
-  };
+        "code": code,
+        "message": message,
+        "mGain_total_Investment": mGainTotalInvestment,
+        "total_Intrest_received": totalIntrestReceived,
+        "mGains": List<dynamic>.from(mGains.map((x) => x.toJson())),
+      };
 
   @override
   String toString() {
@@ -45,6 +45,7 @@ class MGain {
   MGain({
     required this.mGainId,
     required this.userId,
+    required this.accountid,
     required this.type,
     required this.amount,
     required this.rate,
@@ -55,6 +56,7 @@ class MGain {
 
   int mGainId;
   int userId;
+  int accountid;
   String type;
   double amount;
   double rate;
@@ -63,29 +65,31 @@ class MGain {
   bool isActive;
 
   factory MGain.fromJson(Map<String, dynamic> json) => MGain(
-    mGainId: json["mGainId"],
-    userId: json["userId"],
-    type: json["type"],
-    amount: json["amount"],
-    rate: json["rate"],
-    investmentDate: DateTime.parse(json["investmentDate"]),
-    maturityDate: DateTime.parse(json["maturityDate"]),
-    isActive: json["isActive"],
-  );
+        mGainId: json["mGainId"],
+        userId: json["userId"],
+        accountid: json["accountid"],
+        type: json["type"],
+        amount: json["amount"],
+        rate: json["rate"],
+        investmentDate: DateTime.parse(json["investmentDate"]),
+        maturityDate: DateTime.parse(json["maturityDate"]),
+        isActive: json["isActive"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "mGainId": mGainId,
-    "userId": userId,
-    "type": type,
-    "amount": amount,
-    "rate": rate,
-    "investmentDate": investmentDate.toIso8601String(),
-    "maturityDate": maturityDate.toIso8601String(),
-    "isActive": isActive,
-  };
+        "mGainId": mGainId,
+        "userId": userId,
+        "accountid": accountid,
+        "type": type,
+        "amount": amount,
+        "rate": rate,
+        "investmentDate": investmentDate.toIso8601String(),
+        "maturityDate": maturityDate.toIso8601String(),
+        "isActive": isActive,
+      };
 
   @override
   String toString() {
-    return 'MGain{mGainId: $mGainId, userId: $userId, type: $type, amount: $amount, rate: $rate, investmentDate: $investmentDate, maturityDate: $maturityDate, isActive: $isActive}';
+    return 'MGain{mGainId: $mGainId, userId: $userId, accountid: $accountid, type: $type, amount: $amount, rate: $rate, investmentDate: $investmentDate, maturityDate: $maturityDate, isActive: $isActive}';
   }
 }

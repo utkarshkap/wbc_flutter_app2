@@ -33,11 +33,14 @@ import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/expand_category.dart
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/order_history.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_category.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_details_screen.dart';
-import 'package:wbc_connect_app/presentations/brokers_api/view_5paisa_holdings.dart';
-import 'package:wbc_connect_app/presentations/brokers_api/view_fyers_holding.dart';
-import 'package:wbc_connect_app/presentations/brokers_api/webview_5paisa.dart';
-import 'package:wbc_connect_app/presentations/brokers_api/webview_IIFL.dart';
-import 'package:wbc_connect_app/presentations/brokers_api/weview_fyers.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/5paisa/view_5paisa_holdings.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/ICICI/webview_ICICI.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/angel/view_angel_holding.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/angel/webview_angel.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/fyers/view_fyers_holding.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/5paisa/webview_5paisa.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/IIFL/webview_IIFL.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/fyers/weview_fyers.dart';
 import 'package:wbc_connect_app/presentations/delete_account/delete_account_screen.dart';
 import 'package:wbc_connect_app/presentations/emisip_cal_result.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
@@ -345,7 +348,18 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (_) => const WebviewIIFL(),
       );
-
+    case '/Webview-Angel':
+      return MaterialPageRoute(
+        builder: (_) => const WebViewAngel(),
+      );
+    case '/View-Angel-Holding':
+      return MaterialPageRoute(
+        builder: (_) => const ViewAngelHolding(),
+      );
+    case '/Webview-ICICI':
+      return MaterialPageRoute(
+        builder: (_) => const WebViewICICI(),
+      );
     case '/View-Holding':
       return MaterialPageRoute(
         builder: (_) => const ViewFyersHolding(),

@@ -1,30 +1,29 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wbc_connect_app/presentations/brokers_api/view_5paisa_holdings.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/angel/view_angel_holding.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
-import '../../blocs/fetchingData/fetching_data_bloc.dart';
-import '../../core/api/api_consts.dart';
-import '../../models/get_5paisa_access_token_model.dart';
 
-class Webview5Paisa extends StatefulWidget {
-  static const route = '/Webview-5Paisa';
-  const Webview5Paisa({Key? key}) : super(key: key);
+class WebViewAngel extends StatefulWidget {
+  static const route = '/Webview-Angel';
+
+  const WebViewAngel({super.key});
 
   @override
-  State<Webview5Paisa> createState() => _Webview5PaisaState();
+  State<WebViewAngel> createState() => _WebViewAngelState();
 }
 
-class _Webview5PaisaState extends State<Webview5Paisa> {
+class _WebViewAngelState extends State<WebViewAngel> {
   InAppWebViewController? webViewController;
-  String? url;
+  // ignore: non_constant_identifier_names
+  String? IIFLUrl;
 
   @override
   void initState() {
-    url =
-        "${generateRequestTokenUrl}VendorKey=$userKey&ResponseURL=$paisaRedirectUrl&state=$userId";
-    print("url-->$url");
+    IIFLUrl =
+        "https://smartapi.angelbroking.com/publisher-login?api_key=$angelApiKey";
     super.initState();
   }
 
@@ -51,7 +50,9 @@ class _Webview5PaisaState extends State<Webview5Paisa> {
           return Column(children: <Widget>[
             Expanded(
                 child: InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(url!)),
+              initialUrlRequest: URLRequest(
+                url: Uri.parse(IIFLUrl!),
+              ),
               onWebViewCreated: (InAppWebViewController controller) {
                 webView = controller;
               },
@@ -59,23 +60,21 @@ class _Webview5PaisaState extends State<Webview5Paisa> {
                 setState(() {
                   String finalUrl = url.toString();
                   print("finalUrl-->$finalUrl");
-                  if (finalUrl.contains("RequestToken")) {
-                    int startIndex = finalUrl.indexOf("RequestToken=");
+                  if (finalUrl.contains("auth_token")) {
+                    int startIndex = finalUrl.indexOf("auth_token=");
                     int endIndex = finalUrl.indexOf("&", startIndex);
-                    String requestToken = finalUrl
+                    String authToken = finalUrl
                         .substring(startIndex, endIndex)
                         .trim()
-                        .replaceAll("RequestToken=", '');
+                        .replaceAll("auth_token=", '');
 
-                    print("requestToken--->" + requestToken);
-
+                    print("AUTH TOKEN :::::::${authToken}");
                     Navigator.of(context)
-                        .pushReplacementNamed(View5PaisaHoldings.route);
-                    BlocProvider.of<FetchingDataBloc>(context)
-                        .add(Load5PaisaAccessTokenEvent(
-                      get5PaisaAccessToken: Get5PaisaAccessTokenModel(),
-                      requestToken: requestToken,
-                    ));
+                        .pushReplacementNamed(ViewAngelHolding.route);
+
+                    BlocProvider.of<FetchingDataBloc>(context).add(
+                        LoadAngelHoldingsEvent(
+                            getAngelHoldings: '', angelAuthToken: authToken));
                   }
                 });
               },

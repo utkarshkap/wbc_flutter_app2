@@ -163,8 +163,8 @@ class FetchingApi {
     }
   }
 
-  Future<MGainLedger> getMGainLedger(int mGainId) async {
-    final response = await http.get(Uri.parse("$mGainLedgerUrl$mGainId"));
+  Future<MGainLedger> getMGainLedger(int mGainId, int accountId) async {
+    final response = await http.get(Uri.parse("$mGainLedgerUrl$mGainId&accountid=$accountId"));
     if (response.statusCode == 200) {
       print('--MGainLedger--statusCode----${response.statusCode}');
       print('--MGainLedger--body----${response.body}');
@@ -369,5 +369,20 @@ class FetchingApi {
     } else {
       throw Exception("Failed to load Faq");
     }
+  }
+
+  Future getAngelHoldingsApi(angelAuthToken) async {
+    final response = await http.get(Uri.parse(getAngelHoldingsUrl), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $angelAuthToken",
+      "X-PrivateKey": "$angelApiKey",
+    });
+    if (response.statusCode == 200) {
+      print('--AngelHoldings--statusCode----${response.statusCode}');
+      print('--AngelHoldings--body----${response.body}');
+    } else {
+      throw Exception("Failed to load Faq");
+    }
+    print("ANGEL MAIN RESPONSE :::::::::$response");
   }
 }

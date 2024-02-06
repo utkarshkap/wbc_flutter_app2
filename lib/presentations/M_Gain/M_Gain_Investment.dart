@@ -234,6 +234,10 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                               .add(LoadMGainLedgerEvent(
                                                   mGainId: state.mGainInvestment
                                                       .mGains[index].mGainId,
+                                                  accountId: state
+                                                      .mGainInvestment
+                                                      .mGains[index]
+                                                      .accountid,
                                                   mGainLedger: MGainLedger(
                                                       code: 0,
                                                       message: '',

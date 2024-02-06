@@ -28,9 +28,7 @@ part 'fetching_data_event.dart';
 part 'fetching_data_state.dart';
 
 class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
-
   FetchingDataBloc() : super(FetchingDataInitial()) {
-
     on<LoadProductCategoryEvent>((event, emit) async {
       emit(ProductCategoryInitial());
       try {
@@ -46,7 +44,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       emit(ExpandedCategoryInitial());
       try {
         print('-=-------expandedCategory----${event.id}');
-        final expandedCategoryData = await FetchingApi().getExpandedCategory(event.id);
+        final expandedCategoryData =
+            await FetchingApi().getExpandedCategory(event.id);
         emit(ExpandedCategoryLoadedState(expandedCategoryData));
       } catch (e) {
         emit(ExpandedCategoryErrorState(e.toString()));
@@ -112,7 +111,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
     on<LoadMGainInvestmentEvent>((event, emit) async {
       emit(MGainInvestmentInitial());
       try {
-        final investmentData = await FetchingApi().getMGainInvestment(event.userId);
+        final investmentData =
+            await FetchingApi().getMGainInvestment(event.userId);
         emit(MGainInvestmentLoadedState(investmentData));
       } catch (e) {
         emit(MGainInvestmentErrorState(e.toString()));
@@ -123,7 +123,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       emit(MGainLedgerInitial());
       try {
         print('---=----mGainId--=----${event.mGainId}');
-        final ledgerData = await FetchingApi().getMGainLedger(event.mGainId);
+        final ledgerData =
+            await FetchingApi().getMGainLedger(event.mGainId, event.accountId);
         emit(MGainLedgerLoadedState(ledgerData));
       } catch (e) {
         emit(MGainLedgerErrorState(e.toString()));
@@ -190,7 +191,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
     on<LoadGmailInboxEvent>((event, emit) async {
       emit(GetGmailInboxInitial());
       try {
-        final gmailInboxData = await FetchingApi().getGmailInboxAPI(event.accessToken);
+        final gmailInboxData =
+            await FetchingApi().getGmailInboxAPI(event.accessToken);
         emit(GetGmailInboxLoadedState(gmailInboxData));
       } catch (e) {
         emit(GetGmailInboxErrorState(e.toString()));
@@ -200,7 +202,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
     on<LoadFyersAccessTokenEvent>((event, emit) async {
       emit(GetFyersAccessTokenInitial());
       try {
-        final fyersAccessTokenData = await FetchingApi().getFyersAccessTokenAPI();
+        final fyersAccessTokenData =
+            await FetchingApi().getFyersAccessTokenAPI();
         emit(GetFyersAccessTokenLoadedState(fyersAccessTokenData));
       } catch (e) {
         emit(GetFyersAccessTokenErrorState(e.toString()));
@@ -210,7 +213,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
     on<LoadFyersHoldingsEvent>((event, emit) async {
       emit(GetFyersHoldingsInitial());
       try {
-        final fyersAccessTokenData = await FetchingApi().getFyersHoldingsAPI(event.fyersAccessToken);
+        final fyersAccessTokenData =
+            await FetchingApi().getFyersHoldingsAPI(event.fyersAccessToken);
         emit(GetFyersHoldingsLoadedState(fyersAccessTokenData));
       } catch (e) {
         emit(GetFyersHoldingsErrorState(e.toString()));
@@ -221,13 +225,17 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       emit(Get5PaisaAccessTokenInitial());
       await Future.delayed(const Duration(seconds: 3), () async {
         final brokersRepo = BrokersRepo();
-        final response = await brokersRepo.get5PaisaAccessTokenData(RequestToken:event.requestToken);
+        final response = await brokersRepo.get5PaisaAccessTokenData(
+            RequestToken: event.requestToken);
         print('----5PAisaAccessToken-----data--=---${response}');
         final data = get5PaisaAccessTokenFromJson(response.body);
 
-        print('----5PAisaAccessToken-----statuscode--=---${response.statusCode}');
+        print(
+            '----5PAisaAccessToken-----statuscode--=---${response.statusCode}');
         response.statusCode == 200
-            ? emit(Get5PaisaAccessTokenLoadedState(accessToken: data.body!.accessToken.toString(),clientId: data.body!.clientCode.toString()))
+            ? emit(Get5PaisaAccessTokenLoadedState(
+                accessToken: data.body!.accessToken.toString(),
+                clientId: data.body!.clientCode.toString()))
             : emit(Get5PaisaAccessTokenErrorState());
       });
     });
@@ -239,14 +247,35 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
 
         print("event.clientCode--->${event.clientCode}");
         print("event.accessToken--->${event.accessToken}");
-        final response = await brokersRepo.get5PaisaHoldingsData(ClientCode: event.clientCode,AccessToken: event.accessToken);
+        final response = await brokersRepo.get5PaisaHoldingsData(
+            ClientCode: event.clientCode, AccessToken: event.accessToken);
 
         print('----5PaisaHoldings-----statuscode--=---${response.statusCode}');
-        response.statusCode == 200
-            ? emit(Get5PaisaHoldingsLoadedState(response))
-            : emit(Get5PaisaHoldingsErrorState());
+        print("-------5PaisaHoldings-----Response-${response}");
+        if (response.statusCode == 200) {
+          var responseData = get5PaisaHoldingFromJson(response.body);
+          emit(Get5PaisaHoldingsLoadedState(responseData));
+        } else {
+          emit(Get5PaisaHoldingsErrorState());
+        }
+        // response.statusCode == 200
+        //     ? emit(Get5PaisaHoldingsLoadedState(response))
+        //     : emit(Get5PaisaHoldingsErrorState());
       });
     });
 
+    on<LoadAngelHoldingsEvent>((event, emit) async {
+      emit(GetAngelHoldingsInitial());
+      try {
+        final angelHoldingData =
+            await FetchingApi().getAngelHoldingsApi(event.angelAuthToken);
+
+        print(
+            "Angel bloc response :::::::::::::::::::::::::::::::::$angelHoldingData");
+        emit(GetAngelHoldingsLoadedState(angelHoldingData));
+      } catch (e) {
+        emit(GetAngelHoldingsErrorState(e.toString()));
+      }
+    });
   }
 }

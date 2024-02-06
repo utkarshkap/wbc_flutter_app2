@@ -5,13 +5,12 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
-import '../../models/get_5Paisa_holding_model.dart';
-import '../../resources/colors.dart';
-import '../../resources/icons.dart';
-import '../../resources/styles.dart';
+import '../../../models/get_5Paisa_holding_model.dart';
+import '../../../resources/colors.dart';
+import '../../../resources/icons.dart';
+import '../../../resources/styles.dart';
 
 class View5PaisaHoldings extends StatefulWidget {
-
   static const route = '/View-5Paisa-Holding';
   const View5PaisaHoldings({Key? key}) : super(key: key);
 
@@ -38,7 +37,8 @@ class _View5PaisaHoldingsState extends State<View5PaisaHoldings> {
                 },
                 icon: Image.asset(icBack, color: colorRed, width: 6.w)),
             titleSpacing: 0,
-            title: Text('View 5Paisa Holdings', style: textStyle14Bold(colorBlack)),
+            title: Text('View 5Paisa Holdings',
+                style: textStyle14Bold(colorBlack)),
           ),
           body: BlocConsumer<FetchingDataBloc, FetchingDataState>(
             listener: (context, state) {
@@ -59,14 +59,13 @@ class _View5PaisaHoldingsState extends State<View5PaisaHoldings> {
             builder: (context, state) {
               if (state is Get5PaisaAccessTokenLoadedState) {
                 print("AccessToken*************->${state.accessToken}");
-                if(state.accessToken!=null && state.accessToken!=""){
+                if (state.accessToken != null && state.accessToken != "") {
                   print("AccessToken->${state.accessToken}");
                   BlocProvider.of<FetchingDataBloc>(context).add(
                       Load5PaisaHoldingsEvent(
                           get5PaisaHolding: Get5PaisaHoldingModel(),
                           clientCode: state.clientId.toString(),
-                          accessToken: state.accessToken.toString())
-                  );
+                          accessToken: state.accessToken.toString()));
                 }
               }
               return BlocConsumer<FetchingDataBloc, FetchingDataState>(
@@ -96,14 +95,19 @@ class _View5PaisaHoldingsState extends State<View5PaisaHoldings> {
                     );
                   }
                   if (state is Get5PaisaHoldingsLoadedState) {
-                    return const Text("Success");
+                    return state.get5PaisaHolding.body!.data!.isEmpty
+                        ? Center(
+                            child: Text("No record found",
+                                style: textStyle13Medium(colorBlack)))
+                        : Center(
+                            child: Text("Success",
+                                style: textStyle13Medium(colorBlack)));
                   }
                   return Container();
                 },
               );
             },
           ),
-        )
-    );
+        ));
   }
 }

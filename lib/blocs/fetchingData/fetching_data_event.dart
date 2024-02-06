@@ -55,23 +55,28 @@ class LoadMGainInvestmentEvent extends FetchingDataEvent {
 
 class LoadMGainLedgerEvent extends FetchingDataEvent {
   final int mGainId;
+  final int accountId;
   final MGainLedger mGainLedger;
 
-  LoadMGainLedgerEvent({required this.mGainId,required this.mGainLedger});
+  LoadMGainLedgerEvent(
+      {required this.mGainId,
+      required this.accountId,
+      required this.mGainLedger});
 }
 
 class LoadStockInvestmentEvent extends FetchingDataEvent {
   final String userId;
   final StockInvestmentModel investmentPortfolio;
 
-  LoadStockInvestmentEvent({required this.userId,required this.investmentPortfolio});
+  LoadStockInvestmentEvent(
+      {required this.userId, required this.investmentPortfolio});
 }
 
 class LoadLoanInvestmentEvent extends FetchingDataEvent {
   final String userId;
   final LoanInvestment loanInvestment;
 
-  LoadLoanInvestmentEvent({required this.userId,required this.loanInvestment});
+  LoadLoanInvestmentEvent({required this.userId, required this.loanInvestment});
 }
 
 class LoadMunafeKiClassEvent extends FetchingDataEvent {
@@ -116,7 +121,7 @@ class Load5PaisaAccessTokenEvent extends FetchingDataEvent {
   final Get5PaisaAccessTokenModel get5PaisaAccessToken;
   final String requestToken;
 
-  Load5PaisaAccessTokenEvent({required this.get5PaisaAccessToken,required this.requestToken});
+  Load5PaisaAccessTokenEvent({required this.get5PaisaAccessToken, required this.requestToken});
 }
 
 class Load5PaisaHoldingsEvent extends FetchingDataEvent {
@@ -124,5 +129,21 @@ class Load5PaisaHoldingsEvent extends FetchingDataEvent {
   final String clientCode;
   final String accessToken;
 
-  Load5PaisaHoldingsEvent({required this.get5PaisaHolding,required this.clientCode,required this.accessToken});
+  Load5PaisaHoldingsEvent(
+      {required this.get5PaisaHolding,
+      required this.clientCode,
+      required this.accessToken});
+}
+// class LoadAngelAccessTokenEvent extends FetchingDataEvent {
+//   final
+
+// }
+
+class LoadAngelHoldingsEvent extends FetchingDataEvent {
+  // final GetAngelHoldingsModel getAngelHoldings;
+  final getAngelHoldings;
+  final String angelAuthToken;
+
+  LoadAngelHoldingsEvent(
+      {required this.getAngelHoldings, required this.angelAuthToken});
 }

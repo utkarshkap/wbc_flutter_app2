@@ -31,6 +31,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
   String mobileNo = '';
   bool isCalculateInvestments = false;
   double totalInvestment = 0.0;
+  int totalQty = 0;
 
   List<String> types = [
     'KA Group',
@@ -123,6 +124,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                 for (int i = 0;
                     i < state.stockInvestmentPortfolio.stocks.length;
                     i++) {
+                  totalQty +=
+                      state.stockInvestmentPortfolio.stocks[i].balanceQty;
                   totalInvestment +=
                       ((state.stockInvestmentPortfolio.stocks[i].balanceQty) *
                           state.stockInvestmentPortfolio.stocks[i].rate);
@@ -145,7 +148,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                 end: Alignment.bottomRight,
                                 colors: [colorRed, colorBoxGradiant3333])),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 4.h, bottom: 6.h),
+                          padding: EdgeInsets.only(top: 4.h, bottom: 2.h),
                           child: Column(
                             children: [
                               Padding(
@@ -176,6 +179,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                   isCalculateInvestments =
                                                       false;
                                                   totalInvestment = 0.0;
+                                                  totalQty = 0;
                                                 });
                                                 Navigator.of(context).pop();
                                                 BlocProvider.of<
@@ -253,96 +257,15 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                   ],
                                 ),
                               ),
-                              if (members.length != 1)
-                                Container(
-                                  margin: EdgeInsets.only(top: 1.h),
-                                  padding: EdgeInsets.only(
-                                    left: 5.w,
-                                  ),
-                                  // color: Colors.red,
-                                  height: 4.h,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: members.length,
-                                      itemBuilder: (context, index) {
-                                        return index == 0
-                                            ? Container()
-                                            : InkWell(
-                                                onTap: () {
-                                                  isCalculateInvestments =
-                                                      false;
-                                                  totalInvestment = 0.0;
-                                                  BlocProvider.of<
-                                                              FetchingDataBloc>(
-                                                          context)
-                                                      .add(
-                                                          LoadStockInvestmentEvent(
-                                                              userId: members[
-                                                                      index]
-                                                                  .relativeUserId
-                                                                  .toString(),
-                                                              investmentPortfolio:
-                                                                  StockInvestmentModel(
-                                                                code: 0,
-                                                                message: '',
-                                                                portfolio: 0,
-                                                                investment: 0,
-                                                                gain: 0,
-                                                                stocks: [],
-                                                              )));
-                                                  // selectedUserId =
-                                                  //     members[index]
-                                                  //         .relativeUserId
-                                                  //         .toString();
-                                                },
-                                                child: Container(
-                                                    height: 5.5.h,
-                                                    width: 5.0.h,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            color: colorF3F3,
-                                                            shape: BoxShape
-                                                                .circle),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                        members[index]
-                                                            .name
-                                                            .substring(0, 1)
-                                                            .toUpperCase(),
-                                                        style: textStyle13Bold(
-                                                            colorRed))),
-                                              );
-                                      }),
-                                ),
-                              SizedBox(height: 3.h),
                               SizedBox(
-                                width: 90.w,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    showValue(
-                                        icStocksInvestment,
-                                        color47D1,
-                                        'Investment',
-                                        CommonFunction().splitString(
-                                            totalInvestment
-                                                .toStringAsFixed(0))),
-                                    /*showValue(
-                                        icStocksInvestment,
-                                        colorFB83,
-                                        'Gain/Loss',
-                                        CommonFunction().splitString(state
-                                                .stockInvestmentPortfolio.gain
-                                                .toInt()
-                                                .isNegative
-                                            ? (-state.stockInvestmentPortfolio.gain
-                                                    .toInt())
-                                                .toString()
-                                            : state.stockInvestmentPortfolio.gain
-                                                .toInt()
-                                                .toString())),*/
-                                    popupButton(
+                                height: 3.h,
+                              ),
+                              if (members.length == 1)
+                                Padding(
+                                  padding: EdgeInsets.only(right: 5.w),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: popupButton(
                                         false,
                                         selectedType,
                                         List.generate(
@@ -352,9 +275,134 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                     selectedType = types[i];
                                                   });
                                                 }))),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              if (members.length != 1)
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 2.w, right: 5.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 2.5.w),
+                                        // padding: EdgeInsets.only(
+                                        //   left: 5.w,
+                                        // ),
+                                        // color: Colors.red,
+                                        height: 4.h,
+                                        width: 50.w,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: members.length,
+                                            itemBuilder: (context, index) {
+                                              return index == 0
+                                                  ? Container()
+                                                  : InkWell(
+                                                      onTap: () {
+                                                        isCalculateInvestments =
+                                                            false;
+                                                        totalInvestment = 0.0;
+                                                        totalQty = 0;
+                                                        BlocProvider.of<FetchingDataBloc>(context).add(
+                                                            LoadStockInvestmentEvent(
+                                                                userId: members[
+                                                                        index]
+                                                                    .relativeUserId
+                                                                    .toString(),
+                                                                investmentPortfolio:
+                                                                    StockInvestmentModel(
+                                                                  code: 0,
+                                                                  message: '',
+                                                                  portfolio: 0,
+                                                                  investment: 0,
+                                                                  gain: 0,
+                                                                  stocks: [],
+                                                                )));
+                                                        // selectedUserId =
+                                                        //     members[index]
+                                                        //         .relativeUserId
+                                                        //         .toString();
+                                                      },
+                                                      child: Container(
+                                                          height: 5.5.h,
+                                                          width: 5.0.h,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                                  color:
+                                                                      colorF3F3,
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                              members[index]
+                                                                  .name
+                                                                  .substring(
+                                                                      0, 1)
+                                                                  .toUpperCase(),
+                                                              style:
+                                                                  textStyle13Bold(
+                                                                      colorRed))),
+                                                    );
+                                            }),
+                                      ),
+                                      popupButton(
+                                          false,
+                                          selectedType,
+                                          List.generate(
+                                              types.length,
+                                              (i) => menuItem(types[i], () {
+                                                    setState(() {
+                                                      selectedType = types[i];
+                                                    });
+                                                  }))),
+                                    ],
+                                  ),
+                                ),
+
+                              SizedBox(height: 3.h),
+                              // SizedBox(
+                              //   width: 90.w,
+                              //   child: Row(
+                              //     mainAxisAlignment:
+                              //         MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       showValue(
+                              //           icStocksInvestment,
+                              //           color47D1,
+                              //           'Investment',
+                              //           CommonFunction().splitString(
+                              //               totalInvestment
+                              //                   .toStringAsFixed(0))),
+                              //       /*showValue(
+                              //           icStocksInvestment,
+                              //           colorFB83,
+                              //           'Gain/Loss',
+                              //           CommonFunction().splitString(state
+                              //                   .stockInvestmentPortfolio.gain
+                              //                   .toInt()
+                              //                   .isNegative
+                              //               ? (-state.stockInvestmentPortfolio.gain
+                              //                       .toInt())
+                              //                   .toString()
+                              //               : state.stockInvestmentPortfolio.gain
+                              //                   .toInt()
+                              //                   .toString())),*/
+                              //       popupButton(
+                              //           false,
+                              //           selectedType,
+                              //           List.generate(
+                              //               types.length,
+                              //               (i) => menuItem(types[i], () {
+                              //                     setState(() {
+                              //                       selectedType = types[i];
+                              //                     });
+                              //                   }))),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -384,71 +432,181 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                     ],
                   ),
                   Positioned(
-                      top: members.length == 1 ? 23.5.h : 28.5.h,
+                      top: 20.5.h,
                       child: Container(
                         height: state.stockInvestmentPortfolio.stocks.isNotEmpty
-                            ? members.length == 1
-                                ? 49.5.h
-                                : 45.5.h
+                            ? 52.5.h
                             : 0,
                         width: 90.w,
                         decoration: decoration(),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: List.generate(
-                                state.stockInvestmentPortfolio.stocks.length,
-                                (index) => Column(
-                                      children: [
-                                        reviews(
-                                            state.stockInvestmentPortfolio
-                                                .stocks[index].stockName
-                                                .toString(),
-                                            state.stockInvestmentPortfolio
-                                                .stocks[index].balanceQty
-                                                .toString(),
-                                            color47D1,
-                                            ((state
-                                                        .stockInvestmentPortfolio
-                                                        .stocks[index]
-                                                        .balanceQty) *
-                                                    state
-                                                        .stockInvestmentPortfolio
-                                                        .stocks[index]
-                                                        .rate)
-                                                .toStringAsFixed(2),
-                                            () => {
-                                                  BlocProvider.of<
-                                                              StockTransactionBloc>(
-                                                          context)
-                                                      .add(LoadStockTransactionEvent(
-                                                          userId:
-                                                              ApiUser.userId,
-                                                          stockName: state
-                                                              .stockInvestmentPortfolio
-                                                              .stocks[index]
-                                                              .stockName
-                                                              .toString(),
-                                                          stockTransaction:
-                                                              StockInvestmentTransactionModel(
-                                                                  code: 0,
-                                                                  message: '',
-                                                                  stockTransactions: []))),
-                                                  Navigator.of(context).pushNamed(
-                                                      StockInvestmentTransaction
-                                                          .route)
-                                                }),
-                                        if (index !=
-                                            state.stockInvestmentPortfolio
-                                                    .stocks.length -
-                                                1)
-                                          Container(
-                                              height: 1,
-                                              color: colorTextBCBC
-                                                  .withOpacity(0.36))
-                                      ],
-                                    )),
+                        child: Column(children: [
+                          Expanded(
+                            flex: 6,
+                            child: ListView.builder(
+                                itemCount: state
+                                    .stockInvestmentPortfolio.stocks.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      reviews(
+                                          state.stockInvestmentPortfolio
+                                              .stocks[index].stockName
+                                              .toString(),
+                                          state.stockInvestmentPortfolio
+                                              .stocks[index].balanceQty
+                                              .toString(),
+                                          color47D1,
+                                          ((state
+                                                      .stockInvestmentPortfolio
+                                                      .stocks[index]
+                                                      .balanceQty) *
+                                                  state.stockInvestmentPortfolio
+                                                      .stocks[index].rate)
+                                              .toStringAsFixed(2),
+                                          () => {
+                                                BlocProvider.of<
+                                                            StockTransactionBloc>(
+                                                        context)
+                                                    .add(LoadStockTransactionEvent(
+                                                        userId: ApiUser.userId,
+                                                        stockName: state
+                                                            .stockInvestmentPortfolio
+                                                            .stocks[index]
+                                                            .stockName
+                                                            .toString(),
+                                                        stockTransaction:
+                                                            StockInvestmentTransactionModel(
+                                                                code: 0,
+                                                                message: '',
+                                                                stockTransactions: []))),
+                                                Navigator.of(context).pushNamed(
+                                                    StockInvestmentTransaction
+                                                        .route)
+                                              }),
+                                      if (index !=
+                                          state.stockInvestmentPortfolio.stocks
+                                                  .length -
+                                              1)
+                                        Container(
+                                            height: 1,
+                                            color:
+                                                colorTextBCBC.withOpacity(0.36))
+                                    ],
+                                  );
+                                }),
                           ),
-                        ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 1,
+                                    color: colorTextBCBC.withOpacity(0.36)),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 3.w, vertical: 1.3.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('Qty Total',
+                                              style: textStyle10Bold(
+                                                  colorText7070)),
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          ),
+                                          Text(
+                                            '${CommonFunction().splitString(totalQty.toString())}',
+                                            style: textStyle11Bold(colorBlack),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('Investment',
+                                              style: textStyle10Bold(
+                                                  colorText7070)),
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          ),
+                                          Text(
+                                            '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(0))}',
+                                            style: textStyle11Bold(colorBlack),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ]
+
+                            //  List.generate(
+                            //     state.stockInvestmentPortfolio.stocks.length,
+                            //     (index) => Column(
+                            //           children: [
+                            //             reviews(
+                            //                 state.stockInvestmentPortfolio
+                            //                     .stocks[index].stockName
+                            //                     .toString(),
+                            //                 state.stockInvestmentPortfolio
+                            //                     .stocks[index].balanceQty
+                            //                     .toString(),
+                            //                 color47D1,
+                            //                 ((state
+                            //                             .stockInvestmentPortfolio
+                            //                             .stocks[index]
+                            //                             .balanceQty) *
+                            //                         state
+                            //                             .stockInvestmentPortfolio
+                            //                             .stocks[index]
+                            //                             .rate)
+                            //                     .toStringAsFixed(2),
+                            //                 () => {
+                            //                       BlocProvider.of<
+                            //                                   StockTransactionBloc>(
+                            //                               context)
+                            //                           .add(LoadStockTransactionEvent(
+                            //                               userId:
+                            //                                   ApiUser.userId,
+                            //                               stockName: state
+                            //                                   .stockInvestmentPortfolio
+                            //                                   .stocks[index]
+                            //                                   .stockName
+                            //                                   .toString(),
+                            //                               stockTransaction:
+                            //                                   StockInvestmentTransactionModel(
+                            //                                       code: 0,
+                            //                                       message: '',
+                            //                                       stockTransactions: []))),
+                            //                       Navigator.of(context).pushNamed(
+                            //                           StockInvestmentTransaction
+                            //                               .route)
+                            //                     }),
+                            //             if (index !=
+                            //                 state.stockInvestmentPortfolio
+                            //                         .stocks.length -
+                            //                     1)
+                            //               Container(
+                            //                   height: 1,
+                            //                   color: colorTextBCBC
+                            //                       .withOpacity(0.36))
+                            //           ],
+                            //         )),
+                            ),
                       ))
                 ],
               );

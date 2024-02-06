@@ -100,15 +100,28 @@ const getHoldingsUrl = "https://api.fyers.in/api/v2/holdings";
 const userKey = 'prHVVKtF4UnIedJJfN8Xo70KfwQHO83l';
 const userId = '2KCxRS0whf4';
 const encryKey = 'tTDlvbSGnKSX2dea5OV75fFxKxDTGYAa';
-
 const paisaRedirectUrl = "https://wbcapi.kagroup.in/api/User/5paisaresponse";
+const generateRequestTokenUrl =
+    "https://dev-openapi.5paisa.com/WebVendorLogin/VLogin/Index?";
+//
 const get5PaisaAccessTokenUrl =
     "https://Openapi.5paisa.com/VendorsAPI/Service1.svc/GetAccessToken";
 const get5PaisaHoldingUrl =
     "https://Openapi.5paisa.com/VendorsAPI/Service1.svc/V3/Holding";
 
-const generateRequestTokenUrl =
-    "https://dev-openapi.5paisa.com/WebVendorLogin/VLogin/Index?";
+//IIFL Credential
+const generateRequestTokenIIFLUrl =
+    'https://dataservice.iifl.in/openapi/prod/V2/Login';
+const userIIFLKey = 'sUsDmof74N4D6aGiKXgIJ7AZcq5rps4c';
+const userIIFLId = 'p0UVqrzkt3s';
+
+// Angel
+const angelApiKey = 'DzKZ7p2x';
+const getAngelHoldingsUrl =
+    'https://apiconnect.angelbroking.com/rest/secure/angelbroking/portfolio/v1/getAllHolding';
+// const angelRedirectUrl =
+//     "https://wbcapi.kagroup.in/api/User/angleTokenResponse";
+// https://wbcapi.kagroup.in/api/User/angleToken
 
 class ApiUser {
   static String userId = "";
