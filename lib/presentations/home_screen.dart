@@ -408,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 1.w,
+                                              width: 0.5.w,
                                             ),
                                             RichText(
                                               text: TextSpan(

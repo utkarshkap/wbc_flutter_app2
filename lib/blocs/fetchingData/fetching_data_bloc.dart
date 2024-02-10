@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/models/country_model.dart';
+import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
+import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
 import 'package:wbc_connect_app/models/loan_banks_model.dart';
 import '../../core/fetching_api.dart';
@@ -275,6 +277,32 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
         emit(GetAngelHoldingsLoadedState(angelHoldingData));
       } catch (e) {
         emit(GetAngelHoldingsErrorState(e.toString()));
+      }
+    });
+
+    on<LoadICICISessionTokenEvent>((event, emit) async {
+      emit(GetICICISessionTokenInitial());
+      try {
+        final getICICISessionTokenData =
+            await FetchingApi().getICICISessionTokenAPI(event.sessionToken);
+
+        print(
+            "ICICI bloc response :::::::::::::::::::::::::::::::::${getICICISessionTokenData.success!.sessionToken}");
+        emit(GetICICISessionTokenLoadedState(getICICISessionTokenData));
+      } catch (e) {
+        emit(GetICICISessionTokenErrorState(e.toString()));
+      }
+    });
+    on<LoadICICIHoldingDataEvent>((event, emit) async {
+      emit(GetICICIHoldingDataInitial());
+      try {
+        final getICICIHoldingData =
+            await FetchingApi().getICICIHoldingApi(event.sessionToken);
+        print(
+            "ICICI bloc response :::::::::::::::::::::::::::::::::$getICICIHoldingData");
+        emit(GetICICIHoldingDataLoadedState(getICICIHoldingData));
+      } catch (e) {
+        emit(GetICICIHoldingDataErrorState(e.toString()));
       }
     });
   }

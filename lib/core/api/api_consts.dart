@@ -123,6 +123,13 @@ const getAngelHoldingsUrl =
 //     "https://wbcapi.kagroup.in/api/User/angleTokenResponse";
 // https://wbcapi.kagroup.in/api/User/angleToken
 
+// ICICI
+
+  const iCICIApiKey = '32o929~59w732884j4012f3451M\$x68d';
+  const getICICISessionTokenUrl = 'https://api.icicidirect.com/breezeapi/api/v1/customerdetails';
+  const getICICIHoldingUrl = 'https://api.icicidirect.com/breezeapi/api/v1/dematholdings';
+  
+
 class ApiUser {
   static String userId = "";
   static String userName = "";

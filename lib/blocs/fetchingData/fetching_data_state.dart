@@ -461,3 +461,49 @@ class GetAngelHoldingsErrorState extends FetchingDataState {
   @override
   List<Object?> get props => [error];
 }
+
+class GetICICISessionTokenInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetICICISessionTokenLoadedState extends FetchingDataState {
+  final GetIciciSessionTokenModel getIciciSessionToken;
+
+  const GetICICISessionTokenLoadedState(this.getIciciSessionToken);
+
+  @override
+  List<Object?> get props => [getIciciSessionToken];
+}
+
+class GetICICISessionTokenErrorState extends FetchingDataState {
+  final String error;
+
+  const GetICICISessionTokenErrorState(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+
+class GetICICIHoldingDataInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetICICIHoldingDataLoadedState extends FetchingDataState {
+  final GetIciciHoldingDataModel getICICIHoldingData;
+
+  const GetICICIHoldingDataLoadedState(this.getICICIHoldingData);
+
+  @override
+  List<Object?> get props => [getICICIHoldingData];
+}
+
+class GetICICIHoldingDataErrorState extends FetchingDataState {
+  final String error;
+
+  const GetICICIHoldingDataErrorState(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

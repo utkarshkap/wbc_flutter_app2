@@ -50,7 +50,8 @@ class LoadMGainInvestmentEvent extends FetchingDataEvent {
   final String userId;
   final MGainInvestment mGainInvestment;
 
-  LoadMGainInvestmentEvent({required this.userId, required this.mGainInvestment});
+  LoadMGainInvestmentEvent(
+      {required this.userId, required this.mGainInvestment});
 }
 
 class LoadMGainLedgerEvent extends FetchingDataEvent {
@@ -101,7 +102,7 @@ class LoadGmailInboxEvent extends FetchingDataEvent {
   final GetGmailInboxModel gmailInbox;
   final String accessToken;
 
-  LoadGmailInboxEvent({required this.gmailInbox,required this.accessToken});
+  LoadGmailInboxEvent({required this.gmailInbox, required this.accessToken});
 }
 
 class LoadFyersAccessTokenEvent extends FetchingDataEvent {
@@ -114,14 +115,16 @@ class LoadFyersHoldingsEvent extends FetchingDataEvent {
   final GetFyersHoldingsModel getFyersHoldings;
   final String fyersAccessToken;
 
-  LoadFyersHoldingsEvent({required this.getFyersHoldings,required this.fyersAccessToken});
+  LoadFyersHoldingsEvent(
+      {required this.getFyersHoldings, required this.fyersAccessToken});
 }
 
 class Load5PaisaAccessTokenEvent extends FetchingDataEvent {
   final Get5PaisaAccessTokenModel get5PaisaAccessToken;
   final String requestToken;
 
-  Load5PaisaAccessTokenEvent({required this.get5PaisaAccessToken, required this.requestToken});
+  Load5PaisaAccessTokenEvent(
+      {required this.get5PaisaAccessToken, required this.requestToken});
 }
 
 class Load5PaisaHoldingsEvent extends FetchingDataEvent {
@@ -146,4 +149,20 @@ class LoadAngelHoldingsEvent extends FetchingDataEvent {
 
   LoadAngelHoldingsEvent(
       {required this.getAngelHoldings, required this.angelAuthToken});
+}
+
+class LoadICICISessionTokenEvent extends FetchingDataEvent {
+  final String sessionToken;
+  final GetIciciSessionTokenModel getICICISessionToken;
+
+  LoadICICISessionTokenEvent(
+      {required this.sessionToken, required this.getICICISessionToken});
+}
+
+class LoadICICIHoldingDataEvent extends FetchingDataEvent {
+  final String sessionToken;
+  final GetIciciHoldingDataModel getICICIHoldingData;
+
+  LoadICICIHoldingDataEvent(
+      {required this.sessionToken, required this.getICICIHoldingData});
 }

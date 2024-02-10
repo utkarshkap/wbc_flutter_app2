@@ -42,7 +42,6 @@ class _WebviewFyersState extends State<WebviewFyers> {
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
-              // Navigator.of(context).pushNamed(ConnectBrokers.route);
             },
             icon: Image.asset(icBack, color: colorRed, width: 6.w)),
       ),

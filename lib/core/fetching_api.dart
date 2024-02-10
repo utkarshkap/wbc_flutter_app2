@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
+import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
 import 'package:wbc_connect_app/models/loan_banks_model.dart';
 import 'package:wbc_connect_app/models/stock_investment_model.dart';
@@ -164,7 +167,8 @@ class FetchingApi {
   }
 
   Future<MGainLedger> getMGainLedger(int mGainId, int accountId) async {
-    final response = await http.get(Uri.parse("$mGainLedgerUrl$mGainId&accountid=$accountId"));
+    final response = await http
+        .get(Uri.parse("$mGainLedgerUrl$mGainId&accountid=$accountId"));
     if (response.statusCode == 200) {
       print('--MGainLedger--statusCode----${response.statusCode}');
       print('--MGainLedger--body----${response.body}');
@@ -384,5 +388,56 @@ class FetchingApi {
       throw Exception("Failed to load Faq");
     }
     print("ANGEL MAIN RESPONSE :::::::::$response");
+  }
+
+  Future<GetIciciSessionTokenModel> getICICISessionTokenAPI(
+      String sessionToken) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Cookie':
+          'AlteonAPI=ARAscsdBEKwE0ZMhhZageA\$\$; nginx_srv_id=f42f4592ab0c731e8c7a9c000e57162e'
+    };
+    var request = http.Request('GET', Uri.parse(getICICISessionTokenUrl));
+    request.body =
+        json.encode({"SessionToken": sessionToken, "AppKey": iCICIApiKey});
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      print("RESPONSE ICICIC::::::::${await response.stream.bytesToString()}");
+    } else {
+      print("RE::::::::::${response.reasonPhrase}");
+    }
+
+    return getIciciSessionTokenModelFromJson(
+        response.stream.bytesToString().toString());
+  }
+
+  Future<GetIciciHoldingDataModel> getICICIHoldingApi(
+      String sessionToken) async {
+    var headers = {
+      'X-AppKey': iCICIApiKey,
+      'X-SessionToken': sessionToken,
+      'X-Checksum':
+          'token 2e17dcd61c37b1931a0e870d57398db2714abe72d27c8a83ccce170264d13f66',
+      'Content-Type': 'application/json',
+      'Cookie':
+          'AlteonAPI=AQPAdcdBEKw8FidzbhB5Ag\$\$; nginx_srv_id=bb517a54ab62dcf93e3ed6ba1191b7a1'
+    };
+    var request = http.Request('GET', Uri.parse(getICICIHoldingUrl));
+    request.body = json.encode({});
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    print("HOLDING RESPONSE::::::--:::${response.statusCode}");
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+    response.stream.isBroadcast;
+
+    return getIciciHoldingDataModelFromJson(
+        response.stream.bytesToString().toString());
   }
 }
