@@ -39,6 +39,7 @@ class Data {
       required this.redeemable,
       required this.nonRedeemable,
       required this.onTheSpot,
+      required this.mgain_inv,
       required this.fastTrack,
       required this.earning,
       required this.history,
@@ -57,6 +58,7 @@ class Data {
   final int redeemable;
   final int nonRedeemable;
   final int onTheSpot;
+  final int mgain_inv;
   final double fastTrack;
   final List<Earning> earning;
   final List<History> history;
@@ -76,6 +78,7 @@ class Data {
         redeemable: json["redeemable"],
         nonRedeemable: json["nonRedeemable"],
         onTheSpot: json["onTheSpot"],
+        mgain_inv: json["mgain_inv"],
         fastTrack: json["fastTrack"],
         earning:
             List<Earning>.from(json["earning"].map((x) => Earning.fromJson(x))),
@@ -109,6 +112,7 @@ class Data {
         "redeemable": redeemable,
         "nonRedeemable": nonRedeemable,
         "onTheSpot": onTheSpot,
+        "mgain_inv": mgain_inv,
         "fastTrack": fastTrack,
         "earning": List<dynamic>.from(earning.map((x) => x.toJson())),
         "history": List<dynamic>.from(history.map((x) => x.toJson())),
@@ -126,7 +130,7 @@ class Data {
 
   @override
   String toString() {
-    return 'Data{goldPoint: $goldPoint, redeemable: $redeemable, nonRedeemable: $nonRedeemable, onTheSpot: $onTheSpot, fastTrack: $fastTrack, earning: $earning, history: $history, addContacts: $addContacts, totalcountofaddedcontact: $totalcountofaddedcontact, maxContactPermittedPerMonth: $maxContactPermittedPerMonth, availableContacts: $availableContacts, wbcProgress: $wbcProgress, wbcThisMonth: $wbcThisMonth, contactBase: $contactBase, offers: $offers, inActive: $inActive, memberlist: $memberlist}';
+    return 'Data{goldPoint: $goldPoint, redeemable: $redeemable, nonRedeemable: $nonRedeemable, onTheSpot: $onTheSpot,mgain_inv: $mgain_inv, fastTrack: $fastTrack, earning: $earning, history: $history, addContacts: $addContacts, totalcountofaddedcontact: $totalcountofaddedcontact, maxContactPermittedPerMonth: $maxContactPermittedPerMonth, availableContacts: $availableContacts, wbcProgress: $wbcProgress, wbcThisMonth: $wbcThisMonth, contactBase: $contactBase, offers: $offers, inActive: $inActive, memberlist: $memberlist}';
   }
 }
 

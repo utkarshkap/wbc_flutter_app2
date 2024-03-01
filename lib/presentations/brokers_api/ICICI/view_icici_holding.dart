@@ -85,7 +85,7 @@ class _ViewICICIHoldingState extends State<ViewICICIHolding> {
                 }
               }
 
-              return Center(
+              return const Center(
                 child: Text("SUCESS"),
               );
               // return BlocConsumer<FetchingDataBloc, FetchingDataState>(

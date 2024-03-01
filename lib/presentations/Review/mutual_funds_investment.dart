@@ -278,31 +278,31 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                               SizedBox(
                                 height: 3.h,
                               ),
-                              if(members.length == 1)
-                              Padding(
-                                padding:  EdgeInsets.only( right: 5.w),
-                                child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: popupButton(
-                                          false,
-                                          selectedType,
-                                          List.generate(
-                                              types.length,
-                                              (i) => menuItem(types[i], () {
-                                                    setState(() {
-                                                      selectedType = types[i];
-                                                    });
-                                                  }))),
-                                      ),
-                              ),
+                              if (members.length == 1)
+                                Padding(
+                                  padding: EdgeInsets.only(right: 5.w),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: popupButton(
+                                        false,
+                                        selectedType,
+                                        List.generate(
+                                            types.length,
+                                            (i) => menuItem(types[i], () {
+                                                  setState(() {
+                                                    selectedType = types[i];
+                                                  });
+                                                }))),
+                                  ),
+                                ),
                               if (members.length != 1)
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w, right: 5.w),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 2.w, right: 5.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
                                       Container(
                                         margin: EdgeInsets.only(left: 2.5.w),
                                         // padding: EdgeInsets.only(
@@ -370,22 +370,22 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                     );
                                             }),
                                       ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: popupButton(
-                                        false,
-                                        selectedType,
-                                        List.generate(
-                                            types.length,
-                                            (i) => menuItem(types[i], () {
-                                                  setState(() {
-                                                    selectedType = types[i];
-                                                  });
-                                                }))),
-                                    )
-                                  ],
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: popupButton(
+                                            false,
+                                            selectedType,
+                                            List.generate(
+                                                types.length,
+                                                (i) => menuItem(types[i], () {
+                                                      setState(() {
+                                                        selectedType = types[i];
+                                                      });
+                                                    }))),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
 
                               SizedBox(height: 3.h),
                               // Padding(
@@ -684,15 +684,15 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                         ],
                                       ),
                                       Column(
-                                         crossAxisAlignment:
+                                        crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text('MF-Investment',
                                               style: textStyle10Bold(
                                                   colorText7070)),
-                                                   SizedBox(
-                                                      height: 0.5.h,
-                                                     ),
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          ),
                                           Text(
                                             '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(0))}',
                                             style: textStyle11Bold(colorBlack),

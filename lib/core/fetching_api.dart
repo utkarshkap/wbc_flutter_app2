@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
+import 'package:crypto/crypto.dart';
 import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
 import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
@@ -9,7 +12,6 @@ import '../models/country_model.dart';
 import '../models/custom_payumoney_hashkey_model.dart';
 import '../models/expanded_category_model.dart';
 import '../models/faq_model.dart';
-import '../models/get_5paisa_access_token_model.dart';
 import '../models/get_fyers_access_token_model.dart';
 import '../models/get_fyers_holdings_model.dart';
 import '../models/get_gmail_inbox_model.dart';
@@ -412,14 +414,77 @@ class FetchingApi {
         response.stream.bytesToString().toString());
   }
 
+  // Map<String, dynamic> body = {};
+
+  // String calculateChecksum(String data) {
+  //   try {
+  //     var timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+  //     var rawChecksum = '$timeStamp\r\n$data';
+  //     print("RAWCHECKSUM:-------------------------${rawChecksum}");
+
+  //     var hmacSha256 = Hmac(sha256, utf8.encode(iCICISecretKey));
+  //     Digest checksum = hmacSha256.convert(utf8.encode(rawChecksum));
+
+  //     // print("checksum:::::::::${checksum}");
+
+  //     return base64Encode(checksum.bytes);
+  //   } catch (error) {
+  //     throw Exception('Error calculating checksum: $error');
+  //   }
+  // }
+  // String generateChecksum(String timeStamp, String secretKey) {
+  //   String payload = jsonEncode({});
+  //   String rawChecksum = timeStamp + payload + secretKey;
+  //   List<int> bytes = utf8.encode(rawChecksum);
+  //   Digest digest = sha256.convert(bytes);
+  //   print("CHECKSUM :::::${digest}");
+  //   return digest.toString();
+  // }
+
+  final date = '${DateTime.now().toUtc().toIso8601String().split(".")[0]}.000Z';
+
+  String getChecksum() {
+    // final bytes = utf8.encode(date + jsonEncode({}) + iCICISecretKey);
+    // // final digest = sha256.convert(Uint8List.fromList(bytes));
+    // final digest = sha256.convert(bytes).toString();
+
+    // final checksum = digest.toString();
+    String inputString = date + '{}' + iCICISecretKey;
+    String checksum = sha256.convert(utf8.encode(inputString)).toString();
+
+    print("checksum:::::${checksum}");
+    return checksum;
+  }
+
   Future<GetIciciHoldingDataModel> getICICIHoldingApi(
       String sessionToken) async {
+    // String checksum = calculateChecksum(jsonEncode(body));
+    // Map<String, dynamic> payload = {};
+    // String jsonString = jsonEncode(payload);
+
+    // DateTime currentTime = DateTime.now().toUtc();
+    // String timeStamp = '${currentTime.toIso8601String().substring(0, 19)}.000Z';
+    // // print("timeStamp ::::${jsonString}::${timeStamp}");
+
+    // final data = timeStamp + jsonString + iCICISecretKey;
+
+    // final bytes = utf8.encode(data);
+    // final digest = sha256.convert(bytes);
+    // String checksum = sha256.convert(utf8.encode(data)).toString();
+    // final dataBytes = utf8.encode(data);
+    // final hash = sha256.convert(dataBytes);
+    // final hexDigest = hex.encode(hash.bytes);
+
+    // print("CHECKSUM::::::::::::::----------${hexDigest}");
+    // final payload = jsonEncode({});
+    String inputString = date + '{}' + iCICISecretKey;
+    String checksum = sha256.convert(utf8.encode(inputString)).toString();
     var headers = {
+      'Content-Type': 'application/json',
+      'X-Checksum': 'token $checksum',
+      'X-Timestamp': date,
       'X-AppKey': iCICIApiKey,
       'X-SessionToken': sessionToken,
-      'X-Checksum':
-          'token 2e17dcd61c37b1931a0e870d57398db2714abe72d27c8a83ccce170264d13f66',
-      'Content-Type': 'application/json',
       'Cookie':
           'AlteonAPI=AQPAdcdBEKw8FidzbhB5Ag\$\$; nginx_srv_id=bb517a54ab62dcf93e3ed6ba1191b7a1'
     };
@@ -429,15 +494,46 @@ class FetchingApi {
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-    print("HOLDING RESPONSE::::::--:::${response.statusCode}");
+    print("HOLDING API statusCode::::::--:::${response.statusCode}");
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
       print(response.reasonPhrase);
     }
-    response.stream.isBroadcast;
 
     return getIciciHoldingDataModelFromJson(
         response.stream.bytesToString().toString());
+
+    // try {
+    //   // Calculate checksum
+    //   String checksum = calculateChecksum(jsonEncode(body));
+
+    //   print("CHECKSUM::::::::::${checksum}");
+
+    //   // Build headers with checksum and other required fields
+    //   Map<String, String> headers = {
+    //     'Content-Type': 'application/json',
+    //     'X-Checksum': 'token $checksum',
+    //     'X-Timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+    //     'X-AppKey': iCICIApiKey,
+    //     'X-SessionToken': sessionToken,
+    //   };
+
+    //   // Make the API call
+    //   Uri url = Uri.parse(
+    //       'https://api.icicidirect.com/breezeapi/api/v1/dematholdings');
+    //   var response = await http.get(url, headers: headers);
+
+    //   // Handle response
+    //   if (response.statusCode == 200) {
+    //     var data = jsonDecode(response.body);
+    //     print(data);
+    //     return getIciciHoldingDataModelFromJson(response.body);
+    //   } else {
+    //     print('Error: ${response.statusCode} - ${response.body}');
+    //   }
+    // } catch (error) {
+    //   print('Error making API call: $error');
+    // }
   }
 }

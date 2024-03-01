@@ -33,7 +33,7 @@ class _WebViewICICIState extends State<WebViewICICI> {
   @override
   void initState() {
     IIFLUrl = "https://api.icicidirect.com/apiuser/login?api_key=$iCICIApiKey";
-    apiCall();
+    // apiCall();
     super.initState();
     stream_controller = StreamController<int>.broadcast();
   }
@@ -116,12 +116,12 @@ class _WebViewICICIState extends State<WebViewICICI> {
               onTap: () {
                 BlocProvider.of<FetchingDataBloc>(context).add(
                     LoadICICIHoldingDataEvent(
-                        sessionToken: 'QUI0OTMxMDA6NTc0NTkzNjg=',
+                        sessionToken: 'QUI0OTMxMDA6NjU1ODM1MjA=',
                         getICICIHoldingData: GetIciciHoldingDataModel()));
               },
               child: Container(
-                height: 100,
-                width: 100,
+                height: 30,
+                width: 80,
                 color: Colors.purple,
               ),
             )

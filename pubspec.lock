@@ -138,13 +138,13 @@ packages:
     source: hosted
     version: "2.0.1"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
-      sha256: aa274aa7774f8964e4f4f38cc994db7b6158dd36e9187aaceaddc994b35c6c67
+      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -881,10 +881,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: db7306cf0249f838d1a24af52b5a5887c5bf7f31d8bb4e827d071dc0939ad346
+      sha256: "43ac87de6e10afabc85c445745a7b799e04de84cebaa4fd7bf55a5e1e9604d29"
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.2"
+    version: "3.7.4"
   process:
     dependency: transitive
     description:

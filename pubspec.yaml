@@ -86,6 +86,7 @@ dependencies:
   firebase_messaging: ^14.6.8
   pinput: ^3.0.1
   device_preview: ^1.1.0
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:
