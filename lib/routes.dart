@@ -232,8 +232,9 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       );
 
     case '/mGain-Ledger':
+        final data = arguments as MGainLedgerScreenData;
       return MaterialPageRoute(
-        builder: (_) => const MGainLedgerScreen(),
+        builder: (_) =>  MGainLedgerScreen(data),
       );
 
     case '/Mutual-Funds-Investment':

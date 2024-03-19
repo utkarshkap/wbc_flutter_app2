@@ -226,7 +226,9 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                             DateFormat('dd MMM yy').format(state
                                                 .mGainInvestment
                                                 .mGains[index]
-                                                .maturityDate), () {
+                                                .maturityDate),
+                                            state.mGainInvestment.mGains[index]
+                                                .type, () {
                                           print(
                                               '----mGainId--=---${state.mGainInvestment.mGains[index].mGainId}');
                                           BlocProvider.of<FetchingDataBloc>(
@@ -244,7 +246,14 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                                       ledgerEntries: [])));
                                           Navigator.of(context)
                                               .pushReplacementNamed(
-                                                  MGainLedgerScreen.route);
+                                                  MGainLedgerScreen.route,
+                                                  arguments:
+                                                      MGainLedgerScreenData(
+                                                          mGainId: state
+                                                              .mGainInvestment
+                                                              .mGains[index]
+                                                              .mGainId
+                                                              .toString()));
                                         }, () {
                                           startDownloading(index);
                                         })),
@@ -308,6 +317,7 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
     int percentage,
     String investmentDate,
     String maturityDate,
+    String mGainType,
     Function() onDocumentClick,
     Function() onDownloadClick,
   ) {
@@ -337,7 +347,7 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                               text: '₹ $value/-',
                               style: textStyle11Bold(colorBlack)),
                           TextSpan(
-                              text: ' Commutative - ',
+                              text: ' $mGainType - ',
                               style: textStyle10(colorText7070)),
                           TextSpan(
                               text: '$percentage%',

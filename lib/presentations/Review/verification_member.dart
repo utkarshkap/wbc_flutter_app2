@@ -188,11 +188,11 @@ class _VerificationMemberState extends State<VerificationMember> {
                 btnOkColor: Colors.red,
               ).show();
             } else if (state is FamilyMemberAdded) {
-              if(state.message=="Duplicate Mobile no ")
-                {
-                  CommonFunction().errorDialog(context, 'This number is already added.');
-                  isVerify=false;
-                }else{
+              if (state.message == "Duplicate Mobile no ") {
+                CommonFunction()
+                    .errorDialog(context, 'This number is already added.');
+                isVerify = false;
+              } else {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     HomeScreen.route, (route) => false,
                     arguments: HomeScreenData(isSendReview: "FamilyMember"));
@@ -219,7 +219,7 @@ class _VerificationMemberState extends State<VerificationMember> {
                           SizedBox(
                             height: 1.h,
                           ),
-                          Text('Enter 6-digit Code code we have sent to at',
+                          Text('Enter 6-digit code we have sent to at',
                               style: textStyle10(colorText3D3D)),
                           SizedBox(
                             height: 1.h,

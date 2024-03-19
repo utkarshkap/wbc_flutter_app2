@@ -622,8 +622,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       HomeScreen.route, (route) => false,
                       arguments: HomeScreenData(
                           rewardPopUpShow: true,
-                          acceptedNRIContacts:
-                             state.acceptedNRIContacts,
+                          acceptedNRIContacts: state.acceptedNRIContacts,
                           acceptedContacts: state.acceptedContacts));
                 } else if (state is UserIdLoaded) {
                   print('useridloaded---------${state.data!.data}');
@@ -880,8 +879,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                   SizedBox(
                                     height: 1.h,
                                   ),
-                                  Text(
-                                      'Enter 6-digit Code code we have sent to at',
+                                  Text('Enter 6-digit code we have sent to at',
                                       style: textStyle10(colorText3D3D)),
                                   SizedBox(
                                     height: 1.h,

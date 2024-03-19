@@ -921,8 +921,7 @@ class _SocialLoginState extends State<SocialLogin> {
                                   SizedBox(
                                     height: 1.h,
                                   ),
-                                  Text(
-                                      'Enter 6-digit Code code we have sent to at',
+                                  Text('Enter 6-digit code we have sent to at',
                                       style: textStyle10(colorText3D3D)),
                                   SizedBox(
                                     height: 1.h,
