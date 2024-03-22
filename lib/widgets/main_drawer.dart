@@ -83,11 +83,13 @@ class _MainDrawerState extends State<MainDrawer> {
       backgroundColor: colorWhite,
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBar(
                 toolbarHeight: 10.h,
                 backgroundColor: colorRed,
                 leadingWidth: 0,
+                centerTitle: false,
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

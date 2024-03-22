@@ -125,11 +125,12 @@ const getAngelHoldingsUrl =
 
 // ICICI
 
-  const iCICIApiKey = '32o929~59w732884j4012f3451M\$x68d';
-  const iCICISecretKey = '27K09&hD88158+63106b3%00u15Y82U2';
-  const getICICISessionTokenUrl = 'https://api.icicidirect.com/breezeapi/api/v1/customerdetails';
-  const getICICIHoldingUrl = 'https://api.icicidirect.com/breezeapi/api/v1/dematholdings';
-  
+const iCICIApiKey = '32o929~59w732884j4012f3451M\$x68d';
+const iCICISecretKey = '27K09&hD88158+63106b3%00u15Y82U2';
+const getICICISessionTokenUrl =
+    'https://api.icicidirect.com/breezeapi/api/v1/customerdetails';
+const getICICIHoldingUrl =
+    'https://api.icicidirect.com/breezeapi/api/v1/dematholdings';
 
 class ApiUser {
   static String userId = "";
@@ -143,6 +144,7 @@ class ApiUser {
   static List<Memberlist> membersList = [];
   static bool termNdCondition = false;
   static List numberList = [];
+  static double wealthMeterScore = 50;
 }
 
 class GpDashBoardData {

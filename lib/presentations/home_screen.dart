@@ -370,26 +370,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsets.only(bottom: 0.5.h),
+                                          padding: EdgeInsets.only(
+                                              bottom: 0.5.h,
+                                              left: 1.w,
+                                              right: 1.w),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                // color: Colors.red,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 2.0.w),
-                                                width: 13.w,
-                                                child: Image.asset(
-                                                    'assets/images/portfolio-icon.png',
-                                                    width: 13.w),
+                                              Expanded(
+                                                child: netWorthView(
+                                                    'assets/images/graph.png',
+                                                    'Your Net Worth',
+                                                    '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                                    9),
                                               ),
-                                              Text(
-                                                  'Your Net Worth: ₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
-                                                  style: textStyle14Bold(
-                                                      colorBlack)),
+                                              Expanded(
+                                                  child: netWorthView(
+                                                      imgWealthMeter,
+                                                      'Wealth Score',
+                                                      ApiUser.wealthMeterScore
+                                                          .toStringAsFixed(0),
+                                                      10)),
                                             ],
                                           ),
                                         ),
@@ -406,6 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             children: [
                                               Row(children: [
                                                 Expanded(
+                                                  flex: 6,
                                                   child: RichText(
                                                     text: TextSpan(
                                                       text: 'M Gain: ',
@@ -426,6 +427,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 //   width: 0.5.w,
                                                 // ),
                                                 Expanded(
+                                                  flex: 5,
                                                   child: RichText(
                                                     text: TextSpan(
                                                       text: 'Stocks: ',
@@ -448,7 +450,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                               RichText(
                                                 text: TextSpan(
-                                                  text: 'Mutual Funds: ',
+                                                  text: 'MF: ',
                                                   style: textStyle10(
                                                       colorText7070),
                                                   children: <TextSpan>[
@@ -2163,6 +2165,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  netWorthView(String image, String title, String value, int imageSize) {
+    return Row(
+      children: [
+        Container(
+          // color: Colors.red,
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.symmetric(horizontal: 2.0.w),
+          width: imageSize.w,
+          child: Image.asset(image, width: 13.w),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: textStyle11(colorText7070)),
+            Text(value, style: textStyle13Bold(colorBlack)),
+          ],
+        ),
+      ],
     );
   }
 }

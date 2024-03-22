@@ -53,7 +53,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         )));
     showCase();
     ageCalculate();
-
+    wealthMeter();
     super.initState();
   }
 
@@ -65,87 +65,72 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     );
   }
 
-  double stocksValue = 0;
-  double mutualFundsValue = 0;
+  List<bool> queOpenList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
 
   // User Details
   String userDoB = '';
   int userAge = 0;
-  double wealthMeterScore = 50;
-  double interestRate = 6.5;
+  double interestRate = 7;
+  num overdraft = 0;
 
-  // Investments Type
-  String stockInvestmentType = "StocksInvestment";
-  String mfInvestmentType = "MutualFundsInvestment";
-  // Assets Type
-  String carAssetsType = 'CarAssets';
-  String bikeAssetsType = "BikeAssets";
-  // Income Type
-  String homeIncomeType = 'HomeIncome';
-  String factoryIncomeType = "FactoryIncome";
-  // Loan Type
-  String carLoanType = 'CarLoan';
-  String bikeLoanType = "BikeLoan";
-  // Insurance Type
-  String carInsuranceType = 'CarInsurance';
-  String bikeInsuranceType = "BikeInsurance";
+  // Investments
+  num stocksValue = 0;
+  num mutualFundsValue = 0;
+  num sIPMonthly = 0;
+  num pPFMonthly = 0;
+  num postOfficeOrVikasPatra = 0;
+  num privateInvestmentScheme = 0;
 
-  //Investments
+  // INCOME & EXPENSE
+  num business = 0;
   num salary = 1;
   num professional = 0;
   num spouseIncome = 0;
   num otherIncome = 0;
-  // Investments
-  num mutualFunds = 0;
-  num emergencyFunds = 0;
-  num pPF = 0;
-  num sIPMonthly = 0;
-  num pPFMonthly = 0;
+  num houseHoldMonthly = 0;
+
+  // Loan
+  num housingLoan = 0;
+  num vehicleLoan = 0;
+  num educationLoan = 0;
+  num personalLoan = 0;
+  num otherLoan = 0;
+  num mortgageLoan = 0;
+
+  // Insurance
+  num healthInsurance = 0;
+  num vehicleInsurance = 0;
+  num termInsurance = 0;
+  num traditionalInsurance = 0;
+  num otherInsurance = 0;
+  num uLIP = 0;
 
   // Assets
   num gold = 0;
   num cash = 0;
-  num stockPortfolio = 0;
-  num savingAccount = 0;
-  num postOfficeOrVikasPatra = 0;
-  // Assets
+  num realEstate = 0;
   num vehicle = 0;
+  num otherAsset = 0;
+  num fixedDeposite = 0;
+//
+
+  num emergencyFunds = 0;
+  num pPF = 0;
+  num savingAccount = 0;
   num guided = 0;
   num unguided = 0;
-  num overdraft = 0;
-  num otherAsset = 0;
-
-  // Income
-  num houseHoldMonthly = 0;
   num totalMonthlyEmi = 0;
   num totalInsurancePremiumYearly = 0;
   num childrenEducationYearly = 0;
   num otherExpenseYearly = 0;
-
-  // Income
   num debenture = 0;
-  num fixedDeposite = 0;
   num pMS = 0;
-  num privateInvestmentScheme = 0;
-  num realEstate = 0;
-  num business = 0;
-
-  // Loan
-  num housingLoan = 0;
-  num educationLoan = 0;
-  num personalLoan = 0;
-  // Loan
-  num mortgageLoan = 0;
-  num vehicleLoan = 0;
-  num otherLoan = 0;
-  // Insurance
-  num termInsurance = 0;
-  num traditionalInsurance = 0;
-  num healthInsurance = 0;
-  // Insurance
-  num vehicleInsurance = 0;
-  num uLIP = 0;
-  num otherInsurance = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -204,15 +189,14 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                   } else if (state is WealthMeterDataAdded) {
                     setState(() {
                       if (state.totalScore == 0) {
-                        wealthMeterScore = 50;
+                        ApiUser.wealthMeterScore = 50;
                       } else {
-                        wealthMeterScore = state.totalScore.toDouble();
+                        ApiUser.wealthMeterScore = state.totalScore.toDouble();
                       }
                     });
                   }
                 },
                 builder: (context, state) {
-                  // if (state is WealthMeterDataAdded) {
                   return SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -273,7 +257,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                         ],
                                         pointers: <GaugePointer>[
                                           NeedlePointer(
-                                            value: wealthMeterScore,
+                                            value: ApiUser.wealthMeterScore,
                                             needleLength: 1,
                                             needleStartWidth: 0.1,
                                             needleEndWidth: 7,
@@ -287,7 +271,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                               widget: Column(
                                                 children: [
                                                   Text(
-                                                      wealthMeterScore
+                                                      ApiUser.wealthMeterScore
                                                           .toInt()
                                                           .toString(),
                                                       style: textStyle36Bold(
@@ -337,121 +321,178 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                 style: textStyle10Bold(colorBlack)
                                     .copyWith(letterSpacing: 0.7)),
                           ),
-                          birdEyeView(
-                              'INVESTMENTS',
-                              icStocksInvestment,
-                              'Stocks',
-                              stocksValue.toStringAsFixed(0),
-                              icMutualFundsInvestment,
-                              'Mutual Funds',
-                              mutualFundsValue.toStringAsFixed(0),
-                              colorF9C1,
-                              stockInvestmentType,
-                              mfInvestmentType),
-                          SizedBox(height: 2.h),
-                          birdEyeView(
-                              'INCOME',
-                              icHome,
-                              'Home',
-                              '87903',
-                              icFactory1,
-                              'Factory\'s',
-                              '97404',
-                              color6C6C,
-                              homeIncomeType,
-                              factoryIncomeType),
-                          SizedBox(height: 2.h),
-                          birdEyeView(
-                              'LOAN (LIABILITIES)',
-                              icCarLoan,
-                              'Car Loan',
-                              '42405',
-                              icBikeLoan,
-                              'Bike Loan',
-                              '987863',
-                              colorFB83,
-                              carLoanType,
-                              bikeLoanType),
-                          SizedBox(height: 2.h),
-                          birdEyeView(
-                              'INSURANCE',
-                              icCarLoan,
-                              'Car Loan',
-                              '42405',
-                              icBikeLoan,
-                              'Bike Loan',
-                              '987863',
-                              colorFB83,
-                              carInsuranceType,
-                              bikeInsuranceType),
-                          SizedBox(height: 2.h),
-                          birdEyeView(
-                              'ASSETS',
-                              icCarLoan,
-                              'Car Loan',
-                              '42405',
-                              icBikeLoan,
-                              'Bike Loan',
-                              '987863',
-                              colorFB83,
-                              carAssetsType,
-                              bikeAssetsType),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(vertical: 3.h),
-                          //   child: Container(
-                          //     decoration: decoration(colorWhite),
-                          //     child: Column(
-                          //       children: [
-                          //         Padding(
-                          //           padding: EdgeInsets.only(top: 5.h, bottom: 4.h),
-                          //           child: Image.asset(imgKAPortfolioDoctor, width: 65.w),
-                          //         ),
-                          //         Container(
-                          //             height: 1, color: colorTextBCBC.withOpacity(0.36)),
-                          //         Padding(
-                          //           padding: EdgeInsets.symmetric(
-                          //               vertical: 2.5.h, horizontal: 4.w),
-                          //           child: Column(
-                          //             crossAxisAlignment: CrossAxisAlignment.start,
-                          //             children: [
-                          //               Text('Wealth Building Campaign',
-                          //                   style: textStyle11Bold(colorBlack)
-                          //                       .copyWith(letterSpacing: 0.16)),
-                          //               SizedBox(height: 1.h),
-                          //               ReadMoreText(
-                          //                 'Wealth Building Campaign makes wealth planning easy!! We don’t over complicate things.',
-                          //                 trimLines: 2,
-                          //                 colorClickableText: colorRed,
-                          //                 trimMode: TrimMode.Line,
-                          //                 trimCollapsedText: 'See more',
-                          //                 trimExpandedText: 'Show less',
-                          //                 style: textStyle9(colorText7070)
-                          //                     .copyWith(height: 1.4),
-                          //                 moreStyle: textStyle9(colorRed).copyWith(
-                          //                     fontWeight: FontWeight.w600, height: 1.4),
-                          //                 lessStyle: textStyle9(colorRed).copyWith(
-                          //                     fontWeight: FontWeight.w600, height: 1.4),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         )
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
+                          SingleChildScrollView(
+                            child: Column(
+                              children: List.generate(
+                                  queOpenList.length,
+                                  (index) => index == 0
+                                      ? newBirdEyeView(
+                                          queOpenList[index],
+                                          'INVESTMENTS',
+                                          icStocks,
+                                          'Stocks',
+                                          num.parse(
+                                              stocksValue.toStringAsFixed(0)),
+                                          icMutualFunds,
+                                          'Mutual Funds',
+                                          num.parse(mutualFundsValue
+                                              .toStringAsFixed(0)),
+                                          icSIP,
+                                          'SIPMonthly',
+                                          sIPMonthly,
+                                          icPPF,
+                                          'PPFMonthly',
+                                          pPFMonthly,
+                                          icPostOfficeOrvikasPatra,
+                                          'PostOfficeOrVikas..',
+                                          postOfficeOrVikasPatra,
+                                          icPrivateInvestmentsScheme,
+                                          'PrivateInvestment..',
+                                          privateInvestmentScheme,
+                                          colorGreenEFC, () {
+                                          setState(() {
+                                            queOpenList[index] =
+                                                !queOpenList[index];
+                                          });
+                                        })
+                                      : index == 1
+                                          ? Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 2.h),
+                                              child: newBirdEyeView(
+                                                  queOpenList[index],
+                                                  'INCOME & EXPENSE',
+                                                  icBusiness,
+                                                  'Business',
+                                                  business,
+                                                  icSalary,
+                                                  'Salary',
+                                                  salary == 1 ? 0 : salary,
+                                                  icProfessional,
+                                                  'Professional',
+                                                  professional,
+                                                  icSpouselncome,
+                                                  'SpouseIncome',
+                                                  spouseIncome,
+                                                  icOtherIncome,
+                                                  'OtherIncome',
+                                                  otherIncome,
+                                                  icHouseHoldMonthly,
+                                                  'HouseHoldMonthly',
+                                                  houseHoldMonthly,
+                                                  colorGreenEFC, () {
+                                                setState(() {
+                                                  queOpenList[index] =
+                                                      !queOpenList[index];
+                                                });
+                                              }),
+                                            )
+                                          : index == 2
+                                              ? Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 2.h),
+                                                  child: newBirdEyeView(
+                                                      queOpenList[index],
+                                                      'LOAN (LIABILITIES)',
+                                                      icHousingLoan,
+                                                      'HousingLoan',
+                                                      housingLoan,
+                                                      icVehicalLoan,
+                                                      'VehicleLoan',
+                                                      vehicleLoan,
+                                                      icEducationLoan,
+                                                      'EducationLoan',
+                                                      educationLoan,
+                                                      icPersonalLoan,
+                                                      'PersonalLoan',
+                                                      personalLoan,
+                                                      icOtherLoan,
+                                                      'OtherLoan',
+                                                      otherLoan,
+                                                      icMortgageLoan,
+                                                      'MortgageLoan',
+                                                      mortgageLoan,
+                                                      colorGreenEFC, () {
+                                                    setState(() {
+                                                      queOpenList[index] =
+                                                          !queOpenList[index];
+                                                    });
+                                                  }),
+                                                )
+                                              : index == 3
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 2.h),
+                                                      child: newBirdEyeView(
+                                                          queOpenList[index],
+                                                          'INSURANCE',
+                                                          icHealthInsurance,
+                                                          'HealthInsurance',
+                                                          healthInsurance,
+                                                          icVehicleInsurance,
+                                                          'VehicleInsurance',
+                                                          vehicleInsurance,
+                                                          icTermInsurance,
+                                                          'TermInsurance',
+                                                          termInsurance,
+                                                          icTraditionalInsurance,
+                                                          'TraditionalInsurance',
+                                                          traditionalInsurance,
+                                                          icOtherInsurance,
+                                                          'OtherInsurance',
+                                                          otherInsurance,
+                                                          icUlip,
+                                                          'ULIP',
+                                                          uLIP,
+                                                          colorGreenEFC, () {
+                                                        setState(() {
+                                                          queOpenList[index] =
+                                                              !queOpenList[
+                                                                  index];
+                                                        });
+                                                      }),
+                                                    )
+                                                  : Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 2.h),
+                                                      child: newBirdEyeView(
+                                                          queOpenList[index],
+                                                          'ASSETS',
+                                                          icGold,
+                                                          'Gold',
+                                                          gold,
+                                                          icCash,
+                                                          'Cash',
+                                                          cash,
+                                                          icRealEstate1,
+                                                          'RealEstate',
+                                                          realEstate,
+                                                          icVehical,
+                                                          'Vehicle',
+                                                          vehicle,
+                                                          icOtherAssets,
+                                                          'OtherAsset',
+                                                          otherAsset,
+                                                          icFixeDeposit,
+                                                          'FixedDeposite',
+                                                          fixedDeposite,
+                                                          colorGreenEFC, () {
+                                                        setState(() {
+                                                          queOpenList[index] =
+                                                              !queOpenList[
+                                                                  index];
+                                                        });
+                                                      }),
+                                                    )),
+                            ),
+                          ),
+                          // Image.asset(
+                          //     'assets/images/CheckWealthmeterScore.gif'),
                           SizedBox(height: 5.h),
                         ],
                       ),
                     ),
                   );
-                  // }
-                  // return Center(
-                  //   child: SizedBox(
-                  //       height: 25,
-                  //       width: 25,
-                  //       child: CircularProgressIndicator(
-                  //           color: colorRed, strokeWidth: 0.7.w)),
-                  // );
                 },
               )),
         );
@@ -485,135 +526,194 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     );
   }
 
-  birdEyeView(
-      String title,
+  newBirdEyeView(
+      bool isSelect,
+      String mainTitle,
       String icon1,
       String text1,
-      String value1,
+      num value1,
       String icon2,
       String text2,
-      String value2,
+      num value2,
+      String icon3,
+      String text3,
+      num value3,
+      String icon4,
+      String text4,
+      num value4,
+      String icon5,
+      String text5,
+      num value5,
+      String icon6,
+      String text6,
+      num value6,
       Color bgColor,
-      String firstRouteName,
-      String secondRouteName) {
+      Function() onOpen) {
     return Container(
       width: 90.w,
       decoration: decoration(colorWhite),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 2.h, bottom: 2.h, left: 3.5.w),
-            child: Text(title,
-                style:
-                    textStyle10Bold(colorBlack).copyWith(letterSpacing: 0.7)),
-          ),
-          Container(height: 1, color: colorTextBCBC.withOpacity(0.36)),
-          SizedBox(
-            height: 9.h,
-            child: BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
-              listener: (context, state) {
-                if (state is MFInvestmentsLoadedState) {
-                  mutualFundsValue = 0;
-                  for (int i = 0;
-                      i < state.investmentPortfolio.mFStocks.length;
-                      i++) {
-                    if (state.investmentPortfolio.mFStocks[i].unit.toInt() !=
-                        0) {
-                      mutualFundsValue += ((state.investmentPortfolio
-                                  .mFStocks[i].investment_Unit -
-                              state.investmentPortfolio.mFStocks[i].sale_Unit) *
-                          state.investmentPortfolio.mFStocks[i].nav);
-                    }
-                  }
-                  setState(() {});
-                }
-              },
-              child: BlocListener<FetchingDataBloc, FetchingDataState>(
-                listener: (context, state) {
-                  if (state is StockInvestmentLoadedState) {
-                    stocksValue = 0;
-                    // Navigator.of(context)
-                    //     .pushReplacementNamed(StocksInvestment.route);
+      child: BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
+        listener: (context, state) {
+          if (state is MFInvestmentsLoadedState) {
+            mutualFundsValue = 0;
+            for (int i = 0;
+                i < state.investmentPortfolio.mFStocks.length;
+                i++) {
+              if (state.investmentPortfolio.mFStocks[i].unit.toInt() != 0) {
+                mutualFundsValue +=
+                    ((state.investmentPortfolio.mFStocks[i].investment_Unit -
+                            state.investmentPortfolio.mFStocks[i].sale_Unit) *
+                        state.investmentPortfolio.mFStocks[i].nav);
+              }
+            }
+            setState(() {});
+          }
+        },
+        child: BlocListener<FetchingDataBloc, FetchingDataState>(
+          listener: (context, state) {
+            if (state is StockInvestmentLoadedState) {
+              stocksValue = 0;
 
-                    for (int i = 0;
-                        i < state.stockInvestmentPortfolio.stocks.length;
-                        i++) {
-                      stocksValue += ((state
-                              .stockInvestmentPortfolio.stocks[i].balanceQty) *
-                          state.stockInvestmentPortfolio.stocks[i].rate);
-                    }
-                    setState(() {});
-                  }
-                },
+              for (int i = 0;
+                  i < state.stockInvestmentPortfolio.stocks.length;
+                  i++) {
+                stocksValue +=
+                    ((state.stockInvestmentPortfolio.stocks[i].balanceQty) *
+                        state.stockInvestmentPortfolio.stocks[i].rate);
+              }
+              setState(() {});
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 2.h, bottom: 2.h, left: 3.5.w),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    iconTextValue(icon1, bgColor, text1, value1, () {
-                      if (firstRouteName == stockInvestmentType) {
-                        BlocProvider.of<FetchingDataBloc>(context)
-                            .add(LoadStockInvestmentEvent(
-                                userId: ApiUser.userId,
-                                investmentPortfolio: StockInvestmentModel(
-                                  code: 0,
-                                  message: '',
-                                  portfolio: 0,
-                                  investment: 0,
-                                  gain: 0,
-                                  stocks: [],
-                                )));
-                        Navigator.of(context)
-                            .pushReplacementNamed(StocksInvestment.route);
-                        // selectFormDialog(stockInvestmentType);
-                      } else if (firstRouteName == carAssetsType) {
-                        selectFormDialog(carAssetsType);
-                      } else if (firstRouteName == homeIncomeType) {
-                        selectFormDialog(homeIncomeType);
-                      } else if (firstRouteName == carLoanType) {
-                        selectFormDialog(carLoanType);
-                      } else if (firstRouteName == carInsuranceType) {
-                        selectFormDialog(carInsuranceType);
-                      }
-                    }),
-                    Container(
-                        height: 9.h,
-                        width: 1,
-                        color: colorTextBCBC.withOpacity(0.36)),
-                    iconTextValue(icon2, bgColor, text2, value2, () {
-                      if (secondRouteName == mfInvestmentType) {
-                        BlocProvider.of<MFInvestmentsBloc>(context).add(
-                            LoadMFInvestmentsEvent(
-                                userId: ApiUser.userId,
-                                investmentPortfolio: InvestmentPortfolio(
-                                    code: 0,
-                                    message: '',
-                                    portfolio: 0,
-                                    investment: 0,
-                                    gain: 0,
-                                    mFStocks: [])));
-                        Navigator.of(context)
-                            .pushReplacementNamed(MutualFundsInvestment.route);
-                        // selectFormDialog(mfInvestmentType);
-                      } else if (secondRouteName == bikeAssetsType) {
-                        selectFormDialog(bikeAssetsType);
-                      } else if (secondRouteName == factoryIncomeType) {
-                        selectFormDialog(factoryIncomeType);
-                      } else if (secondRouteName == bikeLoanType) {
-                        selectFormDialog(bikeLoanType);
-                      } else if (secondRouteName == bikeInsuranceType) {
-                        selectFormDialog(bikeInsuranceType);
-                      }
-                    })
+                    Text(mainTitle,
+                        style: textStyle10Bold(colorBlack)
+                            .copyWith(letterSpacing: 0.7)),
+                    Padding(
+                      padding: EdgeInsets.only(right: 5.w),
+                      child: InkWell(
+                          onTap: onOpen,
+                          child: Icon(
+                            isSelect
+                                ? Icons.keyboard_arrow_up_rounded
+                                : Icons.keyboard_arrow_down_outlined,
+                            size: 2.5.h,
+                            color: colorBlack,
+                          )),
+                    )
                   ],
                 ),
               ),
-            ),
-          )
-        ],
+              Container(height: 1, color: colorTextBCBC.withOpacity(0.36)),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 00),
+                curve: Curves.easeInOut,
+                height: !isSelect ? 9.h : 27.h,
+                // !isExpanded
+                //     ? max(4 * 4.0 + 55, 65)
+                //     : max(5 * 50.0 + 20, ((100 / 50).ceil() * 20) + 65),
+
+                // : (question.length / 35).ceil()==1?60:(((question.length / 35).ceil()*10)+60),,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        iconTextValue(icon1, bgColor, text1, value1.toString(),
+                            () {
+                          if (text1 == 'Stocks') {
+                            BlocProvider.of<FetchingDataBloc>(context)
+                                .add(LoadStockInvestmentEvent(
+                                    userId: ApiUser.userId,
+                                    investmentPortfolio: StockInvestmentModel(
+                                      code: 0,
+                                      message: '',
+                                      portfolio: 0,
+                                      investment: 0,
+                                      gain: 0,
+                                      stocks: [],
+                                    )));
+                            Navigator.of(context)
+                                .pushReplacementNamed(StocksInvestment.route);
+                          } else {
+                            newSelectFormDialog(mainTitle, text1, icon1);
+                          }
+                        }),
+                        Container(
+                            height: 9.h,
+                            width: 1,
+                            color: colorTextBCBC.withOpacity(0.36)),
+                        iconTextValue(icon2, bgColor, text2, value2.toString(),
+                            () {
+                          if (text2 == 'Mutual Funds') {
+                            BlocProvider.of<MFInvestmentsBloc>(context).add(
+                                LoadMFInvestmentsEvent(
+                                    userId: ApiUser.userId,
+                                    investmentPortfolio: InvestmentPortfolio(
+                                        code: 0,
+                                        message: '',
+                                        portfolio: 0,
+                                        investment: 0,
+                                        gain: 0,
+                                        mFStocks: [])));
+                            Navigator.of(context).pushReplacementNamed(
+                                MutualFundsInvestment.route);
+                          } else {
+                            newSelectFormDialog(mainTitle, text2, icon2);
+                          }
+                        })
+                      ],
+                    ),
+                    if (isSelect) ...[
+                      Row(
+                        children: [
+                          iconTextValue(
+                              icon3, bgColor, text3, value3.toString(), () {
+                            newSelectFormDialog(mainTitle, text3, icon3);
+                          }),
+                          Container(
+                              height: 9.h,
+                              width: 1,
+                              color: colorTextBCBC.withOpacity(0.36)),
+                          iconTextValue(
+                              icon4, bgColor, text4, value4.toString(), () {
+                            newSelectFormDialog(mainTitle, text4, icon4);
+                          })
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          iconTextValue(
+                              icon5, bgColor, text5, value5.toString(), () {
+                            newSelectFormDialog(mainTitle, text5, icon5);
+                          }),
+                          Container(
+                              height: 9.h,
+                              width: 1,
+                              color: colorTextBCBC.withOpacity(0.36)),
+                          iconTextValue(
+                              icon6, bgColor, text6, value6.toString(), () {
+                            newSelectFormDialog(mainTitle, text6, icon6);
+                          })
+                        ],
+                      ),
+                    ]
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  selectFormDialog(String lable) {
+  newSelectFormDialog(String mainTitle, String lable, String icon) {
     return showGeneralDialog(
         context: context,
         barrierDismissible: true,
@@ -627,295 +727,195 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       builder: (context, setState) => AlertDialog(
                             contentPadding: EdgeInsets.zero,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(15)),
                             content: SizedBox(
-                              height: lable == stockInvestmentType ||
-                                      lable == bikeLoanType
-                                  ? 31.5.h + 60
-                                  : lable == mfInvestmentType
-                                      ? 38.5.h + 60
-                                      : lable == factoryIncomeType
-                                          ? 19.5.h + 60
-                                          : 25.5.h + 60,
+                              height: 37.h,
                               width: 77.8.w,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                      height: 60,
-                                      width: 77.8.w,
-                                      decoration: const BoxDecoration(
-                                          color: colorBG,
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(10))),
-                                      padding: EdgeInsets.only(left: 3.5.w),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                              lable == stockInvestmentType ||
-                                                      lable == mfInvestmentType
-                                                  ? 'Investments'
-                                                  : lable == carAssetsType ||
-                                                          lable ==
-                                                              bikeAssetsType
-                                                      ? 'Assets'
-                                                      : lable == homeIncomeType ||
-                                                              lable ==
-                                                                  factoryIncomeType
-                                                          ? 'Income'
-                                                          : lable == carLoanType ||
-                                                                  lable ==
-                                                                      bikeLoanType
-                                                              ? 'Loan'
-                                                              : lable == carInsuranceType ||
-                                                                      lable ==
-                                                                          bikeInsuranceType
-                                                                  ? 'Insurance'
-                                                                  : '',
-                                              style:
-                                                  textStyle14Bold(colorBlack)),
-                                          IconButton(
-                                              padding: EdgeInsets.zero,
-                                              splashColor: colorBG,
-                                              splashRadius: 5.5.w,
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              icon: Icon(Icons.close,
-                                                  size: 3.h, color: colorRed))
-                                        ],
-                                      )),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        padding: EdgeInsets.zero,
+                                        splashColor: colorBG,
+                                        splashRadius: 5.5.w,
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: Icon(Icons.close,
+                                            size: 3.h, color: colorRed)),
+                                  ),
+                                  Image.asset(
+                                    icon,
+                                    height: 7.h,
+                                  ),
                                   SizedBox(
-                                      height: lable == stockInvestmentType ||
-                                              lable == bikeLoanType
-                                          ? 31.5.h
-                                          : lable == mfInvestmentType
-                                              ? 38.5.h
-                                              : lable == factoryIncomeType
-                                                  ? 19.5.h
-                                                  : 25.5.h,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              //  Investments
+                                    height: 2.h,
+                                  ),
+                                  Text(lable,
+                                      style: textStyle14Bold(colorBlack)),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  cTextFormField('Enter $lable', (value) {
+                                    if (lable == 'SIPMonthly') {
+                                      sIPMonthly = num.parse(value);
+                                    } else if (lable == 'PPFMonthly') {
+                                      pPFMonthly = num.parse(value);
+                                    } else if (lable == 'PostOfficeOrVikas..') {
+                                      postOfficeOrVikasPatra = num.parse(value);
+                                    } else if (lable == 'PrivateInvestment..') {
+                                      privateInvestmentScheme =
+                                          num.parse(value);
+                                    } else if (lable == 'Business') {
+                                      business = num.parse(value);
+                                    } else if (lable == 'Salary') {
+                                      salary = num.parse(value);
+                                    } else if (lable == 'Professional') {
+                                      professional = num.parse(value);
+                                    } else if (lable == 'SpouseIncome') {
+                                      spouseIncome = num.parse(value);
+                                    } else if (lable == 'OtherIncome') {
+                                      otherIncome = num.parse(value);
+                                    } else if (lable == 'HouseHoldMonthly') {
+                                      houseHoldMonthly = num.parse(value);
+                                    } else if (lable == 'HousingLoan') {
+                                      housingLoan = num.parse(value);
+                                    } else if (lable == 'VehicleLoan') {
+                                      vehicleLoan = num.parse(value);
+                                    } else if (lable == 'EducationLoan') {
+                                      educationLoan = num.parse(value);
+                                    } else if (lable == 'PersonalLoan') {
+                                      personalLoan = num.parse(value);
+                                    } else if (lable == 'OtherLoan') {
+                                      otherLoan = num.parse(value);
+                                    } else if (lable == 'MortgageLoan') {
+                                      mortgageLoan = num.parse(value);
+                                    } else if (lable == 'HealthInsurance') {
+                                      healthInsurance = num.parse(value);
+                                    } else if (lable == 'VehicleInsurance') {
+                                      vehicleInsurance = num.parse(value);
+                                    } else if (lable == 'TermInsurance') {
+                                      termInsurance = num.parse(value);
+                                    } else if (lable ==
+                                        'TraditionalInsurance') {
+                                      traditionalInsurance = num.parse(value);
+                                    } else if (lable == 'OtherInsurance') {
+                                      otherInsurance = num.parse(value);
+                                    } else if (lable == 'ULIP') {
+                                      uLIP = num.parse(value);
+                                    } else if (lable == 'Gold') {
+                                      gold = num.parse(value);
+                                    } else if (lable == 'Cash') {
+                                      cash = num.parse(value);
+                                    } else if (lable == 'RealEstate') {
+                                      realEstate = num.parse(value);
+                                    } else if (lable == 'OtherAsset') {
+                                      otherAsset = num.parse(value);
+                                    } else if (lable == 'Vehicle') {
+                                      vehicle = num.parse(value);
+                                    } else if (lable == 'FixedDeposite') {
+                                      fixedDeposite = num.parse(value);
+                                    }
+                                  }),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  InkWell(
+                                    splashColor: colorWhite,
+                                    onTap: () {
+                                      wealthMeter();
+                                      Navigator.of(context).pop();
+                                      checkWealthScoreDialogBox();
+                                    },
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 3.w),
+                                      height: 5.h,
+                                      // width: 30.w,
+                                      decoration: BoxDecoration(
+                                          color: colorRed,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: colorRed, width: 1)),
+                                      alignment: Alignment.center,
+                                      child: Text('SUBMIT',
+                                          style: textStyle12Bold(colorWhite)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ))));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
+  }
 
-                                              if (lable == stockInvestmentType)
-                                                ...[]
-                                              else if (lable ==
-                                                  mfInvestmentType) ...[
-                                                cTextFormField(
-                                                    'Enter MutualFunds',
-                                                    (value) {
-                                                  mutualFunds =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField('Enter PPF',
-                                                    (value) {
-                                                  pPF = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter SIPMonthly',
-                                                    (value) {
-                                                  sIPMonthly = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter PPFMonthly',
-                                                    (value) {
-                                                  pPFMonthly = num.parse(value);
-                                                }),
-                                              ]
-                                              // Income
-                                              else if (lable ==
-                                                  homeIncomeType) ...[
-                                                cTextFormField('Enter Business',
-                                                    (value) {
-                                                  business = num.parse(value);
-                                                }),
-                                                cTextFormField('Enter Salary',
-                                                    (value) {
-                                                  salary = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter Professional',
-                                                    (value) {
-                                                  professional =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
-                                                  factoryIncomeType) ...[
-                                                cTextFormField(
-                                                    'Enter SpouseIncome',
-                                                    (value) {
-                                                  spouseIncome =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter OtherIncome',
-                                                    (value) {
-                                                  otherIncome =
-                                                      num.parse(value);
-                                                }),
-                                              ]
-                                              // Assets
-                                              else if (lable ==
-                                                  carAssetsType) ...[
-                                                cTextFormField('Enter Vehicle',
-                                                    (value) {
-                                                  vehicle = num.parse(value);
-                                                }),
-                                                cTextFormField('Enter Gold',
-                                                    (value) {
-                                                  gold = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter SavingAccount',
-                                                    (value) {
-                                                  savingAccount =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
-                                                  bikeAssetsType) ...[
-                                                cTextFormField('Enter Cash',
-                                                    (value) {
-                                                  cash = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter EmergencyFunds',
-                                                    (value) {
-                                                  emergencyFunds =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter OtherAsset',
-                                                    (value) {
-                                                  otherAsset = num.parse(value);
-                                                }),
-                                              ]
-
-                                              //  Loan
-                                              else if (lable ==
-                                                  carLoanType) ...[
-                                                cTextFormField(
-                                                    'Enter HousingLoan',
-                                                    (value) {
-                                                  housingLoan =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter MortgageLoan',
-                                                    (value) {
-                                                  mortgageLoan =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter EducationLoan',
-                                                    (value) {
-                                                  educationLoan =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
-                                                  bikeLoanType) ...[
-                                                cTextFormField(
-                                                    'Enter PersonalLoan',
-                                                    (value) {
-                                                  personalLoan =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter VehicleLoan',
-                                                    (value) {
-                                                  vehicleLoan =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter Overdraft', (value) {
-                                                  overdraft = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter OtherLoan', (value) {
-                                                  otherLoan = num.parse(value);
-                                                }),
-                                              ]
-                                              // Insurance
-                                              else if (lable ==
-                                                  carInsuranceType) ...[
-                                                cTextFormField(
-                                                    'Enter TermInsurance',
-                                                    (value) {
-                                                  termInsurance =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter TraditionalInsurance',
-                                                    (value) {
-                                                  traditionalInsurance =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter HealthInsurance',
-                                                    (value) {
-                                                  healthInsurance =
-                                                      num.parse(value);
-                                                }),
-                                              ] else if (lable ==
-                                                  bikeInsuranceType) ...[
-                                                cTextFormField(
-                                                    'Enter VehicleInsurance',
-                                                    (value) {
-                                                  vehicleInsurance =
-                                                      num.parse(value);
-                                                }),
-                                                cTextFormField('Enter ULIP',
-                                                    (value) {
-                                                  uLIP = num.parse(value);
-                                                }),
-                                                cTextFormField(
-                                                    'Enter OtherInsurance',
-                                                    (value) {
-                                                  otherInsurance =
-                                                      num.parse(value);
-                                                }),
-                                              ],
-                                              SizedBox(
-                                                height: 1.h,
-                                              ),
-                                              InkWell(
-                                                splashColor: colorWhite,
-                                                onTap: () {
-                                                  // if(salary == 0){
-
-                                                  // }else{
-                                                  // wealthMeter();
-                                                  // }
-                                                  wealthMeter();
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                  height: 4.5.h,
-                                                  width: 30.w,
-                                                  decoration: BoxDecoration(
-                                                      color: colorRed,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      border: Border.all(
-                                                          color: colorRed,
-                                                          width: 1)),
-                                                  alignment: Alignment.center,
-                                                  child: Text('Submit',
-                                                      style: textStyle12Bold(
-                                                          colorWhite)),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ))
+  checkWealthScoreDialogBox() {
+    return showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: '',
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                  opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                  child: StatefulBuilder(
+                      builder: (context, setState) => AlertDialog(
+                            contentPadding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            content: SizedBox(
+                              height: 37.h,
+                              width: 77.8.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        padding: EdgeInsets.zero,
+                                        splashColor: colorBG,
+                                        splashRadius: 5.5.w,
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: Icon(Icons.close,
+                                            size: 3.h, color: colorRed)),
+                                  ),
+                                  Image.asset(
+                                    'assets/images/CheckWealthmeterScore.gif',
+                                    height: 20.h,
+                                    width: 90.w,
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  InkWell(
+                                    splashColor: colorWhite,
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 3.w),
+                                      height: 5.h,
+                                      decoration: BoxDecoration(
+                                          color: colorRed,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: colorRed, width: 1)),
+                                      alignment: Alignment.center,
+                                      child: Text('GO',
+                                          style: textStyle12Bold(colorWhite)),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -979,21 +979,20 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                     radius: 2.5.h,
                     backgroundColor: bgColor,
                     child: Image.asset(icon,
-                        color: colorWhite,
-                        height: icon == icStocksInvestment
-                            ? 2.5.h
-                            : icon == icFactory
-                                ? 4.h
-                                : 2.2.h),
+                        // color: colorWhite,
+                        height: 3.5.h),
                   ),
                   SizedBox(width: 2.w),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(text, style: textStyle9(colorText3D3D)),
+                      Text(text,
+                          overflow: TextOverflow.fade,
+                          style: textStyle9(colorText3D3D)),
                       SizedBox(height: 0.5.h),
                       Text('₹ ${CommonFunction().splitString(value)}/-',
+                          overflow: TextOverflow.visible,
                           style: textStyle13Bold(colorBlack))
                     ],
                   ),
@@ -1032,53 +1031,48 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         dob: userDoB,
         age: userAge,
         interestRate: interestRate,
-        business: 0,
+        business: business,
         salary: salary,
         professional: professional,
         spouseIncome: spouseIncome,
         otherIncome: otherIncome,
-        // salary: 101166,
-        // professional: 0,
-        // spouseIncome: 0,
-        // otherIncome: 0,
-        //
-        houseHoldMonthly: 25000,
+        houseHoldMonthly: houseHoldMonthly,
         totalMonthlyEmi: 8500,
         totalInsurancePremiumYearly: 50000,
         childrenEducationYearly: 120000,
         otherExpenseYearly: 0,
-        vehicle: 750000,
-        gold: 500000,
+        vehicle: vehicle,
+        gold: gold,
         savingAccount: 0,
-        cash: 0,
+        cash: cash,
         emergencyFunds: 300000,
-        otherAsset: 0,
-        mutualFunds: 1300000,
+        otherAsset: otherAsset,
+        mutualFunds: mutualFundsValue.toInt(),
         pPF: 0,
-        sIPMonthly: 17000,
-        pPFMonthly: 0,
+        sIPMonthly: sIPMonthly,
+        pPFMonthly: pPFMonthly,
         debenture: 0,
         fixedDeposite: 0,
-        stockPortfolio: 600000,
+        stockPortfolio: stocksValue.toInt(),
         guided: 0,
         unguided: 0,
-        postOfficeOrVikasPatra: 0,
+        postOfficeOrVikasPatra: postOfficeOrVikasPatra,
         pMS: 0,
-        privateInvestmentScheme: 0,
-        realEstate: 0,
-        termInsurance: 500000,
-        traditionalInsurance: 0,
-        uLIP: 0,
-        vehicleInsurance: 0,
-        otherInsurance: 0,
-        healthInsurance: 600000,
-        housingLoan: 0,
-        mortgageLoan: 0,
-        educationLoan: 0,
-        personalLoan: 0,
-        vehicleLoan: 500000,
-        overdraft: 0,
-        otherLoan: 30000));
+        privateInvestmentScheme: privateInvestmentScheme,
+        realEstate: realEstate,
+        termInsurance: termInsurance,
+        traditionalInsurance: traditionalInsurance,
+        uLIP: uLIP,
+        vehicleInsurance: vehicleInsurance,
+        otherInsurance: otherInsurance,
+        healthInsurance: healthInsurance,
+        housingLoan: housingLoan,
+        mortgageLoan: mortgageLoan,
+        educationLoan: educationLoan,
+        personalLoan: personalLoan,
+        vehicleLoan: vehicleLoan,
+        overdraft: overdraft,
+        otherLoan: otherLoan));
   }
 
   cTextFormField(String hintText, ValueChanged<String> onChanged) {
@@ -1088,13 +1082,17 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       alignment: Alignment.centerLeft,
       height: 6.h,
       width: 77.8.w,
-      decoration: const BoxDecoration(color: colorWhite, boxShadow: [
-        BoxShadow(color: colorTextBCBC, offset: Offset(0, 3), blurRadius: 6)
-      ]),
+      decoration: BoxDecoration(
+        color: colorWhite,
+        border: Border.all(color: colorTextBCBC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: SizedBox(
-        width: 56.w,
+        width: 50.w,
         child: TextFormField(
+          autofocus: true,
           style: textStyle12(colorText7070),
+          inputFormatters: [LengthLimitingTextInputFormatter(7)],
           decoration: InputDecoration.collapsed(
             hintText: hintText,
             hintStyle: textStyle12(colorText7070),

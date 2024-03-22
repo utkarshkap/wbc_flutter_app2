@@ -37,3 +37,5 @@ const String _fontPath = 'assets/fonts/';
 const String txtCongrats = '${_fontPath}congrats.png';
 
 const String nriCarnival7Banner = '${_path}nri_carnival_7_banner.jpg';
+const String imgPortfolio = '${_path}portfolio-icon.png';
+const String imgWealthMeter = '${_path}wealth_meter.png';

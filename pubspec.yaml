@@ -123,6 +123,11 @@ flutter:
     - assets/icons/progress/
     - assets/icons/brokers/
     - assets/images/
+    - assets/icons/investments/
+    - assets/icons/income/
+    - assets/icons/loan/
+    - assets/icons/insurance/
+    - assets/icons/assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
 

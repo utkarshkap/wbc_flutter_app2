@@ -58,6 +58,7 @@ const String icAddContacts = '${_homePath}add_contacts_icon.png';
 const String icConnectFastTrack = '${_homePath}connect_fastTrack_icon.png';
 
 const String icRoundQuestionMark = '${_homePath}round_question_mark.png';
+const String icRightArrow = '${_homePath}right_arrow.png';
 
 const String icUpstox = '${_brokerPath}ic_upstox.png';
 const String icZerodha = '${_brokerPath}ic_zerodha.png';
@@ -102,6 +103,52 @@ const String icDelete = '${_mallPath}delete.png';
 const String icAddToCart = '${_mallPath}add_to_cart.png';
 const String icHome = '${_mallPath}home.png';
 const String icCategory = '${_mallPath}category.png';
+
+const String _investmentsPath = 'assets/icons/investments/';
+
+const String icSIP = '${_investmentsPath}sip_icon.png';
+const String icPPF = '${_investmentsPath}ppf_icon.png';
+const String icPostOfficeOrvikasPatra =
+    '${_investmentsPath}postofficeorvikaspatra_icon.png';
+const String icPrivateInvestmentsScheme =
+    '${_investmentsPath}privateinvestmentscheme_icon.png';
+
+const String _incomePath = 'assets/icons/income/';
+
+const String icBusiness = '${_incomePath}business_icon.png';
+const String icSalary = '${_incomePath}salary_icon.png';
+const String icProfessional = '${_incomePath}professional_icon.png';
+const String icSpouselncome = '${_incomePath}spouseincome_icon.png';
+const String icOtherIncome = '${_incomePath}otherincome_icon.png';
+const String icHouseHoldMonthly = '${_incomePath}house_icon.png';
+
+const String _loanPath = 'assets/icons/loan/';
+
+const String icHousingLoan = '${_loanPath}housingloan_icon.png';
+const String icVehicalLoan = '${_loanPath}vehicalloan_icon.png';
+const String icEducationLoan = '${_loanPath}educationloan_icon.png';
+const String icPersonalLoan = '${_loanPath}personalloan_icon.png';
+const String icMortgageLoan = '${_loanPath}mortgageloan_icon.png';
+const String icOtherLoan = '${_loanPath}otherloan_icon.png';
+
+const String _insurancePath = 'assets/icons/insurance/';
+
+const String icHealthInsurance = '${_insurancePath}healthinsurance_icon.png';
+const String icVehicleInsurance = '${_insurancePath}vehicleinsurance_icon.png';
+const String icTermInsurance = '${_insurancePath}terminsurance_icon.png';
+const String icTraditionalInsurance =
+    '${_insurancePath}traditionalinsurance_icon.png';
+const String icOtherInsurance = '${_insurancePath}otherinsurance_icon.png';
+const String icUlip = '${_insurancePath}ulip_icon.png';
+
+const String _assetsPath = 'assets/icons/assets/';
+
+const String icGold = '${_assetsPath}gold_icon.png';
+const String icCash = '${_assetsPath}cash_icon.png';
+const String icRealEstate1 = '${_assetsPath}realestate_icon.png';
+const String icVehical = '${_assetsPath}vehical_icon.png';
+const String icOtherAssets = '${_assetsPath}otherasset_icon.png';
+const String icFixeDeposit = '${_assetsPath}fixeddeposit_icon.png';
 
 const String icSort = '${_mallPath}sort.png';
 const String icFilter = '${_mallPath}filter.png';
