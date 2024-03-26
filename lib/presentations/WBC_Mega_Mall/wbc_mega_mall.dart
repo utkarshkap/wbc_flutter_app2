@@ -58,8 +58,9 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
       if (_selectedIndex == 4) {
         BlocProvider.of<OrderBloc>(context)
             .add(GetOrderHistory(userId: ApiUser.userId));
-        Navigator.of(context).pushNamed(OrderHistory.route,
-            arguments: OrderHistoryData()).then((value) => setState(() {
+        Navigator.of(context)
+            .pushNamed(OrderHistory.route, arguments: OrderHistoryData())
+            .then((value) => setState(() {
                   _selectedIndex = 1;
                 }));
       }
@@ -149,7 +150,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                   ),
                 )),
           ),
-          drawer: const MainDrawer(),
+          drawer: MainDrawer(),
           extendBody: true,
           body: WillPopScope(
             onWillPop: () async {
@@ -183,8 +184,12 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 padding: EdgeInsets.only(right: 1.w),
                                 child: GestureDetector(
                                   onTap: () {
-                                    if(categories.length>8){
-                                      Navigator.of(context).pushReplacementNamed(ProductCategoryScreen.route, arguments: CategoryData(categories: categories));
+                                    if (categories.length > 8) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              ProductCategoryScreen.route,
+                                              arguments: CategoryData(
+                                                  categories: categories));
                                     }
                                   },
                                   child: Row(
@@ -205,7 +210,8 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                             listener: (context, state) {
                               if (state is ProductCategoryLoadedState) {
                                 categories = state.productCategory.categories;
-                              }if (state is ProductCategoryErrorState) {
+                              }
+                              if (state is ProductCategoryErrorState) {
                                 AwesomeDialog(
                                   btnCancelColor: colorRed,
                                   padding: EdgeInsets.zero,
@@ -1109,7 +1115,9 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
         onTap: () {
           Navigator.of(context).pushReplacementNamed(ExpandCategory.route,
               arguments: ExpandCategoryData(
-                  categoryId: list.id, categoryName: list.name, isFromMall: true));
+                  categoryId: list.id,
+                  categoryName: list.name,
+                  isFromMall: true));
           BlocProvider.of<FetchingDataBloc>(context).add(
               LoadExpandedCategoryEvent(
                   id: list.id,
@@ -1231,7 +1239,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
               Image.asset(icon,
                   color: _selectedIndex == index ? colorTextFFC1 : colorWhite,
                   alignment: Alignment.bottomCenter,
-                  height: icon==icFilledOrderHistory?21:25),
+                  height: icon == icFilledOrderHistory ? 21 : 25),
             if (icon.isEmpty) Container(height: 25),
             Text(title,
                 style: textStyle8Bold(

@@ -16,7 +16,6 @@ import '../../blocs/review/review_bloc.dart';
 import '../../common_functions.dart';
 import '../../core/Google_SignIn.dart';
 import '../../core/preferences.dart';
-import '../../models/terms_conditions_model.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
 import '../home_screen.dart';
@@ -33,7 +32,7 @@ class MFReviewScreen extends StatefulWidget {
   static const route = '/MF-Review';
   final MFReviewScreenData mfReviewScreenData;
 
-  MFReviewScreen({required this.mfReviewScreenData});
+  const MFReviewScreen({super.key, required this.mfReviewScreenData});
 
   @override
   State<MFReviewScreen> createState() => _MFReviewScreenState();
@@ -49,7 +48,7 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
   String fileName = 'Upload your stock investment PDF';
   bool isPanFieldTap = true;
 
-  bool isLogin=false;
+  bool isLogin = false;
 
   final TextEditingController _panCardController = TextEditingController();
 
@@ -116,8 +115,7 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                     .pushNamedAndRemoveUntil(HomeScreen.route, (route) => false,
                         arguments: HomeScreenData(
                           acceptedContacts: '',
-                        )
-                );
+                        ));
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
@@ -201,7 +199,10 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                                     GestureDetector(
                                         onTap: () {},
                                         child: Text('View more',
-                                            style: textStyle9(colorRed).copyWith(decoration: TextDecoration.underline)))
+                                            style: textStyle9(colorRed)
+                                                .copyWith(
+                                                    decoration: TextDecoration
+                                                        .underline)))
                                   ],
                                 ),
                               )
@@ -244,25 +245,26 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                             });
 
                             signInWithGoogle().then((result) {
-                              if(result != null) {
-                                log("accessToken-->>"+accessToken.toString());
-                                print("accessToken-->>"+accessToken.toString());
-                                print("idToken-->>"+idToken.toString());
+                              if (result != null) {
+                                log("accessToken-->>" + accessToken.toString());
+                                print(
+                                    "accessToken-->>" + accessToken.toString());
+                                print("idToken-->>" + idToken.toString());
                                 setState(() {
-                                  isLogin=true;
+                                  isLogin = true;
                                 });
                                 /*Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const GmailFunctionality()),
                                 );*/
 
-                                BlocProvider.of<FetchingDataBloc>(context).add(LoadGmailInboxEvent(
-                                    accessToken: accessToken.toString(),
-                                    gmailInbox: GetGmailInboxModel(
-                                    resultSizeEstimate:0,
-                                    nextPageToken:'',
-                                    messages: []
-                                )));
+                                BlocProvider.of<FetchingDataBloc>(context).add(
+                                    LoadGmailInboxEvent(
+                                        accessToken: accessToken.toString(),
+                                        gmailInbox: GetGmailInboxModel(
+                                            resultSizeEstimate: 0,
+                                            nextPageToken: '',
+                                            messages: [])));
                               }
                             });
 
@@ -285,25 +287,26 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                               alignment: Alignment.center,
                               padding: EdgeInsets.symmetric(horizontal: 3.w),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                      fileName,
-                                      style: textStyle11Bold(colorText7070)
-                                  ),
+                                  Text(fileName,
+                                      style: textStyle11Bold(colorText7070)),
                                   uploadFile == null
-                                      ? Image.asset(icUpload, color: colorRed, width: 5.w)
+                                      ? Image.asset(icUpload,
+                                          color: colorRed, width: 5.w)
                                       : IconButton(
                                           padding: EdgeInsets.zero,
                                           constraints:
                                               BoxConstraints(minWidth: 5.w),
                                           onPressed: () {
                                             setState(() {
-                                              fileName = 'Upload your stock investment PDF';
+                                              fileName =
+                                                  'Upload your stock investment PDF';
                                               uploadFile = null;
                                             });
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.close,
                                             color: colorRed,
                                           )),

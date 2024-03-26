@@ -12,23 +12,25 @@ import '../../blocs/emisipcalculator/emisip_calculator_bloc.dart';
 class EMISIPCalculator extends StatefulWidget {
   static const route = '/EMISIP-Calculator';
 
+  const EMISIPCalculator({super.key});
+
   @override
   State<EMISIPCalculator> createState() => _EMISIPCalculatorState();
 }
 
 class _EMISIPCalculatorState extends State<EMISIPCalculator> {
-
-  final TextEditingController loanAmount = TextEditingController(text: "5000000");
+  final TextEditingController loanAmount =
+      TextEditingController(text: "5000000");
 
   int noOfYear = 30;
   int loanInterestRate = 9;
   int interestRateOnInvestment = 15;
 
-  String principalAmount="";
-  String interestAmount="";
-  String emiAmount="";
-  String sipAmount="";
-  String totalPayableAmount="";
+  String principalAmount = "";
+  String interestAmount = "";
+  String emiAmount = "";
+  String sipAmount = "";
+  String totalPayableAmount = "";
 
   String loanAmountValidation = '';
 
@@ -40,7 +42,7 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        resizeToAvoidBottomInset  : true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: colorBG,
         appBar: AppBar(
           toolbarHeight: 8.h,
@@ -54,8 +56,7 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title:
-          Text('EMI SIP Calculator', style: textStyle14Bold(colorBlack)),
+          title: Text('EMI SIP Calculator', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -69,7 +70,7 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
         body: BlocConsumer<EMISIPCalculatorBloc, EMISIPCalculatorState>(
           listener: (context, state) {
             print('EMISIPCalculatorState-------$state');
-            if (state is EMISIPCalculatorFailed)   {
+            if (state is EMISIPCalculatorFailed) {
               AwesomeDialog(
                 btnCancelColor: colorRed,
                 padding: EdgeInsets.zero,
@@ -81,10 +82,9 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                 btnOkOnPress: () {},
                 btnOkColor: Colors.red,
               ).show();
-            }
-            else if (state is EMISIPCalculatorAdded) {
+            } else if (state is EMISIPCalculatorAdded) {
               setState(() {
-                isSubmit=false;
+                isSubmit = false;
               });
               Navigator.of(context).pushNamed(EMISIPCalculatorResult.route);
             }
@@ -107,7 +107,8 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                     width: 60.w,
                                     child: Text(
                                         'Get your home\nloan interest paid with your investments',
-                                        style: textStyle15Bold(colorBlack).copyWith(height: 1.34))),
+                                        style: textStyle15Bold(colorBlack)
+                                            .copyWith(height: 1.34))),
                                 Image.asset(imgInsuranceCalculator, width: 20.w)
                               ],
                             ),
@@ -121,41 +122,46 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                 decoration: BoxDecoration(
                                     color: colorWhite,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: colorDFDF, width: 1)),
+                                    border:
+                                        Border.all(color: colorDFDF, width: 1)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 4.w),
-                                      child: Text("Loan Amount", style: textStyle10Bold(colorBlack)),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 4.w),
+                                      child: Text("Loan Amount",
+                                          style: textStyle10Bold(colorBlack)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left:1.4.w),
+                                      padding: EdgeInsets.only(left: 1.4.w),
                                       child: TextFormField(
                                         controller: loanAmount,
-                                        style: textStyle11(colorText3D3D).copyWith(height: 1.3),
+                                        style: textStyle11(colorText3D3D)
+                                            .copyWith(height: 1.3),
                                         maxLines: 1,
                                         inputFormatters: [
                                           ThousandsSeparatorInputFormatter(),
                                         ],
                                         decoration: InputDecoration(
                                             hintText: "Enter a loan amount",
-                                            hintStyle: textStyle11(colorText3D3D),
+                                            hintStyle:
+                                                textStyle11(colorText3D3D),
                                             fillColor: colorWhite,
                                             filled: true,
                                             border: InputBorder.none),
-                                        onChanged: (val){
-                                          if(loanAmount.text!=""){
+                                        onChanged: (val) {
+                                          if (loanAmount.text != "") {
                                             setState(() {
-                                                loanAmountValidation="";
+                                              loanAmountValidation = "";
                                             });
                                           }
                                         },
                                         autofocus: true,
                                         keyboardType: TextInputType.number,
                                         textInputAction: TextInputAction.done,
-                                        textCapitalization: TextCapitalization.sentences,
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
                                       ),
                                     ),
                                     if (loanAmountValidation.isNotEmpty)
@@ -166,26 +172,34 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 2.w),
-                                        child: loanAmountValidation == 'Empty Loan Amount'
-                                            ? errorText('Please Enter Loan Amount.')
+                                        child: loanAmountValidation ==
+                                                'Empty Loan Amount'
+                                            ? errorText(
+                                                'Please Enter Loan Amount.')
                                             : Container(),
                                       ),
                                     ),
-
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("No of year", style: textStyle10Bold(colorBlack)),
-                                          Text('$noOfYear', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("No of year",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$noOfYear',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -202,26 +216,32 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                             noOfYear = newValue.round();
                                           });
                                         },
-                                        onChangeEnd: (double newValue) {
-                                        },
-                                        semanticFormatterCallback: (double newValue) {
+                                        onChangeEnd: (double newValue) {},
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 5.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 5.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Loan Interest Rate (%)", style: textStyle10Bold(colorBlack)),
-                                          Text('$loanInterestRate%', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Loan Interest Rate (%)",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$loanInterestRate%',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -238,97 +258,118 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                             loanInterestRate = newValue.round();
                                           });
                                         },
-                                        onChangeEnd: (double newValue) {
-                                        },
-                                        semanticFormatterCallback: (double newValue) {
+                                        onChangeEnd: (double newValue) {},
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 5.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 5.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Return on SIP", style: textStyle10Bold(colorBlack)),
-                                          Text('$interestRateOnInvestment%', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Return on SIP",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$interestRateOnInvestment%',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
                                     Slider(
-                                        value: interestRateOnInvestment.toDouble(),
+                                        value:
+                                            interestRateOnInvestment.toDouble(),
                                         min: 0,
                                         max: 20,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${interestRateOnInvestment.round()}',
+                                        label:
+                                            '${interestRateOnInvestment.round()}',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            interestRateOnInvestment = newValue.round();
+                                            interestRateOnInvestment =
+                                                newValue.round();
                                           });
-                                          print("expectedReturn-->$interestRateOnInvestment");
+                                          print(
+                                              "expectedReturn-->$interestRateOnInvestment");
                                         },
-                                        onChangeEnd: (double newValue) {
-                                        },
-                                        semanticFormatterCallback: (double newValue) {
+                                        onChangeEnd: (double newValue) {},
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 3.5.h, bottom: 2.5.h),
+                                padding:
+                                    EdgeInsets.only(top: 3.5.h, bottom: 2.5.h),
                                 child: InkWell(
                                     onTap: () {
                                       if (loanAmount.text.isEmpty) {
                                         setState(() {
-                                          loanAmountValidation = 'Empty Loan Amount';
+                                          loanAmountValidation =
+                                              'Empty Loan Amount';
                                         });
-                                      }else{
+                                      } else {
                                         setState(() {
-                                          isSubmit=true;
+                                          isSubmit = true;
                                         });
-                                        BlocProvider.of<EMISIPCalculatorBloc>(context).add(EMISIPData(
+                                        BlocProvider.of<EMISIPCalculatorBloc>(
+                                                context)
+                                            .add(EMISIPData(
                                           name: "",
-                                          loanAmount: int.parse(loanAmount.text.replaceAll(',', '')),
+                                          loanAmount: int.parse(loanAmount.text
+                                              .replaceAll(',', '')),
                                           noOfYear: noOfYear,
                                           loanInterestRate: loanInterestRate,
-                                          interestRateOnInvestment: interestRateOnInvestment,
+                                          interestRateOnInvestment:
+                                              interestRateOnInvestment,
                                         ));
                                       }
-                                    },  
+                                    },
                                     child: Container(
                                       width: 90.w,
                                       decoration: BoxDecoration(
                                           color: colorRed,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           boxShadow: [
                                             BoxShadow(
                                                 offset: const Offset(0, 3),
                                                 blurRadius: 6,
-                                                color: colorRed.withOpacity(0.35))
-                                          ]
-                                      ),
+                                                color:
+                                                    colorRed.withOpacity(0.35))
+                                          ]),
                                       alignment: Alignment.center,
                                       child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 2.h),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 2.h),
                                         child: isSubmit
-                                        ? SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(color: colorWhite, strokeWidth: 0.6.w))
-                                        : Text('CALCULATE', style: textStyle13Bold(colorWhite)),
+                                            ? SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: colorWhite,
+                                                        strokeWidth: 0.6.w))
+                                            : Text('CALCULATE',
+                                                style: textStyle13Bold(
+                                                    colorWhite)),
                                       ),
-                                    )
-                                ),
+                                    )),
                               ),
                               /*SizedBox(
                                 height: 4.h,
@@ -530,5 +571,4 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
       ],
     );
   }
-
 }

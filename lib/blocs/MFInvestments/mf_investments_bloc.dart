@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wbc_connect_app/models/investment_transaction_model.dart';
-
 import '../../core/fetching_api.dart';
 import '../../models/investment_portfolio_model.dart';
 part 'mf_investments_event.dart';

@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:wbc_connect_app/blocs/bloc/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/blocs/wealthMeter/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/common_functions.dart';
+import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
 import 'package:wbc_connect_app/models/stock_investment_model.dart';
 import 'package:wbc_connect_app/presentations/Review/mutual_funds_investment.dart';
@@ -32,6 +34,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
   @override
   void initState() {
+    getWealthData();
     BlocProvider.of<MFInvestmentsBloc>(context).add(LoadMFInvestmentsEvent(
         userId: ApiUser.userId,
         investmentPortfolio: InvestmentPortfolio(
@@ -53,7 +56,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         )));
     showCase();
     ageCalculate();
-    wealthMeter();
     super.initState();
   }
 
@@ -73,64 +75,98 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     false,
   ];
 
+  getWealthData() async {
+    final pref = await SharedPreferences.getInstance();
+
+    sIPMonthly = pref.getInt('sIPMonthly') ?? 0;
+    pPFMonthly = pref.getInt('pPFMonthly') ?? 0;
+    postOfficeOrVikasPatra = pref.getInt('postOfficeOrVikasPatra') ?? 0;
+    privateInvestmentScheme = pref.getInt('privateInvestmentScheme') ?? 0;
+    business = pref.getInt('business') ?? 0;
+    salary = pref.getInt('salary') ?? 0;
+    professional = pref.getInt('professional') ?? 0;
+    spouseIncome = pref.getInt('spouseIncome') ?? 0;
+    otherIncome = pref.getInt('otherIncome') ?? 0;
+    houseHoldMonthly = pref.getInt('houseHoldMonthly') ?? 0;
+    housingLoan = pref.getInt('housingLoan') ?? 0;
+    vehicleLoan = pref.getInt('vehicleLoan') ?? 0;
+    educationLoan = pref.getInt('educationLoan') ?? 0;
+    personalLoan = pref.getInt('personalLoan') ?? 0;
+    otherLoan = pref.getInt('otherLoan') ?? 0;
+    mortgageLoan = pref.getInt('mortgageLoan') ?? 0;
+    healthInsurance = pref.getInt('healthInsurance') ?? 0;
+    vehicleInsurance = pref.getInt('vehicleInsurance') ?? 0;
+    termInsurance = pref.getInt('termInsurance') ?? 0;
+    traditionalInsurance = pref.getInt('traditionalInsurance') ?? 0;
+    otherInsurance = pref.getInt('otherInsurance') ?? 0;
+    uLIP = pref.getInt('uLIP') ?? 0;
+    gold = pref.getInt('gold') ?? 0;
+    cash = pref.getInt('cash') ?? 0;
+    realEstate = pref.getInt('realEstate') ?? 0;
+    vehicle = pref.getInt('vehicle') ?? 0;
+    otherAsset = pref.getInt('otherAsset') ?? 0;
+    fixedDeposite = pref.getInt('fixedDeposite') ?? 0;
+    wealthMeter();
+  }
+
   // User Details
   String userDoB = '';
   int userAge = 0;
   double interestRate = 7;
-  num overdraft = 0;
+  int overdraft = 0;
 
   // Investments
-  num stocksValue = 0;
-  num mutualFundsValue = 0;
-  num sIPMonthly = 0;
-  num pPFMonthly = 0;
-  num postOfficeOrVikasPatra = 0;
-  num privateInvestmentScheme = 0;
+  int stocksValue = 0;
+  int mutualFundsValue = 0;
+  int sIPMonthly = 0;
+  int pPFMonthly = 0;
+  int postOfficeOrVikasPatra = 0;
+  int privateInvestmentScheme = 0;
 
   // INCOME & EXPENSE
-  num business = 0;
-  num salary = 1;
-  num professional = 0;
-  num spouseIncome = 0;
-  num otherIncome = 0;
-  num houseHoldMonthly = 0;
+  int business = 0;
+  int salary = 1;
+  int professional = 0;
+  int spouseIncome = 0;
+  int otherIncome = 0;
+  int houseHoldMonthly = 0;
 
   // Loan
-  num housingLoan = 0;
-  num vehicleLoan = 0;
-  num educationLoan = 0;
-  num personalLoan = 0;
-  num otherLoan = 0;
-  num mortgageLoan = 0;
+  int housingLoan = 0;
+  int vehicleLoan = 0;
+  int educationLoan = 0;
+  int personalLoan = 0;
+  int otherLoan = 0;
+  int mortgageLoan = 0;
 
   // Insurance
-  num healthInsurance = 0;
-  num vehicleInsurance = 0;
-  num termInsurance = 0;
-  num traditionalInsurance = 0;
-  num otherInsurance = 0;
-  num uLIP = 0;
+  int healthInsurance = 0;
+  int vehicleInsurance = 0;
+  int termInsurance = 0;
+  int traditionalInsurance = 0;
+  int otherInsurance = 0;
+  int uLIP = 0;
 
   // Assets
-  num gold = 0;
-  num cash = 0;
-  num realEstate = 0;
-  num vehicle = 0;
-  num otherAsset = 0;
-  num fixedDeposite = 0;
+  int gold = 0;
+  int cash = 0;
+  int realEstate = 0;
+  int vehicle = 0;
+  int otherAsset = 0;
+  int fixedDeposite = 0;
 //
 
-  num emergencyFunds = 0;
-  num pPF = 0;
-  num savingAccount = 0;
-  num guided = 0;
-  num unguided = 0;
-  num totalMonthlyEmi = 0;
-  num totalInsurancePremiumYearly = 0;
-  num childrenEducationYearly = 0;
-  num otherExpenseYearly = 0;
-  num debenture = 0;
-  num pMS = 0;
+  int emergencyFunds = 0;
+  int pPF = 0;
+  int savingAccount = 0;
+  int guided = 0;
+  int unguided = 0;
+  int totalMonthlyEmi = 0;
+  int totalInsurancePremiumYearly = 0;
+  int childrenEducationYearly = 0;
+  int otherExpenseYearly = 0;
+  int debenture = 0;
+  int pMS = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +185,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                 leadingWidth: 15.w,
                 leading: IconButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Preference.setWealthScore(ApiUser.wealthMeterScore);
+                      Navigator.of(context).pop(true);
                     },
                     icon: Image.asset(icBack, color: colorRed, width: 6.w)),
                 titleSpacing: 0,
@@ -331,12 +368,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                           'INVESTMENTS',
                                           icStocks,
                                           'Stocks',
-                                          num.parse(
-                                              stocksValue.toStringAsFixed(0)),
+                                          stocksValue,
                                           icMutualFunds,
                                           'Mutual Funds',
-                                          num.parse(mutualFundsValue
-                                              .toStringAsFixed(0)),
+                                          mutualFundsValue,
                                           icSIP,
                                           'SIPMonthly',
                                           sIPMonthly,
@@ -531,22 +566,22 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       String mainTitle,
       String icon1,
       String text1,
-      num value1,
+      int value1,
       String icon2,
       String text2,
-      num value2,
+      int value2,
       String icon3,
       String text3,
-      num value3,
+      int value3,
       String icon4,
       String text4,
-      num value4,
+      int value4,
       String icon5,
       String text5,
-      num value5,
+      int value5,
       String icon6,
       String text6,
-      num value6,
+      int value6,
       Color bgColor,
       Function() onOpen) {
     return Container(
@@ -560,10 +595,11 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                 i < state.investmentPortfolio.mFStocks.length;
                 i++) {
               if (state.investmentPortfolio.mFStocks[i].unit.toInt() != 0) {
-                mutualFundsValue +=
-                    ((state.investmentPortfolio.mFStocks[i].investment_Unit -
+                mutualFundsValue += ((state.investmentPortfolio.mFStocks[i]
+                                .investment_Unit -
                             state.investmentPortfolio.mFStocks[i].sale_Unit) *
-                        state.investmentPortfolio.mFStocks[i].nav);
+                        state.investmentPortfolio.mFStocks[i].nav)
+                    .toInt();
               }
             }
             setState(() {});
@@ -579,7 +615,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                   i++) {
                 stocksValue +=
                     ((state.stockInvestmentPortfolio.stocks[i].balanceQty) *
-                        state.stockInvestmentPortfolio.stocks[i].rate);
+                            state.stockInvestmentPortfolio.stocks[i].rate)
+                        .toInt();
               }
               setState(() {});
             }
@@ -603,7 +640,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                             isSelect
                                 ? Icons.keyboard_arrow_up_rounded
                                 : Icons.keyboard_arrow_down_outlined,
-                            size: 2.5.h,
+                            size: 2.7.h,
                             color: colorBlack,
                           )),
                     )
@@ -758,65 +795,119 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   SizedBox(
                                     height: 2.h,
                                   ),
-                                  cTextFormField('Enter $lable', (value) {
+                                  cTextFormField('Enter $lable', (value) async {
+                                    final pref =
+                                        await SharedPreferences.getInstance();
+
                                     if (lable == 'SIPMonthly') {
-                                      sIPMonthly = num.parse(value);
+                                      sIPMonthly = int.parse(value);
+                                      await pref.setInt(
+                                          'sIPMonthly', sIPMonthly);
                                     } else if (lable == 'PPFMonthly') {
-                                      pPFMonthly = num.parse(value);
+                                      pPFMonthly = int.parse(value);
+                                      await pref.setInt(
+                                          'pPFMonthly', pPFMonthly);
                                     } else if (lable == 'PostOfficeOrVikas..') {
-                                      postOfficeOrVikasPatra = num.parse(value);
+                                      postOfficeOrVikasPatra = int.parse(value);
+                                      await pref.setInt(
+                                          'postOfficeOrVikasPatra',
+                                          postOfficeOrVikasPatra);
                                     } else if (lable == 'PrivateInvestment..') {
                                       privateInvestmentScheme =
-                                          num.parse(value);
+                                          int.parse(value);
+                                      await pref.setInt(
+                                          'privateInvestmentScheme',
+                                          privateInvestmentScheme);
                                     } else if (lable == 'Business') {
-                                      business = num.parse(value);
+                                      business = int.parse(value);
+                                      await pref.setInt('business', business);
                                     } else if (lable == 'Salary') {
-                                      salary = num.parse(value);
+                                      salary = int.parse(value);
+                                      await pref.setInt('salary', salary);
                                     } else if (lable == 'Professional') {
-                                      professional = num.parse(value);
+                                      professional = int.parse(value);
+                                      await pref.setInt(
+                                          'professional', professional);
                                     } else if (lable == 'SpouseIncome') {
-                                      spouseIncome = num.parse(value);
+                                      spouseIncome = int.parse(value);
+                                      await pref.setInt(
+                                          'spouseIncome', spouseIncome);
                                     } else if (lable == 'OtherIncome') {
-                                      otherIncome = num.parse(value);
+                                      otherIncome = int.parse(value);
+                                      await pref.setInt(
+                                          'otherIncome', otherIncome);
                                     } else if (lable == 'HouseHoldMonthly') {
-                                      houseHoldMonthly = num.parse(value);
+                                      houseHoldMonthly = int.parse(value);
+                                      await pref.setInt(
+                                          'houseHoldMonthly', houseHoldMonthly);
                                     } else if (lable == 'HousingLoan') {
-                                      housingLoan = num.parse(value);
+                                      housingLoan = int.parse(value);
+                                      await pref.setInt(
+                                          'housingLoan', housingLoan);
                                     } else if (lable == 'VehicleLoan') {
-                                      vehicleLoan = num.parse(value);
+                                      vehicleLoan = int.parse(value);
+                                      await pref.setInt(
+                                          'vehicleLoan', vehicleLoan);
                                     } else if (lable == 'EducationLoan') {
-                                      educationLoan = num.parse(value);
+                                      educationLoan = int.parse(value);
+                                      await pref.setInt(
+                                          'educationLoan', educationLoan);
                                     } else if (lable == 'PersonalLoan') {
-                                      personalLoan = num.parse(value);
+                                      personalLoan = int.parse(value);
+                                      await pref.setInt(
+                                          'personalLoan', personalLoan);
                                     } else if (lable == 'OtherLoan') {
-                                      otherLoan = num.parse(value);
+                                      otherLoan = int.parse(value);
+                                      await pref.setInt('otherLoan', otherLoan);
                                     } else if (lable == 'MortgageLoan') {
-                                      mortgageLoan = num.parse(value);
+                                      mortgageLoan = int.parse(value);
+                                      await pref.setInt(
+                                          'mortgageLoan', mortgageLoan);
                                     } else if (lable == 'HealthInsurance') {
-                                      healthInsurance = num.parse(value);
+                                      healthInsurance = int.parse(value);
+                                      await pref.setInt(
+                                          'healthInsurance', healthInsurance);
                                     } else if (lable == 'VehicleInsurance') {
-                                      vehicleInsurance = num.parse(value);
+                                      vehicleInsurance = int.parse(value);
+                                      await pref.setInt(
+                                          'vehicleInsurance', vehicleInsurance);
                                     } else if (lable == 'TermInsurance') {
-                                      termInsurance = num.parse(value);
+                                      termInsurance = int.parse(value);
+                                      await pref.setInt(
+                                          'termInsurance', termInsurance);
                                     } else if (lable ==
                                         'TraditionalInsurance') {
-                                      traditionalInsurance = num.parse(value);
+                                      traditionalInsurance = int.parse(value);
+                                      await pref.setInt('traditionalInsurance',
+                                          traditionalInsurance);
                                     } else if (lable == 'OtherInsurance') {
-                                      otherInsurance = num.parse(value);
+                                      otherInsurance = int.parse(value);
+                                      await pref.setInt(
+                                          'otherInsurance', otherInsurance);
                                     } else if (lable == 'ULIP') {
-                                      uLIP = num.parse(value);
+                                      uLIP = int.parse(value);
+                                      await pref.setInt('uLIP', uLIP);
                                     } else if (lable == 'Gold') {
-                                      gold = num.parse(value);
+                                      gold = int.parse(value);
+                                      await pref.setInt('gold', gold);
                                     } else if (lable == 'Cash') {
-                                      cash = num.parse(value);
+                                      cash = int.parse(value);
+                                      await pref.setInt('cash', cash);
                                     } else if (lable == 'RealEstate') {
-                                      realEstate = num.parse(value);
+                                      realEstate = int.parse(value);
+                                      await pref.setInt(
+                                          'realEstate', realEstate);
                                     } else if (lable == 'OtherAsset') {
-                                      otherAsset = num.parse(value);
+                                      otherAsset = int.parse(value);
+                                      await pref.setInt(
+                                          'otherAsset', otherAsset);
                                     } else if (lable == 'Vehicle') {
-                                      vehicle = num.parse(value);
+                                      vehicle = int.parse(value);
+                                      await pref.setInt('vehicle', vehicle);
                                     } else if (lable == 'FixedDeposite') {
-                                      fixedDeposite = num.parse(value);
+                                      fixedDeposite = int.parse(value);
+                                      await pref.setInt(
+                                          'fixedDeposite', fixedDeposite);
                                     }
                                   }),
                                   SizedBox(
@@ -928,7 +1019,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
   iconTextValue(String icon, Color bgColor, String text, String value,
       Function() onClick) {
-    return text == 'Home'
+    return text == 'Business'
         ? Showcase(
             key: showGlobalKey,
             description: 'Press here to calculate score',
@@ -943,20 +1034,16 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                     CircleAvatar(
                       radius: 2.5.h,
                       backgroundColor: bgColor,
-                      child: Image.asset(icon,
-                          color: colorWhite,
-                          height: icon == icStocksInvestment
-                              ? 2.5.h
-                              : icon == icFactory
-                                  ? 4.h
-                                  : 2.2.h),
+                      child: Image.asset(icon, height: 3.5.h),
                     ),
                     SizedBox(width: 2.w),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(text, style: textStyle9(colorText3D3D)),
+                        Text(text,
+                            overflow: TextOverflow.fade,
+                            style: textStyle9(colorText3D3D)),
                         SizedBox(height: 0.5.h),
                         Text('₹ ${CommonFunction().splitString(value)}/-',
                             style: textStyle13Bold(colorBlack))
@@ -1026,7 +1113,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
   void wealthMeter() {
     BlocProvider.of<WealthMeterBloc>(context).add(WealthMeterDataEvent(
-        userId: num.parse(ApiUser.userId),
+        userId: int.parse(ApiUser.userId),
         name: ApiUser.userName,
         dob: userDoB,
         age: userAge,
@@ -1047,13 +1134,13 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         cash: cash,
         emergencyFunds: 300000,
         otherAsset: otherAsset,
-        mutualFunds: mutualFundsValue.toInt(),
+        mutualFunds: mutualFundsValue,
         pPF: 0,
         sIPMonthly: sIPMonthly,
         pPFMonthly: pPFMonthly,
         debenture: 0,
         fixedDeposite: 0,
-        stockPortfolio: stocksValue.toInt(),
+        stockPortfolio: stocksValue,
         guided: 0,
         unguided: 0,
         postOfficeOrVikasPatra: postOfficeOrVikasPatra,

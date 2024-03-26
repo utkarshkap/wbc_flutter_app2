@@ -2,9 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/blocs/order/order_bloc.dart';
-
 import '../../common_functions.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
@@ -135,7 +133,8 @@ class _OrderHistoryState extends State<OrderHistory> {
                                               color: colorWhite,
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: colorTextBCBC.withOpacity(0.3),
+                                                    color: colorTextBCBC
+                                                        .withOpacity(0.3),
                                                     blurRadius: 8,
                                                     offset: const Offset(0, 6))
                                               ]),
@@ -168,7 +167,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                                 horizontal:
                                                                     2.5.w),
                                                         child: Text(
-                                                            state.data.orders[index].status
+                                                            state
+                                                                    .data
+                                                                    .orders[
+                                                                        index]
+                                                                    .status
                                                                 ? 'Delivered'
                                                                 : 'Pending',
                                                             style:
@@ -195,27 +198,44 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                 ),
                                                 SizedBox(height: 2.h),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Expanded(child: Text('Transaction.ID', style: textStyle11(colorText7070))),
-                                                    Text('Delivered to', style: textStyle11(colorText7070)),
+                                                    Expanded(
+                                                        child: Text(
+                                                            'Transaction.ID',
+                                                            style: textStyle11(
+                                                                colorText7070))),
+                                                    Text('Delivered to',
+                                                        style: textStyle11(
+                                                            colorText7070)),
                                                   ],
                                                 ),
                                                 SizedBox(
                                                   height: 1.h,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Expanded(child:
+                                                    Expanded(
+                                                        child: Text(
+                                                            '#${state.data.orders[index].trackingNumber}',
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                textStyle10Bold(
+                                                                    colorBlack))),
                                                     Text(
-                                                        '#${state.data.orders[index].trackingNumber}',
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: textStyle10Bold(colorBlack))),
-                                                    Text(
-                                                        state.data.orders[index].deliveryType,
-                                                        style: textStyle10Bold(colorBlack)),                                                  ],
+                                                        state.data.orders[index]
+                                                            .deliveryType,
+                                                        style: textStyle10Bold(
+                                                            colorBlack)),
+                                                  ],
                                                 ),
                                               ],
                                             ),

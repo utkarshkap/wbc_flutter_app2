@@ -109,21 +109,22 @@ class _StocksReviewState extends State<StocksReview> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 1.h),
-              dropDownWidget('Stock Investment', selectedStocks, isStocksFieldTap, () {
-                    setState(() {
-                      isStocksFieldTap = true;
-                      uploadEventTap = false;
-                    });
-                    CommonFunction().selectFormDialog(
-                        context, 'Select Repository', stocksType, (val) {
-                      setState(() {
-                        selectedStocks = val;
-                        isStocksFieldTap = false;
-                        uploadEventTap = true;
-                      });
-                      Navigator.of(context).pop();
-                    });
-                  }),
+              dropDownWidget(
+                  'Stock Investment', selectedStocks, isStocksFieldTap, () {
+                setState(() {
+                  isStocksFieldTap = true;
+                  uploadEventTap = false;
+                });
+                CommonFunction().selectFormDialog(
+                    context, 'Select Repository', stocksType, (val) {
+                  setState(() {
+                    selectedStocks = val;
+                    isStocksFieldTap = false;
+                    uploadEventTap = true;
+                  });
+                  Navigator.of(context).pop();
+                });
+              }),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 1.h),
                 child: Container(
@@ -131,37 +132,37 @@ class _StocksReviewState extends State<StocksReview> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 23.h, width: 90.w,
+                        height: 23.h,
+                        width: 90.w,
                         child: ClipRRect(
-                          borderRadius:
-                          const BorderRadius.vertical(
+                          borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10)),
                           child: YoutubeVideoPlayer(
-                            key: ObjectKey(selectedStocks=='NSDL'?'gBX8Y9CHjfM':'cbvKi81qZNw'),
+                            key: ObjectKey(selectedStocks == 'NSDL'
+                                ? 'gBX8Y9CHjfM'
+                                : 'cbvKi81qZNw'),
                             controller: YoutubePlayerController(
-                                initialVideoId: selectedStocks=='NSDL'?'gBX8Y9CHjfM':'cbvKi81qZNw',
+                                initialVideoId: selectedStocks == 'NSDL'
+                                    ? 'gBX8Y9CHjfM'
+                                    : 'cbvKi81qZNw',
                                 flags: const YoutubePlayerFlags(
                                     autoPlay: false,
                                     enableCaption: false,
-                                    showLiveFullscreenButton:
-                                    false)),
+                                    showLiveFullscreenButton: false)),
                             bufferIndicator: SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                CircularProgressIndicator(
-                                    color: colorRed,
-                                    strokeWidth: 0.7.w)),
+                                child: CircularProgressIndicator(
+                                    color: colorRed, strokeWidth: 0.7.w)),
                             bottomActions: [
                               CurrentPosition(),
                               SizedBox(width: 2.w),
                               ProgressBar(
                                   isExpanded: true,
                                   colors: ProgressBarColors(
-                                      backgroundColor:
-                                      colorWhite,
-                                      bufferedColor: colorRed
-                                          .withOpacity(0.5))),
+                                      backgroundColor: colorWhite,
+                                      bufferedColor:
+                                          colorRed.withOpacity(0.5))),
                               SizedBox(width: 2.w),
                               RemainingDuration(),
                             ],
@@ -180,8 +181,7 @@ class _StocksReviewState extends State<StocksReview> {
                                 onTap: () {},
                                 child: Text('View more',
                                     style: textStyle9(colorRed).copyWith(
-                                        decoration:
-                                            TextDecoration.underline)))
+                                        decoration: TextDecoration.underline)))
                           ],
                         ),
                       )
@@ -218,8 +218,7 @@ class _StocksReviewState extends State<StocksReview> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(fileName,
-                              style: textStyle11Bold(colorText7070)),
+                          Text(fileName, style: textStyle11Bold(colorText7070)),
                           uploadFile == null
                               ? Image.asset(icUpload,
                                   color: colorRed, width: 5.w)
@@ -236,15 +235,15 @@ class _StocksReviewState extends State<StocksReview> {
                                   icon: const Icon(
                                     Icons.close,
                                     color: colorRed,
-                                  )
-                          ),
+                                  )),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              if (fileValidation.isNotEmpty) SizedBox(
+              if (fileValidation.isNotEmpty)
+                SizedBox(
                   height: 0.5.h,
                 ),
               Align(
@@ -255,8 +254,7 @@ class _StocksReviewState extends State<StocksReview> {
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Icon(Icons.error,
-                                color: colorRed, size: 13),
+                            const Icon(Icons.error, color: colorRed, size: 13),
                             const SizedBox(width: 4),
                             Container(
                               height: 2.h,
@@ -290,7 +288,8 @@ class _StocksReviewState extends State<StocksReview> {
               }),
               SizedBox(height: 2.h),
               button(icCheckReview, 'Check Review Report', () {
-                BlocProvider.of<ReviewBloc>(context).add(LoadReviewHistoryEvent(mobNo: mobileNo));
+                BlocProvider.of<ReviewBloc>(context)
+                    .add(LoadReviewHistoryEvent(mobNo: mobileNo));
                 Navigator.of(context).pushNamed(ReviewHistory.route);
               }),
               SizedBox(height: 2.h),
@@ -327,45 +326,49 @@ class _StocksReviewState extends State<StocksReview> {
         width: 90.w,
         decoration: BoxDecoration(
             color: text == 'Send For Review'
-                ? colorRed : colorRed.withOpacity(0.17),
+                ? colorRed
+                : colorRed.withOpacity(0.17),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              if (text =='Send For Review')
+              if (text == 'Send For Review')
                 BoxShadow(
                     offset: const Offset(0, 3),
                     blurRadius: 6,
                     color: colorRed.withOpacity(0.3))
             ]),
         alignment: Alignment.center,
-        child: text == 'Send For Review' ? isSend ? SizedBox(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(
-                color: colorWhite,
-                strokeWidth: 0.6.w)) : Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(icon, width: 4.w),
-            SizedBox(width: 2.5.w),
-            Text(text,
-                style: textStyle13Bold(colorWhite)),
-          ],
-        )  :Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(icon, width: text == "Connect Your Brokers" ? 5.5.w : 4.w),
-            SizedBox(width: 2.5.w),
-            Text(text,
-                style: textStyle13Bold(colorRed)),
-          ],
-        ),
+        child: text == 'Send For Review'
+            ? isSend
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                        color: colorWhite, strokeWidth: 0.6.w))
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(icon, width: 4.w),
+                      SizedBox(width: 2.5.w),
+                      Text(text, style: textStyle13Bold(colorWhite)),
+                    ],
+                  )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(icon,
+                      width: text == "Connect Your Brokers" ? 5.5.w : 4.w),
+                  SizedBox(width: 2.5.w),
+                  Text(text, style: textStyle13Bold(colorRed)),
+                ],
+              ),
       ),
     );
   }
 
-  dropDownWidget(String title, String selectedType, bool isSelectedField, Function() onClick) {
+  dropDownWidget(String title, String selectedType, bool isSelectedField,
+      Function() onClick) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: InkWell(

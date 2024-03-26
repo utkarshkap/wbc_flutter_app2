@@ -14,22 +14,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<LoadAddCartEvent>((event, emit) async {
       emit(CartAddInitial());
       try {
-        if(cartItemList.isNotEmpty){
+        if (cartItemList.isNotEmpty) {
           bool isContain = false;
           int productIndex = 0;
-          for(int i=0;i<cartItemList.length;i++){
-            print('--x=x--add--${cartItemList[i].id}-----${event.cartItem.id}----${cartItemList[i].id == event.cartItem.id}');
-            if(cartItemList[i].id == event.cartItem.id){
+          for (int i = 0; i < cartItemList.length; i++) {
+            print(
+                '--x=x--add--${cartItemList[i].id}-----${event.cartItem.id}----${cartItemList[i].id == event.cartItem.id}');
+            if (cartItemList[i].id == event.cartItem.id) {
               print('-----is-contain-item');
               isContain = true;
               productIndex = i;
               break;
-            }else{
+            } else {
               print('-----is-not-contain-item---=add=---${event.cartItem}');
               isContain = false;
             }
           }
-          if(isContain){
+          if (isContain) {
             await helper.updateCartData(CartItem(
                 id: event.cartItem.id,
                 categoryId: event.cartItem.categoryId,
@@ -53,7 +54,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                     price: event.cartItem.price,
                     discount: event.cartItem.discount,
                     quantity: event.cartItem.quantity + 1));
-          }else{
+          } else {
             await helper.insertCartData(event.cartItem);
             cartItemList.add(event.cartItem);
           }
@@ -74,8 +75,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       try {
         print('-=-------cart-remove---${event.id}');
         await helper.deleteCartData(event.id);
-        cartItemList.remove(cartItemList
-            .firstWhere((element) => element.id == event.id));
+        cartItemList.remove(
+            cartItemList.firstWhere((element) => element.id == event.id));
         print('----cartList--remove----$cartItemList');
         emit(CartRemoveLoadedState(cartItemList));
       } catch (e) {
@@ -87,24 +88,25 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(CartSingleRemoveInitial());
       try {
         print('-=-------cart-single---${event.cartItem}');
-        if(cartItemList.isNotEmpty){
+        if (cartItemList.isNotEmpty) {
           bool isMoreThanOne = false;
           int productIndex = 0;
-          for(int i=0;i<cartItemList.length;i++){
-            print('--x=x--remove--${cartItemList[i].id}-----${event.cartItem.id}----${cartItemList[i].id == event.cartItem.id}');
-            if(cartItemList[i].id == event.cartItem.id){
+          for (int i = 0; i < cartItemList.length; i++) {
+            print(
+                '--x=x--remove--${cartItemList[i].id}-----${event.cartItem.id}----${cartItemList[i].id == event.cartItem.id}');
+            if (cartItemList[i].id == event.cartItem.id) {
               print('-----is-contain-item');
-              if(cartItemList[i].quantity>1) {
+              if (cartItemList[i].quantity > 1) {
                 isMoreThanOne = true;
                 productIndex = i;
               }
               break;
-            }else{
+            } else {
               print('-----is-not-contain-item---=remove=---${event.cartItem}');
               isMoreThanOne = false;
             }
           }
-          if(isMoreThanOne){
+          if (isMoreThanOne) {
             await helper.updateCartData(CartItem(
                 id: event.cartItem.id,
                 categoryId: event.cartItem.categoryId,
@@ -127,7 +129,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                     price: event.cartItem.price,
                     discount: event.cartItem.discount,
                     quantity: event.cartItem.quantity - 1));
-          }else{
+          } else {
             await helper.deleteCartData(event.cartItem.id);
             cartItemList.remove(cartItemList
                 .firstWhere((element) => element.id == event.cartItem.id));

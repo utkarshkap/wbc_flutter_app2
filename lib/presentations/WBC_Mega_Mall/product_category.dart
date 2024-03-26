@@ -65,12 +65,10 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                   LoadProductCategoryEvent(
                       productCategory: ProductCategory(
                           code: 0, message: '', categories: [])));
-              BlocProvider.of<MallBloc>(context).add(
-                  LoadMallDataEvent(
-                      popular: Popular(code: 0, message: '', products: []),
-                      newArrival: NewArrival(code: 0, message: '', products: []),
-                      trending:
-                      Trending(code: 0, message: '', products: [])));
+              BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+                  popular: Popular(code: 0, message: '', products: []),
+                  newArrival: NewArrival(code: 0, message: '', products: []),
+                  trending: Trending(code: 0, message: '', products: [])));
             },
             icon: Image.asset(icBack, color: colorRed, width: 6.w)),
         titleSpacing: 0,
@@ -125,22 +123,20 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
         ],
       ),
       body: WillPopScope(
-        onWillPop: ()async{
+        onWillPop: () async {
           Navigator.of(context).pushReplacementNamed(WbcMegaMall.route);
           BlocProvider.of<FetchingDataBloc>(context).add(
               LoadProductCategoryEvent(
-                  productCategory: ProductCategory(
-                      code: 0, message: '', categories: [])));
-          BlocProvider.of<MallBloc>(context).add(
-              LoadMallDataEvent(
-                  popular: Popular(code: 0, message: '', products: []),
-                  newArrival: NewArrival(code: 0, message: '', products: []),
-                  trending:
-                  Trending(code: 0, message: '', products: [])));
+                  productCategory:
+                      ProductCategory(code: 0, message: '', categories: [])));
+          BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+              popular: Popular(code: 0, message: '', products: []),
+              newArrival: NewArrival(code: 0, message: '', products: []),
+              trending: Trending(code: 0, message: '', products: [])));
           return false;
         },
         child: GridView.builder(
-            padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
@@ -151,62 +147,60 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
               return widget.category.categories[index].imgPath.isEmpty
                   ? Container()
                   : GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                        ExpandCategory.route,
-                        arguments: ExpandCategoryData(
-                            categoryId:
-                            widget.category.categories[index].id,
-                            categoryName:
-                            widget.category.categories[index].name, isFromMall: false));
-                    BlocProvider.of<FetchingDataBloc>(context).add(
-                        LoadExpandedCategoryEvent(
-                            id: widget.category.categories[index].id,
-                            expandedCategory: ExpandedCategory(
-                                code: 0, message: '', productList: [])));
-                  },
-                  child: Container(
-                    height: 125,
-                    width: 21.8.w,
-                    decoration: decoration(colorECEC),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.h),
-                          child: SizedBox(
-                              height: 60,
-                              width: 25.w,
-                              child: Image.network(
-                                imgBaseUrl +
-                                    widget.category.categories[index]
-                                        .imgPath,
-                                fit: BoxFit.contain,
-                              )),
-                        ),
-                        Text(widget.category.categories[index].name,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: textStyle8(colorBlack).copyWith(
-                                fontWeight: FontWeight.w600,
-                                height: 1.2)),
-                        SizedBox(height: 1.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ExpandCategory.route,
+                            arguments: ExpandCategoryData(
+                                categoryId:
+                                    widget.category.categories[index].id,
+                                categoryName:
+                                    widget.category.categories[index].name,
+                                isFromMall: false));
+                        BlocProvider.of<FetchingDataBloc>(context).add(
+                            LoadExpandedCategoryEvent(
+                                id: widget.category.categories[index].id,
+                                expandedCategory: ExpandedCategory(
+                                    code: 0, message: '', productList: [])));
+                      },
+                      child: Container(
+                        height: 125,
+                        width: 21.8.w,
+                        decoration: decoration(colorECEC),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('300',
-                                style: textStyle6Medium(colorRed)),
-                            Text('+', style: textStyle8Medium(colorRed)),
-                            Text(' Items',
-                                style: textStyle6Medium(colorRed)),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 1.h),
+                              child: SizedBox(
+                                  height: 60,
+                                  width: 25.w,
+                                  child: Image.network(
+                                    imgBaseUrl +
+                                        widget
+                                            .category.categories[index].imgPath,
+                                    fit: BoxFit.contain,
+                                  )),
+                            ),
+                            Text(widget.category.categories[index].name,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyle8(colorBlack).copyWith(
+                                    fontWeight: FontWeight.w600, height: 1.2)),
+                            SizedBox(height: 1.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('300', style: textStyle6Medium(colorRed)),
+                                Text('+', style: textStyle8Medium(colorRed)),
+                                Text(' Items',
+                                    style: textStyle6Medium(colorRed)),
+                              ],
+                            ),
+                            SizedBox(height: 1.h),
                           ],
                         ),
-                        SizedBox(height: 1.h),
-                      ],
-                    ),
-                  ));
+                      ));
             }),
       ),
     );

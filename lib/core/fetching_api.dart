@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
 import 'dart:developer';
@@ -195,14 +195,8 @@ class FetchingApi {
 
   Future<InvestmentTransaction> getMFTransaction(
       String userid, String folioNo, String schemeName) async {
-    print('--getMFTransaction----URL---' +
-        mfTransactionUrl +
-        userid +
-        "&FolioNo=" +
-        folioNo +
-        "&schemename=" +
-        Uri.encodeComponent(schemeName));
-
+    print(
+        '--getMFTransaction----URL--- $mfTransactionUrl$userid&FolioNo=$folioNo&schemename=${Uri.encodeComponent(schemeName)}');
     final response = await http.get(Uri.parse(
         "$mfTransactionUrl$userid&FolioNo='$folioNo'&schemename='${Uri.encodeComponent(schemeName)}'"));
     if (response.statusCode == 200) {
@@ -452,7 +446,7 @@ class FetchingApi {
     String inputString = date + '{}' + iCICISecretKey;
     String checksum = sha256.convert(utf8.encode(inputString)).toString();
 
-    print("checksum:::::${checksum}");
+    print("checksum:::::$checksum");
     return checksum;
   }
 

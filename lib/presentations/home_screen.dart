@@ -172,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
       fastTrackStatus = await Preference.getFastTrackStatus();
     }
     print("fastTrackStatus-->$fastTrackStatus");
+    ApiUser.wealthMeterScore = await Preference.getWealthScore() ?? 50.0;
   }
 
   getCheckUserLog() async {
@@ -223,7 +224,14 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(width: 5.w)
           ],
         ),
-        drawer: const MainDrawer(),
+        drawer: MainDrawer(reLoadHomePage: () async {
+          Navigator.of(context).pop();
+          final reLoadPage =
+              await Navigator.of(context).pushNamed(WealthMeterScreen.route);
+          if (reLoadPage == true) {
+            setState(() {});
+          }
+        }),
         body: BlocConsumer<DashboardBloc, DashboardState>(
           listener: (context, state) {
             print('state=====$state');
@@ -1219,9 +1227,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         SizedBox(height: 3.h),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
+                          onTap: () async {
+                            final reLoadPage = await Navigator.of(context)
                                 .pushNamed(WealthMeterScreen.route);
+                            if (reLoadPage == true) {
+                              setState(() {});
+                            }
                           },
                           child: Stack(
                             clipBehavior: Clip.none,

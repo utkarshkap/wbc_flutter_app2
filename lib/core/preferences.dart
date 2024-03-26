@@ -120,6 +120,15 @@ class Preference {
     return pref.getString(_countryCode) ?? "";
   }
 
+  static setWealthScore(double score) async {
+    final pref = await SharedPreferences.getInstance();
+    return await pref.setDouble('WealthScore', score);
+  }
+
+  static getWealthScore() async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.getDouble('WealthScore');
+  }
 // Rate us preference
 // static Future<bool> setRateUs(bool rateUs) async {
 //   final pref = await SharedPreferences.getInstance();

@@ -6,14 +6,12 @@ import 'package:wbc_connect_app/presentations/Review/track_investments.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 import '../../blocs/MFInvestments/mf_investments_bloc.dart';
 import '../../blocs/MFTransaction/mf_transaction_bloc.dart';
-import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../common_functions.dart';
 import '../../core/api/api_consts.dart';
 import '../../core/preferences.dart';
 import '../../models/dashboard.dart';
 import '../../models/investment_portfolio_model.dart';
 import '../../models/investment_transaction_model.dart';
-import '../../resources/colors.dart';
 import '../../widgets/appbarButton.dart';
 import 'mutual_funds_transaction.dart';
 
@@ -242,7 +240,6 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                                // '₹ ${CommonFunction().splitString(state.investmentPortfolio.portfolio.toInt().toString())}/-',
                                                 '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(0))}',
                                                 style: textStyle22(colorWhite)
                                                     .copyWith(height: 1.2)),
@@ -253,25 +250,6 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                         ),
                                       ],
                                     ),
-
-                                    // Column(
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.end,
-                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                    //   children: [
-                                    //     const SizedBox(height: 5),
-                                    //     popupButton(
-                                    //         false,
-                                    //         selectedType,
-                                    //         List.generate(
-                                    //             types.length,
-                                    //             (i) => menuItem(types[i], () {
-                                    //                   setState(() {
-                                    //                     selectedType = types[i];
-                                    //                   });
-                                    //                 }))),
-                                    //   ],
-                                    // )
                                   ],
                                 ),
                               ),
@@ -305,10 +283,6 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(left: 2.5.w),
-                                        // padding: EdgeInsets.only(
-                                        //   left: 5.w,
-                                        // ),
-                                        // color: Colors.red,
                                         height: 4.h,
                                         width: 50.w,
                                         child: ListView.builder(
@@ -386,43 +360,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                     ],
                                   ),
                                 ),
-
                               SizedBox(height: 3.h),
-                              // Padding(
-                              //   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              //   child: Row(
-                              //     mainAxisAlignment:
-                              //         MainAxisAlignment.spaceBetween,
-                              //     children: [
-                              //       showValue(
-                              //         icStocksInvestment,
-                              //         color47D1,
-                              //         'MMF-Investment',
-                              //         // totalInvestments.toStringAsFixed(2)
-                              //         CommonFunction().splitString(
-                              //             totalInvestments.toStringAsFixed(0)),
-                              //         // CommonFunction().splitString(state.investmentPortfolio.investment.toInt().toString())
-                              //       ),
-                              //       /*showValue(
-                              //           icStocksInvestment,
-                              //           colorFB83,
-                              //           'Gain/Loss',
-                              //           CommonFunction().splitString(state.investmentPortfolio.gain.toInt().isNegative
-                              //               ? (-state.investmentPortfolio.gain.toInt()).toString()
-                              //               : state.investmentPortfolio.gain.toInt().toString())),*/
-                              //       popupButton(
-                              //           false,
-                              //           selectedType,
-                              //           List.generate(
-                              //               types.length,
-                              //               (i) => menuItem(types[i], () {
-                              //                     setState(() {
-                              //                       selectedType = types[i];
-                              //                     });
-                              //                   }))),
-                              //     ],
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -514,8 +452,6 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                 state.investmentPortfolio
                                                     .mFStocks[index].unit,
                                                 () => {
-                                                      // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
-
                                                       BlocProvider.of<
                                                                   MFTransactionBloc>(
                                                               context)
@@ -543,7 +479,6 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                                       message:
                                                                           '',
                                                                       mFStocks: []))),
-
                                                       Navigator.of(context)
                                                           .pushNamed(
                                                               MutualFundsTransaction
@@ -562,94 +497,6 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                       : Container();
                                 }),
                           ),
-                          // ...List.generate(
-                          //     state.investmentPortfolio.mFStocks.length,
-                          //     (index) => state.investmentPortfolio
-                          //                 .mFStocks[index].unit
-                          //                 .toStringAsFixed(2)
-                          //                 .toString() !=
-                          //             "0.00"
-                          //         ? Column(
-                          //             children: [
-                          //               reviews(
-                          //                   state
-                          //                           .investmentPortfolio
-                          //                           .mFStocks[index]
-                          //                           .nav
-                          //                           .isNegative
-                          //                       ? icStocksInvestment
-                          //                       : icStocksInvestment,
-                          //                   state
-                          //                           .investmentPortfolio
-                          //                           .mFStocks[index]
-                          //                           .nav
-                          //                           .isNegative
-                          //                       ? colorFB83
-                          //                       : color47D1,
-                          //                   state.investmentPortfolio
-                          //                       .mFStocks[index].mFStockName,
-                          //                   state.investmentPortfolio
-                          //                       .mFStocks[index].nav
-                          //                       .toStringAsFixed(2),
-                          //                   ((state
-                          //                                   .investmentPortfolio
-                          //                                   .mFStocks[index]
-                          //                                   .investment_Unit -
-                          //                               state
-                          //                                   .investmentPortfolio
-                          //                                   .mFStocks[index]
-                          //                                   .sale_Unit) *
-                          //                           state.investmentPortfolio
-                          //                               .mFStocks[index].nav)
-                          //                       .toStringAsFixed(2),
-                          //                   state.investmentPortfolio
-                          //                       .mFStocks[index].unit,
-                          //                   () => {
-                          //                         // '${CommonFunction().splitString(state.investmentPortfolio.mFStocks[index].gainAmount.toInt().toString())} (${state.investmentPortfolio.mFStocks[index].unit.toInt()}%)',
-
-                          //                         BlocProvider.of<
-                          //                                     MFTransactionBloc>(
-                          //                                 context)
-                          //                             .add(LoadMFTransactionEvent(
-                          //                                 userId: selectedUserId ==
-                          //                                             '0' ||
-                          //                                         selectedUserId ==
-                          //                                             ''
-                          //                                     ? ApiUser.userId
-                          //                                     : selectedUserId,
-                          //                                 folioNo: state
-                          //                                     .investmentPortfolio
-                          //                                     .mFStocks[index]
-                          //                                     .folioNo,
-                          //                                 schemeName: state
-                          //                                     .investmentPortfolio
-                          //                                     .mFStocks[index]
-                          //                                     .mFStockName,
-                          //                                 investmentTransaction:
-                          //                                     InvestmentTransaction(
-                          //                                         code: 0,
-                          //                                         message: '',
-                          //                                         mFStocks: []))),
-
-                          //                         Navigator.of(context)
-                          //                             .pushNamed(
-                          //                                 MutualFundsTransaction
-                          //                                     .route)
-                          //                       }),
-                          //               if (index !=
-                          //                   state.investmentPortfolio.mFStocks
-                          //                           .length -
-                          //                       1)
-                          //                 Container(
-                          //                     height: 1,
-                          //                     color: colorTextBCBC
-                          //                         .withOpacity(0.36)),
-                          //             ],
-                          //           )
-                          //         : Container()),
-                          // SizedBox(
-                          //   height: 2.h,
-                          // ),
                           Expanded(
                             flex: 1,
                             child: Column(
@@ -660,7 +507,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                     color: colorTextBCBC.withOpacity(0.36)),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 3.w, vertical: 1.3.h),
+                                      horizontal: 3.w, vertical: 1.h),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -837,11 +684,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                 ),
               ),
               Expanded(
-                child:
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -868,30 +711,11 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                         ),
                         Text(CommonFunction().splitString(percentageVal),
                             style: textStyle9Bold(colorText7070)),
-                        // Align(
-                        //   alignment: Alignment.centerRight,
-                        //   child: Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     children: [
-                        //       Text(unitValue.toStringAsFixed(2),
-                        //           style: textStyle8Bold(colorText7070)),
-                        //       SizedBox(height: 0.7.h),
-                        //       Text(CommonFunction().splitString(percentageVal),
-                        //           style: textStyle8Bold(colorText7070)),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ],
                 ),
               ),
-              // const Spacer(),
-              /* Column(
-                children: [
-                  Text(percentageVal, style: textStyle8(colorText7070)),
-                ],
-              )*/
             ],
           ),
         ),

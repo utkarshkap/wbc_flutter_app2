@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import 'package:wbc_connect_app/blocs/bloc/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/blocs/dashboardbloc/dashboard_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
 import 'package:wbc_connect_app/blocs/insurancecalculator/insurance_calculator_bloc.dart';
 import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
+import 'package:wbc_connect_app/blocs/wealthMeter/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -32,7 +32,7 @@ void main() async {
   // runApp(
   //   DevicePreview(
   //     enabled: true,
-  //     tools: [
+  //     tools: const [
   //       ...DevicePreview.defaultTools,
   //       // const CustomPlugin(),
   //     ],
@@ -114,7 +114,6 @@ class MyApp extends StatelessWidget {
             primaryColor: colorRed,
             primarySwatch: Colors.red,
             primaryColorDark: Colors.red,
-            // accentColor: Colors.red,
             backgroundColor: Colors.white,
             textSelectionTheme: const TextSelectionThemeData(
                 cursorColor: colorRed,

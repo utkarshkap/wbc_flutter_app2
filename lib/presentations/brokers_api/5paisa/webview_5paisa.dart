@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/5paisa/view_5paisa_holdings.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 import '../../../blocs/fetchingData/fetching_data_bloc.dart';
@@ -72,7 +70,7 @@ class _Webview5PaisaState extends State<Webview5Paisa> {
                     print("requestToken--->" + requestToken);
 
                     Navigator.of(context)
-                        .pushReplacementNamed(View5PaisaHoldings.route);           
+                        .pushReplacementNamed(View5PaisaHoldings.route);
                     BlocProvider.of<FetchingDataBloc>(context)
                         .add(Load5PaisaAccessTokenEvent(
                       get5PaisaAccessToken: Get5PaisaAccessTokenModel(),

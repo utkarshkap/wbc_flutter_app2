@@ -9,7 +9,6 @@ import '../../core/preferences.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
 import '../profile_screen.dart';
-import 'history.dart';
 import 'my_MF.dart';
 
 class TrackInvestments extends StatefulWidget {
@@ -100,8 +99,7 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                 btnOkOnPress: () {},
                 btnOkColor: Colors.red,
               ).show();
-            }
-            else if (state is MFReviewDataAdded) {
+            } else if (state is MFReviewDataAdded) {
               Navigator.of(context).pushNamed(MFReviewScreen.route,
                   arguments: MFReviewScreenData(
                       panNumber: _panCardController.text, isSendReview: true));
@@ -183,7 +181,8 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                         child: emailValidation == 'Empty Email'
                             ? errorText('Please Enter a Email')
                             : emailValidation == 'Invalid Email'
-                            ? errorText('Invalid Email') : Container(),
+                                ? errorText('Invalid Email')
+                                : Container(),
                       ),
                     ),
                     Padding(
@@ -234,14 +233,15 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                     ),
                     const Spacer(),
                     button(icSendReview, 'Send For Review', () {
-
                       //Pan validation
                       if (_panCardController.text.isEmpty) {
                         setState(() {
                           panCardValidation = 'Empty PanCard';
                         });
-                      } else if (!RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}').hasMatch(_panCardController.text)) {
-                        print('--==-----panCard------${_panCardController.text}');
+                      } else if (!RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
+                          .hasMatch(_panCardController.text)) {
+                        print(
+                            '--==-----panCard------${_panCardController.text}');
                         setState(() {
                           panCardValidation = 'Invalid Pan Card';
                         });
@@ -256,12 +256,15 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                         setState(() {
                           emailValidation = 'Empty Email';
                         });
-                      }else if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(_emailController.text)) {
-                        print('--==-----email------${_emailController.text.length}');
+                      } else if (!RegExp(
+                              r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                          .hasMatch(_emailController.text)) {
+                        print(
+                            '--==-----email------${_emailController.text.length}');
                         setState(() {
                           emailValidation = 'Invalid Email';
                         });
-                      }  else {
+                      } else {
                         setState(() {
                           emailValidation = '';
                         });
@@ -270,9 +273,12 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                       setState(() {
                         isSend = true;
                       });
-                      if (_panCardController.text.isNotEmpty && _emailController.text.isNotEmpty
-                          && RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}').hasMatch(_panCardController.text)
-                          && RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(_emailController.text)) {
+                      if (_panCardController.text.isNotEmpty &&
+                          _emailController.text.isNotEmpty &&
+                          RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
+                              .hasMatch(_panCardController.text) &&
+                          RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                              .hasMatch(_emailController.text)) {
                         setState(() {
                           isSend = true;
                         });
@@ -294,8 +300,7 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                       Navigator.of(context).pushNamed(MFReviewScreen.route,
                           arguments: MFReviewScreenData(
                               panNumber: _panCardController.text,
-                              isSendReview: false)
-                      );
+                              isSendReview: false));
                     }),
                     SizedBox(height: 2.h)
                   ],

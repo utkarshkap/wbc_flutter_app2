@@ -61,9 +61,7 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
         for (var element in addContactResponse.contacts) {
           if (element.status == "Accepted") {
             if (element.nriRefferal == true &&
-                (element.country == '+91' || element.country == ''
-                // ||element.country.substring(0, 1) != '+'
-                )) {
+                (element.country == '+91' || element.country == '')) {
               count++;
             } else if (element.nriRefferal == false) {
               count++;

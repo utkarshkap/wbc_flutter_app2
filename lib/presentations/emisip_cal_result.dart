@@ -1,23 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../resources/resource.dart';
-import '../../thousandsSeparatorInputFormatter.dart';
 import '../../widgets/appbarButton.dart';
 import '../../blocs/emisipcalculator/emisip_calculator_bloc.dart';
 
 class EMISIPCalculatorResult extends StatefulWidget {
   static const route = '/EMISIP-Calculator-result';
 
+  const EMISIPCalculatorResult({super.key});
+
   @override
   State<EMISIPCalculatorResult> createState() => _EMISIPCalculatorResultState();
 }
 
 class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
-
   var formatter = NumberFormat('#,##,000');
 
   @override
@@ -25,7 +24,7 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        resizeToAvoidBottomInset  : true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: colorBG,
         appBar: AppBar(
           toolbarHeight: 8.h,
@@ -39,7 +38,8 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text('EMI SIP Calculator Result', style: textStyle14Bold(colorBlack)),
+          title: Text('EMI SIP Calculator Result',
+              style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -53,7 +53,7 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
         body: BlocConsumer<EMISIPCalculatorBloc, EMISIPCalculatorState>(
           listener: (context, state) {
             print('EMISIPCalculatorState-------$state');
-            if (state is EMISIPCalculatorFailed)   {
+            if (state is EMISIPCalculatorFailed) {
               AwesomeDialog(
                 btnCancelColor: colorRed,
                 padding: EdgeInsets.zero,
@@ -74,7 +74,6 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                   SizedBox(
                     height: 4.h,
                   ),
-
                   Table(
                     border: TableBorder.all(color: colorBG),
                     columnWidths: const <int, TableColumnWidth>{
@@ -101,30 +100,28 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                       0: FlexColumnWidth(1),
                     },
                     children: List<TableRow>.generate(
-                      1, (index) {
-                      return TableRow(
-                        decoration: const BoxDecoration(
-                            color: Colors.white
-                        ),
-                        children: [
-                          Container(
-                            height: 43,
-                            alignment: Alignment.center,
-                            child: Text(
-                                state.emiAmount.toString(),
-                                textAlign: TextAlign.left,
-                                style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                          ),
-                        ],
-                      );
-                    },
+                      1,
+                      (index) {
+                        return TableRow(
+                          decoration: const BoxDecoration(color: Colors.white),
+                          children: [
+                            Container(
+                              height: 43,
+                              alignment: Alignment.center,
+                              child: Text(state.emiAmount.toString(),
+                                  textAlign: TextAlign.left,
+                                  style: textStyle11Bold(colorRedFF6)
+                                      .copyWith(height: 1.2)),
+                            ),
+                          ],
+                        );
+                      },
                       growable: false,
                     ),
                   ),
                   SizedBox(
                     height: 1.h,
                   ),
-
                   Table(
                     border: TableBorder.all(color: colorBG),
                     columnWidths: const <int, TableColumnWidth>{
@@ -151,30 +148,28 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                       0: FlexColumnWidth(1),
                     },
                     children: List<TableRow>.generate(
-                      1, (index) {
-                      return TableRow(
-                        decoration: const BoxDecoration(
-                            color: Colors.white
-                        ),
-                        children: [
-                          Container(
-                            height: 43,
-                            alignment: Alignment.center,
-                            child: Text(
-                                state.sipAmount.toString(),
-                                textAlign: TextAlign.left,
-                                style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                          ),
-                        ],
-                      );
-                    },
+                      1,
+                      (index) {
+                        return TableRow(
+                          decoration: const BoxDecoration(color: Colors.white),
+                          children: [
+                            Container(
+                              height: 43,
+                              alignment: Alignment.center,
+                              child: Text(state.sipAmount.toString(),
+                                  textAlign: TextAlign.left,
+                                  style: textStyle11Bold(colorRedFF6)
+                                      .copyWith(height: 1.2)),
+                            ),
+                          ],
+                        );
+                      },
                       growable: false,
                     ),
                   ),
                   SizedBox(
                     height: 1.h,
                   ),
-
                   Table(
                     border: TableBorder.all(color: colorBG),
                     columnWidths: const <int, TableColumnWidth>{
@@ -191,7 +186,7 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                                 textAlign: TextAlign.center,
                                 style: textStyle10Bold(colorBlack)),
                           ),
-                         /* Container(
+                          /* Container(
                             height: 5.3.h,
                             alignment: Alignment.center,
                             child: Text('Total Payable Amount',
@@ -208,21 +203,22 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                       0: FlexColumnWidth(1),
                     },
                     children: List<TableRow>.generate(
-                      1, (index) {
-                      return TableRow(
-                        decoration: const BoxDecoration(
-                            color: Colors.white
-                        ),
-                        children: [
-                          Container(
-                            height: 43,
-                            alignment: Alignment.center,
-                            child: Text(
-                                formatter.format(double.parse(state.interestAmount)),
-                                textAlign: TextAlign.left,
-                                style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                          ),
-                         /* Container(
+                      1,
+                      (index) {
+                        return TableRow(
+                          decoration: const BoxDecoration(color: Colors.white),
+                          children: [
+                            Container(
+                              height: 43,
+                              alignment: Alignment.center,
+                              child: Text(
+                                  formatter.format(
+                                      double.parse(state.interestAmount)),
+                                  textAlign: TextAlign.left,
+                                  style: textStyle11Bold(colorRedFF6)
+                                      .copyWith(height: 1.2)),
+                            ),
+                            /* Container(
                             height: 43,
                             alignment: Alignment.center,
                             child: Text(
@@ -230,16 +226,15 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                                 textAlign: TextAlign.left,
                                 style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
                           ),*/
-                        ],
-                      );
-                    },
+                          ],
+                        );
+                      },
                       growable: false,
                     ),
                   ),
                   SizedBox(
                     height: 1.h,
                   ),
-
                   Table(
                     border: TableBorder.all(color: colorBG),
                     columnWidths: const <int, TableColumnWidth>{
@@ -249,7 +244,7 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                       TableRow(
                         decoration: const BoxDecoration(color: colorE5E5),
                         children: [
-                         Container(
+                          Container(
                             height: 5.3.h,
                             alignment: Alignment.center,
                             child: Text('Total Payable Amount',
@@ -266,23 +261,24 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
                       0: FlexColumnWidth(1),
                     },
                     children: List<TableRow>.generate(
-                      1, (index) {
-                      return TableRow(
-                        decoration: const BoxDecoration(
-                            color: Colors.white
-                        ),
-                        children: [
-                          Container(
-                            height: 43,
-                            alignment: Alignment.center,
-                            child: Text(
-                                formatter.format(double.parse(state.totalPayableAmount)),
-                                textAlign: TextAlign.left,
-                                style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                          ),
-                        ],
-                      );
-                    },
+                      1,
+                      (index) {
+                        return TableRow(
+                          decoration: const BoxDecoration(color: Colors.white),
+                          children: [
+                            Container(
+                              height: 43,
+                              alignment: Alignment.center,
+                              child: Text(
+                                  formatter.format(
+                                      double.parse(state.totalPayableAmount)),
+                                  textAlign: TextAlign.left,
+                                  style: textStyle11Bold(colorRedFF6)
+                                      .copyWith(height: 1.2)),
+                            ),
+                          ],
+                        );
+                      },
                       growable: false,
                     ),
                   ),
@@ -295,5 +291,4 @@ class _EMISIPCalculatorResultState extends State<EMISIPCalculatorResult> {
       ),
     );
   }
-
 }

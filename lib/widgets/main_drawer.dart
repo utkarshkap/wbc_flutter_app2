@@ -11,7 +11,6 @@ import 'package:wbc_connect_app/presentations/Review/munafe_ki_class.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/cart_screen.dart';
 import 'package:wbc_connect_app/presentations/delete_account/delete_account_screen.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
-import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
 import 'package:wbc_connect_app/presentations/wbc_connect.dart';
 import 'package:wbc_connect_app/presentations/wealth_meter.dart';
@@ -25,7 +24,6 @@ import '../models/munafe_ki_class_model.dart';
 import '../models/newArrival_data_model.dart';
 import '../models/popular_data_model.dart';
 import '../models/product_category_model.dart';
-import '../models/sip_calculator_model.dart';
 import '../models/terms_conditions_model.dart';
 import '../models/trending_data_model.dart';
 import '../presentations/FAQs_screen.dart';
@@ -46,7 +44,8 @@ import '../presentations/wbc_progress.dart';
 import '../resources/resource.dart';
 
 class MainDrawer extends StatefulWidget {
-  const MainDrawer({Key? key}) : super(key: key);
+  Function()? reLoadHomePage;
+  MainDrawer({Key? key, this.reLoadHomePage}) : super(key: key);
 
   @override
   State<MainDrawer> createState() => _MainDrawerState();
@@ -114,10 +113,15 @@ class _MainDrawerState extends State<MainDrawer> {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushNamed(ProfileScreen.route);
                     }),
-                    drawerWidget(icWealthMeter, 'Wealth Meter', () {
-                      Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushNamed(WealthMeterScreen.route);
-                    }),
+                    drawerWidget(
+                        icWealthMeter, 'Wealth Meter', widget.reLoadHomePage!
+
+                        // () async {
+                        //   Scaffold.of(context).closeDrawer();
+                        //   final reLoad = await Navigator.of(context)
+                        //       .pushNamed(WealthMeterScreen.route);
+                        // }
+                        ),
                     drawerWidget(icInterestReceived, 'M Gain', () {
                       Scaffold.of(context).closeDrawer();
                       BlocProvider.of<FetchingDataBloc>(context).add(

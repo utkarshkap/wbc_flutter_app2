@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/blocs/insurancecalculator/insurance_calculator_bloc.dart';
-import 'package:wbc_connect_app/core/api/api_consts.dart';
-import '../../common_functions.dart';
 import '../../resources/resource.dart';
 import '../../thousandsSeparatorInputFormatter.dart';
 import '../../widgets/appbarButton.dart';
 
 class InsuranceCalculator extends StatefulWidget {
   static const route = '/Insurance-Calculator';
+
+  const InsuranceCalculator({super.key});
 
   @override
   State<InsuranceCalculator> createState() => _InsuranceCalculatorState();

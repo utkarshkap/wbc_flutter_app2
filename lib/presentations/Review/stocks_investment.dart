@@ -237,23 +237,6 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                         ),
                                       ],
                                     ),
-                                    // Column(
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.end,
-                                    //   children: [
-                                    //     const SizedBox(height: 5),
-                                    //     popupButton(
-                                    //         false,
-                                    //         selectedType,
-                                    //         List.generate(
-                                    //             types.length,
-                                    //             (i) => menuItem(types[i], () {
-                                    //                   setState(() {
-                                    //                     selectedType = types[i];
-                                    //                   });
-                                    //                 }))),
-                                    //   ],
-                                    // )
                                   ],
                                 ),
                               ),
@@ -287,10 +270,6 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(left: 2.5.w),
-                                        // padding: EdgeInsets.only(
-                                        //   left: 5.w,
-                                        // ),
-                                        // color: Colors.red,
                                         height: 4.h,
                                         width: 50.w,
                                         child: ListView.builder(
@@ -320,10 +299,6 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                                   gain: 0,
                                                                   stocks: [],
                                                                 )));
-                                                        // selectedUserId =
-                                                        //     members[index]
-                                                        //         .relativeUserId
-                                                        //         .toString();
                                                       },
                                                       child: Container(
                                                           height: 5.5.h,
@@ -361,48 +336,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                     ],
                                   ),
                                 ),
-
                               SizedBox(height: 3.h),
-                              // SizedBox(
-                              //   width: 90.w,
-                              //   child: Row(
-                              //     mainAxisAlignment:
-                              //         MainAxisAlignment.spaceBetween,
-                              //     children: [
-                              //       showValue(
-                              //           icStocksInvestment,
-                              //           color47D1,
-                              //           'Investment',
-                              //           CommonFunction().splitString(
-                              //               totalInvestment
-                              //                   .toStringAsFixed(0))),
-                              //       /*showValue(
-                              //           icStocksInvestment,
-                              //           colorFB83,
-                              //           'Gain/Loss',
-                              //           CommonFunction().splitString(state
-                              //                   .stockInvestmentPortfolio.gain
-                              //                   .toInt()
-                              //                   .isNegative
-                              //               ? (-state.stockInvestmentPortfolio.gain
-                              //                       .toInt())
-                              //                   .toString()
-                              //               : state.stockInvestmentPortfolio.gain
-                              //                   .toInt()
-                              //                   .toString())),*/
-                              //       popupButton(
-                              //           false,
-                              //           selectedType,
-                              //           List.generate(
-                              //               types.length,
-                              //               (i) => menuItem(types[i], () {
-                              //                     setState(() {
-                              //                       selectedType = types[i];
-                              //                     });
-                              //                   }))),
-                              //     ],
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -505,7 +439,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                     color: colorTextBCBC.withOpacity(0.36)),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 3.w, vertical: 1.3.h),
+                                      horizontal: 3.w, vertical: 1.h),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -552,61 +486,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                               ],
                             ),
                           )
-                        ]
-
-                            //  List.generate(
-                            //     state.stockInvestmentPortfolio.stocks.length,
-                            //     (index) => Column(
-                            //           children: [
-                            //             reviews(
-                            //                 state.stockInvestmentPortfolio
-                            //                     .stocks[index].stockName
-                            //                     .toString(),
-                            //                 state.stockInvestmentPortfolio
-                            //                     .stocks[index].balanceQty
-                            //                     .toString(),
-                            //                 color47D1,
-                            //                 ((state
-                            //                             .stockInvestmentPortfolio
-                            //                             .stocks[index]
-                            //                             .balanceQty) *
-                            //                         state
-                            //                             .stockInvestmentPortfolio
-                            //                             .stocks[index]
-                            //                             .rate)
-                            //                     .toStringAsFixed(2),
-                            //                 () => {
-                            //                       BlocProvider.of<
-                            //                                   StockTransactionBloc>(
-                            //                               context)
-                            //                           .add(LoadStockTransactionEvent(
-                            //                               userId:
-                            //                                   ApiUser.userId,
-                            //                               stockName: state
-                            //                                   .stockInvestmentPortfolio
-                            //                                   .stocks[index]
-                            //                                   .stockName
-                            //                                   .toString(),
-                            //                               stockTransaction:
-                            //                                   StockInvestmentTransactionModel(
-                            //                                       code: 0,
-                            //                                       message: '',
-                            //                                       stockTransactions: []))),
-                            //                       Navigator.of(context).pushNamed(
-                            //                           StockInvestmentTransaction
-                            //                               .route)
-                            //                     }),
-                            //             if (index !=
-                            //                 state.stockInvestmentPortfolio
-                            //                         .stocks.length -
-                            //                     1)
-                            //               Container(
-                            //                   height: 1,
-                            //                   color: colorTextBCBC
-                            //                       .withOpacity(0.36))
-                            //           ],
-                            //         )),
-                            ),
+                        ]),
                       ))
                 ],
               );
@@ -727,7 +607,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                   Row(
                     children: [
                       Text('Qty: ', style: textStyle9Bold(colorText7070)),
-                      Text('$value', style: textStyle9Bold(colorText7070)),
+                      Text(value, style: textStyle9Bold(colorText7070)),
                     ],
                   ),
                 ],

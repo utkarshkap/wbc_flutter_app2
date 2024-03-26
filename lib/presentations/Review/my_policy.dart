@@ -118,12 +118,10 @@ class _PolicyReviewState extends State<PolicyReview> {
                   btnOkColor: Colors.red,
                 ).show();
               } else if (state is InsuranceReviewDataAdded) {
-                BlocProvider.of<MallBloc>(context).add(
-                    LoadMallDataEvent(
-                        popular: Popular(code: 0, message: '', products: []),
-                        newArrival: NewArrival(code: 0, message: '', products: []),
-                        trending:
-                        Trending(code: 0, message: '', products: [])));
+                BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+                    popular: Popular(code: 0, message: '', products: []),
+                    newArrival: NewArrival(code: 0, message: '', products: []),
+                    trending: Trending(code: 0, message: '', products: [])));
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     HomeScreen.route, (route) => false,
                     arguments: HomeScreenData(
@@ -135,13 +133,10 @@ class _PolicyReviewState extends State<PolicyReview> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 2.h),
-                  dropDownWidget(
-                      'Choose your insurance company',
-                      selectedInsuranceCompany,
-                      isInsuranceCompanyFieldTap, () {
+                  dropDownWidget('Choose your insurance company',
+                      selectedInsuranceCompany, isInsuranceCompanyFieldTap, () {
                     BlocProvider.of<FetchingDataBloc>(context).add(
-                        LoadInsuranceCompanyEvent(
-                            insuranceCompany: const []));
+                        LoadInsuranceCompanyEvent(insuranceCompany: const []));
                     setState(() {
                       isInsuranceCompanyFieldTap = true;
                       isInsuranceTypeFieldTap = false;
@@ -237,8 +232,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                                 Container(
                                   height: 2.h,
                                   alignment: Alignment.center,
-                                  child: Text(
-                                      'Please Select an Insurance Type',
+                                  child: Text('Please Select an Insurance Type',
                                       style: textStyle9(colorErrorRed)),
                                 ),
                               ],
@@ -283,8 +277,9 @@ class _PolicyReviewState extends State<PolicyReview> {
                           : Container(),
                     ),
                   ),
-                  textFormFieldContainer('Yearly premium',
-                      'Enter your Premium', isPremiumFieldTap, () {
+                  textFormFieldContainer(
+                      'Yearly premium', 'Enter your Premium', isPremiumFieldTap,
+                      () {
                     setState(() {
                       isInsuranceCompanyFieldTap = false;
                       isInsuranceTypeFieldTap = false;
@@ -364,7 +359,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                       premiumValidation.isEmpty ||
                       payingTermValidation.isEmpty)
                     SizedBox(height: 3.5.h),
-                  Spacer(),
+                  const Spacer(),
                   button(icSendReview, 'Send For Review', () {
                     if (selectedInsuranceCompany ==
                         'Select your insurance company') {

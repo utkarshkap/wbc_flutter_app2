@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -6,11 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wbc_connect_app/common_functions.dart';
-import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/family_member_model.dart';
-
 import '../../blocs/dashboardbloc/dashboard_bloc.dart';
-import '../../blocs/signingbloc/signing_bloc.dart';
 import '../../resources/resource.dart';
 import '../home_screen.dart';
 
@@ -30,7 +29,7 @@ class VerificationMember extends StatefulWidget {
 
   final VerificationMemberData verificationMemberData;
 
-  VerificationMember({required this.verificationMemberData});
+  const VerificationMember({super.key, required this.verificationMemberData});
 
   @override
   State<VerificationMember> createState() => _VerificationMemberState();
@@ -120,7 +119,6 @@ class _VerificationMemberState extends State<VerificationMember> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     startTimer();
   }
@@ -327,7 +325,7 @@ class _VerificationMemberState extends State<VerificationMember> {
               boxShadow: [
                 if (text != 'SKIP')
                   BoxShadow(
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                       blurRadius: 6,
                       color: colorTextBCBC.withOpacity(0.3))
               ]),

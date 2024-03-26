@@ -407,7 +407,7 @@ class Get5PaisaAccessTokenLoadedState extends FetchingDataState {
   final String accessToken;
   final String clientId;
 
-  Get5PaisaAccessTokenLoadedState({
+  const Get5PaisaAccessTokenLoadedState({
     required this.accessToken,
     required this.clientId,
   });

@@ -7,8 +7,7 @@ import '../../blocs/retirementcalculator/retirement_calculator_bloc.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
 
-class RetirementCalculatorData{
-
+class RetirementCalculatorData {
   final bool isRetirementCalculator;
   final int? currentAge;
   final int? retirementAge;
@@ -22,50 +21,58 @@ class RetirementCalculatorData{
   final double? investmentRequired;
   final double? inflationAdjustedExpense;
 
-  RetirementCalculatorData(
-      { this.isRetirementCalculator = false,
-        this.currentAge,
-        this.retirementAge,
-        this.lifeExpectancy,
-        this.monthlyExpenses,
-        this.preRetirementReturn,
-        this.postRetirementReturn,
-        this.currentInvestment,
-        this.inflationRate,
-        this.corpusAfterRetirement,
-        this.investmentRequired,
-        this.inflationAdjustedExpense,
-      });
+  RetirementCalculatorData({
+    this.isRetirementCalculator = false,
+    this.currentAge,
+    this.retirementAge,
+    this.lifeExpectancy,
+    this.monthlyExpenses,
+    this.preRetirementReturn,
+    this.postRetirementReturn,
+    this.currentInvestment,
+    this.inflationRate,
+    this.corpusAfterRetirement,
+    this.investmentRequired,
+    this.inflationAdjustedExpense,
+  });
 }
 
 class RetirementCalculator extends StatefulWidget {
   static const route = '/Retirement-Calculator';
   final RetirementCalculatorData retirementCalculatorData;
 
-  const RetirementCalculator({required this.retirementCalculatorData});
+  const RetirementCalculator(
+      {super.key, required this.retirementCalculatorData});
 
   @override
   State<RetirementCalculator> createState() => _RetirementCalculatorState();
 }
 
 class _RetirementCalculatorState extends State<RetirementCalculator> {
-
   int currentAge = 18;
   int lifeExpectancy = 80;
   int retirementAge = 50;
-  String corpusAfterRetirement="";
-  String investmentRequired="";
-  String inflationAdjustedExpense="";
+  String corpusAfterRetirement = "";
+  String investmentRequired = "";
+  String inflationAdjustedExpense = "";
 
-  final TextEditingController _currentAgeController = TextEditingController(text: "18");
-  final TextEditingController _retirementAgeController = TextEditingController(text: "50");
-  final TextEditingController _lifeExpectancyController = TextEditingController(text: "80");
+  final TextEditingController _currentAgeController =
+      TextEditingController(text: "18");
+  final TextEditingController _retirementAgeController =
+      TextEditingController(text: "50");
+  final TextEditingController _lifeExpectancyController =
+      TextEditingController(text: "80");
 
-  final TextEditingController _monthlyExpensesController = TextEditingController();
-  final TextEditingController _preRetirementReturnController = TextEditingController();
-  final TextEditingController _postRetirementReturnController = TextEditingController();
-  final TextEditingController _currentInvestmentController = TextEditingController();
-  final TextEditingController _inflationRateController = TextEditingController();
+  final TextEditingController _monthlyExpensesController =
+      TextEditingController();
+  final TextEditingController _preRetirementReturnController =
+      TextEditingController();
+  final TextEditingController _postRetirementReturnController =
+      TextEditingController();
+  final TextEditingController _currentInvestmentController =
+      TextEditingController();
+  final TextEditingController _inflationRateController =
+      TextEditingController();
 
   bool isCurrentAgeFieldTap = false;
   bool isRetirementAgeFieldTap = false;
@@ -140,7 +147,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        resizeToAvoidBottomInset  : true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: colorBG,
         appBar: AppBar(
           toolbarHeight: 8.h,
@@ -155,7 +162,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
           title:
-          Text('Retirement Calculator', style: textStyle14Bold(colorBlack)),
+              Text('Retirement Calculator', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -169,7 +176,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
         body: BlocConsumer<RetirementCalculatorBloc, RetirementCalculatorState>(
           listener: (context, state) {
             print('RetirementCalculatorState-------$state');
-            if (state is RetirementCalculatorFailed)   {
+            if (state is RetirementCalculatorFailed) {
               AwesomeDialog(
                 btnCancelColor: colorRed,
                 padding: EdgeInsets.zero,
@@ -181,13 +188,12 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                 btnOkOnPress: () {},
                 btnOkColor: Colors.red,
               ).show();
-            }
-            else if (state is RetirementCalculatorAdded) {
+            } else if (state is RetirementCalculatorAdded) {
               setState(() {
                 isSubmit = false;
-                inflationAdjustedExpense=state.inflationAdjustedExpense;
-                investmentRequired=state.investmentRequired;
-                corpusAfterRetirement=state.corpusAfterRetirement;
+                inflationAdjustedExpense = state.inflationAdjustedExpense;
+                investmentRequired = state.investmentRequired;
+                corpusAfterRetirement = state.corpusAfterRetirement;
               });
               /*Navigator.of(context).pushReplacementNamed(
                   RetirementCalculator.route,
@@ -226,7 +232,8 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                     width: 60.w,
                                     child: Text(
                                         'Plan your dream\nretirement\nhere',
-                                        style: textStyle15Bold(colorBlack).copyWith(height: 1.34))),
+                                        style: textStyle15Bold(colorBlack)
+                                            .copyWith(height: 1.34))),
                                 Image.asset(imgInsuranceCalculator, width: 20.w)
                               ],
                             ),
@@ -237,7 +244,8 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                 decoration: BoxDecoration(
                                     color: colorWhite,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: colorDFDF, width: 1)),
+                                    border:
+                                        Border.all(color: colorDFDF, width: 1)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -378,49 +386,65 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                       ],
                                     ),*/
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right:3.5.w,top:4.w,bottom: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w,
+                                          right: 3.5.w,
+                                          top: 4.w,
+                                          bottom: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text("Current Age", style: textStyle10Bold(colorBlack)),
+                                              Text("Current Age",
+                                                  style: textStyle10Bold(
+                                                      colorBlack)),
                                               SizedBox(
                                                 height: 2.5.w,
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   SizedBox(
                                                     width: 20.w,
-                                                    child: Text("$currentAge years"),
+                                                    child: Text(
+                                                        "$currentAge years"),
                                                   ),
                                                   Row(
                                                     children: [
                                                       GestureDetector(
-                                                          onTap: (){
-                                                            if(currentAge < retirementAge){
+                                                          onTap: () {
+                                                            if (currentAge <
+                                                                retirementAge) {
                                                               setState(() {
                                                                 currentAge++;
                                                               });
                                                             }
                                                           },
-                                                          child: Icon(Icons.add, size: 6.w)
-                                                      ),
+                                                          child: Icon(Icons.add,
+                                                              size: 6.w)),
                                                       SizedBox(
                                                         width: 1.5.w,
                                                       ),
                                                       GestureDetector(
-                                                          onTap: (){
-                                                            if(currentAge > 1){
+                                                          onTap: () {
+                                                            if (currentAge >
+                                                                1) {
                                                               setState(() {
                                                                 currentAge--;
                                                               });
                                                             }
                                                           },
-                                                          child: Icon(Icons.remove, size: 6.w)),
+                                                          child: Icon(
+                                                              Icons.remove,
+                                                              size: 6.w)),
                                                     ],
                                                   )
                                                 ],
@@ -428,40 +452,50 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                             ],
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text("Retirement Age", style: textStyle10Bold(colorBlack)),
+                                              Text("Retirement Age",
+                                                  style: textStyle10Bold(
+                                                      colorBlack)),
                                               SizedBox(
                                                 height: 2.5.w,
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   SizedBox(
                                                     width: 20.w,
-                                                    child: Text("$retirementAge years"),
+                                                    child: Text(
+                                                        "$retirementAge years"),
                                                   ),
                                                   Row(
                                                     children: [
                                                       GestureDetector(
-                                                          onTap: (){
+                                                          onTap: () {
                                                             setState(() {
                                                               retirementAge++;
                                                             });
                                                           },
-                                                          child: Icon(Icons.add, size: 6.w)),
+                                                          child: Icon(Icons.add,
+                                                              size: 6.w)),
                                                       SizedBox(
                                                         width: 1.5.w,
                                                       ),
                                                       GestureDetector(
-                                                          onTap: (){
-                                                            if(retirementAge > 1){
+                                                          onTap: () {
+                                                            if (retirementAge >
+                                                                1) {
                                                               setState(() {
                                                                 retirementAge--;
                                                               });
                                                             }
                                                           },
-                                                          child: Icon(Icons.remove, size: 6.w)),
+                                                          child: Icon(
+                                                              Icons.remove,
+                                                              size: 6.w)),
                                                     ],
                                                   )
                                                 ],
@@ -472,68 +506,90 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,top: 4.w),
-                                      child: Text("Life Expectancy", style: textStyle10Bold(colorBlack)),
+                                      padding:
+                                          EdgeInsets.only(left: 5.w, top: 4.w),
+                                      child: Text("Life Expectancy",
+                                          style: textStyle10Bold(colorBlack)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 3.5.w,top: 2.w,bottom: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w,
+                                          right: 3.5.w,
+                                          top: 2.w,
+                                          bottom: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
                                             width: 20.w,
-                                            child: Text("$lifeExpectancy years"),
+                                            child:
+                                                Text("$lifeExpectancy years"),
                                           ),
                                           Row(
                                             children: [
                                               GestureDetector(
-                                                  onTap: (){
-                                                    if(lifeExpectancy < 120){
+                                                  onTap: () {
+                                                    if (lifeExpectancy < 120) {
                                                       setState(() {
                                                         lifeExpectancy++;
                                                       });
                                                     }
                                                   },
-                                                  child: Icon(Icons.add, size: 6.w)
-                                              ),
+                                                  child: Icon(Icons.add,
+                                                      size: 6.w)),
                                               SizedBox(
                                                 width: 1.5.w,
                                               ),
                                               GestureDetector(
-                                                  onTap: (){
-                                                    if(lifeExpectancy > retirementAge){
+                                                  onTap: () {
+                                                    if (lifeExpectancy >
+                                                        retirementAge) {
                                                       setState(() {
                                                         lifeExpectancy--;
                                                       });
                                                     }
                                                   },
-                                                  child: Icon(Icons.remove, size: 6.w)),
+                                                  child: Icon(Icons.remove,
+                                                      size: 6.w)),
                                             ],
                                           )
                                         ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 4.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 4.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Monthly Expenses", style: textStyle10Bold(colorBlack)),
-                                          Text(monthlyExpense.toString()=="0" ? "0" : formatter.format(monthlyExpense), style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Monthly Expenses",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text(
+                                              monthlyExpense.toString() == "0"
+                                                  ? "0"
+                                                  : formatter
+                                                      .format(monthlyExpense),
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -544,7 +600,8 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: formatter.format(monthlyExpense.round()),
+                                        label: formatter
+                                            .format(monthlyExpense.round()),
                                         autofocus: true,
                                         onChanged: (double newValue) {
                                           setState(() {
@@ -552,26 +609,34 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                           });
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on monthlyExpense $newValue');
+                                          print(
+                                              'Ended change on monthlyExpense $newValue');
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Pre-retirement ROI", style: textStyle10Bold(colorBlack)),
-                                          Text('$preRetirementReturn%', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Pre-retirement ROI",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$preRetirementReturn%',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -585,30 +650,39 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         label: '${preRetirementReturn.round()}',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            preRetirementReturn = newValue.round();
+                                            preRetirementReturn =
+                                                newValue.round();
                                           });
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on preRetirementReturn $newValue');
+                                          print(
+                                              'Ended change on preRetirementReturn $newValue');
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Post-retirement ROI", style: textStyle10Bold(colorBlack)),
-                                          Text('$postRetirementReturn%', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Post-retirement ROI",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$postRetirementReturn%',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -619,72 +693,97 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${postRetirementReturn.round()}',
+                                        label:
+                                            '${postRetirementReturn.round()}',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            postRetirementReturn = newValue.round();
+                                            postRetirementReturn =
+                                                newValue.round();
                                           });
-                                          print("postRetirementReturn-->$postRetirementReturn");
+                                          print(
+                                              "postRetirementReturn-->$postRetirementReturn");
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on postRetirementReturn $newValue');
+                                          print(
+                                              'Ended change on postRetirementReturn $newValue');
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Monthly Investment", style: textStyle10Bold(colorBlack)),
-                                          Text(formatter.format(currentInvestmentAmount), style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Monthly Investment",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text(
+                                              formatter.format(
+                                                  currentInvestmentAmount),
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
                                     Slider(
-                                        value: currentInvestmentAmount.toDouble(),
+                                        value:
+                                            currentInvestmentAmount.toDouble(),
                                         min: 5000,
                                         max: 150000,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${currentInvestmentAmount.round()}',
+                                        label:
+                                            '${currentInvestmentAmount.round()}',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            currentInvestmentAmount = newValue.round();
+                                            currentInvestmentAmount =
+                                                newValue.round();
                                           });
-                                          print("currentInvestmentAmount-->$currentInvestmentAmount");
+                                          print(
+                                              "currentInvestmentAmount-->$currentInvestmentAmount");
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on currentInvestmentAmount $newValue');
+                                          print(
+                                              'Ended change on currentInvestmentAmount $newValue');
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.3.h,bottom: 0.3.h),
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
                                       child: Container(
                                           height: 1,
-                                          color: colorTextBCBC.withOpacity(0.36)
-                                      ),
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.w,right: 5.w,top: 3.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 3.w),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:[
-                                          Text("Inflation (%)", style: textStyle10Bold(colorBlack)),
-                                          Text('$inflactionRate%', style: textStyle10(colorText7070)),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Inflation (%)",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text('$inflactionRate%',
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
@@ -700,15 +799,17 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                           setState(() {
                                             inflactionRate = newValue.round();
                                           });
-                                          print("inflactionRate-->$inflactionRate");
+                                          print(
+                                              "inflactionRate-->$inflactionRate");
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print('Ended change on inflactionRate $newValue');
+                                          print(
+                                              'Ended change on inflactionRate $newValue');
                                         },
-                                        semanticFormatterCallback: (double newValue) {
+                                        semanticFormatterCallback:
+                                            (double newValue) {
                                           return '${newValue.round()}';
-                                        }
-                                    ),
+                                        }),
                                   ],
                                 ),
                               ),
@@ -943,12 +1044,14 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                 height: 10,
                               ),*/
 
-                              if (!widget.retirementCalculatorData.isRetirementCalculator)
-                              Padding(
-                                  padding: EdgeInsets.only(top: 1.h, bottom: 2.5.h),
+                              if (!widget.retirementCalculatorData
+                                  .isRetirementCalculator)
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 1.h, bottom: 2.5.h),
                                   child: InkWell(
                                       onTap: () {
-                                       /* if (_currentAgeController.text.isEmpty) {
+                                        /* if (_currentAgeController.text.isEmpty) {
                                           setState(() {
                                             currentAgeValidation = 'Empty Current Age';
                                           });
@@ -1020,7 +1123,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                             inflationRateValidation = '';
                                           });
                                         }*/
-                                       /* if (_currentAgeController.text.isNotEmpty &&
+                                        /* if (_currentAgeController.text.isNotEmpty &&
                                             _retirementAgeController.text.isNotEmpty &&
                                             _lifeExpectancyController.text.isNotEmpty &&
                                             _monthlyExpensesController.text.isNotEmpty &&
@@ -1033,15 +1136,21 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         setState(() {
                                           isSubmit = true;
                                         });
-                                        BlocProvider.of<RetirementCalculatorBloc>(context).add(RetirementData(
+                                        BlocProvider.of<
+                                                    RetirementCalculatorBloc>(
+                                                context)
+                                            .add(RetirementData(
                                           name: "",
                                           currentAge: currentAge,
                                           retirementAge: retirementAge,
                                           lifeExpectancy: lifeExpectancy,
                                           monthlyExpenses: monthlyExpense,
-                                          preRetirementReturn: preRetirementReturn,
-                                          postRetirementReturn: postRetirementReturn,
-                                          currentInvestment: currentInvestmentAmount,
+                                          preRetirementReturn:
+                                              preRetirementReturn,
+                                          postRetirementReturn:
+                                              postRetirementReturn,
+                                          currentInvestment:
+                                              currentInvestmentAmount,
                                           inflationRate: inflactionRate,
                                         ));
                                       },
@@ -1049,30 +1158,36 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         width: 90.w,
                                         decoration: BoxDecoration(
                                             color: colorRed,
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             boxShadow: [
                                               BoxShadow(
                                                   offset: const Offset(0, 3),
                                                   blurRadius: 6,
-                                                  color: colorRed.withOpacity(0.35))
+                                                  color: colorRed
+                                                      .withOpacity(0.35))
                                             ]),
                                         alignment: Alignment.center,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 2.h),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 2.h),
                                           child: isSubmit
                                               ? SizedBox(
-                                              height: 20,
-                                              width: 20,
-                                              child: CircularProgressIndicator(
-                                                  color: colorWhite, strokeWidth: 0.6.w))
-                                            : Column(
-                                            children: [
-                                              Text('CALCULATE', style: textStyle13Bold(colorWhite)),
-                                            ],
-                                          ),
+                                                  height: 20,
+                                                  width: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: colorWhite,
+                                                          strokeWidth: 0.6.w))
+                                              : Column(
+                                                  children: [
+                                                    Text('CALCULATE',
+                                                        style: textStyle13Bold(
+                                                            colorWhite)),
+                                                  ],
+                                                ),
                                         ),
-                                      )
-                                  ),
+                                      )),
                                 ),
                               SizedBox(
                                 height: 3.w,
@@ -1086,7 +1201,8 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                 },
                                 children: [
                                   TableRow(
-                                    decoration: const BoxDecoration(color: colorE5E5),
+                                    decoration:
+                                        const BoxDecoration(color: colorE5E5),
                                     children: [
                                       Container(
                                         height: 5.3.h,
@@ -1105,7 +1221,8 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                       Container(
                                         height: 5.3.h,
                                         alignment: Alignment.center,
-                                        child: Text('Inflation Adjusted Expense',
+                                        child: Text(
+                                            'Inflation Adjusted Expense',
                                             textAlign: TextAlign.center,
                                             style: textStyle10Bold(colorBlack)),
                                       ),
@@ -1113,53 +1230,68 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                   )
                                 ],
                               ),
-                              isSubmit ? Padding(
-                                padding: EdgeInsets.only(top: 2.h),
-                                child: Text("Calculating...", style: textStyle10Medium(colorText4D4D)),
-                              ) : Table(
-                                border: TableBorder.all(color: colorE5E5),
-                                columnWidths: const <int, TableColumnWidth>{
-                                  0: FlexColumnWidth(1),
-                                  1: FlexColumnWidth(1),
-                                  2: FlexColumnWidth(1),
-                                },
-                                children: List<TableRow>.generate(
-                                  1, (index) {
-                                  return TableRow(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white
+                              isSubmit
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 2.h),
+                                      child: Text("Calculating...",
+                                          style:
+                                              textStyle10Medium(colorText4D4D)),
+                                    )
+                                  : Table(
+                                      border: TableBorder.all(color: colorE5E5),
+                                      columnWidths: const <int,
+                                          TableColumnWidth>{
+                                        0: FlexColumnWidth(1),
+                                        1: FlexColumnWidth(1),
+                                        2: FlexColumnWidth(1),
+                                      },
+                                      children: List<TableRow>.generate(
+                                        1,
+                                        (index) {
+                                          return TableRow(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white),
+                                            children: [
+                                              Container(
+                                                height: 43,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                    formatter.format(double.parse(
+                                                        corpusAfterRetirement)),
+                                                    textAlign: TextAlign.left,
+                                                    style: textStyle11Bold(
+                                                            colorRedFF6)
+                                                        .copyWith(height: 1.2)),
+                                              ),
+                                              Container(
+                                                height: 43,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                    formatter.format(
+                                                        double.parse(
+                                                            investmentRequired)),
+                                                    textAlign: TextAlign.left,
+                                                    style: textStyle11Bold(
+                                                            colorRedFF6)
+                                                        .copyWith(height: 1.2)),
+                                              ),
+                                              Container(
+                                                height: 43,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                    formatter.format(double.parse(
+                                                        inflationAdjustedExpense)),
+                                                    textAlign: TextAlign.left,
+                                                    style: textStyle11Bold(
+                                                            colorRedFF6)
+                                                        .copyWith(height: 1.2)),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                        growable: false,
+                                      ),
                                     ),
-                                    children: [
-                                      Container(
-                                        height: 43,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                            formatter.format(double.parse(corpusAfterRetirement)),
-                                            textAlign: TextAlign.left,
-                                            style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                                      ),
-                                      Container(
-                                        height: 43,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                            formatter.format(double.parse(investmentRequired)),
-                                            textAlign: TextAlign.left,
-                                            style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                                      ),
-                                      Container(
-                                        height: 43,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                            formatter.format(double.parse(inflationAdjustedExpense)),
-                                            textAlign: TextAlign.left,
-                                            style: textStyle11Bold(colorRedFF6).copyWith(height: 1.2)),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                  growable: false,
-                                ),
-                              ),
                               SizedBox(
                                 height: 3.w,
                               )
@@ -1178,7 +1310,8 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
     );
   }
 
-  textFormFieldContainer(String labelText, String hintText, bool isSelected, Function() onClick,
+  textFormFieldContainer(
+      String labelText, String hintText, bool isSelected, Function() onClick,
       [TextEditingController? controller, TextInputType? keyboardType]) {
     return Padding(
       padding: EdgeInsets.only(top: 1.5.h),
@@ -1187,7 +1320,9 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
             ? null
             : onClick,
         child: Container(
-          width: labelText == 'Current Age' || labelText == 'Retirement Age' ? 44.w : 90.w,
+          width: labelText == 'Current Age' || labelText == 'Retirement Age'
+              ? 44.w
+              : 90.w,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
@@ -1196,18 +1331,20 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 1.h),
-                  child: Text(labelText, style:textStyle10Bold(colorBlack)),
+                  child: Text(labelText, style: textStyle10Bold(colorBlack)),
                 ),
                 SizedBox(
                   width: 10.w,
                   child: Padding(
                     padding: EdgeInsets.only(top: 0.5.h, bottom: 1.h),
                     child: SizedBox(
-                      width: labelText == 'Current Age' || labelText == 'Retirement Age'
+                      width: labelText == 'Current Age' ||
+                              labelText == 'Retirement Age'
                           ? 37.5.w - 2
                           : 84.w - 2,
                       child: TextFormField(
-                        readOnly: widget.retirementCalculatorData.isRetirementCalculator,
+                        readOnly: widget
+                            .retirementCalculatorData.isRetirementCalculator,
                         controller: controller,
                         style: textStyle11(colorText3D3D).copyWith(height: 1.3),
                         maxLines: 1,
@@ -1221,22 +1358,26 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                         focusNode: controller == _currentAgeController
                             ? currentAgeFocus
                             : controller == _retirementAgeController
-                            ? retirementAgeFocus
-                            : controller == _lifeExpectancyController
-                            ? lifeExpectancyFocus
-                            : controller == _monthlyExpensesController
-                            ? monthlyExpensesFocus
-                            : controller == _preRetirementReturnController
-                            ? preRetirementReturnFocus
-                            : controller == _postRetirementReturnController
-                            ? postRetirementReturnFocus
-                            : controller == _currentInvestmentController
-                            ? currentInvestmentFocus
-                            : controller == _inflationRateController
-                            ? inflationRateFocus
-                            : currentAgeFocus,
-                        onTap: widget.retirementCalculatorData
-                            .isRetirementCalculator
+                                ? retirementAgeFocus
+                                : controller == _lifeExpectancyController
+                                    ? lifeExpectancyFocus
+                                    : controller == _monthlyExpensesController
+                                        ? monthlyExpensesFocus
+                                        : controller ==
+                                                _preRetirementReturnController
+                                            ? preRetirementReturnFocus
+                                            : controller ==
+                                                    _postRetirementReturnController
+                                                ? postRetirementReturnFocus
+                                                : controller ==
+                                                        _currentInvestmentController
+                                                    ? currentInvestmentFocus
+                                                    : controller ==
+                                                            _inflationRateController
+                                                        ? inflationRateFocus
+                                                        : currentAgeFocus,
+                        onTap: widget
+                                .retirementCalculatorData.isRetirementCalculator
                             ? null
                             : onClick,
                         onFieldSubmitted: (val) {
@@ -1245,49 +1386,56 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                               isCurrentAgeFieldTap = false;
                               isRetirementAgeFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(retirementAgeFocus);
+                            FocusScope.of(context)
+                                .requestFocus(retirementAgeFocus);
                           }
                           if (controller == _retirementAgeController) {
                             setState(() {
                               isRetirementAgeFieldTap = false;
                               isLifeExpectancyFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(lifeExpectancyFocus);
+                            FocusScope.of(context)
+                                .requestFocus(lifeExpectancyFocus);
                           }
                           if (controller == _lifeExpectancyController) {
                             setState(() {
                               isLifeExpectancyFieldTap = false;
                               isMonthlyExpensesFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(monthlyExpensesFocus);
+                            FocusScope.of(context)
+                                .requestFocus(monthlyExpensesFocus);
                           }
                           if (controller == _monthlyExpensesController) {
                             setState(() {
                               isMonthlyExpensesFieldTap = false;
                               isPreRetirementReturnFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(preRetirementReturnFocus);
+                            FocusScope.of(context)
+                                .requestFocus(preRetirementReturnFocus);
                           }
                           if (controller == _preRetirementReturnController) {
                             setState(() {
                               isPreRetirementReturnFieldTap = false;
                               isPostRetirementReturnFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(postRetirementReturnFocus);
+                            FocusScope.of(context)
+                                .requestFocus(postRetirementReturnFocus);
                           }
                           if (controller == _postRetirementReturnController) {
                             setState(() {
                               isPostRetirementReturnFieldTap = false;
                               isCurrentInvestmentFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(currentInvestmentFocus);
+                            FocusScope.of(context)
+                                .requestFocus(currentInvestmentFocus);
                           }
                           if (controller == _currentInvestmentController) {
                             setState(() {
                               isCurrentInvestmentFieldTap = false;
                               isInflationRateFieldTap = true;
                             });
-                            FocusScope.of(context).requestFocus(inflationRateFocus);
+                            FocusScope.of(context)
+                                .requestFocus(inflationRateFocus);
                           }
                           if (controller == _inflationRateController) {
                             setState(() {

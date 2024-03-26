@@ -7,7 +7,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/presentations/sigIn_screen.dart';
-import 'package:wbc_connect_app/presentations/verification_screen.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 
 import '../blocs/mall/mall_bloc.dart';
