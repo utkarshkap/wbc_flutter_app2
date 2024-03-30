@@ -13,8 +13,6 @@ import 'package:wbc_connect_app/presentations/delete_account/delete_account_scre
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
 import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
 import 'package:wbc_connect_app/presentations/wbc_connect.dart';
-import 'package:wbc_connect_app/presentations/wealth_meter.dart';
-
 import '../blocs/fetchingData/fetching_data_bloc.dart';
 import '../blocs/mall/mall_bloc.dart';
 import '../blocs/review/review_bloc.dart';

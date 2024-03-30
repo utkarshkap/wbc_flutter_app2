@@ -74,6 +74,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     false,
     false,
   ];
+  TextEditingController textEditingController = TextEditingController();
 
   getWealthData() async {
     final pref = await SharedPreferences.getInstance();
@@ -83,7 +84,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     postOfficeOrVikasPatra = pref.getInt('postOfficeOrVikasPatra') ?? 0;
     privateInvestmentScheme = pref.getInt('privateInvestmentScheme') ?? 0;
     business = pref.getInt('business') ?? 0;
-    salary = pref.getInt('salary') ?? 0;
+    salary = pref.getInt('salary') ?? 1;
     professional = pref.getInt('professional') ?? 0;
     spouseIncome = pref.getInt('spouseIncome') ?? 0;
     otherIncome = pref.getInt('otherIncome') ?? 0;
@@ -313,7 +314,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                           .toString(),
                                                       style: textStyle36Bold(
                                                           colorBlack)),
-                                                  // SizedBox(height: 13.h),
                                                   Padding(
                                                     padding:
                                                         EdgeInsets.symmetric(
@@ -521,8 +521,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                     )),
                             ),
                           ),
-                          // Image.asset(
-                          //     'assets/images/CheckWealthmeterScore.gif'),
                           SizedBox(height: 5.h),
                         ],
                       ),
@@ -652,17 +650,12 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                 duration: const Duration(milliseconds: 00),
                 curve: Curves.easeInOut,
                 height: !isSelect ? 9.h : 27.h,
-                // !isExpanded
-                //     ? max(4 * 4.0 + 55, 65)
-                //     : max(5 * 50.0 + 20, ((100 / 50).ceil() * 20) + 65),
-
-                // : (question.length / 35).ceil()==1?60:(((question.length / 35).ceil()*10)+60),,
                 child: Column(
                   children: [
                     Row(
                       children: [
                         iconTextValue(icon1, bgColor, text1, value1.toString(),
-                            () {
+                            () async {
                           if (text1 == 'Stocks') {
                             BlocProvider.of<FetchingDataBloc>(context)
                                 .add(LoadStockInvestmentEvent(
@@ -676,8 +669,33 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                       stocks: [],
                                     )));
                             Navigator.of(context)
-                                .pushReplacementNamed(StocksInvestment.route);
+                                .pushNamed(StocksInvestment.route);
                           } else {
+                            final pref = await SharedPreferences.getInstance();
+                            if (text1 == 'Business') {
+                              textEditingController.text =
+                                  pref.getInt('business').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('business').toString();
+                            } else if (text1 == 'HousingLoan') {
+                              textEditingController.text =
+                                  pref.getInt('housingLoan').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('housingLoan').toString();
+                            } else if (text1 == 'HealthInsurance') {
+                              textEditingController.text = pref
+                                          .getInt('healthInsurance')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref.getInt('healthInsurance').toString();
+                            } else if (text1 == 'Gold') {
+                              textEditingController.text =
+                                  pref.getInt('gold').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('gold').toString();
+                            }
                             newSelectFormDialog(mainTitle, text1, icon1);
                           }
                         }),
@@ -686,7 +704,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                             width: 1,
                             color: colorTextBCBC.withOpacity(0.36)),
                         iconTextValue(icon2, bgColor, text2, value2.toString(),
-                            () {
+                            () async {
                           if (text2 == 'Mutual Funds') {
                             BlocProvider.of<MFInvestmentsBloc>(context).add(
                                 LoadMFInvestmentsEvent(
@@ -698,9 +716,35 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                         investment: 0,
                                         gain: 0,
                                         mFStocks: [])));
-                            Navigator.of(context).pushReplacementNamed(
-                                MutualFundsInvestment.route);
+                            Navigator.of(context)
+                                .pushNamed(MutualFundsInvestment.route);
                           } else {
+                            final pref = await SharedPreferences.getInstance();
+
+                            if (text2 == 'Salary') {
+                              textEditingController.text =
+                                  pref.getInt('salary').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('salary').toString();
+                            } else if (text2 == 'VehicleLoan') {
+                              textEditingController.text =
+                                  pref.getInt('vehicleLoan').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('vehicleLoan').toString();
+                            } else if (text2 == 'VehicleInsurance') {
+                              textEditingController.text = pref
+                                          .getInt('vehicleInsurance')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref.getInt('vehicleInsurance').toString();
+                            } else if (text2 == 'Cash') {
+                              textEditingController.text =
+                                  pref.getInt('cash').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('cash').toString();
+                            }
                             newSelectFormDialog(mainTitle, text2, icon2);
                           }
                         })
@@ -710,7 +754,39 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       Row(
                         children: [
                           iconTextValue(
-                              icon3, bgColor, text3, value3.toString(), () {
+                              icon3, bgColor, text3, value3.toString(),
+                              () async {
+                            final pref = await SharedPreferences.getInstance();
+
+                            if (text3 == 'SIPMonthly') {
+                              textEditingController.text =
+                                  pref.getInt('sIPMonthly').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('sIPMonthly').toString();
+                            } else if (text3 == 'Professional') {
+                              textEditingController.text =
+                                  pref.getInt('professional').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('professional').toString();
+                            } else if (text3 == 'EducationLoan') {
+                              textEditingController.text =
+                                  pref.getInt('educationLoan').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('educationLoan').toString();
+                            } else if (text3 == 'TermInsurance') {
+                              textEditingController.text =
+                                  pref.getInt('termInsurance').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('termInsurance').toString();
+                            } else if (text3 == 'RealEstate') {
+                              textEditingController.text =
+                                  pref.getInt('realEstate').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('realEstate').toString();
+                            }
                             newSelectFormDialog(mainTitle, text3, icon3);
                           }),
                           Container(
@@ -718,7 +794,42 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               width: 1,
                               color: colorTextBCBC.withOpacity(0.36)),
                           iconTextValue(
-                              icon4, bgColor, text4, value4.toString(), () {
+                              icon4, bgColor, text4, value4.toString(),
+                              () async {
+                            final pref = await SharedPreferences.getInstance();
+
+                            if (text4 == 'PPFMonthly') {
+                              textEditingController.text =
+                                  pref.getInt('pPFMonthly').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('pPFMonthly').toString();
+                            } else if (text4 == 'SpouseIncome') {
+                              textEditingController.text =
+                                  pref.getInt('spouseIncome').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('spouseIncome').toString();
+                            } else if (text4 == 'PersonalLoan') {
+                              textEditingController.text =
+                                  pref.getInt('personalLoan').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('personalLoan').toString();
+                            } else if (text4 == 'TraditionalInsurance') {
+                              textEditingController.text = pref
+                                          .getInt('traditionalInsurance')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref
+                                      .getInt('traditionalInsurance')
+                                      .toString();
+                            } else if (text4 == 'Vehicle') {
+                              textEditingController.text =
+                                  pref.getInt('vehicle').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('vehicle').toString();
+                            }
                             newSelectFormDialog(mainTitle, text4, icon4);
                           })
                         ],
@@ -726,7 +837,43 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       Row(
                         children: [
                           iconTextValue(
-                              icon5, bgColor, text5, value5.toString(), () {
+                              icon5, bgColor, text5, value5.toString(),
+                              () async {
+                            final pref = await SharedPreferences.getInstance();
+
+                            if (text5 == 'PostOfficeOrVikas..') {
+                              textEditingController.text = pref
+                                          .getInt('postOfficeOrVikasPatra')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref
+                                      .getInt('postOfficeOrVikasPatra')
+                                      .toString();
+                            } else if (text5 == 'OtherIncome') {
+                              textEditingController.text =
+                                  pref.getInt('otherIncome').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('otherIncome').toString();
+                            } else if (text5 == 'OtherLoan') {
+                              textEditingController.text =
+                                  pref.getInt('otherLoan').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('otherLoan').toString();
+                            } else if (text5 == 'OtherInsurance') {
+                              textEditingController.text = pref
+                                          .getInt('otherInsurance')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref.getInt('otherInsurance').toString();
+                            } else if (text5 == 'OtherAsset') {
+                              textEditingController.text =
+                                  pref.getInt('otherAsset').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('otherAsset').toString();
+                            }
                             newSelectFormDialog(mainTitle, text5, icon5);
                           }),
                           Container(
@@ -734,7 +881,44 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               width: 1,
                               color: colorTextBCBC.withOpacity(0.36)),
                           iconTextValue(
-                              icon6, bgColor, text6, value6.toString(), () {
+                              icon6, bgColor, text6, value6.toString(),
+                              () async {
+                            final pref = await SharedPreferences.getInstance();
+
+                            if (text6 == 'PrivateInvestmentScheme..') {
+                              textEditingController.text = pref
+                                          .getInt('privateInvestmentScheme')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref
+                                      .getInt('privateInvestmentScheme')
+                                      .toString();
+                            } else if (text6 == 'HouseHoldMonthly') {
+                              textEditingController.text = pref
+                                          .getInt('houseHoldMonthly')
+                                          .toString() ==
+                                      'null'
+                                  ? ''
+                                  : pref.getInt('houseHoldMonthly').toString();
+                            } else if (text6 == 'MortgageLoan') {
+                              textEditingController.text =
+                                  pref.getInt('mortgageLoan').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('mortgageLoan').toString();
+                            } else if (text6 == 'ULIP') {
+                              textEditingController.text =
+                                  pref.getInt('uLIP').toString() == 'null'
+                                      ? ''
+                                      : pref.getInt('uLIP').toString();
+                            } else if (text6 == 'FixedDeposite') {
+                              textEditingController.text =
+                                  pref.getInt('fixedDeposite').toString() ==
+                                          'null'
+                                      ? ''
+                                      : pref.getInt('fixedDeposite').toString();
+                            }
                             newSelectFormDialog(mainTitle, text6, icon6);
                           })
                         ],
@@ -795,127 +979,166 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   SizedBox(
                                     height: 2.h,
                                   ),
-                                  cTextFormField('Enter $lable', (value) async {
-                                    final pref =
-                                        await SharedPreferences.getInstance();
-
-                                    if (lable == 'SIPMonthly') {
-                                      sIPMonthly = int.parse(value);
-                                      await pref.setInt(
-                                          'sIPMonthly', sIPMonthly);
-                                    } else if (lable == 'PPFMonthly') {
-                                      pPFMonthly = int.parse(value);
-                                      await pref.setInt(
-                                          'pPFMonthly', pPFMonthly);
-                                    } else if (lable == 'PostOfficeOrVikas..') {
-                                      postOfficeOrVikasPatra = int.parse(value);
-                                      await pref.setInt(
-                                          'postOfficeOrVikasPatra',
-                                          postOfficeOrVikasPatra);
-                                    } else if (lable == 'PrivateInvestment..') {
-                                      privateInvestmentScheme =
-                                          int.parse(value);
-                                      await pref.setInt(
-                                          'privateInvestmentScheme',
-                                          privateInvestmentScheme);
-                                    } else if (lable == 'Business') {
-                                      business = int.parse(value);
-                                      await pref.setInt('business', business);
-                                    } else if (lable == 'Salary') {
-                                      salary = int.parse(value);
-                                      await pref.setInt('salary', salary);
-                                    } else if (lable == 'Professional') {
-                                      professional = int.parse(value);
-                                      await pref.setInt(
-                                          'professional', professional);
-                                    } else if (lable == 'SpouseIncome') {
-                                      spouseIncome = int.parse(value);
-                                      await pref.setInt(
-                                          'spouseIncome', spouseIncome);
-                                    } else if (lable == 'OtherIncome') {
-                                      otherIncome = int.parse(value);
-                                      await pref.setInt(
-                                          'otherIncome', otherIncome);
-                                    } else if (lable == 'HouseHoldMonthly') {
-                                      houseHoldMonthly = int.parse(value);
-                                      await pref.setInt(
-                                          'houseHoldMonthly', houseHoldMonthly);
-                                    } else if (lable == 'HousingLoan') {
-                                      housingLoan = int.parse(value);
-                                      await pref.setInt(
-                                          'housingLoan', housingLoan);
-                                    } else if (lable == 'VehicleLoan') {
-                                      vehicleLoan = int.parse(value);
-                                      await pref.setInt(
-                                          'vehicleLoan', vehicleLoan);
-                                    } else if (lable == 'EducationLoan') {
-                                      educationLoan = int.parse(value);
-                                      await pref.setInt(
-                                          'educationLoan', educationLoan);
-                                    } else if (lable == 'PersonalLoan') {
-                                      personalLoan = int.parse(value);
-                                      await pref.setInt(
-                                          'personalLoan', personalLoan);
-                                    } else if (lable == 'OtherLoan') {
-                                      otherLoan = int.parse(value);
-                                      await pref.setInt('otherLoan', otherLoan);
-                                    } else if (lable == 'MortgageLoan') {
-                                      mortgageLoan = int.parse(value);
-                                      await pref.setInt(
-                                          'mortgageLoan', mortgageLoan);
-                                    } else if (lable == 'HealthInsurance') {
-                                      healthInsurance = int.parse(value);
-                                      await pref.setInt(
-                                          'healthInsurance', healthInsurance);
-                                    } else if (lable == 'VehicleInsurance') {
-                                      vehicleInsurance = int.parse(value);
-                                      await pref.setInt(
-                                          'vehicleInsurance', vehicleInsurance);
-                                    } else if (lable == 'TermInsurance') {
-                                      termInsurance = int.parse(value);
-                                      await pref.setInt(
-                                          'termInsurance', termInsurance);
-                                    } else if (lable ==
-                                        'TraditionalInsurance') {
-                                      traditionalInsurance = int.parse(value);
-                                      await pref.setInt('traditionalInsurance',
-                                          traditionalInsurance);
-                                    } else if (lable == 'OtherInsurance') {
-                                      otherInsurance = int.parse(value);
-                                      await pref.setInt(
-                                          'otherInsurance', otherInsurance);
-                                    } else if (lable == 'ULIP') {
-                                      uLIP = int.parse(value);
-                                      await pref.setInt('uLIP', uLIP);
-                                    } else if (lable == 'Gold') {
-                                      gold = int.parse(value);
-                                      await pref.setInt('gold', gold);
-                                    } else if (lable == 'Cash') {
-                                      cash = int.parse(value);
-                                      await pref.setInt('cash', cash);
-                                    } else if (lable == 'RealEstate') {
-                                      realEstate = int.parse(value);
-                                      await pref.setInt(
-                                          'realEstate', realEstate);
-                                    } else if (lable == 'OtherAsset') {
-                                      otherAsset = int.parse(value);
-                                      await pref.setInt(
-                                          'otherAsset', otherAsset);
-                                    } else if (lable == 'Vehicle') {
-                                      vehicle = int.parse(value);
-                                      await pref.setInt('vehicle', vehicle);
-                                    } else if (lable == 'FixedDeposite') {
-                                      fixedDeposite = int.parse(value);
-                                      await pref.setInt(
-                                          'fixedDeposite', fixedDeposite);
-                                    }
-                                  }),
+                                  cTextFormField(
+                                    'Enter $lable',
+                                    (values) {
+                                      int value =
+                                          int.parse(values.replaceAll(',', ''));
+                                      if (lable == 'SIPMonthly') {
+                                        sIPMonthly = value;
+                                      } else if (lable == 'PPFMonthly') {
+                                        pPFMonthly = value;
+                                      } else if (lable ==
+                                          'PostOfficeOrVikas..') {
+                                        postOfficeOrVikasPatra = value;
+                                      } else if (lable ==
+                                          'PrivateInvestment..') {
+                                        privateInvestmentScheme = value;
+                                      } else if (lable == 'Business') {
+                                        business = value;
+                                      } else if (lable == 'Salary') {
+                                        salary = value;
+                                      } else if (lable == 'Professional') {
+                                        professional = value;
+                                      } else if (lable == 'SpouseIncome') {
+                                        spouseIncome = value;
+                                      } else if (lable == 'OtherIncome') {
+                                        otherIncome = value;
+                                      } else if (lable == 'HouseHoldMonthly') {
+                                        houseHoldMonthly = value;
+                                      } else if (lable == 'HousingLoan') {
+                                        housingLoan = value;
+                                      } else if (lable == 'VehicleLoan') {
+                                        vehicleLoan = value;
+                                      } else if (lable == 'EducationLoan') {
+                                        educationLoan = value;
+                                      } else if (lable == 'PersonalLoan') {
+                                        personalLoan = value;
+                                      } else if (lable == 'OtherLoan') {
+                                        otherLoan = value;
+                                      } else if (lable == 'MortgageLoan') {
+                                        mortgageLoan = value;
+                                      } else if (lable == 'HealthInsurance') {
+                                        healthInsurance = value;
+                                      } else if (lable == 'VehicleInsurance') {
+                                        vehicleInsurance = value;
+                                      } else if (lable == 'TermInsurance') {
+                                        termInsurance = value;
+                                      } else if (lable ==
+                                          'TraditionalInsurance') {
+                                        traditionalInsurance = value;
+                                      } else if (lable == 'OtherInsurance') {
+                                        otherInsurance = value;
+                                      } else if (lable == 'ULIP') {
+                                        uLIP = value;
+                                      } else if (lable == 'Gold') {
+                                        gold = value;
+                                      } else if (lable == 'Cash') {
+                                        cash = value;
+                                      } else if (lable == 'RealEstate') {
+                                        realEstate = value;
+                                      } else if (lable == 'OtherAsset') {
+                                        otherAsset = value;
+                                      } else if (lable == 'Vehicle') {
+                                        vehicle = value;
+                                      } else if (lable == 'FixedDeposite') {
+                                        fixedDeposite = value;
+                                      }
+                                    },
+                                  ),
                                   SizedBox(
                                     height: 2.h,
                                   ),
                                   InkWell(
                                     splashColor: colorWhite,
-                                    onTap: () {
+                                    onTap: () async {
+                                      final pref =
+                                          await SharedPreferences.getInstance();
+                                      if (lable == 'SIPMonthly') {
+                                        await pref.setInt(
+                                            'sIPMonthly', sIPMonthly);
+                                      } else if (lable == 'PPFMonthly') {
+                                        await pref.setInt(
+                                            'pPFMonthly', pPFMonthly);
+                                      } else if (lable ==
+                                          'PostOfficeOrVikas..') {
+                                        await pref.setInt(
+                                            'postOfficeOrVikasPatra',
+                                            postOfficeOrVikasPatra);
+                                      } else if (lable ==
+                                          'PrivateInvestment..') {
+                                        await pref.setInt(
+                                            'privateInvestmentScheme',
+                                            privateInvestmentScheme);
+                                      } else if (lable == 'Business') {
+                                        await pref.setInt('business', business);
+                                      } else if (lable == 'Salary') {
+                                        await pref.setInt('salary', salary);
+                                      } else if (lable == 'Professional') {
+                                        await pref.setInt(
+                                            'professional', professional);
+                                      } else if (lable == 'SpouseIncome') {
+                                        await pref.setInt(
+                                            'spouseIncome', spouseIncome);
+                                      } else if (lable == 'OtherIncome') {
+                                        await pref.setInt(
+                                            'otherIncome', otherIncome);
+                                      } else if (lable == 'HouseHoldMonthly') {
+                                        await pref.setInt('houseHoldMonthly',
+                                            houseHoldMonthly);
+                                      } else if (lable == 'HousingLoan') {
+                                        await pref.setInt(
+                                            'housingLoan', housingLoan);
+                                      } else if (lable == 'VehicleLoan') {
+                                        await pref.setInt(
+                                            'vehicleLoan', vehicleLoan);
+                                      } else if (lable == 'EducationLoan') {
+                                        await pref.setInt(
+                                            'educationLoan', educationLoan);
+                                      } else if (lable == 'PersonalLoan') {
+                                        await pref.setInt(
+                                            'personalLoan', personalLoan);
+                                      } else if (lable == 'OtherLoan') {
+                                        await pref.setInt(
+                                            'otherLoan', otherLoan);
+                                      } else if (lable == 'MortgageLoan') {
+                                        await pref.setInt(
+                                            'mortgageLoan', mortgageLoan);
+                                      } else if (lable == 'HealthInsurance') {
+                                        await pref.setInt(
+                                            'healthInsurance', healthInsurance);
+                                      } else if (lable == 'VehicleInsurance') {
+                                        await pref.setInt('vehicleInsurance',
+                                            vehicleInsurance);
+                                      } else if (lable == 'TermInsurance') {
+                                        await pref.setInt(
+                                            'termInsurance', termInsurance);
+                                      } else if (lable ==
+                                          'TraditionalInsurance') {
+                                        await pref.setInt(
+                                            'traditionalInsurance',
+                                            traditionalInsurance);
+                                      } else if (lable == 'OtherInsurance') {
+                                        await pref.setInt(
+                                            'otherInsurance', otherInsurance);
+                                      } else if (lable == 'ULIP') {
+                                        await pref.setInt('uLIP', uLIP);
+                                      } else if (lable == 'Gold') {
+                                        await pref.setInt('gold', gold);
+                                      } else if (lable == 'Cash') {
+                                        await pref.setInt('cash', cash);
+                                      } else if (lable == 'RealEstate') {
+                                        await pref.setInt(
+                                            'realEstate', realEstate);
+                                      } else if (lable == 'OtherAsset') {
+                                        await pref.setInt(
+                                            'otherAsset', otherAsset);
+                                      } else if (lable == 'Vehicle') {
+                                        await pref.setInt('vehicle', vehicle);
+                                      } else if (lable == 'FixedDeposite') {
+                                        await pref.setInt(
+                                            'fixedDeposite', fixedDeposite);
+                                      }
                                       wealthMeter();
                                       Navigator.of(context).pop();
                                       checkWealthScoreDialogBox();
@@ -924,7 +1147,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 3.w),
                                       height: 5.h,
-                                      // width: 30.w,
                                       decoration: BoxDecoration(
                                           color: colorRed,
                                           borderRadius:
@@ -1045,7 +1267,18 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                             overflow: TextOverflow.fade,
                             style: textStyle9(colorText3D3D)),
                         SizedBox(height: 0.5.h),
-                        Text('₹ ${CommonFunction().splitString(value)}/-',
+                        Text(
+                            value.length == 6
+                                ? '₹${value.substring(0, 1)}.${value.substring(1, 2)} L'
+                                : value.length == 7
+                                    ? '₹${value.substring(0, 2)}.${value.substring(2, 3)} L'
+                                    : value.length == 8
+                                        ? '₹${value.substring(0, 1)}.${value.substring(1, 2)} Cr'
+                                        : value.length == 9
+                                            ? '₹${value.substring(0, 2)}.${value.substring(2, 3)} Cr'
+                                            : value.length == 10
+                                                ? '₹${value.substring(0, 3)}.${value.substring(3, 4)} Cr'
+                                                : '₹ ${CommonFunction().splitString(value)}',
                             style: textStyle13Bold(colorBlack))
                       ],
                     ),
@@ -1065,9 +1298,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                   CircleAvatar(
                     radius: 2.5.h,
                     backgroundColor: bgColor,
-                    child: Image.asset(icon,
-                        // color: colorWhite,
-                        height: 3.5.h),
+                    child: Image.asset(icon, height: 3.5.h),
                   ),
                   SizedBox(width: 2.w),
                   Column(
@@ -1078,8 +1309,18 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                           overflow: TextOverflow.fade,
                           style: textStyle9(colorText3D3D)),
                       SizedBox(height: 0.5.h),
-                      Text('₹ ${CommonFunction().splitString(value)}/-',
-                          overflow: TextOverflow.visible,
+                      Text(
+                          value.length == 6
+                              ? '₹${value.substring(0, 1)}.${value.substring(1, 2)} L'
+                              : value.length == 7
+                                  ? '₹${value.substring(0, 2)}.${value.substring(2, 3)} L'
+                                  : value.length == 8
+                                      ? '₹${value.substring(0, 1)}.${value.substring(1, 2)} Cr'
+                                      : value.length == 9
+                                          ? '₹${value.substring(0, 2)}.${value.substring(2, 3)} Cr'
+                                          : value.length == 10
+                                              ? '₹${value.substring(0, 3)}.${value.substring(3, 4)} Cr'
+                                              : '₹ ${CommonFunction().splitString(value)}',
                           style: textStyle13Bold(colorBlack))
                     ],
                   ),
@@ -1124,15 +1365,15 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         spouseIncome: spouseIncome,
         otherIncome: otherIncome,
         houseHoldMonthly: houseHoldMonthly,
-        totalMonthlyEmi: 8500,
-        totalInsurancePremiumYearly: 50000,
-        childrenEducationYearly: 120000,
+        totalMonthlyEmi: 0,
+        totalInsurancePremiumYearly: 0,
+        childrenEducationYearly: 0,
         otherExpenseYearly: 0,
         vehicle: vehicle,
         gold: gold,
         savingAccount: 0,
         cash: cash,
-        emergencyFunds: 300000,
+        emergencyFunds: 0,
         otherAsset: otherAsset,
         mutualFunds: mutualFundsValue,
         pPF: 0,
@@ -1162,7 +1403,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         otherLoan: otherLoan));
   }
 
-  cTextFormField(String hintText, ValueChanged<String> onChanged) {
+  cTextFormField(
+    String hintText,
+    ValueChanged<String> onChanged,
+  ) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 3.w),
       padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -1177,9 +1421,14 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       child: SizedBox(
         width: 50.w,
         child: TextFormField(
+          controller: textEditingController,
           autofocus: true,
           style: textStyle12(colorText7070),
-          inputFormatters: [LengthLimitingTextInputFormatter(7)],
+          inputFormatters: [
+            IndianNumberInputFormatter(),
+            // ThousandsSeparatorInputFormatter(),
+            LengthLimitingTextInputFormatter(13),
+          ],
           decoration: InputDecoration.collapsed(
             hintText: hintText,
             hintStyle: textStyle12(colorText7070),
@@ -1187,10 +1436,44 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
           ),
-          keyboardType: TextInputType.number,
           onChanged: onChanged,
+          keyboardType: TextInputType.number,
+          textCapitalization: TextCapitalization.sentences,
         ),
       ),
     );
+  }
+}
+
+class IndianNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String cleanText = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+    String formattedText = _formatIndianNumber(cleanText);
+    return TextEditingValue(
+      text: formattedText,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: formattedText.length),
+      ),
+    );
+  }
+
+  String _formatIndianNumber(String text) {
+    return text.length >= 10
+        ? '${text.substring(0, 3)},${text.substring(3, 5)},${text.substring(5, 7)},${text.substring(7)}'
+        : text.length == 9
+            ? '${text.substring(0, 2)},${text.substring(2, 4)},${text.substring(4, 6)},${text.substring(6)}'
+            : text.length == 8
+                ? '${text.substring(0, 1)},${text.substring(1, 3)},${text.substring(3, 5)},${text.substring(5)}'
+                : text.length == 7
+                    ? '${text.substring(0, 2)},${text.substring(2, 4)},${text.substring(4)}'
+                    : text.length == 6
+                        ? '${text.substring(0, 1)},${text.substring(1, 3)},${text.substring(3)}'
+                        : text.length == 5
+                            ? '${text.substring(0, 2)},${text.substring(2)}'
+                            : text.length == 4
+                                ? '${text.substring(0, 1)},${text.substring(1)}'
+                                : text;
   }
 }
