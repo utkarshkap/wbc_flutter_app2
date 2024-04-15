@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-FamilyMemberModel familyMemberModelFromJson(String str) => FamilyMemberModel.fromJson(json.decode(str));
+FamilyMemberModel familyMemberModelFromJson(String str) =>
+    FamilyMemberModel.fromJson(json.decode(str));
 
-String familyMemberModelToJson(FamilyMemberModel data) => json.encode(data.toJson());
+String familyMemberModelToJson(FamilyMemberModel data) =>
+    json.encode(data.toJson());
 
 class FamilyMemberModel {
   FamilyMemberModel({
@@ -17,7 +19,8 @@ class FamilyMemberModel {
   final String mobileNo;
   final String relation;
 
-  factory FamilyMemberModel.fromJson(Map<String, dynamic> json) => FamilyMemberModel(
+  factory FamilyMemberModel.fromJson(Map<String, dynamic> json) =>
+      FamilyMemberModel(
         userid: json["userid"],
         name: json["name"],
         mobileNo: json["mobileNo"],
@@ -35,5 +38,4 @@ class FamilyMemberModel {
   String toString() {
     return 'FamilyMemberModel{userid: $userid, name: $name, mobileNo: $mobileNo, relation: $relation}';
   }
-
 }

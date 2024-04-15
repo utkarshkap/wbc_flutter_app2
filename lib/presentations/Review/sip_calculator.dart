@@ -149,7 +149,7 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                         value: sipAmount.toDouble(),
                                         min: 500,
                                         max: 100000,
-                                        divisions: 100,
+                                        divisions: 199,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
                                         label:
@@ -157,12 +157,11 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                         autofocus: true,
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            sipAmount = newValue.round();
+                                            sipAmount =
+                                                (newValue / 500).round() * 500;
                                           });
                                         },
                                         onChangeEnd: (double newValue) {
-                                          print(
-                                              'Ended change on SipAmount $newValue');
                                           endSliderChanges();
                                           setState(() {
                                             isSubmit = true;
@@ -170,7 +169,11 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                         },
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          if (newValue < 100000) {
+                                            return '${newValue.round()}';
+                                          } else {
+                                            return '100000';
+                                          }
                                         }),
                                     Padding(
                                       padding: EdgeInsets.only(

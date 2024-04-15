@@ -148,8 +148,8 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                           var weekDay = d.weekday;
                                           var firstDayOfWeek = d.subtract(
                                               Duration(days: weekDay));
-                                          print('-------${date.weekday}');
-                                          print('*********${date.weekday - 1}');
+                                          // print('-------${date.weekday}');
+                                          // print('*********${date.weekday - 1}');
                                         }
                                         if (selectedHistoryTime == 'Monthly') {
                                           filteredItem = DateFormat('MM-yyyy')

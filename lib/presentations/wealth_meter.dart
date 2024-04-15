@@ -12,12 +12,10 @@ import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
 import 'package:wbc_connect_app/models/stock_investment_model.dart';
-import 'package:wbc_connect_app/presentations/Review/mutual_funds_investment.dart';
 import '../blocs/MFInvestments/mf_investments_bloc.dart';
 import '../core/api/api_consts.dart';
 import '../resources/resource.dart';
 import '../widgets/appbarButton.dart';
-import 'Review/stocks_investment.dart';
 
 class WealthMeterScreen extends StatefulWidget {
   static const route = '/Wealth-Meter-Screen';
@@ -74,11 +72,15 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     false,
     false,
   ];
+  bool isCheckedStocks = false;
+  bool isCheckedMutualFunds = false;
   TextEditingController textEditingController = TextEditingController();
 
   getWealthData() async {
     final pref = await SharedPreferences.getInstance();
 
+    stocksValue = pref.getInt('stocksValue') ?? 0;
+    mutualFundsValue = pref.getInt('mutualFundsValue') ?? 0;
     sIPMonthly = pref.getInt('sIPMonthly') ?? 0;
     pPFMonthly = pref.getInt('pPFMonthly') ?? 0;
     postOfficeOrVikasPatra = pref.getInt('postOfficeOrVikasPatra') ?? 0;
@@ -115,6 +117,9 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
   int userAge = 0;
   double interestRate = 7;
   int overdraft = 0;
+
+  int stocksApiData = 0;
+  int mutualFundsApiData = 0;
 
   // Investments
   int stocksValue = 0;
@@ -588,12 +593,12 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
       child: BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
         listener: (context, state) {
           if (state is MFInvestmentsLoadedState) {
-            mutualFundsValue = 0;
+            mutualFundsApiData = 0;
             for (int i = 0;
                 i < state.investmentPortfolio.mFStocks.length;
                 i++) {
               if (state.investmentPortfolio.mFStocks[i].unit.toInt() != 0) {
-                mutualFundsValue += ((state.investmentPortfolio.mFStocks[i]
+                mutualFundsApiData += ((state.investmentPortfolio.mFStocks[i]
                                 .investment_Unit -
                             state.investmentPortfolio.mFStocks[i].sale_Unit) *
                         state.investmentPortfolio.mFStocks[i].nav)
@@ -606,12 +611,12 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         child: BlocListener<FetchingDataBloc, FetchingDataState>(
           listener: (context, state) {
             if (state is StockInvestmentLoadedState) {
-              stocksValue = 0;
+              stocksApiData = 0;
 
               for (int i = 0;
                   i < state.stockInvestmentPortfolio.stocks.length;
                   i++) {
-                stocksValue +=
+                stocksApiData +=
                     ((state.stockInvestmentPortfolio.stocks[i].balanceQty) *
                             state.stockInvestmentPortfolio.stocks[i].rate)
                         .toInt();
@@ -656,48 +661,52 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       children: [
                         iconTextValue(icon1, bgColor, text1, value1.toString(),
                             () async {
+                          // if (text1 == 'Stocks') {
+                          // BlocProvider.of<FetchingDataBloc>(context)
+                          //     .add(LoadStockInvestmentEvent(
+                          //         userId: ApiUser.userId,
+                          //         investmentPortfolio: StockInvestmentModel(
+                          //           code: 0,
+                          //           message: '',
+                          //           portfolio: 0,
+                          //           investment: 0,
+                          //           gain: 0,
+                          //           stocks: [],
+                          //         )));
+                          // Navigator.of(context)
+                          //     .pushNamed(StocksInvestment.route);
+                          // } else {
+                          final pref = await SharedPreferences.getInstance();
+
                           if (text1 == 'Stocks') {
-                            BlocProvider.of<FetchingDataBloc>(context)
-                                .add(LoadStockInvestmentEvent(
-                                    userId: ApiUser.userId,
-                                    investmentPortfolio: StockInvestmentModel(
-                                      code: 0,
-                                      message: '',
-                                      portfolio: 0,
-                                      investment: 0,
-                                      gain: 0,
-                                      stocks: [],
-                                    )));
-                            Navigator.of(context)
-                                .pushNamed(StocksInvestment.route);
-                          } else {
-                            final pref = await SharedPreferences.getInstance();
-                            if (text1 == 'Business') {
-                              textEditingController.text =
-                                  pref.getInt('business').toString() == 'null'
-                                      ? ''
-                                      : pref.getInt('business').toString();
-                            } else if (text1 == 'HousingLoan') {
-                              textEditingController.text =
-                                  pref.getInt('housingLoan').toString() ==
-                                          'null'
-                                      ? ''
-                                      : pref.getInt('housingLoan').toString();
-                            } else if (text1 == 'HealthInsurance') {
-                              textEditingController.text = pref
-                                          .getInt('healthInsurance')
-                                          .toString() ==
-                                      'null'
-                                  ? ''
-                                  : pref.getInt('healthInsurance').toString();
-                            } else if (text1 == 'Gold') {
-                              textEditingController.text =
-                                  pref.getInt('gold').toString() == 'null'
-                                      ? ''
-                                      : pref.getInt('gold').toString();
-                            }
-                            newSelectFormDialog(mainTitle, text1, icon1);
+                            textEditingController.text =
+                                pref.getInt('stocksValue').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('stocksValue').toString();
+                          } else if (text1 == 'Business') {
+                            textEditingController.text =
+                                pref.getInt('business').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('business').toString();
+                          } else if (text1 == 'HousingLoan') {
+                            textEditingController.text =
+                                pref.getInt('housingLoan').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('housingLoan').toString();
+                          } else if (text1 == 'HealthInsurance') {
+                            textEditingController.text =
+                                pref.getInt('healthInsurance').toString() ==
+                                        'null'
+                                    ? ''
+                                    : pref.getInt('healthInsurance').toString();
+                          } else if (text1 == 'Gold') {
+                            textEditingController.text =
+                                pref.getInt('gold').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('gold').toString();
                           }
+                          newSelectFormDialog(mainTitle, text1, icon1);
+                          // }
                         }),
                         Container(
                             height: 9.h,
@@ -705,48 +714,53 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                             color: colorTextBCBC.withOpacity(0.36)),
                         iconTextValue(icon2, bgColor, text2, value2.toString(),
                             () async {
+                          // if (text2 == 'Mutual Funds') {
+                          // BlocProvider.of<MFInvestmentsBloc>(context).add(
+                          //     LoadMFInvestmentsEvent(
+                          //         userId: ApiUser.userId,
+                          //         investmentPortfolio: InvestmentPortfolio(
+                          //             code: 0,
+                          //             message: '',
+                          //             portfolio: 0,
+                          //             investment: 0,
+                          //             gain: 0,
+                          //             mFStocks: [])));
+                          // Navigator.of(context)
+                          //     .pushNamed(MutualFundsInvestment.route);
+                          // } else {
+                          final pref = await SharedPreferences.getInstance();
                           if (text2 == 'Mutual Funds') {
-                            BlocProvider.of<MFInvestmentsBloc>(context).add(
-                                LoadMFInvestmentsEvent(
-                                    userId: ApiUser.userId,
-                                    investmentPortfolio: InvestmentPortfolio(
-                                        code: 0,
-                                        message: '',
-                                        portfolio: 0,
-                                        investment: 0,
-                                        gain: 0,
-                                        mFStocks: [])));
-                            Navigator.of(context)
-                                .pushNamed(MutualFundsInvestment.route);
-                          } else {
-                            final pref = await SharedPreferences.getInstance();
-
-                            if (text2 == 'Salary') {
-                              textEditingController.text =
-                                  pref.getInt('salary').toString() == 'null'
-                                      ? ''
-                                      : pref.getInt('salary').toString();
-                            } else if (text2 == 'VehicleLoan') {
-                              textEditingController.text =
-                                  pref.getInt('vehicleLoan').toString() ==
-                                          'null'
-                                      ? ''
-                                      : pref.getInt('vehicleLoan').toString();
-                            } else if (text2 == 'VehicleInsurance') {
-                              textEditingController.text = pref
-                                          .getInt('vehicleInsurance')
-                                          .toString() ==
-                                      'null'
-                                  ? ''
-                                  : pref.getInt('vehicleInsurance').toString();
-                            } else if (text2 == 'Cash') {
-                              textEditingController.text =
-                                  pref.getInt('cash').toString() == 'null'
-                                      ? ''
-                                      : pref.getInt('cash').toString();
-                            }
-                            newSelectFormDialog(mainTitle, text2, icon2);
+                            textEditingController.text = pref
+                                        .getInt('mutualFundsValue')
+                                        .toString() ==
+                                    'null'
+                                ? ''
+                                : pref.getInt('mutualFundsValue').toString();
+                          } else if (text2 == 'Salary') {
+                            textEditingController.text =
+                                pref.getInt('salary').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('salary').toString();
+                          } else if (text2 == 'VehicleLoan') {
+                            textEditingController.text =
+                                pref.getInt('vehicleLoan').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('vehicleLoan').toString();
+                          } else if (text2 == 'VehicleInsurance') {
+                            textEditingController.text = pref
+                                        .getInt('vehicleInsurance')
+                                        .toString() ==
+                                    'null'
+                                ? ''
+                                : pref.getInt('vehicleInsurance').toString();
+                          } else if (text2 == 'Cash') {
+                            textEditingController.text =
+                                pref.getInt('cash').toString() == 'null'
+                                    ? ''
+                                    : pref.getInt('cash').toString();
                           }
+                          newSelectFormDialog(mainTitle, text2, icon2);
+                          // }
                         })
                       ],
                     ),
@@ -885,7 +899,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               () async {
                             final pref = await SharedPreferences.getInstance();
 
-                            if (text6 == 'PrivateInvestmentScheme..') {
+                            if (text6 == 'PrivateInvestment..') {
                               textEditingController.text = pref
                                           .getInt('privateInvestmentScheme')
                                           .toString() ==
@@ -935,6 +949,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
   }
 
   newSelectFormDialog(String mainTitle, String lable, String icon) {
+    isCheckedStocks = false;
+    isCheckedMutualFunds = false;
     return showGeneralDialog(
         context: context,
         barrierDismissible: true,
@@ -976,15 +992,80 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   ),
                                   Text(lable,
                                       style: textStyle14Bold(colorBlack)),
+                                  if (lable == 'Stocks' ||
+                                      lable == 'Mutual Funds') ...[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Checkbox(
+                                            value: lable == 'Stocks'
+                                                ? isCheckedStocks
+                                                : isCheckedMutualFunds,
+                                            focusColor: colorWhite,
+                                            activeColor: colorRedFFC,
+                                            checkColor: colorRed,
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize
+                                                    .shrinkWrap,
+                                            side: const BorderSide(
+                                                color: colorDFDF),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            onChanged: (val) {
+                                              setState(() {
+                                                if (lable == 'Stocks') {
+                                                  isCheckedStocks =
+                                                      !isCheckedStocks;
+                                                  if (isCheckedStocks == true) {
+                                                    textEditingController.text =
+                                                        stocksApiData
+                                                            .toString();
+                                                  }
+                                                  // else {
+                                                  //   textEditingController.text =
+                                                  //       '';
+                                                  // }
+                                                } else {
+                                                  isCheckedMutualFunds =
+                                                      !isCheckedMutualFunds;
+                                                  if (isCheckedMutualFunds ==
+                                                      true) {
+                                                    textEditingController.text =
+                                                        mutualFundsApiData
+                                                            .toString();
+                                                  }
+                                                  //  else {
+                                                  //   textEditingController.text =
+                                                  //       '';
+                                                  // }
+                                                }
+                                              });
+                                            }),
+                                        Text(
+                                          'Fetch my investment details',
+                                          style: textStyle12(colorText7070),
+                                        )
+                                      ],
+                                    ),
+                                  ],
                                   SizedBox(
-                                    height: 2.h,
+                                    height: lable == 'Stocks' ||
+                                            lable == 'Mutual Funds'
+                                        ? 0.h
+                                        : 2.h,
                                   ),
                                   cTextFormField(
                                     'Enter $lable',
                                     (values) {
                                       int value =
                                           int.parse(values.replaceAll(',', ''));
-                                      if (lable == 'SIPMonthly') {
+                                      if (lable == 'Stocks') {
+                                        stocksValue = value;
+                                      } else if (lable == 'Mutual Funds') {
+                                        mutualFundsValue == value;
+                                      } else if (lable == 'SIPMonthly') {
                                         sIPMonthly = value;
                                       } else if (lable == 'PPFMonthly') {
                                         pPFMonthly = value;
@@ -1052,9 +1133,20 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   InkWell(
                                     splashColor: colorWhite,
                                     onTap: () async {
+                                      int value = int.parse(
+                                          textEditingController.text
+                                              .replaceAll(',', ''));
                                       final pref =
                                           await SharedPreferences.getInstance();
-                                      if (lable == 'SIPMonthly') {
+                                      if (lable == 'Stocks') {
+                                        stocksValue = value;
+                                        await pref.setInt(
+                                            'stocksValue', stocksValue);
+                                      } else if (lable == 'Mutual Funds') {
+                                        mutualFundsValue = value;
+                                        await pref.setInt(
+                                            'mutualFundsValue', value);
+                                      } else if (lable == 'SIPMonthly') {
                                         await pref.setInt(
                                             'sIPMonthly', sIPMonthly);
                                       } else if (lable == 'PPFMonthly') {
@@ -1439,6 +1531,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
           onChanged: onChanged,
           keyboardType: TextInputType.number,
           textCapitalization: TextCapitalization.sentences,
+          // textInputAction: TextInputAction.next,
         ),
       ),
     );

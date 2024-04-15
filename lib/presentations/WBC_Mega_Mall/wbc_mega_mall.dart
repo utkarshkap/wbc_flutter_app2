@@ -7,6 +7,7 @@ import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_category.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_details_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/wealth_meter.dart';
 
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../blocs/mall/mall_bloc.dart';
@@ -150,7 +151,14 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                   ),
                 )),
           ),
-          drawer: MainDrawer(),
+          drawer: MainDrawer(reLoadHomePage: () async {
+            Navigator.of(context).pop();
+            final reLoadPage =
+                await Navigator.of(context).pushNamed(WealthMeterScreen.route);
+            if (reLoadPage == true) {
+              setState(() {});
+            }
+          }),
           extendBody: true,
           body: WillPopScope(
             onWillPop: () async {
