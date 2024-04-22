@@ -56,7 +56,7 @@ const String getReviewHistoryUrl =
 
 const String mfDashboardUrl = "${baseUrl}getMFDashboard?userid=";
 const String mfTransactionUrl = "${baseUrl}getMFTransaction?userid=";
-const String stockDashboardUrl = "${baseUrl}getStockDashboard?userid=";
+const String stockDashboardUrl = "${baseUrl}getStockDashboardNew?userid=";
 const String stockTransactionUrl = "${baseUrl}getStockTransaction?userid=";
 const String insuranceDashboardUrl = "${baseUrl}getinsurancedashboard?userid=";
 const String loanDashboardUrl = "${baseUrl}getloandashboard?userid=";

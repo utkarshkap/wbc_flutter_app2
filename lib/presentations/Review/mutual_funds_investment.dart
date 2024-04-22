@@ -30,9 +30,9 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
   String selectedUserId = '';
   List<Memberlist> members = [];
   String mobileNo = '';
-  double totalInvestments = 0.0;
-  double totalUnit = 0.0;
-  bool isCalculateInvestments = false;
+  // double totalInvestments = 0.0;
+  // double totalUnit = 0.0;
+  // bool isCalculateInvestments = false;
 
   List<String> types = [
     'KA Group',
@@ -123,25 +123,25 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
             }
             if (state is MFInvestmentsLoadedState) {
               print(
-                  '----portfolio------${state.investmentPortfolio.portfolio.toInt().toString()}');
+                  '----portfolio------${state.investmentPortfolio.totalAmount.toInt().toString()}');
 
-              if (!isCalculateInvestments) {
-                for (int i = 0;
-                    i < state.investmentPortfolio.mFStocks.length;
-                    i++) {
-                  if (state.investmentPortfolio.mFStocks[i].unit
-                          .toStringAsFixed(2)
-                          .toString() !=
-                      "0.00") {
-                    totalUnit += state.investmentPortfolio.mFStocks[i].unit;
-                    totalInvestments += ((state.investmentPortfolio.mFStocks[i]
-                                .investment_Unit -
-                            state.investmentPortfolio.mFStocks[i].sale_Unit) *
-                        state.investmentPortfolio.mFStocks[i].nav);
-                  }
-                }
-              }
-              isCalculateInvestments = true;
+              // if (!isCalculateInvestments) {
+              //   for (int i = 0;
+              //       i < state.investmentPortfolio.mFStocks.length;
+              //       i++) {
+              //     if (state.investmentPortfolio.mFStocks[i].unit
+              //             .toStringAsFixed(2)
+              //             .toString() !=
+              //         "0.00") {
+              //       totalUnit += state.investmentPortfolio.mFStocks[i].unit;
+              //       totalInvestments += ((state.investmentPortfolio.mFStocks[i]
+              //                   .investment_Unit -
+              //               state.investmentPortfolio.mFStocks[i].sale_Unit) *
+              //           state.investmentPortfolio.mFStocks[i].nav);
+              //     }
+              //   }
+              // }
+              // isCalculateInvestments = true;
               return Stack(
                 alignment: Alignment.bottomCenter,
                 clipBehavior: Clip.none,
@@ -189,10 +189,10 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                   selectedUser = val.name
                                                       .substring(0, 1)
                                                       .toUpperCase();
-                                                  isCalculateInvestments =
-                                                      false;
-                                                  totalInvestments = 0.0;
-                                                  totalUnit = 0.0;
+                                                  // isCalculateInvestments =
+                                                  //     false;
+                                                  // totalInvestments = 0.0;
+                                                  // totalUnit = 0.0;
                                                   print(
                                                       "relativeUSerId:-${val.relativeUserId}");
                                                 });
@@ -208,12 +208,16 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                                 .toString(),
                                                         investmentPortfolio:
                                                             InvestmentPortfolio(
-                                                                code: 0,
-                                                                message: '',
-                                                                portfolio: 0,
-                                                                investment: 0,
-                                                                gain: 0,
-                                                                mFStocks: [])));
+                                                          code: 0,
+                                                          message: '',
+                                                          response: [],
+                                                          totalAmount: 0,
+                                                          totalBalanceUnit: 0,
+                                                          totalPurchaseAmount:
+                                                              0,
+                                                          totalRedeemAmount: 0,
+                                                          totalScheme: 0,
+                                                        )));
                                                 selectedUserId = val
                                                     .relativeUserId
                                                     .toString();
@@ -240,7 +244,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                                '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(0))}',
+                                                '₹${CommonFunction().splitString(state.investmentPortfolio.totalAmount.toStringAsFixed(0))}',
                                                 style: textStyle22(colorWhite)
                                                     .copyWith(height: 1.2)),
                                             Text('MUTUAL FUND PORTFOLIO',
@@ -293,29 +297,32 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                   ? Container()
                                                   : InkWell(
                                                       onTap: () {
-                                                        isCalculateInvestments =
-                                                            false;
-                                                        totalInvestments = 0.0;
-                                                        totalUnit = 0.0;
-                                                        BlocProvider.of<
-                                                                    MFInvestmentsBloc>(
-                                                                context)
-                                                            .add(LoadMFInvestmentsEvent(
+                                                        // isCalculateInvestments =
+                                                        //     false;
+                                                        // totalInvestments = 0.0;
+                                                        // totalUnit = 0.0;
+                                                        BlocProvider.of<MFInvestmentsBloc>(context).add(
+                                                            LoadMFInvestmentsEvent(
                                                                 userId: members[
                                                                         index]
                                                                     .relativeUserId
                                                                     .toString(),
                                                                 investmentPortfolio:
                                                                     InvestmentPortfolio(
-                                                                        code: 0,
-                                                                        message:
-                                                                            '',
-                                                                        portfolio:
-                                                                            0,
-                                                                        investment:
-                                                                            0,
-                                                                        gain: 0,
-                                                                        mFStocks: [])));
+                                                                  code: 0,
+                                                                  message: '',
+                                                                  response: [],
+                                                                  totalAmount:
+                                                                      0,
+                                                                  totalBalanceUnit:
+                                                                      0,
+                                                                  totalPurchaseAmount:
+                                                                      0,
+                                                                  totalRedeemAmount:
+                                                                      0,
+                                                                  totalScheme:
+                                                                      0,
+                                                                )));
                                                         selectedUserId =
                                                             members[index]
                                                                 .relativeUserId
@@ -395,7 +402,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                   Positioned(
                       top: 20.5.h,
                       child: Container(
-                        height: state.investmentPortfolio.mFStocks.isNotEmpty
+                        height: state.investmentPortfolio.response.isNotEmpty
                             ? 52.5.h
                             : 0,
                         width: 90.w,
@@ -405,10 +412,10 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                             flex: 6,
                             child: ListView.builder(
                                 itemCount:
-                                    state.investmentPortfolio.mFStocks.length,
+                                    state.investmentPortfolio.response.length,
                                 itemBuilder: (context, index) {
                                   return state.investmentPortfolio
-                                              .mFStocks[index].unit
+                                              .response[index].balanceUnit
                                               .toStringAsFixed(2)
                                               .toString() !=
                                           "0.00"
@@ -417,40 +424,32 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                             reviews(
                                                 state
                                                         .investmentPortfolio
-                                                        .mFStocks[index]
+                                                        .response[index]
                                                         .nav
                                                         .isNegative
                                                     ? icStocksInvestment
                                                     : icStocksInvestment,
                                                 state
                                                         .investmentPortfolio
-                                                        .mFStocks[index]
+                                                        .response[index]
                                                         .nav
                                                         .isNegative
                                                     ? colorFB83
                                                     : color47D1,
+                                                state.investmentPortfolio
+                                                    .response[index].schemename,
+                                                state.investmentPortfolio
+                                                    .response[index].nav
+                                                    .toStringAsFixed(2),
                                                 state
                                                     .investmentPortfolio
-                                                    .mFStocks[index]
-                                                    .mFStockName,
-                                                state.investmentPortfolio
-                                                    .mFStocks[index].nav
+                                                    .response[index]
+                                                    .currentValue
                                                     .toStringAsFixed(2),
-                                                ((state
-                                                                .investmentPortfolio
-                                                                .mFStocks[index]
-                                                                .investment_Unit -
-                                                            state
-                                                                .investmentPortfolio
-                                                                .mFStocks[index]
-                                                                .sale_Unit) *
-                                                        state
-                                                            .investmentPortfolio
-                                                            .mFStocks[index]
-                                                            .nav)
-                                                    .toStringAsFixed(2),
-                                                state.investmentPortfolio
-                                                    .mFStocks[index].unit,
+                                                state
+                                                    .investmentPortfolio
+                                                    .response[index]
+                                                    .balanceUnit,
                                                 () => {
                                                       BlocProvider.of<
                                                                   MFTransactionBloc>(
@@ -465,14 +464,14 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                                   : selectedUserId,
                                                               folioNo: state
                                                                   .investmentPortfolio
-                                                                  .mFStocks[
+                                                                  .response[
                                                                       index]
-                                                                  .folioNo,
+                                                                  .foliono,
                                                               schemeName: state
                                                                   .investmentPortfolio
-                                                                  .mFStocks[
+                                                                  .response[
                                                                       index]
-                                                                  .mFStockName,
+                                                                  .schemename,
                                                               investmentTransaction:
                                                                   InvestmentTransaction(
                                                                       code: 0,
@@ -486,7 +485,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                     }),
                                             if (index !=
                                                 state.investmentPortfolio
-                                                        .mFStocks.length -
+                                                        .response.length -
                                                     1)
                                               Container(
                                                   height: 1,
@@ -523,7 +522,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                             height: 0.5.h,
                                           ),
                                           Text(
-                                            '${CommonFunction().splitString(totalUnit.toStringAsFixed(2))}',
+                                            '${CommonFunction().splitString(state.investmentPortfolio.totalBalanceUnit.toStringAsFixed(2))}',
                                             style: textStyle11Bold(colorBlack),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -541,7 +540,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                             height: 0.5.h,
                                           ),
                                           Text(
-                                            '₹${CommonFunction().splitString(totalInvestments.toStringAsFixed(0))}',
+                                            '₹${CommonFunction().splitString(state.investmentPortfolio.totalAmount.toStringAsFixed(0))}',
                                             style: textStyle11Bold(colorBlack),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,

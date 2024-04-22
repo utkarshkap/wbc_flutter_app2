@@ -29,7 +29,8 @@ class DashboardRepo {
     required bool tnc,
   }) async {
     try {
-      final response = await ApiHandler.put(url: '$updateTncKey$mobileNo&tnc=$tnc', body: '');
+      final response = await ApiHandler.put(
+          url: '$updateTncKey$mobileNo&tnc=$tnc', body: '');
 
       print('api--tnc--response------${response.statusCode}');
       print(response.statusCode);
@@ -85,5 +86,4 @@ class DashboardRepo {
       return ApiResponse.withError('Unable to load page');
     }
   }
-
 }

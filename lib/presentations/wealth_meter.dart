@@ -36,12 +36,15 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     BlocProvider.of<MFInvestmentsBloc>(context).add(LoadMFInvestmentsEvent(
         userId: ApiUser.userId,
         investmentPortfolio: InvestmentPortfolio(
-            code: 0,
-            message: '',
-            portfolio: 0,
-            investment: 0,
-            gain: 0,
-            mFStocks: [])));
+          code: 0,
+          message: '',
+          response: [],
+          totalAmount: 0,
+          totalBalanceUnit: 0,
+          totalPurchaseAmount: 0,
+          totalRedeemAmount: 0,
+          totalScheme: 0,
+        )));
     BlocProvider.of<FetchingDataBloc>(context).add(LoadStockInvestmentEvent(
         userId: ApiUser.userId,
         investmentPortfolio: StockInvestmentModel(
@@ -594,17 +597,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         listener: (context, state) {
           if (state is MFInvestmentsLoadedState) {
             mutualFundsApiData = 0;
-            for (int i = 0;
-                i < state.investmentPortfolio.mFStocks.length;
-                i++) {
-              if (state.investmentPortfolio.mFStocks[i].unit.toInt() != 0) {
-                mutualFundsApiData += ((state.investmentPortfolio.mFStocks[i]
-                                .investment_Unit -
-                            state.investmentPortfolio.mFStocks[i].sale_Unit) *
-                        state.investmentPortfolio.mFStocks[i].nav)
-                    .toInt();
-              }
-            }
+            mutualFundsApiData = state.investmentPortfolio.totalAmount.toInt();
             setState(() {});
           }
         },

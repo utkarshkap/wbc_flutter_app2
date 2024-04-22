@@ -236,16 +236,19 @@ class _HomeScreenState extends State<HomeScreen> {
           listener: (context, state) {
             print('state=====$state');
             if (state is DashboardDataLoaded) {
-              BlocProvider.of<MFInvestmentsBloc>(context).add(
-                  LoadMFInvestmentsEvent(
+              BlocProvider.of<MFInvestmentsBloc>(context)
+                  .add(LoadMFInvestmentsEvent(
                       userId: ApiUser.userId,
                       investmentPortfolio: InvestmentPortfolio(
-                          code: 0,
-                          message: '',
-                          portfolio: 0,
-                          investment: 0,
-                          gain: 0,
-                          mFStocks: [])));
+                        code: 0,
+                        message: '',
+                        response: [],
+                        totalAmount: 0,
+                        totalBalanceUnit: 0,
+                        totalPurchaseAmount: 0,
+                        totalRedeemAmount: 0,
+                        totalScheme: 0,
+                      )));
               BlocProvider.of<FetchingDataBloc>(context)
                   .add(LoadStockInvestmentEvent(
                       userId: ApiUser.userId,
@@ -320,22 +323,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           listener: (context, state) {
                             if (state is MFInvestmentsLoadedState) {
                               mutualFundsValue = 0;
-                              for (int i = 0;
-                                  i < state.investmentPortfolio.mFStocks.length;
-                                  i++) {
-                                if (state.investmentPortfolio.mFStocks[i].unit
-                                        .toInt() !=
-                                    0) {
-                                  mutualFundsValue += ((state
-                                              .investmentPortfolio
-                                              .mFStocks[i]
-                                              .investment_Unit -
-                                          state.investmentPortfolio.mFStocks[i]
-                                              .sale_Unit) *
-                                      state
-                                          .investmentPortfolio.mFStocks[i].nav);
-                                }
-                              }
+
+                              mutualFundsValue =
+                                  state.investmentPortfolio.totalAmount;
+
                               setState(() {});
                             }
                             total = mGainValue + mutualFundsValue + stocksValue;
@@ -575,23 +566,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 2.h),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(NRICarnivalScreen.route);
-                          },
-                          child: Container(
-                            width: 90.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                  image: AssetImage(nriCarnival7Banner),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
+                        // NRI Carnival - VII
+
+                        // SizedBox(height: 2.h),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Navigator.of(context)
+                        //         .pushNamed(NRICarnivalScreen.route);
+                        //   },
+                        //   child: Container(
+                        //     width: 90.w,
+                        //     height: 16.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       image: const DecorationImage(
+                        //           image: AssetImage(nriCarnival7Banner),
+                        //           fit: BoxFit.cover),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 2.h),
                         Container(
                           width: 90.w,
@@ -642,12 +635,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   userId: ApiUser.userId,
                                                   investmentPortfolio:
                                                       InvestmentPortfolio(
-                                                          code: 0,
-                                                          message: '',
-                                                          portfolio: 0,
-                                                          investment: 0,
-                                                          gain: 0,
-                                                          mFStocks: [])));
+                                                    code: 0,
+                                                    message: '',
+                                                    response: [],
+                                                    totalAmount: 0,
+                                                    totalBalanceUnit: 0,
+                                                    totalPurchaseAmount: 0,
+                                                    totalRedeemAmount: 0,
+                                                    totalScheme: 0,
+                                                  )));
                                           Navigator.of(context).pushNamed(
                                               MutualFundsInvestment.route);
                                         }, () {}),
