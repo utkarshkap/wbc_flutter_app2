@@ -749,11 +749,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              padding: EdgeInsets.symmetric(horizontal: 1.4.w),
                               child: IconButton(
-                                  constraints:
-                                      BoxConstraints.loose(Size(5.w, 5.h)),
-                                  padding: EdgeInsets.zero,
+                                  // constraints:
+                                  //     BoxConstraints.loose(Size(5.w, 5.h)),
+                                  // padding: EdgeInsets.zero,
                                   onPressed: () {
                                     if (step == 1 || step == 2) {
                                       Navigator.of(context)
@@ -778,11 +778,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                   SplashScreen.route);
                                     }
                                   },
+                                  //    leading: IconButton(
+                                  // onPressed: () {
+                                  //   Navigator.of(context).pop();
+                                  // },
+                                  // icon: Image.asset(icBack,
+                                  //     color: colorRed, width: 6.w)),
                                   icon: SizedBox(
                                       height: 5.h,
-                                      width: 5.w,
+                                      width: 6.w,
                                       child: Image.asset(icBack,
-                                          color: colorRed))),
+                                          color: colorRed, width: 6.w))),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

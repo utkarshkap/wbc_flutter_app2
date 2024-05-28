@@ -637,6 +637,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                 ? Icons.keyboard_arrow_up_rounded
                                 : Icons.keyboard_arrow_down_outlined,
                             size: 2.7.h,
+                            opticalSize: 25.h,
                             color: colorBlack,
                           )),
                     )

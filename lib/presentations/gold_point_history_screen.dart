@@ -26,7 +26,7 @@ class GoldPointHistoryScreen extends StatefulWidget {
 class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
   List<String> earningTime = [
     'All Time',
-    'Weekly',
+    // 'Weekly',
     'Monthly',
     'Yearly',
   ];

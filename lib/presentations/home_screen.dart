@@ -16,6 +16,7 @@ import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dar
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
+import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
 import 'package:wbc_connect_app/presentations/wbc_connect.dart';
 import 'package:wbc_connect_app/presentations/wealth_meter.dart';
 import '../blocs/InsuranceInvestment/insurance_investment_bloc.dart';
@@ -269,6 +270,8 @@ class _HomeScreenState extends State<HomeScreen> {
               GpDashBoardData.inActiveClients = state.data!.data.inActive;
               GpDashBoardData.availableContacts =
                   state.data!.data.availableContacts;
+              GpDashBoardData.maxContactPermittedPerMonth =
+                  state.data!.data.maxContactPermittedPerMonth;
               GpDashBoardData.goldPoint = state.data!.data.goldPoint;
               GpDashBoardData.fastTrackEarning = state.data!.data.fastTrack;
               GpDashBoardData.earning = state.data!.data.earning;
@@ -375,22 +378,60 @@ class _HomeScreenState extends State<HomeScreen> {
                                               right: 1.w),
                                           child: Row(
                                             children: [
-                                              Expanded(
-                                                child: netWorthView(
+                                              Container(
+                                                // color: Colors.red,
+                                                alignment: Alignment.centerLeft,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 3.w),
+                                                width: 9.w,
+                                                child: Image.asset(
                                                     'assets/images/graph.png',
-                                                    'Your Net Worth',
-                                                    '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
-                                                    9),
+                                                    width: 13.w),
                                               ),
-                                              Expanded(
-                                                  child: netWorthView(
-                                                      imgWealthMeter,
-                                                      'Wealth Score',
-                                                      ApiUser.wealthMeterScore
-                                                          .toStringAsFixed(0),
-                                                      10)),
+                                              SizedBox(
+                                                width: 2.5.w,
+                                              ),
+                                              Text('Your Net Worth: ',
+                                                  style: textStyle13Bold(
+                                                      colorBlack)),
+                                              SizedBox(height: 0.5.h),
+                                              Text(
+                                                  '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                                  style: textStyle13Bold(
+                                                      colorBlack)),
                                             ],
                                           ),
+                                          //  netWorthView(
+                                          //     'assets/images/graph.png',
+                                          //     'Your Net Worth',
+                                          //     '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                          //     9),
+
+                                          //  Row(
+                                          //   children: [
+
+                                          //     Expanded(
+                                          //       child: InkWell(
+                                          //           onTap: () async {
+                                          //             final reLoadPage =
+                                          //                 await Navigator.of(
+                                          //                         context)
+                                          //                     .pushNamed(
+                                          //                         WealthMeterScreen
+                                          //                             .route);
+                                          //             if (reLoadPage == true) {
+                                          //               setState(() {});
+                                          //             }
+                                          //           },
+                                          //           child: netWorthView(
+                                          //               imgWealthMeter,
+                                          //               'Wealth Score',
+                                          //               ApiUser.wealthMeterScore
+                                          //                   .toStringAsFixed(0),
+                                          //               10)),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                         ),
                                         Container(
                                             height: 1,
@@ -468,6 +509,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                             ),
                           ),
+                        ),
+                        SizedBox(height: 2.h),
+
+                        Container(
+                          width: 90.w,
+                          decoration: decoration(),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 1.5.h,
+                            horizontal: 2.w,
+                          ),
+                          child: netWorthView(
+                              imgWealthMeter,
+                              'Wealth Score',
+                              ApiUser.wealthMeterScore.toStringAsFixed(0),
+                              10,
+                              'Check Score', () async {
+                            final reLoadPage = await Navigator.of(context)
+                                .pushNamed(WealthMeterScreen.route);
+                            if (reLoadPage == true) {
+                              setState(() {});
+                            }
+                          }),
                         ),
                         SizedBox(height: 2.h),
                         Container(
@@ -1568,33 +1631,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('My Referrals',
-                                              style: textStyle9(colorText3D3D)),
-                                          Text(
-                                              ApiUser.myContactsList!.length
-                                                  .toString(),
-                                              style: textStyle18Bold(colorRed))
-                                        ],
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(
+                                                ViewMyContacts.route,
+                                                arguments: ViewScreenData(
+                                                    myContact: ApiUser
+                                                        .myContactsList!));
+                                          },
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text('My Referrals',
+                                                  style: textStyle9(
+                                                      colorText3D3D)),
+                                              Text(
+                                                  ApiUser.myContactsList!.length
+                                                      .toString(),
+                                                  style:
+                                                      textStyle18Bold(colorRed))
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       Container(
                                           height: 9.h,
                                           width: 1,
                                           color:
                                               colorTextBCBC.withOpacity(0.36)),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('Clients converted',
-                                              style: textStyle9(colorText3D3D)),
-                                          Text(clientsConverted.toString(),
-                                              style: textStyle18Bold(
-                                                  colorSplashBG))
-                                        ],
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(
+                                                ViewMyContacts.route,
+                                                arguments: ViewScreenData(
+                                                    myContact:
+                                                        ApiUser.myContactsList!,
+                                                    isClientsConverted: true));
+                                          },
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text('Clients converted',
+                                                  style: textStyle9(
+                                                      colorText3D3D)),
+                                              Text(clientsConverted.toString(),
+                                                  style: textStyle18Bold(
+                                                      colorSplashBG))
+                                            ],
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -2121,7 +2210,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const Spacer(),
-          button(buttonText, onClick),
+          title == "Connect FastTrack" && fastTrackStatus == true
+              ? InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("FastTrack", style: textStyle10Bold(colorBlack)),
+                      SizedBox(
+                        width: 0.w,
+                      ),
+                      Icon(Icons.done, size: 2.8.h, color: colorGreen),
+                    ],
+                  ),
+                )
+              : button(buttonText, onClick),
           SizedBox(width: 3.w)
         ],
       ),
@@ -2175,7 +2277,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  netWorthView(String image, String title, String value, int imageSize) {
+  netWorthView(String image, String title, String value, int imageSize,
+      String buttonText, Function() onClick) {
     return Row(
       children: [
         Container(
@@ -2185,12 +2288,21 @@ class _HomeScreenState extends State<HomeScreen> {
           width: imageSize.w,
           child: Image.asset(image, width: 13.w),
         ),
+        SizedBox(
+          width: 2.5.w,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title, style: textStyle11(colorText7070)),
+            SizedBox(height: 0.5.h),
             Text(value, style: textStyle13Bold(colorBlack)),
           ],
+        ),
+        const Spacer(),
+        button(buttonText, onClick),
+        SizedBox(
+          width: 1.5.w,
         ),
       ],
     );

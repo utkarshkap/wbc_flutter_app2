@@ -167,7 +167,7 @@ class _MainDrawerState extends State<MainDrawer> {
                           arguments: ViewScreenData(
                               myContact: ApiUser.myContactsList!));
                     }),
-                    drawerWidget(icProgress, 'progress', () {
+                    drawerWidget(icProgress, 'WBC Progress', () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushNamed(WBCProgress.route);
                     }),

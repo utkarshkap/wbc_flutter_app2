@@ -15,8 +15,9 @@ import '../widgets/appbarButton.dart';
 
 class ViewScreenData {
   final List<GoldReferral> myContact;
+  final bool? isClientsConverted;
 
-  ViewScreenData({required this.myContact});
+  ViewScreenData({required this.myContact, this.isClientsConverted});
 }
 
 class ViewMyContacts extends StatefulWidget {
@@ -24,14 +25,14 @@ class ViewMyContacts extends StatefulWidget {
 
   final ViewScreenData viewScreenData;
 
-  const ViewMyContacts({required this.viewScreenData});
+  const ViewMyContacts({super.key, required this.viewScreenData});
 
   @override
   State<ViewMyContacts> createState() => _ViewMyContactsState();
 }
 
 class _ViewMyContactsState extends State<ViewMyContacts> {
-  final TextEditingController _searchController1 = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   DateTime firstDateTime = DateTime.now();
   DateTime secondDateTime = DateTime.now();
   String firstDate = '';
@@ -39,14 +40,36 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
   List<GoldReferral> contactsList = [];
   List<MyContactData> contactsData = [];
   List<MyContactData> sortedContactsData = [];
-  List<GoldReferral> selectedContacts = [];
+  // List<GoldReferral> selectedContacts = [];
   String filteredContacts = '';
   bool isEmptyContacts = false;
   int count = 0;
   int? contactCount;
-  bool isShowDateRange = false;
+  // bool isShowDateRange = false;
   List<bool> isFamilyMember = [];
   int totalMonthCount = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    checkClientsConvertedContact();
+    getContacts();
+
+    getfamilyMember();
+    getNumberMonthCount();
+  }
+
+  checkClientsConvertedContact() {
+    if (widget.viewScreenData.isClientsConverted == true) {
+      for (int i = 0; i < widget.viewScreenData.myContact.length; i++) {
+        if (widget.viewScreenData.myContact[i].userexist == true) {
+          contactsList.add(widget.viewScreenData.myContact[i]);
+        }
+      }
+    } else {
+      contactsList = widget.viewScreenData.myContact;
+    }
+  }
 
   getContacts() async {
     if (contactsList.isEmpty) {
@@ -129,100 +152,89 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
     setState(() {});
   }
 
-  selectFirstDate() {
-    showDatePicker(
-        context: context,
-        initialDate: firstDateTime,
-        firstDate: DateTime(1951, 1, 1),
-        lastDate: DateTime.now(),
-        builder: (context, child) {
-          return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: colorRed,
-                  onPrimary: colorWhite,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                    textStyle: textStyle14Bold(colorRed),
-                    // primary: colorRed, // button text color
-                  ),
-                ),
-              ),
-              child: child!);
-        }).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      print('-------pickedDate---$pickedDate');
-      setState(() {
-        firstDateTime = pickedDate;
-        firstDate = DateFormat('dd-MMM-yyyy').format(pickedDate);
-        sortedContactsData = [];
-      });
-      for (int i = 0; i < contactsData.length; i++) {
-        if (contactsData[i].contact.refDate.difference(firstDateTime) >=
-                const Duration(days: 0) &&
-            secondDateTime.difference(contactsData[i].contact.refDate) >
-                const Duration(days: 0)) {
-          sortedContactsData.add(contactsData[i]);
-        }
-      }
-    });
-  }
+  // selectFirstDate() {
+  //   showDatePicker(
+  //       context: context,
+  //       initialDate: firstDateTime,
+  //       firstDate: DateTime(1951, 1, 1),
+  //       lastDate: DateTime.now(),
+  //       builder: (context, child) {
+  //         return Theme(
+  //             data: Theme.of(context).copyWith(
+  //               colorScheme: const ColorScheme.light(
+  //                 primary: colorRed,
+  //                 onPrimary: colorWhite,
+  //               ),
+  //               textButtonTheme: TextButtonThemeData(
+  //                 style: TextButton.styleFrom(
+  //                   textStyle: textStyle14Bold(colorRed),
+  //                   // primary: colorRed, // button text color
+  //                 ),
+  //               ),
+  //             ),
+  //             child: child!);
+  //       }).then((pickedDate) {
+  //     if (pickedDate == null) {
+  //       return;
+  //     }
+  //     print('-------pickedDate---$pickedDate');
+  //     setState(() {
+  //       firstDateTime = pickedDate;
+  //       firstDate = DateFormat('dd-MMM-yyyy').format(pickedDate);
+  //       sortedContactsData = [];
+  //     });
+  //     for (int i = 0; i < contactsData.length; i++) {
+  //       if (contactsData[i].contact.refDate.difference(firstDateTime) >=
+  //               const Duration(days: 0) &&
+  //           secondDateTime.difference(contactsData[i].contact.refDate) >
+  //               const Duration(days: 0)) {
+  //         sortedContactsData.add(contactsData[i]);
+  //       }
+  //     }
+  //   });
+  // }
 
-  selectSecondDate() {
-    showDatePicker(
-        context: context,
-        initialDate: secondDateTime,
-        firstDate: DateTime(1951, 1, 1),
-        lastDate: DateTime.now(),
-        builder: (context, child) {
-          return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: colorRed,
-                  onPrimary: colorWhite,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                    textStyle: textStyle14Bold(colorRed),
-                    // primary: colorRed, // button text color
-                  ),
-                ),
-              ),
-              child: child!);
-        }).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      print('-------pickedDate---$pickedDate');
-      setState(() {
-        secondDateTime = pickedDate;
-        secondDate = DateFormat('dd-MMM-yyyy').format(pickedDate);
-        sortedContactsData = [];
-      });
-      for (int i = 0; i < contactsData.length; i++) {
-        if (contactsData[i].contact.refDate.difference(firstDateTime) >=
-                const Duration(days: 0) &&
-            secondDateTime.difference(contactsData[i].contact.refDate) >
-                const Duration(days: 0)) {
-          sortedContactsData.add(contactsData[i]);
-        }
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    contactsList = widget.viewScreenData.myContact;
-    getContacts();
-    print('myContact----------$contactsList');
-
-    getfamilyMember();
-    getNumberMonthCount();
-  }
+  // selectSecondDate() {
+  //   showDatePicker(
+  //       context: context,
+  //       initialDate: secondDateTime,
+  //       firstDate: DateTime(1951, 1, 1),
+  //       lastDate: DateTime.now(),
+  //       builder: (context, child) {
+  //         return Theme(
+  //             data: Theme.of(context).copyWith(
+  //               colorScheme: const ColorScheme.light(
+  //                 primary: colorRed,
+  //                 onPrimary: colorWhite,
+  //               ),
+  //               textButtonTheme: TextButtonThemeData(
+  //                 style: TextButton.styleFrom(
+  //                   textStyle: textStyle14Bold(colorRed),
+  //                   // primary: colorRed, // button text color
+  //                 ),
+  //               ),
+  //             ),
+  //             child: child!);
+  //       }).then((pickedDate) {
+  //     if (pickedDate == null) {
+  //       return;
+  //     }
+  //     print('-------pickedDate---$pickedDate');
+  //     setState(() {
+  //       secondDateTime = pickedDate;
+  //       secondDate = DateFormat('dd-MMM-yyyy').format(pickedDate);
+  //       sortedContactsData = [];
+  //     });
+  //     for (int i = 0; i < contactsData.length; i++) {
+  //       if (contactsData[i].contact.refDate.difference(firstDateTime) >=
+  //               const Duration(days: 0) &&
+  //           secondDateTime.difference(contactsData[i].contact.refDate) >
+  //               const Duration(days: 0)) {
+  //         sortedContactsData.add(contactsData[i]);
+  //       }
+  //     }
+  //   });
+  // }
 
   getfamilyMember() {
     for (int i = 0; i < sortedContactsData.length; i++) {
@@ -346,7 +358,7 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
                         child: Padding(
                           padding: EdgeInsets.only(right: 3.w),
                           child: TextFormField(
-                            controller: _searchController1,
+                            controller: _searchController,
                             style: textStyle12(colorText7070),
                             decoration: InputDecoration.collapsed(
                               hintText: 'Search Contacts',
@@ -397,43 +409,43 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
                 BoxShadow(color: colorF3F3, offset: Offset(3, 4), blurRadius: 5)
               ]),
             ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 700),
-              curve: Curves.easeOut,
-              height: isShowDateRange ? 9.4.h : 0,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          dateChose(firstDate, selectFirstDate),
-                          Container(
-                            height: 1,
-                            width: 4.w,
-                            color: colorText7070,
-                          ),
-                          dateChose(secondDate, selectSecondDate),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 0.4.h,
-                      decoration: const BoxDecoration(
-                          color: colorF3F3,
-                          boxShadow: [
-                            BoxShadow(
-                                color: colorF3F3,
-                                offset: Offset(3, 4),
-                                blurRadius: 5)
-                          ]),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // AnimatedContainer(
+            //   duration: const Duration(milliseconds: 700),
+            //   curve: Curves.easeOut,
+            //   height: isShowDateRange ? 9.4.h : 0,
+            //   child: SingleChildScrollView(
+            //     child: Column(
+            //       children: [
+            //         Padding(
+            //           padding: EdgeInsets.symmetric(vertical: 1.5.h),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //             children: [
+            //               dateChose(firstDate, selectFirstDate),
+            //               Container(
+            //                 height: 1,
+            //                 width: 4.w,
+            //                 color: colorText7070,
+            //               ),
+            //               dateChose(secondDate, selectSecondDate),
+            //             ],
+            //           ),
+            //         ),
+            //         Container(
+            //           height: 0.4.h,
+            //           decoration: const BoxDecoration(
+            //               color: colorF3F3,
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                     color: colorF3F3,
+            //                     offset: Offset(3, 4),
+            //                     blurRadius: 5)
+            //               ]),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Expanded(
                 child: sortedContactsData.isEmpty
                     ? Center(
@@ -561,24 +573,24 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
         ));
   }
 
-  dateChose(String date, Function() onClick) {
-    return GestureDetector(
-      onTap: onClick,
-      child: Container(
-        height: 6.h,
-        width: 40.w,
-        decoration: BoxDecoration(
-            color: colorF3F3, borderRadius: BorderRadius.circular(10)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(date, style: textStyle12Medium(colorText7070)),
-            Image.asset(icCalender, color: colorText7070, width: 3.w),
-          ],
-        ),
-      ),
-    );
-  }
+  // dateChose(String date, Function() onClick) {
+  //   return GestureDetector(
+  //     onTap: onClick,
+  //     child: Container(
+  //       height: 6.h,
+  //       width: 40.w,
+  //       decoration: BoxDecoration(
+  //           color: colorF3F3, borderRadius: BorderRadius.circular(10)),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //         children: [
+  //           Text(date, style: textStyle12Medium(colorText7070)),
+  //           Image.asset(icCalender, color: colorText7070, width: 3.w),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   contactsMonthView(
       bool isSelect, int totalMonthCount, String question, Function() onOpen) {

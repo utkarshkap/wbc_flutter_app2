@@ -316,17 +316,17 @@ class _WBCConnectState extends State<WBCConnect> {
                     decoration: decoration(colorWhite),
                     child: Column(
                       children: [
-                        SizedBox(height: 1.h),
+                        // SizedBox(height: 1.h),
                         AspectRatio(
-                            aspectRatio: 1.5,
+                            aspectRatio: 1.7,
                             child: PieChart(PieChartData(
                               sections: _chartSections(),
                               startDegreeOffset: 270,
-                              sectionsSpace: 13,
-                              centerSpaceRadius: 15.w,
+                              sectionsSpace: 5,
+                              centerSpaceRadius: 12.w,
                             ))),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.h),
+                          padding: EdgeInsets.symmetric(vertical: 0.h),
                           child: Text('TOTAL GOLD POINTS',
                               style: textStyle11(colorText7070)),
                         ),
@@ -335,7 +335,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                 GpDashBoardData.goldPoint.toString()),
                             style: textStyle26Bold(colorBlack)),
                         Padding(
-                          padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
+                          padding: EdgeInsets.only(top: 1.h, bottom: 2.h),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -401,7 +401,10 @@ class _WBCConnectState extends State<WBCConnect> {
                             ? Container(
                                 height: 3.h,
                                 alignment: Alignment.center,
-                                child: Text('No Data',
+                                child: Text(
+                                    fastTrackStatus == true
+                                        ? 'No Data'
+                                        : 'You Are Not Fastrack User',
                                     style: textStyle13Medium(colorBlack)),
                               )
                             : Row(
@@ -448,7 +451,7 @@ class _WBCConnectState extends State<WBCConnect> {
                     child: Column(
                       children: [
                         dropDownRow(
-                            'HISTORY',
+                            'RECENT GP',
                             selectedHistoryTime,
                             List.generate(
                                 earningTime.length,
@@ -457,7 +460,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                         selectedHistoryTime = earningTime[i];
                                       });
                                     })),
-                            GpDashBoardData.history!.isEmpty ? false : true),
+                            false),
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
                         Column(
@@ -664,7 +667,7 @@ class _WBCConnectState extends State<WBCConnect> {
                   ),
                 ),
                 standFastTrack(
-                    'MY CONTACTS BASE',
+                    'MY TEAM',
                     GpDashBoardData.contactBase![0].type,
                     GpDashBoardData.contactBase![0].count,
                     GpDashBoardData.contactBase![1].type,
@@ -711,20 +714,25 @@ class _WBCConnectState extends State<WBCConnect> {
                       print(
                           'add contacts------${GpDashBoardData.availableContacts}');
 
-                      if (GpDashBoardData.availableContacts != 0) {
-                        Preference.setRenewContact(true);
-                        Navigator.of(context).pushNamed(
-                            VerificationScreen.route,
-                            arguments: VerificationScreenData(
-                                getNumber: "",
-                                number: mono,
-                                verificationId: "",
-                                isLogin: true,
-                                selectedContact:
-                                    GpDashBoardData.availableContacts!,
-                                isHomeContactOpen: true));
+                      if (fastTrackStatus == false) {
+                        Navigator.of(context)
+                            .pushNamed(FastTrackBenefits.route);
                       } else {
-                        CommonFunction().reachedMaxContactPopup(context);
+                        if (GpDashBoardData.availableContacts != 0) {
+                          Preference.setRenewContact(true);
+                          Navigator.of(context).pushNamed(
+                              VerificationScreen.route,
+                              arguments: VerificationScreenData(
+                                  getNumber: "",
+                                  number: mono,
+                                  verificationId: "",
+                                  isLogin: true,
+                                  selectedContact:
+                                      GpDashBoardData.availableContacts!,
+                                  isHomeContactOpen: true));
+                        } else {
+                          CommonFunction().reachedMaxContactPopup(context);
+                        }
                       }
                     },
                     child: Stack(
@@ -868,7 +876,7 @@ class _WBCConnectState extends State<WBCConnect> {
         Padding(
           padding: EdgeInsets.only(left: 5.w),
           child: Text(CommonFunction().splitString(point),
-              style: textStyle9(colorText7070)),
+              style: textStyle9Bold(colorBlack)),
         )
       ],
     );
@@ -1007,7 +1015,8 @@ class _WBCConnectState extends State<WBCConnect> {
                       //  GpDashBoardData.earning!.isEmpty
                       //     ? colorF3F3
                       //     :
-                      colorBoxGradiant0040,
+                      colorF3F3,
+                  // colorBoxGradiant0040,
                   borderRadius: BorderRadius.circular(5))
             ]))
         .toList();
@@ -1182,7 +1191,7 @@ class _WBCConnectState extends State<WBCConnect> {
   pointsView(String icon, String title, String subTitle, String buttonText,
       Function() onClick) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.5.w),
+      padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.5.w),
       child: Row(
         children: [
           Padding(
@@ -1201,7 +1210,20 @@ class _WBCConnectState extends State<WBCConnect> {
             ],
           ),
           const Spacer(),
-          button(buttonText, onClick),
+          fastTrackStatus == true
+              ? InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("FastTrack", style: textStyle10Bold(colorBlack)),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      Icon(Icons.done, size: 2.8.h, color: colorGreen),
+                    ],
+                  ),
+                )
+              : button(buttonText, onClick),
         ],
       ),
     );

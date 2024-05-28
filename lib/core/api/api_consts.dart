@@ -158,4 +158,5 @@ class GpDashBoardData {
   static int? redeemable;
   static int? nonRedeemable;
   static int? onTheSpot;
+  static int? maxContactPermittedPerMonth;
 }
