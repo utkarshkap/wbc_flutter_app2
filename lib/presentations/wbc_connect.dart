@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
+import 'package:wbc_connect_app/models/getuser_model.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
+import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
 
 import '../common_functions.dart';
 import '../core/preferences.dart';
@@ -59,14 +61,13 @@ class _WBCConnectState extends State<WBCConnect> {
   DateTime currentDate = DateTime(DateTime.now().year, 1, 1);
   String mono = "";
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
-  String selectedEarningTime = 'Monthly';
+  String selectedEarningTime = 'Yearly';
   String selectedHistoryTime = 'All Time';
   List<String> years = [];
   bool fastTrackStatus = false;
   double totalEarning = 0.0;
 
   List<String> earningTime = [
-    'Weekly',
     'Monthly',
     'Yearly',
   ];
@@ -89,21 +90,21 @@ class _WBCConnectState extends State<WBCConnect> {
   ];
 
   List<EarningDataMonthly> earningDataMonthlyList = [
-    EarningDataMonthly(month: 01, monthName: 'Jan', value: 1200),
-    EarningDataMonthly(month: 02, monthName: 'Feb', value: 1000),
-    EarningDataMonthly(month: 03, monthName: 'Mar', value: 500),
-    EarningDataMonthly(month: 04, monthName: 'Apr', value: 700),
-    EarningDataMonthly(month: 05, monthName: 'May', value: 846),
-    EarningDataMonthly(month: 06, monthName: 'Jun', value: 200),
-    EarningDataMonthly(month: 07, monthName: 'Jul', value: 400),
-    EarningDataMonthly(month: 08, monthName: 'Aug', value: 900),
-    EarningDataMonthly(month: 09, monthName: 'Sep', value: 800),
-    EarningDataMonthly(month: 10, monthName: 'Oct', value: 1000),
-    EarningDataMonthly(month: 11, monthName: 'Nov', value: 1100),
-    EarningDataMonthly(month: 12, monthName: 'Dec', value: 1500),
+    EarningDataMonthly(month: 01, monthName: 'Jan', value: 0),
+    EarningDataMonthly(month: 02, monthName: 'Feb', value: 0),
+    EarningDataMonthly(month: 03, monthName: 'Mar', value: 0),
+    EarningDataMonthly(month: 04, monthName: 'Apr', value: 0),
+    EarningDataMonthly(month: 05, monthName: 'May', value: 0),
+    EarningDataMonthly(month: 06, monthName: 'Jun', value: 0),
+    EarningDataMonthly(month: 07, monthName: 'Jul', value: 0),
+    EarningDataMonthly(month: 08, monthName: 'Aug', value: 0),
+    EarningDataMonthly(month: 09, monthName: 'Sep', value: 0),
+    EarningDataMonthly(month: 10, monthName: 'Oct', value: 0),
+    EarningDataMonthly(month: 11, monthName: 'Nov', value: 0),
+    EarningDataMonthly(month: 12, monthName: 'Dec', value: 0),
   ];
 
-  getMobNog() async {
+  getMobNo() async {
     mono = await Preference.getMobNo();
     setState(() {});
     print('mono-----$mono');
@@ -256,7 +257,7 @@ class _WBCConnectState extends State<WBCConnect> {
   @override
   void initState() {
     getFastTrackStatus();
-    getMobNog();
+    getMobNo();
     getGoldPointData();
     getLast7Years();
     calculateMonthlyEarningAnalysis();
@@ -501,37 +502,6 @@ class _WBCConnectState extends State<WBCConnect> {
                                                               height: 4.h)),
                                                 ),
                                               ),
-                                              // Column(
-                                              //   crossAxisAlignment:
-                                              //       CrossAxisAlignment.start,
-                                              //   children: [
-                                              //     Text(
-                                              //         GpDashBoardData
-                                              //             .history![index].name,
-                                              //         style: textStyle11Bold(
-                                              //             colorText3D3D)),
-                                              //     SizedBox(height: 0.7.h),
-                                              //     RichText(
-                                              //       text: TextSpan(
-                                              //         text: '4 transactions - ',
-                                              //         style: textStyle9(
-                                              //             colorText7070),
-                                              //         children: <TextSpan>[
-                                              //           TextSpan(
-                                              //               text:
-                                              //                   GpDashBoardData
-                                              //                       .history![
-                                              //                           index]
-                                              //                       .status,
-                                              //               style:
-                                              //                   textStyle10Medium(
-                                              //                       colorGreen)),
-                                              //         ],
-                                              //       ),
-                                              //     )
-                                              //   ],
-                                              // ),
-
                                               Expanded(
                                                 flex: 6,
                                                 child: Column(
@@ -551,8 +521,18 @@ class _WBCConnectState extends State<WBCConnect> {
                                                                       .history![
                                                                           index]
                                                                       .status,
-                                                              style: textStyle10Medium(
-                                                                  colorGreen)),
+                                                              style: textStyle10Medium(GpDashBoardData
+                                                                          .history![
+                                                                              index]
+                                                                          .goldPointType ==
+                                                                      'Redeemable'
+                                                                  ? colorTextFFC1
+                                                                  : GpDashBoardData
+                                                                              .history![index]
+                                                                              .goldPointType ==
+                                                                          'Non-Redeemable'
+                                                                      ? colorBoxGradiant0040
+                                                                      : colorRed)),
                                                         ],
                                                       ),
                                                     ),
@@ -671,7 +651,41 @@ class _WBCConnectState extends State<WBCConnect> {
                     GpDashBoardData.contactBase![0].type,
                     GpDashBoardData.contactBase![0].count,
                     GpDashBoardData.contactBase![1].type,
-                    GpDashBoardData.contactBase![1].count),
+                    GpDashBoardData.contactBase![1].count, () {
+                  List<GoldReferral> temp = [];
+
+                  GpDashBoardData.contactBase![0].referralList
+                      .forEach((element) {
+                    temp.add(GoldReferral(
+                        refName: element.refName,
+                        refMobile: element.refMobile,
+                        refDate: element.refDate,
+                        userexist: element.userexist));
+                  });
+                  if (temp.isNotEmpty) {
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }
+                }, () {
+                  List<GoldReferral> temp = [];
+
+                  GpDashBoardData.contactBase![1].referralList
+                      .forEach((element) {
+                    temp.add(GoldReferral(
+                        refName: element.refName,
+                        refMobile: element.refMobile,
+                        refDate: element.refDate,
+                        userexist: element.userexist));
+                  });
+                  if (temp.isNotEmpty) {
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }
+                }),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: Container(
@@ -706,7 +720,9 @@ class _WBCConnectState extends State<WBCConnect> {
                     GpDashBoardData.inActiveClients![0].type,
                     GpDashBoardData.inActiveClients![0].count,
                     GpDashBoardData.inActiveClients![1].type,
-                    GpDashBoardData.inActiveClients![1].count),
+                    GpDashBoardData.inActiveClients![1].count,
+                    () => null,
+                    () => null),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: GestureDetector(
@@ -989,14 +1005,10 @@ class _WBCConnectState extends State<WBCConnect> {
         .map((point) => BarChartGroupData(x: point.year, barRods: [
               BarChartRodData(
                   backDrawRodData: BackgroundBarChartRodData(
-                      color: colorF3F3, show: true, toY: 1500.0),
+                      color: colorF3F3, show: true, toY: 3500.0),
                   toY: point.value,
                   width: 3.w,
-                  color:
-                      // GpDashBoardData.earning!.isEmpty
-                      //     ? colorF3F3
-                      //     :
-                      colorBoxGradiant0040,
+                  color: colorBoxGradiant0040,
                   borderRadius: BorderRadius.circular(5))
             ]))
         .toList();
@@ -1011,12 +1023,7 @@ class _WBCConnectState extends State<WBCConnect> {
                       color: colorF3F3, show: true, toY: 1500.0),
                   toY: point.value,
                   width: 3.w,
-                  color:
-                      //  GpDashBoardData.earning!.isEmpty
-                      //     ? colorF3F3
-                      //     :
-                      colorF3F3,
-                  // colorBoxGradiant0040,
+                  color: colorBoxGradiant0040,
                   borderRadius: BorderRadius.circular(5))
             ]))
         .toList();
@@ -1279,8 +1286,15 @@ class _WBCConnectState extends State<WBCConnect> {
     );
   }
 
-  standFastTrack(String title, String title1, int title1Value, String title2,
-      int title2Value) {
+  standFastTrack(
+    String title,
+    String title1,
+    int title1Value,
+    String title2,
+    int title2Value,
+    Function() onTap1,
+    Function() onTap2,
+  ) {
     return Container(
       width: 90.w,
       decoration: decoration(colorWhite),
@@ -1299,43 +1313,55 @@ class _WBCConnectState extends State<WBCConnect> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(title1, style: textStyle9(colorText3D3D)),
-                    Row(
+                Expanded(
+                  child: InkWell(
+                    onTap: onTap1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CircleAvatar(
-                          radius: 1.5.w,
-                          backgroundColor: colorBoxGradiant0040,
-                        ),
-                        SizedBox(width: 3.w),
-                        Text('$title1Value',
-                            style: textStyle18Bold(colorBlack)),
+                        Text(title1, style: textStyle9(colorText3D3D)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 1.5.w,
+                              backgroundColor: colorBoxGradiant0040,
+                            ),
+                            SizedBox(width: 3.w),
+                            Text('$title1Value',
+                                style: textStyle18Bold(colorBlack)),
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
                 Container(
                     height: 10.h,
                     width: 1,
                     color: colorTextBCBC.withOpacity(0.36)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(title2, style: textStyle9(colorText3D3D)),
-                    Row(
+                Expanded(
+                  child: InkWell(
+                    onTap: onTap2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CircleAvatar(
-                          radius: 1.5.w,
-                          backgroundColor: colorRed,
-                        ),
-                        SizedBox(width: 3.w),
-                        Text('$title2Value',
-                            style: textStyle18Bold(colorBlack)),
+                        Text(title2, style: textStyle9(colorText3D3D)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 1.5.w,
+                              backgroundColor: colorRed,
+                            ),
+                            SizedBox(width: 3.w),
+                            Text('$title2Value',
+                                style: textStyle18Bold(colorBlack)),
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 )
               ],
             ),

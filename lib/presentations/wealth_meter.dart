@@ -53,6 +53,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
           portfolio: 0,
           investment: 0,
           gain: 0,
+          balanceAmount: 0,
           stocks: [],
         )));
     showCase();

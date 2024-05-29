@@ -11,7 +11,6 @@ import 'package:wbc_connect_app/blocs/deletefamilymember/delete_family_member_bl
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/models/munafe_ki_class_model.dart';
 import 'package:wbc_connect_app/models/product_category_model.dart';
-import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -92,11 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime? currentBackPressTime;
   bool fastTrackStatus = false;
   num clientsConverted = 0;
-  double stocksValue = 0;
-  double mutualFundsValue = 0;
   double mGainValue = 0;
   double total = 0;
-  bool isLoading = true;
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -237,30 +233,9 @@ class _HomeScreenState extends State<HomeScreen> {
           listener: (context, state) {
             print('state=====$state');
             if (state is DashboardDataLoaded) {
-              BlocProvider.of<MFInvestmentsBloc>(context)
-                  .add(LoadMFInvestmentsEvent(
-                      userId: ApiUser.userId,
-                      investmentPortfolio: InvestmentPortfolio(
-                        code: 0,
-                        message: '',
-                        response: [],
-                        totalAmount: 0,
-                        totalBalanceUnit: 0,
-                        totalPurchaseAmount: 0,
-                        totalRedeemAmount: 0,
-                        totalScheme: 0,
-                      )));
-              BlocProvider.of<FetchingDataBloc>(context)
-                  .add(LoadStockInvestmentEvent(
-                      userId: ApiUser.userId,
-                      investmentPortfolio: StockInvestmentModel(
-                        code: 0,
-                        message: '',
-                        portfolio: 0,
-                        investment: 0,
-                        gain: 0,
-                        stocks: [],
-                      )));
+              total = state.data!.data.mgainInv +
+                  state.data!.data.stockBalance +
+                  state.data!.data.mfTotalAmount;
               Preference.setApproveContactCount(
                   state.data!.data.addContacts.toString());
               ApiUser.goldReferralPoint = state.data!.data.goldPoint;
@@ -278,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GpDashBoardData.redeemable = state.data!.data.redeemable;
               GpDashBoardData.nonRedeemable = state.data!.data.nonRedeemable;
               GpDashBoardData.onTheSpot = state.data!.data.onTheSpot;
-              mGainValue = state.data!.data.mgain_inv.toDouble();
+              mGainValue = state.data!.data.mgainInv.toDouble();
               print('memberlistdetlete---------${state.data!.data.memberlist}');
 
               ApiUser.membersList = state.data!.data.memberlist;
@@ -322,192 +297,103 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        BlocListener<MFInvestmentsBloc, MFInvestmentsState>(
-                          listener: (context, state) {
-                            if (state is MFInvestmentsLoadedState) {
-                              mutualFundsValue = 0;
-
-                              mutualFundsValue =
-                                  state.investmentPortfolio.totalAmount;
-
-                              setState(() {});
-                            }
-                            total = mGainValue + mutualFundsValue + stocksValue;
-                          },
-                          child:
-                              BlocListener<FetchingDataBloc, FetchingDataState>(
-                            listener: (context, state) {
-                              if (state is StockInvestmentLoadedState) {
-                                stocksValue = 0;
-                                for (int i = 0;
-                                    i <
-                                        state.stockInvestmentPortfolio.stocks
-                                            .length;
-                                    i++) {
-                                  stocksValue += ((state
-                                          .stockInvestmentPortfolio
-                                          .stocks[i]
-                                          .balanceQty) *
-                                      state.stockInvestmentPortfolio.stocks[i]
-                                          .rate);
-                                }
-                                setState(() {});
-                              }
-                              total =
-                                  mGainValue + mutualFundsValue + stocksValue;
-                              isLoading = false;
-                            },
-                            child: Container(
-                              width: 90.w,
-                              decoration: decoration(),
-                              padding: EdgeInsets.only(
-                                  top: 1.h, bottom: 0.5.h, left: 0.w),
-                              child: isLoading == true
-                                  ? Center(
-                                      child: CircularProgressIndicator(
-                                          color: colorRed, strokeWidth: 0.7.w),
-                                    )
-                                  : Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: 0.5.h,
-                                              left: 1.w,
-                                              right: 1.w),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                // color: Colors.red,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 3.w),
-                                                width: 9.w,
-                                                child: Image.asset(
-                                                    'assets/images/graph.png',
-                                                    width: 13.w),
-                                              ),
-                                              SizedBox(
-                                                width: 2.5.w,
-                                              ),
-                                              Text('Your Net Worth: ',
-                                                  style: textStyle13Bold(
-                                                      colorBlack)),
-                                              SizedBox(height: 0.5.h),
-                                              Text(
-                                                  '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
-                                                  style: textStyle13Bold(
-                                                      colorBlack)),
-                                            ],
-                                          ),
-                                          //  netWorthView(
-                                          //     'assets/images/graph.png',
-                                          //     'Your Net Worth',
-                                          //     '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
-                                          //     9),
-
-                                          //  Row(
-                                          //   children: [
-
-                                          //     Expanded(
-                                          //       child: InkWell(
-                                          //           onTap: () async {
-                                          //             final reLoadPage =
-                                          //                 await Navigator.of(
-                                          //                         context)
-                                          //                     .pushNamed(
-                                          //                         WealthMeterScreen
-                                          //                             .route);
-                                          //             if (reLoadPage == true) {
-                                          //               setState(() {});
-                                          //             }
-                                          //           },
-                                          //           child: netWorthView(
-                                          //               imgWealthMeter,
-                                          //               'Wealth Score',
-                                          //               ApiUser.wealthMeterScore
-                                          //                   .toStringAsFixed(0),
-                                          //               10)),
-                                          //     ),
-                                          //   ],
-                                          // ),
-                                        ),
-                                        Container(
-                                            height: 1,
-                                            color: colorTextBCBC
-                                                .withOpacity(0.36)),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 4.w, vertical: 1.h),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(children: [
-                                                Expanded(
-                                                  flex: 6,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text: 'M Gain: ',
-                                                      style: textStyle10(
-                                                          colorText7070),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                            text:
-                                                                '₹ ${CommonFunction().splitString(mGainValue.toStringAsFixed(0))}',
-                                                            style:
-                                                                textStyle10Bold(
-                                                                    colorBlack)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                // SizedBox(
-                                                //   width: 0.5.w,
-                                                // ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text: 'Stocks: ',
-                                                      style: textStyle10(
-                                                          colorText7070),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                            text:
-                                                                '₹ ${CommonFunction().splitString(stocksValue.toStringAsFixed(0))}',
-                                                            style:
-                                                                textStyle10Bold(
-                                                                    colorBlack)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ]),
-                                              SizedBox(
-                                                height: 0.5.h,
-                                              ),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'MF: ',
-                                                  style: textStyle10(
-                                                      colorText7070),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text:
-                                                            '₹ ${CommonFunction().splitString(mutualFundsValue.toStringAsFixed(0))}',
-                                                        style: textStyle10Bold(
-                                                            colorBlack)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                        Container(
+                          width: 90.w,
+                          decoration: decoration(),
+                          padding: EdgeInsets.only(
+                              top: 1.h, bottom: 0.5.h, left: 0.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: 0.5.h, left: 1.w, right: 1.w),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 3.w),
+                                      width: 9.w,
+                                      child: Image.asset(
+                                          'assets/images/graph.png',
+                                          width: 13.w),
                                     ),
-                            ),
+                                    SizedBox(
+                                      width: 2.5.w,
+                                    ),
+                                    Text('Your Net Worth: ',
+                                        style: textStyle13Bold(colorBlack)),
+                                    SizedBox(height: 0.5.h),
+                                    Text(
+                                        '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                        style: textStyle13Bold(colorBlack)),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                  height: 1,
+                                  color: colorTextBCBC.withOpacity(0.36)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w, vertical: 1.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(children: [
+                                      Expanded(
+                                        flex: 6,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text: 'M Gain: ',
+                                            style: textStyle10(colorText7070),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text:
+                                                      '₹ ${CommonFunction().splitString(state.data!.data.mgainInv.toStringAsFixed(0))}',
+                                                  style: textStyle10Bold(
+                                                      colorBlack)),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 5,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text: 'Stocks: ',
+                                            style: textStyle10(colorText7070),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text:
+                                                      '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
+                                                  style: textStyle10Bold(
+                                                      colorBlack)),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ]),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'MF: ',
+                                        style: textStyle10(colorText7070),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  '₹ ${CommonFunction().splitString(state.data!.data.mfTotalAmount.toStringAsFixed(0))}',
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         SizedBox(height: 2.h),
@@ -732,6 +618,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     portfolio: 0,
                                                     investment: 0,
                                                     gain: 0,
+                                                    balanceAmount: 0,
                                                     stocks: [],
                                                   )));
                                           Navigator.of(context).pushNamed(
@@ -1634,11 +1521,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                                ViewMyContacts.route,
-                                                arguments: ViewScreenData(
-                                                    myContact: ApiUser
-                                                        .myContactsList!));
+                                            if (ApiUser
+                                                .myContactsList!.isNotEmpty) {
+                                              Navigator.of(context).pushNamed(
+                                                  ViewMyContacts.route,
+                                                  arguments: ViewScreenData(
+                                                      myContact: ApiUser
+                                                          .myContactsList!));
+                                            }
                                           },
                                           child: Column(
                                             mainAxisAlignment:
@@ -1664,12 +1554,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                                ViewMyContacts.route,
-                                                arguments: ViewScreenData(
-                                                    myContact:
-                                                        ApiUser.myContactsList!,
-                                                    isClientsConverted: true));
+                                            if (clientsConverted != 0) {
+                                              Navigator.of(context).pushNamed(
+                                                  ViewMyContacts.route,
+                                                  arguments: ViewScreenData(
+                                                      myContact: ApiUser
+                                                          .myContactsList!,
+                                                      isClientsConverted:
+                                                          true));
+                                            }
                                           },
                                           child: Column(
                                             mainAxisAlignment:
@@ -2219,7 +2112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         width: 0.w,
                       ),
-                      Icon(Icons.done, size: 2.8.h, color: colorGreen),
+                      Icon(Icons.done, size: 2.7.h, color: colorGreen),
                     ],
                   ),
                 )

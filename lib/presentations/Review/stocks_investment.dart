@@ -30,7 +30,6 @@ class _StocksInvestmentState extends State<StocksInvestment> {
   List<Memberlist> members = [];
   String mobileNo = '';
   bool isCalculateInvestments = false;
-  double totalInvestment = 0.0;
   int totalQty = 0;
 
   List<String> types = [
@@ -126,13 +125,9 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                     i++) {
                   totalQty +=
                       state.stockInvestmentPortfolio.stocks[i].balanceQty;
-                  totalInvestment +=
-                      ((state.stockInvestmentPortfolio.stocks[i].balanceQty) *
-                          state.stockInvestmentPortfolio.stocks[i].rate);
                 }
               }
               isCalculateInvestments = true;
-              print("totalInvestments-->" + totalInvestment.toString());
 
               return Stack(
                 alignment: Alignment.topCenter,
@@ -178,7 +173,6 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                       .toUpperCase();
                                                   isCalculateInvestments =
                                                       false;
-                                                  totalInvestment = 0.0;
                                                   totalQty = 0;
                                                 });
                                                 Navigator.of(context).pop();
@@ -202,6 +196,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                               portfolio: 0,
                                                               investment: 0,
                                                               gain: 0,
+                                                              balanceAmount: 0,
                                                               stocks: [],
                                                             )));
                                               });
@@ -227,7 +222,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                                '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(0))}',
+                                                '₹${CommonFunction().splitString(state.stockInvestmentPortfolio.balanceAmount.toStringAsFixed(0))}',
                                                 style: textStyle22(colorWhite)
                                                     .copyWith(height: 1.2)),
                                             Text('STOCK PORTFOLIO',
@@ -282,7 +277,6 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                       onTap: () {
                                                         isCalculateInvestments =
                                                             false;
-                                                        totalInvestment = 0.0;
                                                         totalQty = 0;
                                                         BlocProvider.of<FetchingDataBloc>(context).add(
                                                             LoadStockInvestmentEvent(
@@ -292,6 +286,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                                     .toString(),
                                                                 investmentPortfolio:
                                                                     StockInvestmentModel(
+                                                                  balanceAmount:
+                                                                      0,
                                                                   code: 0,
                                                                   message: '',
                                                                   portfolio: 0,
@@ -380,53 +376,56 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                 itemCount: state
                                     .stockInvestmentPortfolio.stocks.length,
                                 itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      reviews(
-                                          state.stockInvestmentPortfolio
-                                              .stocks[index].stockName
-                                              .toString(),
-                                          state.stockInvestmentPortfolio
-                                              .stocks[index].balanceQty
-                                              .toString(),
-                                          color47D1,
-                                          ((state
-                                                      .stockInvestmentPortfolio
-                                                      .stocks[index]
-                                                      .balanceQty) *
-                                                  state.stockInvestmentPortfolio
-                                                      .stocks[index].rate)
-                                              .toStringAsFixed(2),
-                                          () => {
-                                                BlocProvider.of<
-                                                            StockTransactionBloc>(
-                                                        context)
-                                                    .add(LoadStockTransactionEvent(
-                                                        userId: ApiUser.userId,
-                                                        stockName: state
-                                                            .stockInvestmentPortfolio
-                                                            .stocks[index]
-                                                            .stockName
-                                                            .toString(),
-                                                        stockTransaction:
-                                                            StockInvestmentTransactionModel(
-                                                                code: 0,
-                                                                message: '',
-                                                                stockTransactions: []))),
-                                                Navigator.of(context).pushNamed(
-                                                    StockInvestmentTransaction
-                                                        .route)
-                                              }),
-                                      if (index !=
-                                          state.stockInvestmentPortfolio.stocks
-                                                  .length -
-                                              1)
-                                        Container(
-                                            height: 1,
-                                            color:
-                                                colorTextBCBC.withOpacity(0.36))
-                                    ],
-                                  );
+                                  return state.stockInvestmentPortfolio
+                                              .stocks[index].balanceQty !=
+                                          0
+                                      ? Column(
+                                          children: [
+                                            reviews(
+                                                state.stockInvestmentPortfolio
+                                                    .stocks[index].stockName
+                                                    .toString(),
+                                                state.stockInvestmentPortfolio
+                                                    .stocks[index].balanceQty
+                                                    .toString(),
+                                                color47D1,
+                                                state.stockInvestmentPortfolio
+                                                    .stocks[index].balanceAmount
+                                                    .toStringAsFixed(2),
+                                                () => {
+                                                      BlocProvider.of<
+                                                                  StockTransactionBloc>(
+                                                              context)
+                                                          .add(LoadStockTransactionEvent(
+                                                              userId: ApiUser
+                                                                  .userId,
+                                                              stockName: state
+                                                                  .stockInvestmentPortfolio
+                                                                  .stocks[index]
+                                                                  .stockName
+                                                                  .toString(),
+                                                              stockTransaction:
+                                                                  StockInvestmentTransactionModel(
+                                                                      code: 0,
+                                                                      message:
+                                                                          '',
+                                                                      stockTransactions: []))),
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                              StockInvestmentTransaction
+                                                                  .route)
+                                                    }),
+                                            if (index !=
+                                                state.stockInvestmentPortfolio
+                                                        .stocks.length -
+                                                    1)
+                                              Container(
+                                                  height: 1,
+                                                  color: colorTextBCBC
+                                                      .withOpacity(0.36))
+                                          ],
+                                        )
+                                      : const SizedBox();
                                 }),
                           ),
                           Expanded(
@@ -473,7 +472,7 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                             height: 0.5.h,
                                           ),
                                           Text(
-                                            '₹${CommonFunction().splitString(totalInvestment.toStringAsFixed(0))}',
+                                            '₹${CommonFunction().splitString(state.stockInvestmentPortfolio.balanceAmount.toStringAsFixed(0))}',
                                             style: textStyle11Bold(colorBlack),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,

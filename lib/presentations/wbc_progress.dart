@@ -4,6 +4,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
+import 'package:wbc_connect_app/models/getuser_model.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
 import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
@@ -96,14 +97,18 @@ class _WBCProgressState extends State<WBCProgress> {
                     ApiUser.myContactsList!.length,
                     'Contacts converted',
                     clientsConverted, () {
-                  Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments:
-                          ViewScreenData(myContact: ApiUser.myContactsList!));
+                  if (ApiUser.myContactsList!.isNotEmpty) {
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments:
+                            ViewScreenData(myContact: ApiUser.myContactsList!));
+                  }
                 }, () {
-                  Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments: ViewScreenData(
-                          myContact: ApiUser.myContactsList!,
-                          isClientsConverted: true));
+                  if (clientsConverted != 0) {
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                            myContact: ApiUser.myContactsList!,
+                            isClientsConverted: true));
+                  }
                 }),
                 Row(
                   children: [
@@ -164,9 +169,41 @@ class _WBCProgressState extends State<WBCProgress> {
                     'Standard',
                     GpDashBoardData.contactBase![0].count,
                     'FastTrack',
-                    GpDashBoardData.contactBase![1].count,
-                    () => null,
-                    () => null),
+                    GpDashBoardData.contactBase![1].count, () {
+                  List<GoldReferral> temp = [];
+
+                  GpDashBoardData.contactBase![0].referralList
+                      .forEach((element) {
+                    temp.add(GoldReferral(
+                        refName: element.refName,
+                        refMobile: element.refMobile,
+                        refDate: element.refDate,
+                        userexist: element.userexist));
+                  });
+                  if (temp.isNotEmpty) {
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }
+                }, () {
+                  List<GoldReferral> temp = [];
+
+                  GpDashBoardData.contactBase![1].referralList
+                      .forEach((element) {
+                    temp.add(GoldReferral(
+                        refName: element.refName,
+                        refMobile: element.refMobile,
+                        refDate: element.refDate,
+                        userexist: element.userexist));
+                  });
+                  if (temp.isNotEmpty) {
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }
+                }),
                 Container(
                   width: 90.w,
                   decoration: decoration(colorWhite),

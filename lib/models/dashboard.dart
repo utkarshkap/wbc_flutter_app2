@@ -35,11 +35,21 @@ class Dashboard {
 
 class Data {
   Data(
-      {required this.goldPoint,
+      {required this.stockPortfolio,
+      required this.stockInvestment,
+      required this.stockGain,
+      required this.stockBalance,
+      required this.mfTotalBalanceUnit,
+      required this.mfTotalPurchaseAmount,
+      required this.mfTotalRedeemAmount,
+      required this.mfTotalAmount,
+      required this.mfTotalScheme,
+      required this.mutualFunds,
+      required this.goldPoint,
       required this.redeemable,
       required this.nonRedeemable,
       required this.onTheSpot,
-      required this.mgain_inv,
+      required this.mgainInv,
       required this.fastTrack,
       required this.earning,
       required this.history,
@@ -54,11 +64,21 @@ class Data {
       required this.inActive,
       required this.memberlist});
 
+  final double stockPortfolio;
+  final double stockInvestment;
+  final double stockGain;
+  final double stockBalance;
+  final double mfTotalBalanceUnit;
+  final double mfTotalPurchaseAmount;
+  final double mfTotalRedeemAmount;
+  final double mfTotalAmount;
+  final int mfTotalScheme;
+  final double mutualFunds;
   final int goldPoint;
   final int redeemable;
   final int nonRedeemable;
   final int onTheSpot;
-  final int mgain_inv;
+  final double mgainInv;
   final double fastTrack;
   final List<Earning> earning;
   final List<History> history;
@@ -74,16 +94,30 @@ class Data {
   final List<Memberlist> memberlist;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
+        stockPortfolio: json["stock_Portfolio"].toDouble(),
+        stockInvestment: json["stock_Investment"].toDouble(),
+        stockGain: json["stock_Gain"].toDouble(),
+        stockBalance: json["stock_Balance"].toDouble(),
+        mfTotalBalanceUnit: json["mf_totalBalanceUnit"].toDouble(),
+        mfTotalPurchaseAmount: json["mf_totalPurchaseAmount"].toDouble(),
+        mfTotalRedeemAmount: json["mf_totalRedeemAmount"].toDouble(),
+        mfTotalAmount: json["mf_totalAmount"].toDouble(),
+        mfTotalScheme: json["mf_totalScheme"],
+        mutualFunds: json["mutualFunds"].toDouble(),
         goldPoint: json["goldPoint"],
         redeemable: json["redeemable"],
         nonRedeemable: json["nonRedeemable"],
         onTheSpot: json["onTheSpot"],
-        mgain_inv: json["mgain_inv"],
-        fastTrack: json["fastTrack"],
-        earning:
-            List<Earning>.from(json["earning"].map((x) => Earning.fromJson(x))),
-        history:
-            List<History>.from(json["history"].map((x) => History.fromJson(x))),
+        mgainInv: json["mgain_inv"].toDouble(),
+        fastTrack: json["fastTrack"].toDouble(),
+        earning: json["earning"] == null
+            ? []
+            : List<Earning>.from(
+                json["earning"].map((x) => Earning.fromJson(x))),
+        history: json["history"] == null
+            ? []
+            : List<History>.from(
+                json["history"].map((x) => History.fromJson(x))),
         totalcountofaddedcontact: json["totalcountofaddedcontact"],
         maxContactPermittedPerMonth: json["maxContactPermittedPerMonth"],
         availableContacts: json["availableContacts"],
@@ -108,11 +142,21 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
+        "stock_Portfolio": stockPortfolio,
+        "stock_Investment": stockInvestment,
+        "stock_Gain": stockGain,
+        "stock_Balance": stockBalance,
+        "mf_totalBalanceUnit": mfTotalBalanceUnit,
+        "mf_totalPurchaseAmount": mfTotalPurchaseAmount,
+        "mf_totalRedeemAmount": mfTotalRedeemAmount,
+        "mf_totalAmount": mfTotalAmount,
+        "mf_totalScheme": mfTotalScheme,
+        "mutualFunds": mutualFunds,
         "goldPoint": goldPoint,
         "redeemable": redeemable,
         "nonRedeemable": nonRedeemable,
         "onTheSpot": onTheSpot,
-        "mgain_inv": mgain_inv,
+        "mgain_inv": mgainInv,
         "fastTrack": fastTrack,
         "earning": List<dynamic>.from(earning.map((x) => x.toJson())),
         "history": List<dynamic>.from(history.map((x) => x.toJson())),
@@ -130,7 +174,7 @@ class Data {
 
   @override
   String toString() {
-    return 'Data{goldPoint: $goldPoint, redeemable: $redeemable, nonRedeemable: $nonRedeemable, onTheSpot: $onTheSpot,mgain_inv: $mgain_inv, fastTrack: $fastTrack, earning: $earning, history: $history, addContacts: $addContacts, totalcountofaddedcontact: $totalcountofaddedcontact, maxContactPermittedPerMonth: $maxContactPermittedPerMonth, availableContacts: $availableContacts, wbcProgress: $wbcProgress, wbcThisMonth: $wbcThisMonth, contactBase: $contactBase, offers: $offers, inActive: $inActive, memberlist: $memberlist}';
+    return 'Data{stock_Portfolio: $stockPortfolio, stock_Investment: $stockInvestment, stock_Gain: $stockGain, mf_totalBalanceUnit: $mfTotalBalanceUnit, mf_totalPurchaseAmount: $mfTotalPurchaseAmount, mf_totalRedeemAmount: $mfTotalRedeemAmount, mf_totalAmount: $mfTotalAmount, mf_totalScheme: $mfTotalScheme, mutualFunds: $mutualFunds, goldPoint: $goldPoint, redeemable: $redeemable, nonRedeemable: $nonRedeemable, onTheSpot: $onTheSpot,mgain_inv: $mgainInv, fastTrack: $fastTrack, earning: $earning, history: $history, addContacts: $addContacts, totalcountofaddedcontact: $totalcountofaddedcontact, maxContactPermittedPerMonth: $maxContactPermittedPerMonth, availableContacts: $availableContacts, wbcProgress: $wbcProgress, wbcThisMonth: $wbcThisMonth, contactBase: $contactBase, offers: $offers, inActive: $inActive, memberlist: $memberlist}';
   }
 }
 
@@ -138,24 +182,63 @@ class ContactBase {
   ContactBase({
     required this.type,
     required this.count,
+    required this.referralList,
   });
 
   final String type;
   final int count;
+  final List<ReferralList> referralList;
 
   factory ContactBase.fromJson(Map<String, dynamic> json) => ContactBase(
         type: json["type"],
         count: json["count"],
+        referralList: json["referralList"] == null
+            ? []
+            : List<ReferralList>.from(
+                json["referralList"].map((x) => ReferralList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "type": type,
         "count": count,
+        "referralList": List<dynamic>.from(referralList.map((x) => x.toJson())),
       };
 
   @override
   String toString() {
-    return 'ContactBase{type: $type, count: $count}';
+    return 'ContactBase{type: $type, count: $count, referralList: $referralList}';
+  }
+}
+
+class ReferralList {
+  final String refName;
+  final String refMobile;
+  final DateTime refDate;
+  final bool userexist;
+
+  ReferralList({
+    required this.refName,
+    required this.refMobile,
+    required this.refDate,
+    required this.userexist,
+  });
+
+  factory ReferralList.fromJson(Map<String, dynamic> json) => ReferralList(
+        refName: json["ref_name"],
+        refMobile: json["ref_mobile"],
+        refDate: DateTime.parse(json["ref_date"]),
+        userexist: json["userexist"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ref_name": refName,
+        "ref_mobile": refMobile,
+        "ref_date": refDate.toIso8601String(),
+        "userexist": userexist,
+      };
+  @override
+  String toString() {
+    return 'ReferralList{ref_name: $refName, ref_mobile: $refMobile, ref_date: $refDate, userexist: $userexist}';
   }
 }
 
@@ -169,6 +252,7 @@ class History {
     required this.description,
     required this.date,
     required this.status,
+    required this.goldPointType,
   });
 
   final int id;
@@ -179,6 +263,7 @@ class History {
   final String description;
   final String date;
   final String status;
+  final String goldPointType;
 
   factory History.fromJson(Map<String, dynamic> json) => History(
         id: json["id"],
@@ -189,6 +274,7 @@ class History {
         description: json["description"],
         date: json["date"],
         status: json["status"],
+        goldPointType: json["goldPointType"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -200,11 +286,12 @@ class History {
         "description": description,
         "date": date,
         "status": status,
+        "goldPointType": goldPointType,
       };
 
   @override
   String toString() {
-    return 'History{id: $id, name: $name, imgUrl: $imgUrl, credit: $credit, debit: $debit, description: $description,  date: $date, status: $status}';
+    return 'History{id: $id, name: $name, imgUrl: $imgUrl, credit: $credit, debit: $debit, description: $description,  date: $date, status: $status, goldPointType: $goldPointType}';
   }
 }
 

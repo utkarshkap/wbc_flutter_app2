@@ -227,8 +227,18 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                                   .history[
                                                                       index]
                                                                   .status,
-                                                              style: textStyle10Medium(
-                                                                  colorGreen)),
+                                                              style: textStyle10Medium(widget
+                                                                          .goldPointHistoryData
+                                                                          .history[
+                                                                              index]
+                                                                          .goldPointType ==
+                                                                      'Redeemable'
+                                                                  ? colorTextFFC1
+                                                                  : widget.goldPointHistoryData.history[index]
+                                                                              .goldPointType ==
+                                                                          'Non-Redeemable'
+                                                                      ? colorBoxGradiant0040
+                                                                      : colorRed)),
                                                         ],
                                                       ),
                                                     ),
@@ -242,10 +252,6 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                   ],
                                                 ),
                                               ),
-                                              // SizedBox(
-                                              //   width: 2.w,
-                                              // ),
-                                              // const Spacer(),
                                               Expanded(
                                                 flex: 2,
                                                 child: Row(
