@@ -251,122 +251,117 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 3.h),
+                            padding: EdgeInsets.symmetric(vertical: 2.h),
                             child: Container(
                               width: 90.w,
                               decoration: decoration(colorWhite),
-                              child: Column(
-                                children: [
-                                  SfRadialGauge(axes: <RadialAxis>[
-                                    RadialAxis(
-                                        startAngle: 145,
-                                        endAngle: 35,
-                                        radiusFactor: 0.7,
-                                        showTicks: false,
-                                        showLabels: false,
-                                        ranges: <GaugeRange>[
-                                          GaugeRange(
-                                            startValue: 0,
-                                            endValue: 33.33,
-                                            color: Colors.red,
-                                            startWidth: 50,
-                                            endWidth: 50,
-                                            label: 'LOW',
-                                            labelStyle: const GaugeTextStyle(
-                                                color: colorWhite,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          GaugeRange(
-                                            startValue: 33.33,
-                                            endValue: 66.66,
-                                            color: colorTextFFC1,
-                                            startWidth: 50,
-                                            endWidth: 50,
-                                            label: 'MEDIUM',
-                                            labelStyle: const GaugeTextStyle(
-                                                color: colorWhite,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          GaugeRange(
-                                            startValue: 66.66,
-                                            endValue: 100,
-                                            color: colorGreen,
-                                            startWidth: 50,
-                                            endWidth: 50,
-                                            label: 'HIGH',
-                                            labelStyle: const GaugeTextStyle(
-                                                color: colorWhite,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600),
-                                          )
-                                        ],
-                                        pointers: <GaugePointer>[
-                                          NeedlePointer(
-                                            value: ApiUser.wealthMeterScore,
-                                            needleLength: 1,
-                                            needleStartWidth: 0.1,
-                                            needleEndWidth: 7,
-                                            knobStyle: const KnobStyle(
-                                                knobRadius: 0.08),
-                                            enableAnimation: true,
-                                          )
-                                        ],
-                                        annotations: <GaugeAnnotation>[
-                                          GaugeAnnotation(
-                                              widget: Column(
+                              child: SfRadialGauge(axes: <RadialAxis>[
+                                RadialAxis(
+                                    startAngle: 145,
+                                    endAngle: 35,
+                                    radiusFactor: 0.7,
+                                    showTicks: false,
+                                    showLabels: false,
+                                    centerY: 0.45,
+                                    ranges: <GaugeRange>[
+                                      GaugeRange(
+                                        startValue: 0,
+                                        endValue: 33.33,
+                                        color: Colors.red,
+                                        startWidth: 50,
+                                        endWidth: 50,
+                                        label: 'LOW',
+                                        labelStyle: const GaugeTextStyle(
+                                            color: colorWhite,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      GaugeRange(
+                                        startValue: 33.33,
+                                        endValue: 66.66,
+                                        color: colorTextFFC1,
+                                        startWidth: 50,
+                                        endWidth: 50,
+                                        label: 'MEDIUM',
+                                        labelStyle: const GaugeTextStyle(
+                                            color: colorWhite,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      GaugeRange(
+                                        startValue: 66.66,
+                                        endValue: 100,
+                                        color: colorGreen,
+                                        startWidth: 50,
+                                        endWidth: 50,
+                                        label: 'HIGH',
+                                        labelStyle: const GaugeTextStyle(
+                                            color: colorWhite,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                    pointers: <GaugePointer>[
+                                      NeedlePointer(
+                                        value: ApiUser.wealthMeterScore,
+                                        needleLength: 1,
+                                        needleStartWidth: 0.1,
+                                        needleEndWidth: 7,
+                                        knobStyle:
+                                            const KnobStyle(knobRadius: 0.08),
+                                        enableAnimation: true,
+                                      )
+                                    ],
+                                    annotations: <GaugeAnnotation>[
+                                      GaugeAnnotation(
+                                        widget: Column(
+                                          children: [
+                                            Text(
+                                                ApiUser.wealthMeterScore
+                                                    .toInt()
+                                                    .toString(),
+                                                style: textStyle36Bold(
+                                                    colorBlack)),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 2.h),
+                                              child: Text('WEALTH SCORE',
+                                                  style: textStyle13Bold(
+                                                          colorBlack)
+                                                      .copyWith(
+                                                          letterSpacing: 0.16)),
+                                            ),
+                                            SizedBox(
+                                              width: 45.w,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                      ApiUser.wealthMeterScore
-                                                          .toInt()
-                                                          .toString(),
-                                                      style: textStyle36Bold(
-                                                          colorBlack)),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 2.h),
-                                                    child: Text('WEALTH SCORE',
-                                                        style: textStyle13Bold(
-                                                                colorBlack)
-                                                            .copyWith(
-                                                                letterSpacing:
-                                                                    0.16)),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 45.w,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        wealthScoreIndicator(
-                                                            Colors.red, 'Low'),
-                                                        wealthScoreIndicator(
-                                                            colorTextFFC1,
-                                                            'Medium'),
-                                                        wealthScoreIndicator(
-                                                            colorGreen, 'High'),
-                                                      ],
-                                                    ),
-                                                  )
+                                                  wealthScoreIndicator(
+                                                      Colors.red, 'Low'),
+                                                  wealthScoreIndicator(
+                                                      colorTextFFC1, 'Medium'),
+                                                  wealthScoreIndicator(
+                                                      colorGreen, 'High'),
                                                 ],
                                               ),
-                                              angle: 90,
-                                              positionFactor: 1.8)
-                                        ])
-                                  ]),
-                                ],
-                              ),
+                                            )
+                                          ],
+                                        ),
+                                        angle: 90,
+                                        positionFactor: 1.8,
+                                      )
+                                    ])
+                              ]),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 1.h, bottom: 2.h),
-                            child: Text('BIRD EYE VIEW',
-                                style: textStyle10Bold(colorBlack)
-                                    .copyWith(letterSpacing: 0.7)),
-                          ),
+                          // Padding(
+                          //   padding: EdgeInsets.only(top: 1.h, bottom: 2.h),
+                          //   child: Text('BIRD EYE VIEW',
+                          //       style: textStyle10Bold(colorBlack)
+                          //           .copyWith(letterSpacing: 0.7)),
+                          // ),
                           SingleChildScrollView(
                             child: Column(
                               children: List.generate(

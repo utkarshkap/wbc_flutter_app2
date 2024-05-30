@@ -317,7 +317,6 @@ class _WBCConnectState extends State<WBCConnect> {
                     decoration: decoration(colorWhite),
                     child: Column(
                       children: [
-                        // SizedBox(height: 1.h),
                         AspectRatio(
                             aspectRatio: 1.7,
                             child: PieChart(PieChartData(
@@ -919,7 +918,7 @@ class _WBCConnectState extends State<WBCConnect> {
                   children: <TextSpan>[
                     TextSpan(text: '+ ', style: textStyle11(colorGreen)),
                     TextSpan(
-                        text: '\$${rod.toY.round()}',
+                        text: '₹${rod.toY.round()}',
                         style: textStyle9(colorGreen)),
                   ]);
             },
@@ -970,7 +969,7 @@ class _WBCConnectState extends State<WBCConnect> {
                   children: <TextSpan>[
                     TextSpan(text: '+ ', style: textStyle11(colorGreen)),
                     TextSpan(
-                        text: '\$${rod.toY.round()}',
+                        text: '₹${rod.toY.round()}',
                         style: textStyle9(colorGreen)),
                   ]);
             },
