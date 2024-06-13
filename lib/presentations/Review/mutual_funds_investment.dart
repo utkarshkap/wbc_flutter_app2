@@ -419,6 +419,11 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                               .toStringAsFixed(2)
                                               .toString() !=
                                           "0.00"
+                                      // ? !state
+                                      //         .investmentPortfolio
+                                      //         .response[index]
+                                      //         .balanceUnit
+                                      //         .isNegative
                                       ? Column(
                                           children: [
                                             reviews(
@@ -493,6 +498,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                       .withOpacity(0.36)),
                                           ],
                                         )
+                                      // : Container()
                                       : Container();
                                 }),
                           ),

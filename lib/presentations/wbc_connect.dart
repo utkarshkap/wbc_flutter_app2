@@ -366,82 +366,116 @@ class _WBCConnectState extends State<WBCConnect> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 90.w,
-                  decoration: decoration(colorWhite),
-                  child: Column(
-                    children: [
-                      dropDownRow(
-                          'EARNING ANALYSIS',
-                          selectedEarningTime,
-                          List.generate(
-                              earningTime.length,
-                              (i) => menuItem(earningTime[i], () {
-                                    setState(() {
-                                      selectedEarningTime = earningTime[i];
-                                    });
-                                  })),
-                          true),
-                      Container(
-                          height: 1, color: colorTextBCBC.withOpacity(0.36)),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.h, bottom: 3.h),
-                        child: AspectRatio(
-                          aspectRatio: 1.8,
-                          child: selectedEarningTime == 'Monthly'
-                              ? monthView()
-                              : yearView(),
-                        ),
+                Stack(
+                  children: [
+                    Container(
+                      width: 90.w,
+                      decoration: decoration(colorWhite),
+                      child: Column(
+                        children: [
+                          dropDownRow(
+                              'EARNING ANALYSIS',
+                              selectedEarningTime,
+                              List.generate(
+                                  earningTime.length,
+                                  (i) => menuItem(earningTime[i], () {
+                                        setState(() {
+                                          selectedEarningTime = earningTime[i];
+                                        });
+                                      })),
+                              true),
+                          Container(
+                              height: 1,
+                              color: colorTextBCBC.withOpacity(0.36)),
+                          Padding(
+                            padding: EdgeInsets.only(top: 5.h, bottom: 3.h),
+                            child: AspectRatio(
+                              aspectRatio: 1.8,
+                              child: selectedEarningTime == 'Monthly'
+                                  ? monthView()
+                                  : yearView(),
+                            ),
+                          ),
+                          Container(
+                              height: 1,
+                              color: colorTextBCBC.withOpacity(0.36)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 2.h),
+                            child: GpDashBoardData.earning!.isEmpty
+                                ? Container(
+                                    height: 3.h,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                        fastTrackStatus == true
+                                            ? 'No Data'
+                                            : '',
+                                        style: textStyle13Medium(colorBlack)),
+                                  )
+                                : Row(
+                                    children: [
+                                      SizedBox(width: 4.w),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              '₹${CommonFunction().splitString(totalEarning.toStringAsFixed(0))}',
+                                              style: textStyle13Bold(
+                                                  colorBoxGradiant0040)),
+                                          SizedBox(height: 0.5.h),
+                                          Text('TOTAL',
+                                              style: textStyle9(colorText7070)),
+                                        ],
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toStringAsFixed(0))}',
+                                              style: textStyle12Bold(
+                                                  colorText4747)),
+                                          SizedBox(height: 0.5.h),
+                                          Text('EARNING',
+                                              style: textStyle9(colorText7070)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                          )
+                        ],
                       ),
-                      Container(
-                          height: 1, color: colorTextBCBC.withOpacity(0.36)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.h),
-                        child: GpDashBoardData.earning!.isEmpty
-                            ? Container(
-                                height: 3.h,
-                                alignment: Alignment.center,
-                                child: Text(
-                                    fastTrackStatus == true
-                                        ? 'No Data'
-                                        : 'You Are Not Fastrack User',
-                                    style: textStyle13Medium(colorBlack)),
-                              )
-                            : Row(
-                                children: [
-                                  SizedBox(width: 4.w),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                    ),
+                    if (fastTrackStatus != true)
+                      Positioned(
+                          top: 20.h,
+                          left: 14.w,
+                          child: GpDashBoardData.earning!.isEmpty
+                              ? InkWell(
+                                  onTap: () {
+                                    CommonFunction().errorDialog(context,
+                                        'If you want to fastTrack benefits you need to Pay ₹4248 and you can get all the fasttrack benefits in your account.');
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                          '₹${CommonFunction().splitString(totalEarning.toStringAsFixed(0))}',
-                                          style: textStyle13Bold(
-                                              colorBoxGradiant0040)),
-                                      SizedBox(height: 0.5.h),
-                                      Text('TOTAL',
-                                          style: textStyle9(colorText7070)),
+                                      Container(
+                                        height: 8.h,
+                                        width: 8.w,
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                          icInformation,
+                                          width: 6.w,
+                                        ),
+                                      ),
+                                      Text('You Are Not Fastrack User',
+                                          style: textStyle13Medium(colorRed)),
                                     ],
                                   ),
-                                  SizedBox(width: 12.w),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toStringAsFixed(0))}',
-                                          style:
-                                              textStyle12Bold(colorText4747)),
-                                      SizedBox(height: 0.5.h),
-                                      Text('EARNING',
-                                          style: textStyle9(colorText7070)),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                      )
-                    ],
-                  ),
+                                )
+                              : Container())
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
