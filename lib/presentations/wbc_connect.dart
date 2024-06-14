@@ -454,8 +454,10 @@ class _WBCConnectState extends State<WBCConnect> {
                           child: GpDashBoardData.earning!.isEmpty
                               ? InkWell(
                                   onTap: () {
-                                    CommonFunction().errorDialog(context,
-                                        'If you want to fastTrack benefits you need to Pay ₹4248 and you can get all the fasttrack benefits in your account.');
+                                    CommonFunction().errorDialogNew(
+                                        context,
+                                        'If you want to fastTrack benefits you need to Pay ₹4248 and you can get all the fasttrack benefits in your account.',
+                                        icBenefits);
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -504,7 +506,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                   : GpDashBoardData.history!.length,
                               (index) => Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 4.w),
+                                        EdgeInsets.symmetric(horizontal: 3.w),
                                     child: Column(
                                       children: [
                                         Padding(
@@ -536,7 +538,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                                 ),
                                               ),
                                               Expanded(
-                                                flex: 6,
+                                                flex: 5,
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -584,7 +586,7 @@ class _WBCConnectState extends State<WBCConnect> {
                                               // ),
                                               // const Spacer(),
                                               Expanded(
-                                                flex: 2,
+                                                flex: 3,
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,

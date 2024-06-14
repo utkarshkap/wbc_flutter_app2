@@ -355,57 +355,56 @@ class _SigInPageState extends State<SigInPage> {
                     SizedBox(
                       height: validationString.isEmpty ? 20.h : 17.h,
                     ),
-                    if (Platform.isIOS) ...[
-                      Container()
-                    ] else ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 0.05.h,
-                            width: 15.w,
-                            color: colorTextBCBC,
-                          ),
-                          SizedBox(width: 2.w),
-                          Text('OR', style: textStyle9Bold(colorText4D4D)),
-                          SizedBox(width: 2.w),
-                          Container(
-                            height: 0.05.h,
-                            width: 15.w,
-                            color: colorTextBCBC,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      logInWithButtons(
-                        icGoogle,
-                        'Continue with Google',
-                        () {
-                          GoogleSignIn();
-                        },
-                      ),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      logInWithButtons(
-                        icFacebook,
-                        'Continue with Facebook',
-                        () {},
-                      ),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      logInWithButtons(
-                        icApple,
-                        'Continue with Apple',
-                        () {},
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                    ]
+                    if (Platform.isIOS) ...[Container()]
+                    // else ...[
+                    //   Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Container(
+                    //         height: 0.05.h,
+                    //         width: 15.w,
+                    //         color: colorTextBCBC,
+                    //       ),
+                    //       SizedBox(width: 2.w),
+                    //       Text('OR', style: textStyle9Bold(colorText4D4D)),
+                    //       SizedBox(width: 2.w),
+                    //       Container(
+                    //         height: 0.05.h,
+                    //         width: 15.w,
+                    //         color: colorTextBCBC,
+                    //       )
+                    //     ],
+                    //   ),
+                    //   SizedBox(
+                    //     height: 3.h,
+                    //   ),
+                    //   logInWithButtons(
+                    //     icGoogle,
+                    //     'Continue with Google',
+                    //     () {
+                    //       GoogleSignIn();
+                    //     },
+                    //   ),
+                    //   SizedBox(
+                    //     height: 1.h,
+                    //   ),
+                    //   logInWithButtons(
+                    //     icFacebook,
+                    //     'Continue with Facebook',
+                    //     () {},
+                    //   ),
+                    //   SizedBox(
+                    //     height: 1.h,
+                    //   ),
+                    //   logInWithButtons(
+                    //     icApple,
+                    //     'Continue with Apple',
+                    //     () {},
+                    //   ),
+                    //   SizedBox(
+                    //     height: 3.h,
+                    //   ),
+                    // ]
                   ],
                 ),
               ),

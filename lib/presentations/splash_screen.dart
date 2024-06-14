@@ -181,7 +181,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 SizedBox(
                   height: 10.h,
                 ),
-                Image.asset(icIndicator, width: deviceWidth(context) * 0.13),
+                // Image.asset(icIndicator, width: deviceWidth(context) * 0.13),
                 SizedBox(
                   height: 10.h,
                 ),

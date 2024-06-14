@@ -13,6 +13,7 @@ const String icSearch = '${_path}search.png';
 const String familyIcon = '${_path}family_icon.png';
 const String icCheckContact = '${_path}check_contact.png';
 const String icInformation = '${_path}information.png';
+const String icBenefits = '${_path}benefits.png';
 
 const String icMenu = '${_path}menu.png';
 const String icGoldCoin = '${_path}gold_coin.png';

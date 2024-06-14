@@ -655,6 +655,83 @@ class CommonFunction {
         });
   }
 
+  errorDialogNew(BuildContext context, String text,String icon) {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: false,
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                  opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                  child: StatefulBuilder(
+                    builder: (context, setState) => AlertDialog(
+                      contentPadding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      content: SizedBox(
+                        height: 33.h,
+                        width: deviceWidth(context) * 0.788,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: deviceWidth(context) * 0.04),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              Image.asset(
+                                icon,
+                                height: 7.h,
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              Text(
+                                text,
+                                style: textStyle13Medium(colorBlack)
+                                    .copyWith(height: 1.2),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              InkWell(
+                                splashColor: colorWhite,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  // margin: EdgeInsets.symmetric(horizontal: 2.w),
+                                  height: 5.h,
+                                  // width: MediaQuery.of(context).size.width / 2,
+                                  decoration: BoxDecoration(
+                                      color: colorRed,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: colorRed, width: 1)),
+                                  alignment: Alignment.center,
+                                  child: Text('OK',
+                                      style: textStyle12Bold(colorWhite)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
+  }
+
   confirmationDialog(BuildContext context, String text, Function() onYesClick) {
     showGeneralDialog(
         context: context,

@@ -197,60 +197,67 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                 ? 68.h
                                 : 0,
                             child: SingleChildScrollView(
-                              child: Column(
-                                children: List.generate(
-                                    state.mGainInvestment.mGains.length,
-                                    (index) => mGainValueShow(
-                                            state.mGainInvestment.mGains[index]
-                                                .mGainId,
-                                            index,
-                                            CommonFunction().splitString(state
-                                                .mGainInvestment
-                                                .mGains[index]
-                                                .amount
-                                                .toInt()
-                                                .toString()),
-                                            state.mGainInvestment.mGains[index]
-                                                .rate
-                                                .toInt(),
-                                            DateFormat('dd MMM yy').format(state
-                                                .mGainInvestment
-                                                .mGains[index]
-                                                .investmentDate),
-                                            DateFormat('dd MMM yy').format(state
-                                                .mGainInvestment
-                                                .mGains[index]
-                                                .maturityDate),
-                                            state.mGainInvestment.mGains[index]
-                                                .type, () {
-                                          print(
-                                              '----mGainId--=---${state.mGainInvestment.mGains[index].mGainId}');
-                                          BlocProvider.of<FetchingDataBloc>(
-                                                  context)
-                                              .add(LoadMGainLedgerEvent(
-                                                  mGainId: state.mGainInvestment
-                                                      .mGains[index].mGainId,
-                                                  accountId: state
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 5.h),
+                                child: Column(
+                                  children: List.generate(
+                                      state.mGainInvestment.mGains.length,
+                                      (index) => mGainValueShow(
+                                              state.mGainInvestment
+                                                  .mGains[index].mGainId,
+                                              index,
+                                              CommonFunction().splitString(state
+                                                  .mGainInvestment
+                                                  .mGains[index]
+                                                  .amount
+                                                  .toInt()
+                                                  .toString()),
+                                              state.mGainInvestment
+                                                  .mGains[index].rate
+                                                  .toInt(),
+                                              DateFormat('dd MMM yy').format(
+                                                  state
                                                       .mGainInvestment
                                                       .mGains[index]
-                                                      .accountid,
-                                                  mGainLedger: MGainLedger(
-                                                      code: 0,
-                                                      message: '',
-                                                      ledgerEntries: [])));
-                                          Navigator.of(context)
-                                              .pushReplacementNamed(
-                                                  MGainLedgerScreen.route,
-                                                  arguments:
-                                                      MGainLedgerScreenData(
-                                                          mGainId: state
-                                                              .mGainInvestment
-                                                              .mGains[index]
-                                                              .mGainId
-                                                              .toString()));
-                                        }, () {
-                                          startDownloading(index);
-                                        })),
+                                                      .investmentDate),
+                                              DateFormat('dd MMM yy').format(
+                                                  state
+                                                      .mGainInvestment
+                                                      .mGains[index]
+                                                      .maturityDate),
+                                              state.mGainInvestment
+                                                  .mGains[index].type, () {
+                                            print(
+                                                '----mGainId--=---${state.mGainInvestment.mGains[index].mGainId}');
+                                            BlocProvider.of<FetchingDataBloc>(
+                                                    context)
+                                                .add(LoadMGainLedgerEvent(
+                                                    mGainId: state
+                                                        .mGainInvestment
+                                                        .mGains[index]
+                                                        .mGainId,
+                                                    accountId: state
+                                                        .mGainInvestment
+                                                        .mGains[index]
+                                                        .accountid,
+                                                    mGainLedger: MGainLedger(
+                                                        code: 0,
+                                                        message: '',
+                                                        ledgerEntries: [])));
+                                            Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    MGainLedgerScreen.route,
+                                                    arguments:
+                                                        MGainLedgerScreenData(
+                                                            mGainId: state
+                                                                .mGainInvestment
+                                                                .mGains[index]
+                                                                .mGainId
+                                                                .toString()));
+                                          }, () {
+                                            startDownloading(index);
+                                          })),
+                                ),
                               ),
                             ),
                           ))
