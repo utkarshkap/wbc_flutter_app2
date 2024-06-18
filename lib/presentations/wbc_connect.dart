@@ -12,45 +12,16 @@ import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
 
 import '../common_functions.dart';
 import '../core/preferences.dart';
-import '../models/dashboard.dart';
 import '../models/piechart_data.dart';
 import '../resources/resource.dart';
 import '../widgets/appbarButton.dart';
 import 'fastTrack_benefits.dart';
 
-// class WBCConnectData {
-//   final List<History> history;
-//   final List<ContactBase> contactBase;
-//   final List<ContactBase> inActiveClients;
-//   final int availableContacts;
-//   final int goldPoint;
-//   final double fastTrackEarning;
-//   final List earning;
-//   final int redeemable;
-//   final int nonRedeemable;
-//   final int onTheSpot;
-
-//   WBCConnectData({
-//     required this.history,
-//     required this.contactBase,
-//     required this.inActiveClients,
-//     required this.availableContacts,
-//     required this.goldPoint,
-//     required this.fastTrackEarning,
-//     required this.earning,
-//     required this.redeemable,
-//     required this.nonRedeemable,
-//     required this.onTheSpot,
-//   });
-// }
-
 class WBCConnect extends StatefulWidget {
   static const route = '/WBC-Connect';
 
-  // final WBCConnectData connectData;
   const WBCConnect({
     super.key,
-    //  required this.connectData
   });
 
   @override
@@ -688,7 +659,6 @@ class _WBCConnectState extends State<WBCConnect> {
                     GpDashBoardData.contactBase![1].type,
                     GpDashBoardData.contactBase![1].count, () {
                   List<GoldReferral> temp = [];
-
                   GpDashBoardData.contactBase![0].referralList
                       .forEach((element) {
                     temp.add(GoldReferral(
@@ -697,15 +667,12 @@ class _WBCConnectState extends State<WBCConnect> {
                         refDate: element.refDate,
                         userexist: element.userexist));
                   });
-                  if (temp.isNotEmpty) {
-                    Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments: ViewScreenData(
-                          myContact: temp,
-                        ));
-                  }
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                        myContact: temp,
+                      ));
                 }, () {
                   List<GoldReferral> temp = [];
-
                   GpDashBoardData.contactBase![1].referralList
                       .forEach((element) {
                     temp.add(GoldReferral(
@@ -714,12 +681,10 @@ class _WBCConnectState extends State<WBCConnect> {
                         refDate: element.refDate,
                         userexist: element.userexist));
                   });
-                  if (temp.isNotEmpty) {
-                    Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments: ViewScreenData(
-                          myContact: temp,
-                        ));
-                  }
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                        myContact: temp,
+                      ));
                 }),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
@@ -755,9 +720,35 @@ class _WBCConnectState extends State<WBCConnect> {
                     GpDashBoardData.inActiveClients![0].type,
                     GpDashBoardData.inActiveClients![0].count,
                     GpDashBoardData.inActiveClients![1].type,
-                    GpDashBoardData.inActiveClients![1].count,
-                    () => null,
-                    () => null),
+                    GpDashBoardData.inActiveClients![1].count, () {
+                  List<GoldReferral> temp = [];
+                  GpDashBoardData.inActiveClients![0].userList
+                      .forEach((element) {
+                    temp.add(GoldReferral(
+                        refName: element.refName,
+                        refMobile: element.refMobile,
+                        refDate: element.refDate,
+                        userexist: element.userexist));
+                  });
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                        myContact: temp,
+                      ));
+                }, () {
+                  List<GoldReferral> temp = [];
+                  GpDashBoardData.inActiveClients![1].userList
+                      .forEach((element) {
+                    temp.add(GoldReferral(
+                        refName: element.refName,
+                        refMobile: element.refMobile,
+                        refDate: element.refDate,
+                        userexist: element.userexist));
+                  });
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                        myContact: temp,
+                      ));
+                }),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: GestureDetector(

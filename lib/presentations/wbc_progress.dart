@@ -33,10 +33,12 @@ class _WBCProgressState extends State<WBCProgress> {
   }
 
   getClientsConvertedMember() {
-    percentRatio = ApiUser.myContactsList!.length / 100;
-    for (int i = 0; i < ApiUser.myContactsList!.length; i++) {
-      if (ApiUser.myContactsList![i].userexist == true) {
-        clientsConverted++;
+    if (ApiUser.myContactsList!.isNotEmpty) {
+      percentRatio = ApiUser.myContactsList!.length / 100;
+      for (int i = 0; i < ApiUser.myContactsList!.length; i++) {
+        if (ApiUser.myContactsList![i].userexist == true) {
+          clientsConverted++;
+        }
       }
     }
   }
@@ -97,18 +99,14 @@ class _WBCProgressState extends State<WBCProgress> {
                     ApiUser.myContactsList!.length,
                     'Contacts converted',
                     clientsConverted, () {
-                  if (ApiUser.myContactsList!.isNotEmpty) {
-                    Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments:
-                            ViewScreenData(myContact: ApiUser.myContactsList!));
-                  }
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments:
+                          ViewScreenData(myContact: ApiUser.myContactsList!));
                 }, () {
-                  if (clientsConverted != 0) {
-                    Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments: ViewScreenData(
-                            myContact: ApiUser.myContactsList!,
-                            isClientsConverted: true));
-                  }
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                          myContact: ApiUser.myContactsList!,
+                          isClientsConverted: true));
                 }),
                 Row(
                   children: [
@@ -180,12 +178,10 @@ class _WBCProgressState extends State<WBCProgress> {
                         refDate: element.refDate,
                         userexist: element.userexist));
                   });
-                  if (temp.isNotEmpty) {
-                    Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments: ViewScreenData(
-                          myContact: temp,
-                        ));
-                  }
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                        myContact: temp,
+                      ));
                 }, () {
                   List<GoldReferral> temp = [];
 
@@ -197,12 +193,10 @@ class _WBCProgressState extends State<WBCProgress> {
                         refDate: element.refDate,
                         userexist: element.userexist));
                   });
-                  if (temp.isNotEmpty) {
-                    Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments: ViewScreenData(
-                          myContact: temp,
-                        ));
-                  }
+                  Navigator.of(context).pushNamed(ViewMyContacts.route,
+                      arguments: ViewScreenData(
+                        myContact: temp,
+                      ));
                 }),
                 Container(
                   width: 90.w,
@@ -235,9 +229,11 @@ class _WBCProgressState extends State<WBCProgress> {
                           animationDuration: 2500,
                           percent: percentRatio >= 1.0 ? 1.0 : percentRatio,
                           center: Text(
-                              percentRatio >= 1.0
-                                  ? '100 %'
-                                  : '${percentRatio.toString().substring(2, 4)} %',
+                              percentRatio == 0.0
+                                  ? '0 %'
+                                  : percentRatio >= 1.0
+                                      ? '100 %'
+                                      : '${percentRatio.toString().substring(2, 4)} %',
                               style: textStyle9Bold(colorTextFFC1)),
                           barRadius: const Radius.circular(15),
                           backgroundColor: colorTextBCBC.withOpacity(0.25),

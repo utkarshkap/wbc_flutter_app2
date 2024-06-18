@@ -1953,7 +1953,7 @@ class _HomeScreenState extends State<HomeScreen> {
       String buttonText,
       List<History> history,
       List<ContactBase> contactBase,
-      List<ContactBase> inActiveClients,
+      List<InActive> inActiveClients,
       int availableContacts,
       int goldPoint,
       double fastTrackEarning,

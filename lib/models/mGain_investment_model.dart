@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-MGainInvestment mGainInvestmentFromJson(String str) => MGainInvestment.fromJson(json.decode(str));
+MGainInvestment mGainInvestmentFromJson(String str) =>
+    MGainInvestment.fromJson(json.decode(str));
 
-String mGainInvestmentToJson(MGainInvestment data) => json.encode(data.toJson());
+String mGainInvestmentToJson(MGainInvestment data) =>
+    json.encode(data.toJson());
 
 class MGainInvestment {
   MGainInvestment({
@@ -19,7 +21,8 @@ class MGainInvestment {
   num totalIntrestReceived;
   List<MGain> mGains;
 
-  factory MGainInvestment.fromJson(Map<String, dynamic> json) => MGainInvestment(
+  factory MGainInvestment.fromJson(Map<String, dynamic> json) =>
+      MGainInvestment(
         code: json["code"],
         message: json["message"],
         mGainTotalInvestment: json["mGain_total_Investment"],
@@ -42,17 +45,17 @@ class MGainInvestment {
 }
 
 class MGain {
-  MGain({
-    required this.mGainId,
-    required this.userId,
-    required this.accountid,
-    required this.type,
-    required this.amount,
-    required this.rate,
-    required this.investmentDate,
-    required this.maturityDate,
-    required this.isActive,
-  });
+  MGain(
+      {required this.mGainId,
+      required this.userId,
+      required this.accountid,
+      required this.type,
+      required this.amount,
+      required this.rate,
+      required this.investmentDate,
+      required this.maturityDate,
+      required this.isActive,
+      required this.plots});
 
   int mGainId;
   int userId;
@@ -63,6 +66,7 @@ class MGain {
   DateTime investmentDate;
   DateTime maturityDate;
   bool isActive;
+  List<Plots> plots;
 
   factory MGain.fromJson(Map<String, dynamic> json) => MGain(
         mGainId: json["mGainId"],
@@ -70,10 +74,13 @@ class MGain {
         accountid: json["accountid"],
         type: json["type"],
         amount: json["amount"],
-        rate: json["rate"],
+        rate: json["rate"].toDouble(),
         investmentDate: DateTime.parse(json["investmentDate"]),
         maturityDate: DateTime.parse(json["maturityDate"]),
         isActive: json["isActive"],
+        plots: json["plots"] == null
+            ? []
+            : List<Plots>.from(json["plots"].map((x) => Plots.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,15 +88,47 @@ class MGain {
         "userId": userId,
         "accountid": accountid,
         "type": type,
-        "amount": amount,
-        "rate": rate,
+        "amount": amount.toDouble(),
+        "rate": rate.toDouble(),
         "investmentDate": investmentDate.toIso8601String(),
         "maturityDate": maturityDate.toIso8601String(),
         "isActive": isActive,
+        "plots": List<dynamic>.from(plots.map((x) => x.toJson())),
       };
 
   @override
   String toString() {
-    return 'MGain{mGainId: $mGainId, userId: $userId, accountid: $accountid, type: $type, amount: $amount, rate: $rate, investmentDate: $investmentDate, maturityDate: $maturityDate, isActive: $isActive}';
+    return 'MGain{mGainId: $mGainId, userId: $userId, accountid: $accountid, type: $type, amount: $amount, rate: $rate, investmentDate: $investmentDate, maturityDate: $maturityDate, isActive: $isActive, plots: $plots}';
+  }
+}
+
+class Plots {
+  String projectName;
+  String plotNo;
+  double allocatedSqFt;
+  double allocatedAmt;
+
+  Plots(
+      {required this.projectName,
+      required this.plotNo,
+      required this.allocatedSqFt,
+      required this.allocatedAmt});
+
+  factory Plots.fromJson(Map<String, dynamic> json) => Plots(
+      projectName: json['projectName'],
+      plotNo: json['plotNo'],
+      allocatedSqFt: json['allocatedSqFt'],
+      allocatedAmt: json['allocatedAmt']);
+
+  Map<String, dynamic> toJson() => {
+        "projectName": projectName,
+        "plotNo": plotNo,
+        "allocatedSqFt": allocatedSqFt.toDouble(),
+        "allocatedAmt": allocatedAmt.toDouble(),
+      };
+
+  @override
+  String toString() {
+    return 'Plots{projectName: $projectName, plotNo: $plotNo, allocatedSqFt: $allocatedSqFt, allocatedAmt: $allocatedAmt}';
   }
 }

@@ -150,7 +150,7 @@ class ApiUser {
 class GpDashBoardData {
   static List<History>? history;
   static List<ContactBase>? contactBase;
-  static List<ContactBase>? inActiveClients;
+  static List<InActive>? inActiveClients;
   static int? availableContacts;
   static int? goldPoint;
   static double? fastTrackEarning;

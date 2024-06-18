@@ -42,9 +42,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         print('tnc---------${event.tnc}');
 
         final response = await dashboardRepo.updateTNCValue(
-            mobileNo: event.mobNo,
-            tnc: event.tnc
-        );
+            mobileNo: event.mobNo, tnc: event.tnc);
 
         final data = jsonDecode(response.body);
 
@@ -82,6 +80,5 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             : emit(FamilyMemberFailed());
       });
     });
-
   }
 }

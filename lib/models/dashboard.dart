@@ -90,7 +90,7 @@ class Data {
   final int wbcThisMonth;
   final List<ContactBase> contactBase;
   final List<Offer> offers;
-  final List<ContactBase> inActive;
+  final List<InActive> inActive;
   final List<Memberlist> memberlist;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -133,8 +133,8 @@ class Data {
             : List<Offer>.from(json["offers"].map((x) => Offer.fromJson(x))),
         inActive: json["inActive"] == null
             ? []
-            : List<ContactBase>.from(
-                json["inActive"].map((x) => ContactBase.fromJson(x))),
+            : List<InActive>.from(
+                json["inActive"].map((x) => InActive.fromJson(x))),
         memberlist: json["memberlist"] == null
             ? []
             : List<Memberlist>.from(
@@ -239,6 +239,70 @@ class ReferralList {
   @override
   String toString() {
     return 'ReferralList{ref_name: $refName, ref_mobile: $refMobile, ref_date: $refDate, userexist: $userexist}';
+  }
+}
+
+class InActive {
+  InActive({
+    required this.type,
+    required this.count,
+    required this.userList,
+  });
+
+  final String type;
+  final int count;
+  final List<UserList> userList;
+
+  factory InActive.fromJson(Map<String, dynamic> json) => InActive(
+        type: json["type"],
+        count: json["count"],
+        userList: json["userList"] == null
+            ? []
+            : List<UserList>.from(
+                json["userList"].map((x) => UserList.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "count": count,
+        "userList": List<dynamic>.from(userList.map((x) => x.toJson())),
+      };
+
+  @override
+  String toString() {
+    return 'InActive{type: $type, count: $count, userList: $userList}';
+  }
+}
+
+class UserList {
+  final String refName;
+  final String refMobile;
+  final DateTime refDate;
+  final bool userexist;
+
+  UserList({
+    required this.refName,
+    required this.refMobile,
+    required this.refDate,
+    required this.userexist,
+  });
+
+  factory UserList.fromJson(Map<String, dynamic> json) => UserList(
+        refName: json["ref_name"],
+        refMobile: json["ref_mobile"],
+        refDate: DateTime.parse(json["ref_date"]),
+        userexist: json["userexist"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ref_name": refName,
+        "ref_mobile": refMobile,
+        "ref_date": refDate.toIso8601String(),
+        "userexist": userexist,
+      };
+  @override
+  String toString() {
+    return 'UserList{ref_name: $refName, ref_mobile: $refMobile, ref_date: $refDate, userexist: $userexist}';
   }
 }
 
