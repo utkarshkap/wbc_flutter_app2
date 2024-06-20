@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
@@ -79,7 +80,9 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
               bgColor: colorF3F3,
               icon: icNotification,
               iconColor: colorText7070,
-              onClick: () {}),
+              onClick: () {
+                Navigator.of(context).pushNamed(NotificationScreen.route);
+              }),
           SizedBox(width: 2.w),
           Stack(
             children: [

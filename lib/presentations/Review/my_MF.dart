@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/get_gmail_inbox_model.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/profile_screen.dart';
 
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../blocs/review/review_bloc.dart';
@@ -127,14 +129,18 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
                 bgColor: colorF3F3,
                 icon: icProfile,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(ProfileScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

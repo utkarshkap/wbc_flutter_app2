@@ -101,10 +101,10 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
 
         final data = getUserFromJson(response.data!.body);
 
-        print('data-------${response.data!.statusCode}');
+        // print('data-------${response.data!.statusCode}');
 
-        print('getUser Response------$data');
-        print('contactData------${data.goldReferrals}');
+        // print('getUser Response------$data');
+        // print('contactData------${data.goldReferrals}');
 
         response.data!.statusCode == 200
             ? emit(GetUserLoaded(data))

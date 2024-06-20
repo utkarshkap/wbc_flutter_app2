@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import '../../blocs/retirementcalculator/retirement_calculator_bloc.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
@@ -169,7 +170,9 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

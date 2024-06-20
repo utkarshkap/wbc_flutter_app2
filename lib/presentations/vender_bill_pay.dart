@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../resources/resource.dart';
 import '../widgets/appbarButton.dart';
@@ -41,7 +42,9 @@ class _VendorBillPayState extends State<VendorBillPay> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -67,7 +70,8 @@ class _VendorBillPayState extends State<VendorBillPay> {
                             SizedBox(
                               height: 30.h,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SizedBox(height: 4.h),
                                   Text('Transfer Success',
@@ -78,8 +82,10 @@ class _VendorBillPayState extends State<VendorBillPay> {
                                     ),
                                     decoration: BoxDecoration(
                                         color: colorF2F2,
-                                        borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.symmetric(vertical: 1.1.h),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 1.1.h),
                                     child: Row(
                                       children: [
                                         SizedBox(width: 2.w),
@@ -107,7 +113,8 @@ class _VendorBillPayState extends State<VendorBillPay> {
                                           children: <TextSpan>[
                                             TextSpan(
                                                 text: '1 July 2022.',
-                                                style: textStyle10Bold(colorRed)),
+                                                style:
+                                                    textStyle10Bold(colorRed)),
                                           ],
                                         ),
                                       ),
@@ -119,7 +126,8 @@ class _VendorBillPayState extends State<VendorBillPay> {
                                           children: <TextSpan>[
                                             TextSpan(
                                                 text: '764358',
-                                                style: textStyle10(colorText3D3D)),
+                                                style:
+                                                    textStyle10(colorText3D3D)),
                                           ],
                                         ),
                                       ),
@@ -130,9 +138,10 @@ class _VendorBillPayState extends State<VendorBillPay> {
                               ),
                             ),
                             SizedBox(
-                              height: 76.h-30.h,
+                              height: 76.h - 30.h,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Image.asset(txtCongrats, height: 6.h),
                                   Image.asset(imgSportsGold, height: 12.h),
@@ -140,7 +149,8 @@ class _VendorBillPayState extends State<VendorBillPay> {
                                       style: textStyle11(colorText7070)),
                                   Column(
                                     children: [
-                                      Text('GP.25000', style: textStyle22(colorTextFFC1)),
+                                      Text('GP.25000',
+                                          style: textStyle22(colorTextFFC1)),
                                       SizedBox(height: 0.5.h),
                                       Text('WBC Gold Points',
                                           style: textStyle11Bold(colorBlack)),
@@ -153,12 +163,14 @@ class _VendorBillPayState extends State<VendorBillPay> {
                                         width: 80.w,
                                         decoration: BoxDecoration(
                                             color: colorRed,
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             boxShadow: [
                                               BoxShadow(
                                                   offset: const Offset(0, 3),
                                                   blurRadius: 6,
-                                                  color: colorRed.withOpacity(0.35))
+                                                  color: colorRed
+                                                      .withOpacity(0.35))
                                             ]),
                                         alignment: Alignment.center,
                                         child: Text('SUBMIT',
@@ -180,7 +192,8 @@ class _VendorBillPayState extends State<VendorBillPay> {
                                 color: colorBoxGradiant0040,
                                 border: Border.all(
                                     color: colorBoxGradiant0040, width: 2.w)),
-                            child: Image.asset(icPaymentSuccess, fit: BoxFit.fill),
+                            child:
+                                Image.asset(icPaymentSuccess, fit: BoxFit.fill),
                           )),
                       Positioned(
                         top: 25.h,

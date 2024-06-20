@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../blocs/review/review_bloc.dart';
 import '../../core/pdfdownloadhandler.dart';
@@ -97,7 +98,9 @@ class _ReviewHistoryState extends State<ReviewHistory> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
@@ -148,11 +151,15 @@ class _ReviewHistoryState extends State<ReviewHistory> {
                                         'Mutual Funds'
                                     ? icMutualFundsInvestment
                                     : state.reviewHistory.reviewresponse[index]
-                                                .investmentName == 'Insurance'
+                                                .investmentName ==
+                                            'Insurance'
                                         ? icInsurance
                                         : icReviewLoan,
                             '${state.reviewHistory.reviewresponse[index].investmentName} Review',
-                            DateTime.now().difference(state.reviewHistory.reviewresponse[index].reqDate).inDays,
+                            DateTime.now()
+                                .difference(state.reviewHistory
+                                    .reviewresponse[index].reqDate)
+                                .inDays,
                             () => null))),
               );
             }
@@ -168,7 +175,8 @@ class _ReviewHistoryState extends State<ReviewHistory> {
     );
   }
 
-  reviews(int index, String icon, String title, int subValue, Function() onClick) {
+  reviews(
+      int index, String icon, String title, int subValue, Function() onClick) {
     return Container(
       margin: EdgeInsets.only(top: 0.7.h),
       decoration: BoxDecoration(color: colorWhite, boxShadow: [

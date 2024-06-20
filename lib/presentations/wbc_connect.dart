@@ -6,6 +6,7 @@ import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
 import 'package:wbc_connect_app/models/getuser_model.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
 import 'package:wbc_connect_app/presentations/viewmycontacts.dart';
@@ -262,7 +263,9 @@ class _WBCConnectState extends State<WBCConnect> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
@@ -652,42 +655,45 @@ class _WBCConnectState extends State<WBCConnect> {
                     ),
                   ),
                 ),
-                standFastTrack(
-                    'MY TEAM',
-                    GpDashBoardData.contactBase![0].type,
-                    GpDashBoardData.contactBase![0].count,
-                    GpDashBoardData.contactBase![1].type,
-                    GpDashBoardData.contactBase![1].count, () {
-                  List<GoldReferral> temp = [];
-                  GpDashBoardData.contactBase![0].referralList
-                      .forEach((element) {
-                    temp.add(GoldReferral(
-                        refName: element.refName,
-                        refMobile: element.refMobile,
-                        refDate: element.refDate,
-                        userexist: element.userexist));
-                  });
-                  Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments: ViewScreenData(
-                        myContact: temp,
-                      ));
-                }, () {
-                  List<GoldReferral> temp = [];
-                  GpDashBoardData.contactBase![1].referralList
-                      .forEach((element) {
-                    temp.add(GoldReferral(
-                        refName: element.refName,
-                        refMobile: element.refMobile,
-                        refDate: element.refDate,
-                        userexist: element.userexist));
-                  });
-                  Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments: ViewScreenData(
-                        myContact: temp,
-                      ));
-                }),
+                if (GpDashBoardData.contactBase!.isNotEmpty)
+                  standFastTrack(
+                      'MY TEAM',
+                      GpDashBoardData.contactBase![0].type,
+                      GpDashBoardData.contactBase![0].count,
+                      GpDashBoardData.contactBase![1].type,
+                      GpDashBoardData.contactBase![1].count, () {
+                    List<GoldReferral> temp = [];
+                    GpDashBoardData.contactBase![0].referralList
+                        .forEach((element) {
+                      temp.add(GoldReferral(
+                          refName: element.refName,
+                          refMobile: element.refMobile,
+                          refDate: element.refDate,
+                          userexist: element.userexist));
+                    });
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }, () {
+                    List<GoldReferral> temp = [];
+                    GpDashBoardData.contactBase![1].referralList
+                        .forEach((element) {
+                      temp.add(GoldReferral(
+                          refName: element.refName,
+                          refMobile: element.refMobile,
+                          refDate: element.refDate,
+                          userexist: element.userexist));
+                    });
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 3.h),
+                  padding: EdgeInsets.symmetric(
+                      vertical:
+                          GpDashBoardData.contactBase!.isNotEmpty ? 3.h : 0),
                   child: Container(
                     width: 90.w,
                     decoration: decoration(colorWhite),
@@ -715,40 +721,41 @@ class _WBCConnectState extends State<WBCConnect> {
                     }),
                   ),
                 ),
-                standFastTrack(
-                    'INACTIVE CLIENTS',
-                    GpDashBoardData.inActiveClients![0].type,
-                    GpDashBoardData.inActiveClients![0].count,
-                    GpDashBoardData.inActiveClients![1].type,
-                    GpDashBoardData.inActiveClients![1].count, () {
-                  List<GoldReferral> temp = [];
-                  GpDashBoardData.inActiveClients![0].userList
-                      .forEach((element) {
-                    temp.add(GoldReferral(
-                        refName: element.refName,
-                        refMobile: element.refMobile,
-                        refDate: element.refDate,
-                        userexist: element.userexist));
-                  });
-                  Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments: ViewScreenData(
-                        myContact: temp,
-                      ));
-                }, () {
-                  List<GoldReferral> temp = [];
-                  GpDashBoardData.inActiveClients![1].userList
-                      .forEach((element) {
-                    temp.add(GoldReferral(
-                        refName: element.refName,
-                        refMobile: element.refMobile,
-                        refDate: element.refDate,
-                        userexist: element.userexist));
-                  });
-                  Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments: ViewScreenData(
-                        myContact: temp,
-                      ));
-                }),
+                if (GpDashBoardData.inActiveClients!.isNotEmpty)
+                  standFastTrack(
+                      'INACTIVE CLIENTS',
+                      GpDashBoardData.inActiveClients![0].type,
+                      GpDashBoardData.inActiveClients![0].count,
+                      GpDashBoardData.inActiveClients![1].type,
+                      GpDashBoardData.inActiveClients![1].count, () {
+                    List<GoldReferral> temp = [];
+                    GpDashBoardData.inActiveClients![0].userList
+                        .forEach((element) {
+                      temp.add(GoldReferral(
+                          refName: element.refName,
+                          refMobile: element.refMobile,
+                          refDate: element.refDate,
+                          userexist: element.userexist));
+                    });
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }, () {
+                    List<GoldReferral> temp = [];
+                    GpDashBoardData.inActiveClients![1].userList
+                        .forEach((element) {
+                      temp.add(GoldReferral(
+                          refName: element.refName,
+                          refMobile: element.refMobile,
+                          refDate: element.refDate,
+                          userexist: element.userexist));
+                    });
+                    Navigator.of(context).pushNamed(ViewMyContacts.route,
+                        arguments: ViewScreenData(
+                          myContact: temp,
+                        ));
+                  }),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: GestureDetector(

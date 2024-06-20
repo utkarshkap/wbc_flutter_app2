@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/Review/loan_EMI.dart';
 import 'package:wbc_connect_app/presentations/Review/track_investments.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/widgets/appbarButton.dart';
 
 import '../../resources/resource.dart';
@@ -46,14 +47,18 @@ class _InvestmentReviewState extends State<InvestmentReview> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
                 bgColor: colorF3F3,
                 icon: icProfile,
                 iconColor: colorText7070,
-                onClick: () {Navigator.of(context).pushNamed(ProfileScreen.route);}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(ProfileScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -118,8 +123,7 @@ class _InvestmentReviewState extends State<InvestmentReview> {
                           Container(
                               height: 1,
                               color: colorTextBCBC.withOpacity(0.36)),
-                          reviews(icDollar, color6C6C, 'Review Loan EMI',
-                             () {
+                          reviews(icDollar, color6C6C, 'Review Loan EMI', () {
                             Navigator.of(context)
                                 .pushNamed(LoanEMIReview.route);
                           }),
@@ -139,7 +143,8 @@ class _InvestmentReviewState extends State<InvestmentReview> {
                               icSecure,
                               color9C8B,
                               'Review Your Insurance',
-                              () => Navigator.of(context).pushNamed(PolicyReview.route)),
+                              () => Navigator.of(context)
+                                  .pushNamed(PolicyReview.route)),
                         ],
                       ),
                     ),
@@ -163,8 +168,7 @@ class _InvestmentReviewState extends State<InvestmentReview> {
         ]);
   }
 
-  reviews(String icon, Color bgColor, String title,
-      Function() onClick) {
+  reviews(String icon, Color bgColor, String title, Function() onClick) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.8.h, horizontal: 3.w),
       child: GestureDetector(

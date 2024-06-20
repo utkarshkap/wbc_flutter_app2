@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
@@ -50,7 +51,9 @@ class _RealEstatePropertyState extends State<RealEstateProperty> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,

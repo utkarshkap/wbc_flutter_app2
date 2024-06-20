@@ -11,33 +11,71 @@ import 'core/api/api_consts.dart';
 
 class CommonFunction {
   splitString(String value) {
-    return value.contains('.')
-        ? value.length == 12
-            ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4, 6)},${value.substring(6)}'
-            : value.length == 11
-                ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3, 5)},${value.substring(5)}'
-                : value.length == 10
-                    ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4)}'
-                    : value.length == 9
-                        ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3)}'
-                        : value.length == 8
-                            ? '${value.substring(0, 2)},${value.substring(2)}'
-                            : value.length == 7
-                                ? '${value.substring(0, 1)},${value.substring(1)}'
-                                : value
-        : value.length == 9
-            ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4, 6)},${value.substring(6)}'
-            : value.length == 8
-                ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3, 5)},${value.substring(5)}'
-                : value.length == 7
-                    ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4)}'
-                    : value.length == 6
-                        ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3)}'
-                        : value.length == 5
-                            ? '${value.substring(0, 2)},${value.substring(2)}'
-                            : value.length == 4
-                                ? '${value.substring(0, 1)},${value.substring(1)}'
-                                : value;
+    if (value.contains('-') && value.contains('.')) {
+      return value.length == 14
+          ? '${value.substring(0, 4)},${value.substring(4, 6)},${value.substring(6, 8)},${value.substring(8)}'
+          : value.length == 13
+              ? '${value.substring(0, 3)},${value.substring(3, 5)},${value.substring(5, 7)},${value.substring(7)}'
+              : value.length == 12
+                  ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4, 6)},${value.substring(6)}'
+                  : value.length == 11
+                      ? '${value.substring(0, 3)},${value.substring(3, 5)},${value.substring(5)}'
+                      : value.length == 10
+                          ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4)}'
+                          : value.length == 9
+                              ? '${value.substring(0, 3)},${value.substring(3)}'
+                              : value.length == 8
+                                  ? '${value.substring(0, 2)},${value.substring(2)}'
+                                  : value;
+    } else if (value.contains('.')) {
+      return value.length == 13
+          ? '${value.substring(0, 3)},${value.substring(3, 5)},${value.substring(5, 7)},${value.substring(7)}'
+          : value.length == 12
+              ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4, 6)},${value.substring(6)}'
+              : value.length == 11
+                  ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3, 5)},${value.substring(5)}'
+                  : value.length == 10
+                      ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4)}'
+                      : value.length == 9
+                          ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3)}'
+                          : value.length == 8
+                              ? '${value.substring(0, 2)},${value.substring(2)}'
+                              : value.length == 7
+                                  ? '${value.substring(0, 1)},${value.substring(1)}'
+                                  : value;
+    } else if (value.contains('-')) {
+      return value.length == 11
+          ? '${value.substring(0, 4)},${value.substring(4, 6)},${value.substring(6, 8)},${value.substring(8)}'
+          : value.length == 10
+              ? '${value.substring(0, 3)},${value.substring(3, 5)},${value.substring(5, 7)},${value.substring(7)}'
+              : value.length == 9
+                  ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4, 6)},${value.substring(6)}'
+                  : value.length == 8
+                      ? '${value.substring(0, 3)},${value.substring(3, 5)},${value.substring(5)}'
+                      : value.length == 7
+                          ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4)}'
+                          : value.length == 6
+                              ? '${value.substring(0, 3)},${value.substring(3)}'
+                              : value.length == 5
+                                  ? '${value.substring(0, 2)},${value.substring(2)}'
+                                  : value;
+    } else {
+      return value.length == 10
+          ? '${value.substring(0, 3)},${value.substring(3, 5)},${value.substring(5, 7)},${value.substring(7)}'
+          : value.length == 9
+              ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4, 6)},${value.substring(6)}'
+              : value.length == 8
+                  ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3, 5)},${value.substring(5)}'
+                  : value.length == 7
+                      ? '${value.substring(0, 2)},${value.substring(2, 4)},${value.substring(4)}'
+                      : value.length == 6
+                          ? '${value.substring(0, 1)},${value.substring(1, 3)},${value.substring(3)}'
+                          : value.length == 5
+                              ? '${value.substring(0, 2)},${value.substring(2)}'
+                              : value.length == 4
+                                  ? '${value.substring(0, 1)},${value.substring(1)}'
+                                  : value;
+    }
   }
 
   successPopup(BuildContext context, String title, String msg, String lottie,
@@ -655,7 +693,7 @@ class CommonFunction {
         });
   }
 
-  errorDialogNew(BuildContext context, String text,String icon) {
+  errorDialogNew(BuildContext context, String text, String icon) {
     showGeneralDialog(
         context: context,
         barrierDismissible: false,

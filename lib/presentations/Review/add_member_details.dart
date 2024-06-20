@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/family_member_model.dart';
 import 'package:wbc_connect_app/presentations/Review/verification_member.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/profile_screen.dart';
 
 import '../../common_functions.dart';
 import '../../core/preferences.dart';
@@ -186,14 +188,18 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
                 bgColor: colorF3F3,
                 icon: icProfile,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(ProfileScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

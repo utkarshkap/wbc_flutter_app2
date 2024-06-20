@@ -31,7 +31,11 @@ class AppBarButton extends StatelessWidget {
           decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
           alignment: Alignment.center,
           child: Image.asset(icon,
-              width: icon == icNotification || icon == icFlash ? 3.2.w : 4.w,
+              width: icon == icNotification || icon == icFlash
+                  ? 3.2.w
+                  : icon == icDownload
+                      ? 7.w
+                      : 4.w,
               color: iconColor),
         ));
   }

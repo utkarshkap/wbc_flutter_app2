@@ -38,7 +38,7 @@ class SigningRepository {
       final response = await ApiHandler.post(url: setUser, body: data);
 
       print('api--------------response-------------');
-      print(response.statusCode);
+      // print(response.statusCode);
       return response;
     } on BadRequestException {
       return ApiResponse.withError('Something went wrong', statusCode: 400);
@@ -55,7 +55,7 @@ class SigningRepository {
 
       print('responsedata------${response.statusCode}');
 
-      print('jsondecode-------${jsonDecode(response.body)}');
+      // print('jsondecode-------${jsonDecode(response.body)}');
 
       return ApiResponse.withSuccess(response);
     } on BadRequestException {

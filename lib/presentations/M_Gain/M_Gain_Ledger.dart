@@ -1,8 +1,15 @@
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:wbc_connect_app/models/mGain_ledger_model.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../common_functions.dart';
 import '../../core/api/api_consts.dart';
@@ -10,6 +17,7 @@ import '../../models/mGain_investment_model.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
 import 'M_Gain_Investment.dart';
+import 'package:pdf/widgets.dart' as pdfWidgets;
 
 class MGainLedgerScreenData {
   String? mGainId;
@@ -30,6 +38,8 @@ class MGainLedgerScreen extends StatefulWidget {
 class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
   int totalDebit = 0;
   int totalCredit = 0;
+
+  List<LedgerEntry> ledgerEntriesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +74,21 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
               AppBarButton(
                   splashColor: colorWhite,
                   bgColor: colorF3F3,
-                  icon: icMGainFilter,
-                  iconColor: colorText7070,
-                  onClick: () {}),
+                  icon: icDownload,
+                  iconColor: colorTextBCBC,
+                  onClick: () {
+                    generatePDF();
+                  }),
               SizedBox(width: 2.w),
               AppBarButton(
                   splashColor: colorWhite,
                   bgColor: colorF3F3,
                   icon: icNotification,
                   iconColor: colorText7070,
-                  onClick: () {}),
-              SizedBox(width: 5.w)
+                  onClick: () {
+                    Navigator.of(context).pushNamed(NotificationScreen.route);
+                  }),
+              SizedBox(width: 5.w),
             ],
           ),
           body: WillPopScope(
@@ -127,6 +141,8 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                           BlocConsumer<FetchingDataBloc, FetchingDataState>(
                             listener: (context, state) {
                               if (state is MGainLedgerLoadedState) {
+                                ledgerEntriesList =
+                                    state.mGainLedger.ledgerEntries;
                                 for (int i = 0;
                                     i < state.mGainLedger.ledgerEntries.length;
                                     i++) {
@@ -371,6 +387,166 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
             child: Text(text,
                 textAlign: TextAlign.center, style: textStyle11Bold(color)),
           )),
+    );
+  }
+
+  Future<void> generatePDF() async {
+    try {
+      final pdfDoc = pdfWidgets.Document();
+
+      // final ByteData imageData = await rootBundle.load(icPdf1);
+      // final Uint8List bytes = imageData.buffer.asUint8List();
+
+      pdfDoc.addPage(
+        pdfWidgets.MultiPage(
+          header: (context) => _buildHeader(),
+          footer: (context) => _buildFooter(),
+          build: (context) => [
+            // pdfWidgets.Row(
+            //   mainAxisAlignment: pdfWidgets.MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     pdfWidgets.Container(
+            //       padding: const pdfWidgets.EdgeInsets.only(right: 10),
+            //       child: pdfWidgets.Image(
+            //         pdfWidgets.MemoryImage(bytes),
+            //         width: 180,
+            //         height: 120, // Adjust width as needed
+            //       ),
+            //     ),
+            //     pdfWidgets.Container(
+            //       padding: const pdfWidgets.EdgeInsets.only(right: 10),
+            //       child: pdfWidgets.Image(
+            //         pdfWidgets.MemoryImage(bytes),
+            //         width: 180,
+            //         height: 120, // Adjust width as needed
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            pdfWidgets.SizedBox(height: 20),
+
+            pdfWidgets.Text("MGain Id: ${widget.mGainLedgerScreenData.mGainId}",
+                style: const pdfWidgets.TextStyle(fontSize: 20)),
+            pdfWidgets.SizedBox(height: 30),
+            pdfWidgets.Table.fromTextArray(
+                context: context,
+                data: <List<dynamic>>[
+                  <String>['Name', 'Date', 'Debit', 'Credit'],
+                  ...ledgerEntriesList.map(
+                    (entry) => [
+                      entry.name,
+                      DateFormat('dd-MM-yyyy').format(entry.investmentDate),
+                      entry.debit.toInt(),
+                      entry.credit.toInt(),
+                    ],
+                  ),
+                  // ['Total', '', totalDebit.toString(), totalDebit.toString()]
+                ],
+                headerStyle: pdfWidgets.TextStyle(
+                    fontWeight: pdfWidgets.FontWeight.bold),
+                cellStyle: const pdfWidgets.TextStyle(),
+                cellAlignment: pdfWidgets.Alignment.center),
+            // pdfWidgets.SizedBox(height: 20),
+            // pdfWidgets.Padding(
+            //   padding: const pdfWidgets.EdgeInsets.symmetric(horizontal: 10),
+            //   child: pdfWidgets.Row(
+            //     children: [
+            //       pdfWidgets.Text('Total:',
+            //           style: const pdfWidgets.TextStyle(fontSize: 18)),
+            //       // pdfWidgets.SizedBox(width: 200),
+            //       pdfWidgets.Spacer(),
+            //       pdfWidgets.Text(totalDebit.toString(),
+            //           style: const pdfWidgets.TextStyle(fontSize: 15)),
+            //       pdfWidgets.SizedBox(width: 15),
+            //       pdfWidgets.Text(totalCredit.toString(),
+            //           style: const pdfWidgets.TextStyle(fontSize: 15)),
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
+      );
+
+      // Save PDF to a file
+      final pdfBytes = await pdfDoc.save();
+
+      // Determine the file path based on platform
+      Directory dir;
+      if (Platform.isAndroid) {
+        // Android code
+        const downloadsFolderPath = '/storage/emulated/0/Download/';
+        dir = Directory(downloadsFolderPath);
+      } else if (Platform.isIOS) {
+        // iOS code
+        dir = await getApplicationDocumentsDirectory();
+      } else {
+        throw UnsupportedError('Unsupported platform');
+      }
+
+      if (!await dir.exists()) {
+        await dir.create(recursive: true);
+      }
+
+      final file = File(
+          '${dir.path}/${ApiUser.userName}-mGainValuation${widget.mGainLedgerScreenData.mGainId}.pdf');
+      await file.writeAsBytes(pdfBytes);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Pdf Downloaded Successfully",
+            style: TextStyle(
+              color: colorWhite,
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+            ),
+          ),
+          backgroundColor: colorSplashBG,
+        ),
+      );
+      // showDialog(
+      //   context: context,
+      //   builder: (context) => AlertDialog(
+      //     title: const Text('Success'),
+      //     content: const Text('PDF generated successfully and saved.'),
+      //     actions: [
+      //       TextButton(
+      //         onPressed: () {
+      //           Navigator.of(context).pop();
+      //         },
+      //         child: const Text('OK'),
+      //       ),
+      //     ],
+      //   ),
+      // );
+    } catch (e) {
+      print('Error generating PDF: $e');
+    }
+  }
+
+  pdfWidgets.Widget _buildHeader() {
+    return pdfWidgets.Container(
+      alignment: pdfWidgets.Alignment.centerRight,
+      margin: const pdfWidgets.EdgeInsets.only(bottom: 20.0),
+      padding: const pdfWidgets.EdgeInsets.only(bottom: 3.0),
+      decoration: const pdfWidgets.BoxDecoration(
+          border: pdfWidgets.Border(bottom: pdfWidgets.BorderSide(width: 2.0))),
+      child: pdfWidgets.Row(
+        mainAxisAlignment: pdfWidgets.MainAxisAlignment.spaceBetween,
+        children: [
+          pdfWidgets.Text(ApiUser.userName),
+          pdfWidgets.Text('Valutaion Report'),
+        ],
+      ),
+    );
+  }
+
+  pdfWidgets.Widget _buildFooter() {
+    return pdfWidgets.Container(
+      alignment: pdfWidgets.Alignment.centerRight,
+      margin: const pdfWidgets.EdgeInsets.only(top: 20.0),
+      padding: const pdfWidgets.EdgeInsets.only(top: 3.0),
+      decoration: const pdfWidgets.BoxDecoration(
+          border: pdfWidgets.Border(top: pdfWidgets.BorderSide(width: 2.0))),
     );
   }
 }

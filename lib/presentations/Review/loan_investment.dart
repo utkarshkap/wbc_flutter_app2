@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/presentations/Review/emi_sip_calculator.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../common_functions.dart';
 import '../../core/api/api_consts.dart';
@@ -83,7 +84,9 @@ class _LoanInvestmentScreenState extends State<LoanInvestmentScreen> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

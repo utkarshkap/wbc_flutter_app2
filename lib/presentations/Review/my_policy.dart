@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/presentations/Review/history.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../blocs/mall/mall_bloc.dart';
@@ -87,7 +88,9 @@ class _PolicyReviewState extends State<PolicyReview> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,

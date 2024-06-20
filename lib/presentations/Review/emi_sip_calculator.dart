@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/presentations/emisip_cal_result.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import '../../resources/resource.dart';
 import '../../thousandsSeparatorInputFormatter.dart';
 import '../../widgets/appbarButton.dart';
@@ -63,7 +64,9 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

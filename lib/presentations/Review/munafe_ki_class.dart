@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
@@ -44,7 +45,9 @@ class _MunafeKiClassScreenState extends State<MunafeKiClassScreen> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -76,95 +79,88 @@ class _MunafeKiClassScreenState extends State<MunafeKiClassScreen> {
             } else if (state is MunafeKiClassLoadedState) {
               return state.munafeKiClass.list.isEmpty
                   ? Center(
-                  child: Text('No Data Available',
-                      style: textStyle13Medium(colorBlack)))
+                      child: Text('No Data Available',
+                          style: textStyle13Medium(colorBlack)))
                   : SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 0),
-                    child: Column(
-                      children: List.generate(
-                        state.munafeKiClass.list.length,
-                            (index) => Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                          child: Container(
-                            decoration: decoration(),
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 27.h,
-                                  width: 90.w,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                    const BorderRadius.vertical(
-                                        top: Radius.circular(10)),
-                                    child: YoutubeVideoPlayer(
-                                      key: ObjectKey(state.munafeKiClass
-                                          .list[index].video),
-                                      controller: YoutubePlayerController(
-                                          initialVideoId: state
-                                              .munafeKiClass
-                                              .list[index]
-                                              .video,
-                                          flags: const YoutubePlayerFlags(
-                                              autoPlay: false,
-                                              enableCaption: false,
-                                              showLiveFullscreenButton:
-                                              false)),
-                                      bufferIndicator: SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child:
-                                          CircularProgressIndicator(
-                                              color: colorRed,
-                                              strokeWidth: 0.7.w)),
-                                      bottomActions: [
-                                        CurrentPosition(),
-                                        SizedBox(width: 2.w),
-                                        ProgressBar(
-                                            isExpanded: true,
-                                            colors: ProgressBarColors(
-                                                backgroundColor:
-                                                colorWhite,
-                                                bufferedColor: colorRed
-                                                    .withOpacity(0.5))),
-                                        SizedBox(width: 2.w),
-                                        RemainingDuration(),
+                      child: Padding(
+                      padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 0),
+                      child: Column(
+                        children: List.generate(
+                          state.munafeKiClass.list.length,
+                          (index) => Padding(
+                            padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                            child: Container(
+                              decoration: decoration(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 27.h,
+                                    width: 90.w,
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                          top: Radius.circular(10)),
+                                      child: YoutubeVideoPlayer(
+                                        key: ObjectKey(state
+                                            .munafeKiClass.list[index].video),
+                                        controller: YoutubePlayerController(
+                                            initialVideoId: state.munafeKiClass
+                                                .list[index].video,
+                                            flags: const YoutubePlayerFlags(
+                                                autoPlay: false,
+                                                enableCaption: false,
+                                                showLiveFullscreenButton:
+                                                    false)),
+                                        bufferIndicator: SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                                color: colorRed,
+                                                strokeWidth: 0.7.w)),
+                                        bottomActions: [
+                                          CurrentPosition(),
+                                          SizedBox(width: 2.w),
+                                          ProgressBar(
+                                              isExpanded: true,
+                                              colors: ProgressBarColors(
+                                                  backgroundColor: colorWhite,
+                                                  bufferedColor: colorRed
+                                                      .withOpacity(0.5))),
+                                          SizedBox(width: 2.w),
+                                          RemainingDuration(),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.w, vertical: 2.h),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            state.munafeKiClass.list[index]
+                                                .title,
+                                            style: textStyle11Bold(colorBlack)),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                            state.munafeKiClass.list[index]
+                                                .description,
+                                            style: textStyle9(colorText7070)
+                                                .copyWith(height: 1.2)),
                                       ],
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 3.w, vertical: 2.h),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          state.munafeKiClass.list[index]
-                                              .title,
-                                          style: textStyle11Bold(
-                                              colorBlack)),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                          state.munafeKiClass.list[index]
-                                              .description,
-                                          style: textStyle9(colorText7070)
-                                              .copyWith(height: 1.2)),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ));
+                    ));
             }
             return Center(
               child: SizedBox(

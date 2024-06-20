@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import '../blocs/signingbloc/signing_bloc.dart';
 import '../core/preferences.dart';
 import '../resources/resource.dart';
@@ -118,7 +119,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             if (!isSave)
               AppBarButton(
@@ -194,8 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               setState(() {
                 notificationToken = state.data!.data!.deviceid;
               });
-
-              print("data::::::::::${state.data!.data}");
 
               _nameController.text = state.data!.data!.name.trim();
               _emailController.text = state.data!.data!.email.trim();
@@ -312,7 +313,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (value.isNotEmpty && title != 'Mobile No.' && title != 'Date of Birth') {
       // controller!.text = value;
       value = controller!.text;
-      print("CONTROLLERL::::::::::::::::${controller.text}");
       controller.selection = TextSelection.fromPosition(
           TextPosition(offset: controller.text.length));
     }

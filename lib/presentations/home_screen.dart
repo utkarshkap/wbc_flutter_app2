@@ -1521,14 +1521,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
-                                            if (ApiUser
-                                                .myContactsList!.isNotEmpty) {
-                                              Navigator.of(context).pushNamed(
-                                                  ViewMyContacts.route,
-                                                  arguments: ViewScreenData(
-                                                      myContact: ApiUser
-                                                          .myContactsList!));
-                                            }
+                                            Navigator.of(context).pushNamed(
+                                                ViewMyContacts.route,
+                                                arguments: ViewScreenData(
+                                                    myContact: ApiUser
+                                                        .myContactsList!));
                                           },
                                           child: Column(
                                             mainAxisAlignment:
@@ -1554,15 +1551,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
-                                            if (clientsConverted != 0) {
-                                              Navigator.of(context).pushNamed(
-                                                  ViewMyContacts.route,
-                                                  arguments: ViewScreenData(
-                                                      myContact: ApiUser
-                                                          .myContactsList!,
-                                                      isClientsConverted:
-                                                          true));
-                                            }
+                                            Navigator.of(context).pushNamed(
+                                                ViewMyContacts.route,
+                                                arguments: ViewScreenData(
+                                                    myContact:
+                                                        ApiUser.myContactsList!,
+                                                    isClientsConverted: true));
                                           },
                                           child: Column(
                                             mainAxisAlignment:

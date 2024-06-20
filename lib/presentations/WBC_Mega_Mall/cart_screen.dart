@@ -10,6 +10,7 @@ import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/order_model.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/order_history.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/dashboardbloc/dashboard_bloc.dart';
@@ -41,7 +42,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
   DatabaseHelper helper = DatabaseHelper();
   double cartValue = 0;
   List<ShippingAddress> shippingAddressList = [];
@@ -95,7 +95,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   getUserData() async {
-    BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: await Preference.getMobNo()));
+    BlocProvider.of<SigningBloc>(context)
+        .add(GetUserData(mobileNo: await Preference.getMobNo()));
   }
 
   @override
@@ -131,7 +132,9 @@ class _CartScreenState extends State<CartScreen> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
@@ -206,11 +209,11 @@ class _CartScreenState extends State<CartScreen> {
                           LoadProductCategoryEvent(
                               productCategory: ProductCategory(
                                   code: 0, message: '', categories: [])));
-                      BlocProvider.of<MallBloc>(context).add(
-                          LoadMallDataEvent(
-                              popular: Popular(code: 0, message: '', products: []),
-                              newArrival: NewArrival(code: 0, message: '', products: []),
-                              trending:
+                      BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+                          popular: Popular(code: 0, message: '', products: []),
+                          newArrival:
+                              NewArrival(code: 0, message: '', products: []),
+                          trending:
                               Trending(code: 0, message: '', products: [])));
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           WbcMegaMall.route, (route) => false);
@@ -250,8 +253,10 @@ class _CartScreenState extends State<CartScreen> {
                 btnOkColor: Colors.red,
               ).show();
             } else if (state is OrderDataAdded) {
-              BlocProvider.of<DashboardBloc>(context).add(GetDashboardData(userId: ApiUser.userId));
-              Navigator.of(context).pushNamed(OrderHistory.route, arguments: OrderHistoryData(isOrdered: true));
+              BlocProvider.of<DashboardBloc>(context)
+                  .add(GetDashboardData(userId: ApiUser.userId));
+              Navigator.of(context).pushNamed(OrderHistory.route,
+                  arguments: OrderHistoryData(isOrdered: true));
               BlocProvider.of<CartBloc>(context).add(LoadRemoveCartListEvent());
             }
           }, builder: (context, state) {
@@ -378,16 +383,17 @@ class _CartScreenState extends State<CartScreen> {
                                           splashRadius: 3.w,
                                           splashColor: colorWhite,
                                           onPressed: () {
-                                            CommonFunction().confirmationDialog(context,
+                                            CommonFunction().confirmationDialog(
+                                                context,
                                                 'Are you sure you want to remove this item from cart?',
-                                                    () {
-                                                  Navigator.of(context).pop();
-                                                  BlocProvider.of<CartBloc>(context)
-                                                      .add(LoadRemoveCartEvent(
+                                                () {
+                                              Navigator.of(context).pop();
+                                              BlocProvider.of<CartBloc>(context)
+                                                  .add(LoadRemoveCartEvent(
                                                       id: cartList[index].id));
-                                                  BlocProvider.of<CartBloc>(context)
-                                                      .add(LoadCartListEvent());
-                                                });
+                                              BlocProvider.of<CartBloc>(context)
+                                                  .add(LoadCartListEvent());
+                                            });
                                           },
                                           icon: Image.asset(icDelete,
                                               width: 3.w)),
@@ -591,72 +597,97 @@ class _CartScreenState extends State<CartScreen> {
                                           for (int i = 0;
                                               i < shippingAddressList.length;
                                               i++) {
-                                              if (i == index) {
-                                                await helper.updateAddressData(ShippingAddress(
-                                                    id: shippingAddressList[i].id,
-                                                    name: shippingAddressList[i].name,
-                                                    num: shippingAddressList[i].num,
-                                                    pinCode: shippingAddressList[i].pinCode,
-                                                    street: shippingAddressList[i].street,
-                                                    subLocality:
-                                                    shippingAddressList[i].subLocality,
-                                                    city: shippingAddressList[i].city,
-                                                    state: shippingAddressList[i].state,
-                                                    country: shippingAddressList[i].country,
-                                                    addressType:
-                                                    shippingAddressList[i].addressType,
-                                                    isSelected: 1));
-                                                setState(() {
-                                                  shippingAddressList[i].isSelected=1;
-                                                  shippingAddress = ShippingAddress(
-                                                      id: shippingAddressList[i]
-                                                          .id,
-                                                      name: shippingAddressList[i]
-                                                          .name,
-                                                      num: shippingAddressList[i]
-                                                          .num,
-                                                      pinCode:
+                                            if (i == index) {
+                                              await helper.updateAddressData(ShippingAddress(
+                                                  id: shippingAddressList[i].id,
+                                                  name: shippingAddressList[i]
+                                                      .name,
+                                                  num: shippingAddressList[i]
+                                                      .num,
+                                                  pinCode:
                                                       shippingAddressList[i]
                                                           .pinCode,
-                                                      street: shippingAddressList[
-                                                      i]
-                                                          .street,
-                                                      subLocality:
+                                                  street: shippingAddressList[i]
+                                                      .street,
+                                                  subLocality:
                                                       shippingAddressList[i]
                                                           .subLocality,
-                                                      city: shippingAddressList[i]
-                                                          .city,
-                                                      state: shippingAddressList[
-                                                      i]
-                                                          .state,
-                                                      country: shippingAddressList[
-                                                      i]
+                                                  city: shippingAddressList[i]
+                                                      .city,
+                                                  state: shippingAddressList[i]
+                                                      .state,
+                                                  country:
+                                                      shippingAddressList[i]
                                                           .country,
-                                                      addressType:
+                                                  addressType:
                                                       shippingAddressList[i]
                                                           .addressType,
-                                                      isSelected:1);
-                                                });
-
-                                              } else {
-                                                await helper.updateAddressData(ShippingAddress(
-                                                    id: shippingAddressList[i].id,
-                                                    name: shippingAddressList[i].name,
-                                                    num: shippingAddressList[i].num,
-                                                    pinCode: shippingAddressList[i].pinCode,
-                                                    street: shippingAddressList[i].street,
+                                                  isSelected: 1));
+                                              setState(() {
+                                                shippingAddressList[i]
+                                                    .isSelected = 1;
+                                                shippingAddress = ShippingAddress(
+                                                    id: shippingAddressList[i]
+                                                        .id,
+                                                    name: shippingAddressList[i]
+                                                        .name,
+                                                    num: shippingAddressList[i]
+                                                        .num,
+                                                    pinCode:
+                                                        shippingAddressList[i]
+                                                            .pinCode,
+                                                    street: shippingAddressList[
+                                                            i]
+                                                        .street,
                                                     subLocality:
-                                                    shippingAddressList[i].subLocality,
-                                                    city: shippingAddressList[i].city,
-                                                    state: shippingAddressList[i].state,
-                                                    country: shippingAddressList[i].country,
+                                                        shippingAddressList[i]
+                                                            .subLocality,
+                                                    city: shippingAddressList[
+                                                            i]
+                                                        .city,
+                                                    state: shippingAddressList[
+                                                            i]
+                                                        .state,
+                                                    country:
+                                                        shippingAddressList[
+                                                                i]
+                                                            .country,
                                                     addressType:
-                                                    shippingAddressList[i].addressType,
-                                                    isSelected: 0));
-                                                setState(() {
-                                                  shippingAddressList[i].isSelected=0;
-                                                });
-                                              }
+                                                        shippingAddressList[i]
+                                                            .addressType,
+                                                    isSelected: 1);
+                                              });
+                                            } else {
+                                              await helper.updateAddressData(ShippingAddress(
+                                                  id: shippingAddressList[i].id,
+                                                  name: shippingAddressList[i]
+                                                      .name,
+                                                  num: shippingAddressList[i]
+                                                      .num,
+                                                  pinCode:
+                                                      shippingAddressList[i]
+                                                          .pinCode,
+                                                  street: shippingAddressList[i]
+                                                      .street,
+                                                  subLocality:
+                                                      shippingAddressList[i]
+                                                          .subLocality,
+                                                  city: shippingAddressList[i]
+                                                      .city,
+                                                  state: shippingAddressList[i]
+                                                      .state,
+                                                  country:
+                                                      shippingAddressList[i]
+                                                          .country,
+                                                  addressType:
+                                                      shippingAddressList[i]
+                                                          .addressType,
+                                                  isSelected: 0));
+                                              setState(() {
+                                                shippingAddressList[i]
+                                                    .isSelected = 0;
+                                              });
+                                            }
                                           }
                                         },
                                         child: Container(
@@ -740,15 +771,22 @@ class _CartScreenState extends State<CartScreen> {
                             addEditAddressButton(icSqrEdit, 'EDIT ADDRESS', () {
                               Navigator.of(context).pushReplacementNamed(
                                   AddNewAddress.route,
-                                  arguments:
-                                  AddNewAddressData(navigateType: 'Cart',actionType: 'Edit', id: shippingAddress.id));
+                                  arguments: AddNewAddressData(
+                                      navigateType: 'Cart',
+                                      actionType: 'Edit',
+                                      id: shippingAddress.id));
                             }),
-                          if (shippingAddressList.isNotEmpty)const SizedBox(height: 15),
+                          if (shippingAddressList.isNotEmpty)
+                            const SizedBox(height: 15),
                           addEditAddressButton(icAdd, 'ADD NEW ADDRESS', () {
                             Navigator.of(context).pushReplacementNamed(
                                 AddNewAddress.route,
-                                arguments:
-                                    AddNewAddressData(navigateType: 'Cart',actionType: 'Add', id: shippingAddressList.isEmpty?1:shippingAddressList.last.id+1));
+                                arguments: AddNewAddressData(
+                                    navigateType: 'Cart',
+                                    actionType: 'Add',
+                                    id: shippingAddressList.isEmpty
+                                        ? 1
+                                        : shippingAddressList.last.id + 1));
                           }),
                         ],
                       ),
@@ -984,7 +1022,8 @@ class _CartScreenState extends State<CartScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(icon, color: colorWhite, width:icon==icSqrEdit?4.w: 3.w),
+            Image.asset(icon,
+                color: colorWhite, width: icon == icSqrEdit ? 4.w : 3.w),
             SizedBox(width: 2.w),
             Text(title,
                 textAlign: TextAlign.center,
@@ -1009,8 +1048,7 @@ class _CartScreenState extends State<CartScreen> {
                   offset: const Offset(0, 3),
                   blurRadius: 6,
                   color: colorRed.withOpacity(0.35))
-            ]
-        ),
+            ]),
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1021,8 +1059,7 @@ class _CartScreenState extends State<CartScreen> {
                   padding: EdgeInsets.zero,
                   splashRadius: 2.5.w,
                   onPressed: onMinus,
-                  icon: Image.asset(icMinus, color: colorRed, width: 2.5.w)
-              ),
+                  icon: Image.asset(icMinus, color: colorRed, width: 2.5.w)),
             ),
             Text('$count', style: textStyle9Bold(colorBlack)),
             SizedBox(
@@ -1034,8 +1071,6 @@ class _CartScreenState extends State<CartScreen> {
                   icon: Image.asset(icAdd, color: colorRed, width: 2.5.w)),
             ),
           ],
-        )
-    );
+        ));
   }
-
 }

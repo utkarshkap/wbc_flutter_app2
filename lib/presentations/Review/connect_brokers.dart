@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/ICICI/webview_ICICI.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/angel/webview_angel.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 import '../../widgets/appbarButton.dart';
 import '../brokers_api/5paisa/webview_5paisa.dart';
@@ -100,7 +101,9 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,

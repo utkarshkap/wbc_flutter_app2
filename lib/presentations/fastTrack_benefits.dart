@@ -7,6 +7,7 @@ import 'package:flutter_gallery_3d/gallery3d.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/payu_payment.dart';
 import '../../resources/resource.dart';
 import '../blocs/payuMoneyPayment/payumoney_payment_bloc.dart';
@@ -97,7 +98,9 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                   bgColor: colorF3F3,
                   icon: icNotification,
                   iconColor: colorText7070,
-                  onClick: () {}),
+                  onClick: () {
+                    Navigator.of(context).pushNamed(NotificationScreen.route);
+                  }),
               SizedBox(width: 5.w)
             ],
           ),

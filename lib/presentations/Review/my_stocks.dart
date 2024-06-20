@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../blocs/review/review_bloc.dart';
@@ -92,14 +94,18 @@ class _StocksReviewState extends State<StocksReview> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 2.w),
             AppBarButton(
                 splashColor: colorWhite,
                 bgColor: colorF3F3,
                 icon: icProfile,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(ProfileScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/blocs/order/order_bloc.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import '../../common_functions.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
@@ -62,7 +64,9 @@ class _OrderHistoryState extends State<OrderHistory> {
                   bgColor: colorF3F3,
                   icon: icNotification,
                   iconColor: colorText7070,
-                  onClick: () {}),
+                  onClick: () {
+                    Navigator.of(context).pushNamed(NotificationScreen.route);
+                  }),
               SizedBox(width: 2.w),
               AppBarButton(
                   splashColor: colorWhite,
@@ -78,7 +82,9 @@ class _OrderHistoryState extends State<OrderHistory> {
                   bgColor: colorF3F3,
                   icon: icProfile,
                   iconColor: colorText7070,
-                  onClick: () {}),
+                  onClick: () {
+                    Navigator.of(context).pushNamed(ProfileScreen.route);
+                  }),
               SizedBox(width: 5.w)
             ],
           ),

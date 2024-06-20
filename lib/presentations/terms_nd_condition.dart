@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../resources/resource.dart';
 import '../blocs/dashboardbloc/dashboard_bloc.dart';
@@ -75,7 +76,9 @@ class _TermsNdConditionsState extends State<TermsNdConditions> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -180,7 +183,7 @@ class _TermsNdConditionsState extends State<TermsNdConditions> {
                             listener: (context, state) {
                               if (state is TNCValueFailed) {
                                 setState(() {
-                                  isTap=false;
+                                  isTap = false;
                                 });
                                 AwesomeDialog(
                                   btnCancelColor: colorRed,
@@ -193,17 +196,14 @@ class _TermsNdConditionsState extends State<TermsNdConditions> {
                                   btnOkOnPress: () {},
                                   btnOkColor: Colors.red,
                                 ).show();
-                              }if(state is TNCValueUpdated){
+                              }
+                              if (state is TNCValueUpdated) {
                                 BlocProvider.of<MallBloc>(context).add(
                                     LoadMallDataEvent(
                                         popular: Popular(
-                                            code: 0,
-                                            message: '',
-                                            products: []),
+                                            code: 0, message: '', products: []),
                                         newArrival: NewArrival(
-                                            code: 0,
-                                            message: '',
-                                            products: []),
+                                            code: 0, message: '', products: []),
                                         trending: Trending(
                                             code: 0,
                                             message: '',
@@ -223,7 +223,7 @@ class _TermsNdConditionsState extends State<TermsNdConditions> {
                               child: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      isTap=true;
+                                      isTap = true;
                                     });
                                     BlocProvider.of<DashboardBloc>(context).add(
                                         UpdateTncData(
@@ -245,14 +245,19 @@ class _TermsNdConditionsState extends State<TermsNdConditions> {
                                                     colorRed.withOpacity(0.35))
                                           ]),
                                       alignment: Alignment.center,
-                                      child: isTap ? Center(
-                                        child: SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(
-                                                color: colorWhite, strokeWidth: 0.7.w)),
-                                      ) : Text('I AGREE',
-                                          style: textStyle13Bold(colorWhite)),
+                                      child: isTap
+                                          ? Center(
+                                              child: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: colorWhite,
+                                                          strokeWidth: 0.7.w)),
+                                            )
+                                          : Text('I AGREE',
+                                              style:
+                                                  textStyle13Bold(colorWhite)),
                                     ),
                                   )),
                             ),

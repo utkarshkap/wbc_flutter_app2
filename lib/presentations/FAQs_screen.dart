@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../blocs/fetchingData/fetching_data_bloc.dart';
 import '../resources/resource.dart';
@@ -46,7 +47,9 @@ class _FAQsState extends State<FAQs> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -76,10 +79,10 @@ class _FAQsState extends State<FAQs> {
             if (state is FAQInitial) {
               return Center(
                 child: SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: CircularProgressIndicator(
-                      color: colorRed, strokeWidth: 0.7.w)),
+                    height: 25,
+                    width: 25,
+                    child: CircularProgressIndicator(
+                        color: colorRed, strokeWidth: 0.7.w)),
               );
             } else if (state is FAQLoadedState) {
               return state.faq.questions.isEmpty
@@ -92,10 +95,9 @@ class _FAQsState extends State<FAQs> {
                             state.faq.questions.length,
                             (index) => queAnsView(
                                     queOpenList[index],
-                                    index+1,
+                                    index + 1,
                                     state.faq.questions[index].question,
-                                    state.faq.questions[index].answer,
-                                    () {
+                                    state.faq.questions[index].answer, () {
                                   setState(() {
                                     queOpenList[index] = !queOpenList[index];
                                   });
@@ -118,14 +120,22 @@ class _FAQsState extends State<FAQs> {
 
   queAnsView(bool isSelect, int index, String question, String answer,
       Function() onOpen) {
-    print('-----index----$index-----${answer.length}----${(answer.length/52)}--=---${(answer.length/52).ceil()}---==---${(answer.length/52).ceil() * 20}');
-    print('-----index----$index-----${question.length}----${(question.length/35)}--=---${(question.length/35).ceil()}---==---${(question.length/35).ceil() * 37}');
+    print(
+        '-----index----$index-----${answer.length}----${(answer.length / 52)}--=---${(answer.length / 52).ceil()}---==---${(answer.length / 52).ceil() * 20}');
+    print(
+        '-----index----$index-----${question.length}----${(question.length / 35)}--=---${(question.length / 35).ceil()}---==---${(question.length / 35).ceil() * 37}');
     return AnimatedContainer(
       duration: const Duration(milliseconds: 700),
       curve: Curves.easeOut,
       height: isSelect
-          ? max(4 * 20.0 + 55, ((answer.length / 50).ceil() * 20) + ((question.length / 35).ceil()*10) + 65)
-          : (question.length / 35).ceil()==1?60:(((question.length / 35).ceil()*10)+60),
+          ? max(
+              4 * 20.0 + 55,
+              ((answer.length / 50).ceil() * 20) +
+                  ((question.length / 35).ceil() * 10) +
+                  65)
+          : (question.length / 35).ceil() == 1
+              ? 60
+              : (((question.length / 35).ceil() * 10) + 60),
       decoration: BoxDecoration(color: colorWhite, boxShadow: [
         BoxShadow(
             color: colorTextBCBC.withOpacity(0.3),
@@ -168,7 +178,8 @@ class _FAQsState extends State<FAQs> {
                     Expanded(
                       flex: 8,
                       child: Text(answer,
-                          style: textStyle9(colorText7070).copyWith(height: 1.2)),
+                          style:
+                              textStyle9(colorText7070).copyWith(height: 1.2)),
                     ),
                     Expanded(
                       flex: 1,

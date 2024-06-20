@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/presentations/Review/track_investments.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 import '../../blocs/MFInvestments/mf_investments_bloc.dart';
 import '../../blocs/MFTransaction/mf_transaction_bloc.dart';
@@ -91,7 +92,9 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),

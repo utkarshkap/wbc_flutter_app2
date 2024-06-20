@@ -12,6 +12,8 @@ import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/models/investment_portfolio_model.dart';
 import 'package:wbc_connect_app/models/stock_investment_model.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import '../blocs/MFInvestments/mf_investments_bloc.dart';
 import '../core/api/api_consts.dart';
 import '../resources/resource.dart';
@@ -208,14 +210,19 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       bgColor: colorF3F3,
                       icon: icNotification,
                       iconColor: colorText7070,
-                      onClick: () {}),
+                      onClick: () {
+                        Navigator.of(context)
+                            .pushNamed(NotificationScreen.route);
+                      }),
                   SizedBox(width: 2.w),
                   AppBarButton(
                       splashColor: colorWhite,
                       bgColor: colorF3F3,
                       icon: icProfile,
                       iconColor: colorText7070,
-                      onClick: () {}),
+                      onClick: () {
+                        Navigator.of(context).pushNamed(ProfileScreen.route);
+                      }),
                   SizedBox(width: 5.w)
                 ],
               ),
@@ -235,7 +242,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                     ).show();
                   } else if (state is WealthMeterDataAdded) {
                     setState(() {
-                      if (state.totalScore == 0) {
+                      if (state.totalScore <= 50) {
                         ApiUser.wealthMeterScore = 50;
                       } else {
                         ApiUser.wealthMeterScore = state.totalScore.toDouble();
@@ -1049,8 +1056,10 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   cTextFormField(
                                     'Enter $lable',
                                     (values) {
-                                      int value =
-                                          int.parse(values.replaceAll(',', ''));
+                                      int value = values.isNotEmpty
+                                          ? int.parse(
+                                              values.replaceAll(',', ''))
+                                          : 0;
                                       if (lable == 'Stocks') {
                                         stocksValue = value;
                                       } else if (lable == 'Mutual Funds') {
@@ -1123,9 +1132,11 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   InkWell(
                                     splashColor: colorWhite,
                                     onTap: () async {
-                                      int value = int.parse(
-                                          textEditingController.text
-                                              .replaceAll(',', ''));
+                                      int value = textEditingController
+                                              .text.isNotEmpty
+                                          ? int.parse(textEditingController.text
+                                              .replaceAll(',', ''))
+                                          : 0;
                                       final pref =
                                           await SharedPreferences.getInstance();
                                       if (lable == 'Stocks') {

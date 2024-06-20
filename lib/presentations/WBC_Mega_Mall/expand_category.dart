@@ -8,6 +8,7 @@ import 'package:wbc_connect_app/models/cart_model.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_details_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../blocs/mall/mall_bloc.dart';
@@ -26,7 +27,10 @@ class ExpandCategoryData {
   final String categoryName;
   final bool isFromMall;
 
-  ExpandCategoryData({required this.categoryId, required this.categoryName, required this.isFromMall});
+  ExpandCategoryData(
+      {required this.categoryId,
+      required this.categoryName,
+      required this.isFromMall});
 }
 
 class ExpandCategory extends StatefulWidget {
@@ -82,19 +86,17 @@ class _ExpandCategoryState extends State<ExpandCategory> {
         leading: IconButton(
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              if(widget.categoryData.isFromMall){
+              if (widget.categoryData.isFromMall) {
                 Navigator.of(context).pushReplacementNamed(WbcMegaMall.route);
                 BlocProvider.of<FetchingDataBloc>(context).add(
                     LoadProductCategoryEvent(
                         productCategory: ProductCategory(
                             code: 0, message: '', categories: [])));
-                BlocProvider.of<MallBloc>(context).add(
-                    LoadMallDataEvent(
-                        popular: Popular(code: 0, message: '', products: []),
-                        newArrival: NewArrival(code: 0, message: '', products: []),
-                        trending:
-                        Trending(code: 0, message: '', products: [])));
-              }else{
+                BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+                    popular: Popular(code: 0, message: '', products: []),
+                    newArrival: NewArrival(code: 0, message: '', products: []),
+                    trending: Trending(code: 0, message: '', products: [])));
+              } else {
                 Navigator.of(context).pop();
               }
             },
@@ -108,7 +110,9 @@ class _ExpandCategoryState extends State<ExpandCategory> {
               bgColor: colorF3F3,
               icon: icNotification,
               iconColor: colorText7070,
-              onClick: () {}),
+              onClick: () {
+                Navigator.of(context).pushNamed(NotificationScreen.route);
+              }),
           SizedBox(width: 2.w),
           Stack(
             children: [
@@ -191,8 +195,7 @@ class _ExpandCategoryState extends State<ExpandCategory> {
                   ],
                 ),
               ),
-            )
-        ),
+            )),
       ),
       body: WillPopScope(
         onWillPop: () async {
@@ -202,12 +205,10 @@ class _ExpandCategoryState extends State<ExpandCategory> {
               LoadProductCategoryEvent(
                   productCategory:
                       ProductCategory(code: 0, message: '', categories: [])));
-          BlocProvider.of<MallBloc>(context).add(
-              LoadMallDataEvent(
-                  popular: Popular(code: 0, message: '', products: []),
-                  newArrival: NewArrival(code: 0, message: '', products: []),
-                  trending:
-                  Trending(code: 0, message: '', products: [])));
+          BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+              popular: Popular(code: 0, message: '', products: []),
+              newArrival: NewArrival(code: 0, message: '', products: []),
+              trending: Trending(code: 0, message: '', products: [])));
           return false;
         },
         child: BlocConsumer<FetchingDataBloc, FetchingDataState>(

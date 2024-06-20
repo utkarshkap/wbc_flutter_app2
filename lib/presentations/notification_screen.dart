@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import '../../resources/resource.dart';
 
 class NotificationScreen extends StatefulWidget {
-
   static const route = '/Notification-Screen';
   const NotificationScreen({Key? key}) : super(key: key);
 
@@ -12,42 +11,43 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
-      child: Scaffold(
-        backgroundColor: colorBG,
-        appBar: AppBar(
-          toolbarHeight: 8.h,
-          backgroundColor: colorWhite,
-          elevation: 6,
-          shadowColor: colorTextBCBC.withOpacity(0.3),
-          leadingWidth: 15.w,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Image.asset(icBack, color: colorRed, width: 6.w)),
-          titleSpacing: 0,
-          title: Text('Notifications', style: textStyle14Bold(colorBlack)),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 3.h),
-              child: Center(child: Text('Clear All', style: textStyle9Bold(colorBlack))),
+        value: SystemUiOverlayStyle.dark,
+        child: Scaffold(
+            backgroundColor: colorBG,
+            appBar: AppBar(
+              toolbarHeight: 8.h,
+              backgroundColor: colorWhite,
+              elevation: 6,
+              shadowColor: colorTextBCBC.withOpacity(0.3),
+              leadingWidth: 15.w,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Image.asset(icBack, color: colorRed, width: 6.w)),
+              titleSpacing: 0,
+              title: Text('Notifications', style: textStyle14Bold(colorBlack)),
+              // actions: [
+              //   Padding(
+              //     padding: EdgeInsets.only(right: 3.h),
+              //     child: Center(
+              //         child:
+              //             Text('Clear All', style: textStyle9Bold(colorBlack))),
+              //   ),
+              // ],
             ),
-          ],
-        ),
-        body: SingleChildScrollView(
-      child: Column(
-      children: List.generate(10, (index) {
-        return notificationView();
-      })
-    )
-        )
-      )
-    );
+            body: Center(
+                child: Text('There are no Notifications',
+                    style: textStyle13(colorText7070)))
+            // SingleChildScrollView(
+            //     child: Column(
+            //         children: List.generate(10, (index) {
+            //   return notificationView();
+            // })))
+            ));
   }
 
   notificationView() {
@@ -76,9 +76,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
-                    child: Image.asset(icNotification, color: colorWhite, height: 2.2.h),
-                  )
-              ),
+                    child: Image.asset(icNotification,
+                        color: colorWhite, height: 2.2.h),
+                  )),
             ),
             Expanded(
               child: Column(
@@ -91,7 +91,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       overflow: TextOverflow.ellipsis,
                       style: textStyle9(colorText7070)),
                   SizedBox(height: 0.3.h),
-                  Text("2 hour ago", style:textStyle8Bold(colorRed)),
+                  Text("2 hour ago", style: textStyle8Bold(colorRed)),
                 ],
               ),
             ),
@@ -100,24 +100,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
               width: 5.w,
             ),
             IconButton(
-                constraints:
-                BoxConstraints(minWidth: 8.w, minHeight: 4.h),
+                constraints: BoxConstraints(minWidth: 8.w, minHeight: 4.h),
                 padding: EdgeInsets.zero,
                 splashRadius: 5.5.w,
                 splashColor: colorWhite,
-                onPressed: () {
-                },
+                onPressed: () {},
                 icon: ClipOval(
                   child: Container(
-                      color: colorTextBCBC,
+                    color: colorTextBCBC,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(icDelete,
-                          width:4.w, color: Colors.white),
+                          width: 4.w, color: Colors.white),
                     ),
                   ),
-                )
-            ),
+                )),
           ],
         ),
       ),

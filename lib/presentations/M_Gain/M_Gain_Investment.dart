@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:wbc_connect_app/models/mGain_ledger_model.dart';
 import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Ledger.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
 
 import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../common_functions.dart';
@@ -109,7 +110,9 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                 bgColor: colorF3F3,
                 icon: icNotification,
                 iconColor: colorText7070,
-                onClick: () {}),
+                onClick: () {
+                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                }),
             SizedBox(width: 5.w)
           ],
         ),
@@ -178,11 +181,10 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                       height: 10.h,
                                       width: 1,
                                       color: colorTextBCBC.withOpacity(0.36)),
-                                  interestValue(
-                                      icInterestReceived,
-                                      colorRed,
-                                      'Interest received',
-                                      '₹ ${CommonFunction().splitString(state.mGainInvestment.totalIntrestReceived.toInt().toString())}/-'),
+                                  interestValue(icInterestReceived, colorRed,
+                                      'Interest received', '-'
+                                      // '₹ ${CommonFunction().splitString(state.mGainInvestment.totalIntrestReceived.toInt().toString())}/-'
+                                      ),
                                 ],
                               ),
                             ),
@@ -322,96 +324,101 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
     Function() onDocumentClick,
     Function() onDownloadClick,
   ) {
-    return Container(
-      width: 90.w,
-      decoration: decoration(10),
-      margin: EdgeInsets.only(bottom: 1.5.h),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('MGain Id: $mGainId',
-                        style: textStyle13Bold(colorBlack)),
-                    SizedBox(height: 0.5.h),
-                    RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: '₹ $value/-',
-                              style: textStyle11Bold(colorBlack)),
-                          TextSpan(
-                              text: ' $mGainType - ',
-                              style: textStyle10(colorText7070)),
-                          TextSpan(
-                              text: '$percentage%',
-                              style: textStyle10(colorRed)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        constraints:
-                            BoxConstraints(minWidth: 8.w, minHeight: 4.h),
-                        padding: EdgeInsets.zero,
-                        splashRadius: 5.5.w,
-                        splashColor: colorWhite,
-                        onPressed: onDocumentClick,
-                        icon: Image.asset(icDocument,
-                            width: 8.w, color: colorTextBCBC)),
-                    SizedBox(width: 1.5.w),
-                    if (isDownloadList[index]) ...[
-                      CircularPercentIndicator(
-                        radius: 15,
-                        lineWidth: 5,
-                        percent: progressList[index],
-                        animationDuration: 400,
-                        backgroundColor: Colors.grey,
-                        progressColor: colorRed,
-                        center: FittedBox(
-                          child: Text(
-                            "${(progressList[index] * 100).floor()}%",
-                            style: textStyle7Bold(colorBlack),
-                          ),
+    return InkWell(
+      onTap: onDocumentClick,
+      child: Container(
+        width: 90.w,
+        decoration: decoration(10),
+        margin: EdgeInsets.only(bottom: 1.5.h),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('MGain Id: $mGainId',
+                          style: textStyle13Bold(colorBlack)),
+                      SizedBox(height: 0.5.h),
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: '₹ $value/-',
+                                style: textStyle11Bold(colorBlack)),
+                            TextSpan(
+                                text: ' $mGainType - ',
+                                style: textStyle10(colorText7070)),
+                            TextSpan(
+                                text: '$percentage%',
+                                style: textStyle10(colorRed)),
+                          ],
                         ),
                       ),
-                    ] else ...[
-                      IconButton(
-                          constraints:
-                              BoxConstraints(minWidth: 8.w, minHeight: 4.h),
-                          padding: EdgeInsets.zero,
-                          splashRadius: 5.5.w,
-                          splashColor: colorWhite,
-                          onPressed: onDownloadClick,
-                          icon: Image.asset(icDownload,
-                              width: 8.w, color: colorTextBCBC)),
-                    ]
-                  ],
-                )
-              ],
-            ),
-            SizedBox(height: 2.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Investment Date: $investmentDate',
-                    style: textStyle9(colorText7070)),
-                Text('Maturity Date: $maturityDate',
-                    style: textStyle9(colorText7070)),
-              ],
-            )
-          ],
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // IconButton(
+                      //     constraints:
+                      //         BoxConstraints(minWidth: 8.w, minHeight: 4.h),
+                      //     padding: EdgeInsets.zero,
+                      //     splashRadius: 5.5.w,
+                      //     splashColor: colorWhite,
+                      //     onPressed: onDocumentClick,
+                      //     icon:
+                      Image.asset(icDocument, width: 8.w, color: colorTextBCBC)
+                      // ),
+                      ,
+                      SizedBox(width: 1.5.w),
+                      // if (isDownloadList[index]) ...[
+                      //   CircularPercentIndicator(
+                      //     radius: 15,
+                      //     lineWidth: 5,
+                      //     percent: progressList[index],
+                      //     animationDuration: 400,
+                      //     backgroundColor: Colors.grey,
+                      //     progressColor: colorRed,
+                      //     center: FittedBox(
+                      //       child: Text(
+                      //         "${(progressList[index] * 100).floor()}%",
+                      //         style: textStyle7Bold(colorBlack),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ] else ...[
+                      //   IconButton(
+                      //       constraints:
+                      //           BoxConstraints(minWidth: 8.w, minHeight: 4.h),
+                      //       padding: EdgeInsets.zero,
+                      //       splashRadius: 5.5.w,
+                      //       splashColor: colorWhite,
+                      //       onPressed: onDownloadClick,
+                      //       icon: Image.asset(icDownload,
+                      //           width: 8.w, color: colorTextBCBC)),
+                      // ]
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 2.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Investment Date: $investmentDate',
+                      style: textStyle9(colorText7070)),
+                  Text('Maturity Date: $maturityDate',
+                      style: textStyle9(colorText7070)),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

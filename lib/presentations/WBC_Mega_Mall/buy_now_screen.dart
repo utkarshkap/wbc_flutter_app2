@@ -9,6 +9,8 @@ import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/models/order_model.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/order_history.dart';
+import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/profile_screen.dart';
 
 import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/dashboardbloc/dashboard_bloc.dart';
@@ -141,14 +143,18 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                     bgColor: colorF3F3,
                     icon: icNotification,
                     iconColor: colorText7070,
-                    onClick: () {}),
+                    onClick: () {
+                      Navigator.of(context).pushNamed(NotificationScreen.route);
+                    }),
                 SizedBox(width: 2.w),
                 AppBarButton(
                     splashColor: colorWhite,
                     bgColor: colorF3F3,
                     icon: icProfile,
                     iconColor: colorText7070,
-                    onClick: () {}),
+                    onClick: () {
+                      Navigator.of(context).pushNamed(ProfileScreen.route);
+                    }),
                 SizedBox(width: 5.w)
               ],
             ),
@@ -496,9 +502,11 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                                     ],
                                                   ),
                                                 ),
-                                                Image.asset(
-                                                    icCheckMark,
-                                                    color: shippingAddressList[index].isSelected == 1
+                                                Image.asset(icCheckMark,
+                                                    color: shippingAddressList[
+                                                                    index]
+                                                                .isSelected ==
+                                                            1
                                                         ? colorRed
                                                         : colorTextBCBC
                                                             .withOpacity(0.62),
@@ -510,7 +518,8 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                       )),
                             ),
                             if (shippingAddressList.isNotEmpty)
-                              addEditAddressButton(icSqrEdit, 'EDIT ADDRESS', () {
+                              addEditAddressButton(icSqrEdit, 'EDIT ADDRESS',
+                                  () {
                                 Navigator.of(context).pushReplacementNamed(
                                     AddNewAddress.route,
                                     arguments: AddNewAddressData(
@@ -530,7 +539,9 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                       quantity: productQuantity,
                                       navigateType: 'BuyNow',
                                       actionType: 'Add',
-                                      id: shippingAddressList.isEmpty?1:shippingAddressList.last.id + 1));
+                                      id: shippingAddressList.isEmpty
+                                          ? 1
+                                          : shippingAddressList.last.id + 1));
                             }),
                           ],
                         ),
