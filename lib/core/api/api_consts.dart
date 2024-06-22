@@ -144,7 +144,7 @@ class ApiUser {
   static List<Memberlist> membersList = [];
   static bool termNdCondition = false;
   static List numberList = [];
-  static double wealthMeterScore = 50;
+  static double wealthMeterScore = 0;
 }
 
 class GpDashBoardData {

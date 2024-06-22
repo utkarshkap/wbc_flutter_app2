@@ -242,8 +242,8 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                     ).show();
                   } else if (state is WealthMeterDataAdded) {
                     setState(() {
-                      if (state.totalScore <= 50) {
-                        ApiUser.wealthMeterScore = 50;
+                      if (state.totalScore <= 0) {
+                        ApiUser.wealthMeterScore = 0;
                       } else {
                         ApiUser.wealthMeterScore = state.totalScore.toDouble();
                       }
@@ -439,7 +439,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                       EdgeInsets.only(top: 2.h),
                                                   child: newBirdEyeView(
                                                       queOpenList[index],
-                                                      'LOAN (LIABILITIES)',
+                                                      'LOAN',
                                                       icHousingLoan,
                                                       'HousingLoan',
                                                       housingLoan,

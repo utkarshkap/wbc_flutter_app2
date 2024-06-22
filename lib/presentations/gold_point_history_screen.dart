@@ -29,16 +29,26 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
   List<String> earningTime = [
     'All Time',
     // 'Weekly',
-    'Monthly',
-    'Yearly',
+    'This Month',
+    'This Year',
+  ];
+  List<String> goldPointTypeList = [
+    'All Type',
+    'Redeemable',
+    'Non-Redeemable',
+    'On The Spot'
   ];
   List<History> historyData = [];
   String selectedHistoryTime = 'All Time';
+  String selectedGoldPointType = 'All Type';
   ScrollController scrollController = ScrollController();
   bool isDataOver = false;
   var counts = 0;
   String filteredItem = '';
   bool month = false;
+  bool year = false;
+  int totalCredit = 0;
+  bool showGoldPointFilter = false;
   @override
   void initState() {
     addGoldpointsHistoryData();
@@ -82,7 +92,9 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
     }
   }
 
-  checkData() {
+  checkMonthData() {
+    totalCredit = 0;
+    month = false;
     for (int i = 0; i < widget.goldPointHistoryData.history.length; i++) {
       if (filteredItem ==
           DateFormat('MM-yyyy').format(
@@ -91,6 +103,50 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
           month = true;
         });
         break;
+      }
+    }
+
+    if (month == true) {
+      for (int i = 0; i < widget.goldPointHistoryData.history.length; i++) {
+        if (filteredItem ==
+            DateFormat('MM-yyyy').format(
+                DateTime.parse(widget.goldPointHistoryData.history[i].date))) {
+          totalCredit += widget.goldPointHistoryData.history[i].credit!;
+        }
+      }
+    }
+  }
+
+  checkYearData() {
+    totalCredit = 0;
+    year = false;
+    for (int i = 0; i < widget.goldPointHistoryData.history.length; i++) {
+      if (filteredItem ==
+          DateFormat('yyyy').format(
+              DateTime.parse(widget.goldPointHistoryData.history[i].date))) {
+        setState(() {
+          year = true;
+        });
+        break;
+      }
+    }
+
+    if (year == true) {
+      for (int i = 0; i < widget.goldPointHistoryData.history.length; i++) {
+        if (filteredItem ==
+            DateFormat('yyyy').format(
+                DateTime.parse(widget.goldPointHistoryData.history[i].date))) {
+          totalCredit += widget.goldPointHistoryData.history[i].credit!;
+        }
+      }
+    }
+  }
+
+  checkGoldPointType(String type) {
+    totalCredit = 0;
+    for (int i = 0; i < widget.goldPointHistoryData.history.length; i++) {
+      if (type == widget.goldPointHistoryData.history[i].goldPointType) {
+        totalCredit += widget.goldPointHistoryData.history[i].credit!;
       }
     }
   }
@@ -137,366 +193,719 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                     child: Column(
                       children: [
                         dropDownRow(
-                            'HISTORY',
-                            selectedHistoryTime,
-                            List.generate(
-                                earningTime.length,
-                                (i) => menuItem(earningTime[i], () {
-                                      setState(() {
-                                        selectedHistoryTime = earningTime[i];
-                                        var date = DateTime.now();
-                                        if (selectedHistoryTime == 'Weekly') {
-                                          var d = DateTime.now();
-                                          var weekDay = d.weekday;
-                                          var firstDayOfWeek = d.subtract(
-                                              Duration(days: weekDay));
-                                          // print('-------${date.weekday}');
-                                          // print('*********${date.weekday - 1}');
-                                        }
-                                        if (selectedHistoryTime == 'Monthly') {
-                                          filteredItem = DateFormat('MM-yyyy')
-                                              .format(date);
-                                          checkData();
-                                        } else if (selectedHistoryTime ==
-                                            'Yearly') {
-                                          filteredItem =
-                                              DateFormat('yyyy').format(date);
-                                        } else {
-                                          filteredItem = '';
-                                        }
-                                      });
-                                    }))),
+                          'HISTORY',
+                          selectedGoldPointType,
+                          List.generate(
+                              goldPointTypeList.length,
+                              (i) => menuItem(goldPointTypeList[i], () {
+                                    setState(() {
+                                      showGoldPointFilter = true;
+                                      selectedHistoryTime = 'All Time';
+
+                                      selectedGoldPointType =
+                                          goldPointTypeList[i];
+
+                                      if (selectedGoldPointType != 'All Type') {
+                                        checkGoldPointType(
+                                            goldPointTypeList[i]);
+                                      }
+                                    });
+                                  })),
+                          selectedHistoryTime,
+                          List.generate(
+                              earningTime.length,
+                              (i) => menuItem(earningTime[i], () {
+                                    setState(() {
+                                      showGoldPointFilter = false;
+                                      selectedGoldPointType = 'All Type';
+                                      selectedHistoryTime = earningTime[i];
+                                      var date = DateTime.now();
+                                      if (selectedHistoryTime == 'Weekly') {
+                                        // var d = DateTime.now();
+                                        // var weekDay = d.weekday;
+                                        // var firstDayOfWeek = d.subtract(
+                                        //     Duration(days: weekDay));
+                                        // print('-------${date.weekday}');
+                                        // print('*********${date.weekday - 1}');
+                                      }
+                                      if (selectedHistoryTime == 'This Month') {
+                                        filteredItem =
+                                            DateFormat('MM-yyyy').format(date);
+
+                                        checkMonthData();
+                                      } else if (selectedHistoryTime ==
+                                          'This Year') {
+                                        filteredItem =
+                                            DateFormat('yyyy').format(date);
+                                        checkYearData();
+                                      } else {
+                                        filteredItem = '';
+                                      }
+                                    });
+                                  })),
+                        ),
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
-                        if (selectedHistoryTime == 'All Time') ...[
-                          Expanded(
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                controller: scrollController,
-                                itemCount: historyData.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 4.w),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 1.5.h),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 2,
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 3.w),
-                                                  child: IconButton(
-                                                      padding: EdgeInsets.zero,
-                                                      onPressed: () {},
-                                                      icon: widget
-                                                              .goldPointHistoryData
-                                                              .history[index]
-                                                              .imgUrl
-                                                              .isEmpty
-                                                          ? Image.asset(
-                                                              icGoldCoin,
-                                                              height: 4.h)
-                                                          : Image.network(
-                                                              widget
-                                                                  .goldPointHistoryData
-                                                                  .history[
-                                                                      index]
-                                                                  .imgUrl,
-                                                              height: 4.h)),
+                        if (showGoldPointFilter == true) ...[
+                          if (selectedGoldPointType == 'All Type') ...[
+                            Expanded(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  controller: scrollController,
+                                  itemCount: historyData.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4.w),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 1.5.h),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 3.w),
+                                                    child: IconButton(
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        onPressed: () {},
+                                                        icon: widget
+                                                                .goldPointHistoryData
+                                                                .history[index]
+                                                                .imgUrl
+                                                                .isEmpty
+                                                            ? Image.asset(
+                                                                icGoldCoin,
+                                                                height: 4.h)
+                                                            : Image.network(
+                                                                widget
+                                                                    .goldPointHistoryData
+                                                                    .history[
+                                                                        index]
+                                                                    .imgUrl,
+                                                                height: 4.h)),
+                                                  ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                flex: 6,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    RichText(
-                                                      text: TextSpan(
-                                                        text:
-                                                            '${widget.goldPointHistoryData.history[index].description} - ',
-                                                        style: textStyle10(
-                                                            colorText7070),
-                                                        children: <TextSpan>[
-                                                          TextSpan(
-                                                              text: widget
-                                                                  .goldPointHistoryData
-                                                                  .history[
-                                                                      index]
-                                                                  .status,
-                                                              style: textStyle10Medium(widget
-                                                                          .goldPointHistoryData
-                                                                          .history[
-                                                                              index]
-                                                                          .goldPointType ==
-                                                                      'Redeemable'
-                                                                  ? colorTextFFC1
-                                                                  : widget.goldPointHistoryData.history[index]
-                                                                              .goldPointType ==
-                                                                          'Non-Redeemable'
-                                                                      ? colorBoxGradiant0040
-                                                                      : colorRed)),
-                                                        ],
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      RichText(
+                                                        text: TextSpan(
+                                                          text:
+                                                              '${widget.goldPointHistoryData.history[index].description} - ',
+                                                          style: textStyle10(
+                                                              colorText7070),
+                                                          children: <TextSpan>[
+                                                            TextSpan(
+                                                                text: widget
+                                                                    .goldPointHistoryData
+                                                                    .history[
+                                                                        index]
+                                                                    .status,
+                                                                style: textStyle10Medium(widget
+                                                                            .goldPointHistoryData
+                                                                            .history[
+                                                                                index]
+                                                                            .goldPointType ==
+                                                                        'Redeemable'
+                                                                    ? colorTextFFC1
+                                                                    : widget.goldPointHistoryData.history[index].goldPointType ==
+                                                                            'Non-Redeemable'
+                                                                        ? colorBoxGradiant0040
+                                                                        : colorRed)),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 0.2.h,
-                                                    ),
-                                                    Text(
-                                                        "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
-                                                        style: textStyle10(
-                                                            colorText7070))
-                                                  ],
+                                                      SizedBox(
+                                                        height: 0.2.h,
+                                                      ),
+                                                      Text(
+                                                          "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
+                                                          style: textStyle10(
+                                                              colorText7070))
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Image.asset(
-                                                        widget
-                                                                    .goldPointHistoryData
-                                                                    .history[
-                                                                        index]
-                                                                    .credit !=
-                                                                0
-                                                            ? icAdd
-                                                            : icMinus,
-                                                        color: widget
-                                                                    .goldPointHistoryData
-                                                                    .history[
-                                                                        index]
-                                                                    .credit !=
-                                                                0
-                                                            ? colorGreen
-                                                            : colorRed,
-                                                        width: 2.5.w),
-                                                    SizedBox(width: 1.w),
-                                                    if (widget
-                                                            .goldPointHistoryData
-                                                            .history[index]
-                                                            .credit !=
-                                                        0)
-                                                      Text(
-                                                          '${widget.goldPointHistoryData.history[index].credit}',
-                                                          style:
-                                                              textStyle13Medium(
-                                                                  colorGreen)),
-                                                    if (widget
-                                                            .goldPointHistoryData
-                                                            .history[index]
-                                                            .debit !=
-                                                        0)
-                                                      Text(
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Image.asset(
                                                           widget
+                                                                      .goldPointHistoryData
+                                                                      .history[
+                                                                          index]
+                                                                      .credit !=
+                                                                  0
+                                                              ? icAdd
+                                                              : icMinus,
+                                                          color: widget
+                                                                      .goldPointHistoryData
+                                                                      .history[
+                                                                          index]
+                                                                      .credit !=
+                                                                  0
+                                                              ? colorGreen
+                                                              : colorRed,
+                                                          width: 2.5.w),
+                                                      SizedBox(width: 1.w),
+                                                      if (widget
                                                               .goldPointHistoryData
                                                               .history[index]
-                                                              .debit
-                                                              .toString()
-                                                              .replaceAll(
-                                                                  '-', ''),
-                                                          style:
-                                                              textStyle13Medium(
-                                                                  colorRed)),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                                              .credit !=
+                                                          0)
+                                                        Text(
+                                                            '${widget.goldPointHistoryData.history[index].credit}',
+                                                            style:
+                                                                textStyle13Medium(
+                                                                    colorGreen)),
+                                                      if (widget
+                                                              .goldPointHistoryData
+                                                              .history[index]
+                                                              .debit !=
+                                                          0)
+                                                        Text(
+                                                            widget
+                                                                .goldPointHistoryData
+                                                                .history[index]
+                                                                .debit
+                                                                .toString()
+                                                                .replaceAll(
+                                                                    '-', ''),
+                                                            style:
+                                                                textStyle13Medium(
+                                                                    colorRed)),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                            height: 1,
-                                            color:
-                                                colorTextBCBC.withOpacity(0.36))
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ] else ...[
-                          if (selectedHistoryTime == 'Monthly')
-                            if (month == false) ...[
+                                          Container(
+                                              height: 1,
+                                              color: colorTextBCBC
+                                                  .withOpacity(0.36))
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ] else ...[
+                            if (totalCredit == 0) ...[
                               SizedBox(
                                 height: 100.h / 3,
                               ),
                               Text(
-                                'No contact added this month please add contacts and earn gold point.',
+                                'No gold point data',
                                 style: textStyle13(colorText7070),
                                 textAlign: TextAlign.center,
                               ),
                             ],
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: List.generate(
-                                    widget.goldPointHistoryData.history.length,
-                                    (index) =>
-                                        DateFormat(selectedHistoryTime ==
-                                                        'Yearly'
-                                                    ? 'yyyy'
-                                                    : selectedHistoryTime ==
-                                                            'Monthly'
-                                                        ? 'MM-yyyy'
-                                                        : '')
-                                                .format(DateTime.parse(widget
-                                                    .goldPointHistoryData
-                                                    .history[index]
-                                                    .date))
-                                                .contains(filteredItem)
-                                            ? Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 4.w),
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 1.5.h),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      right:
-                                                                          3.w),
-                                                              child: IconButton(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  onPressed:
-                                                                      () {},
-                                                                  icon: widget
-                                                                          .goldPointHistoryData
-                                                                          .history[
-                                                                              index]
-                                                                          .imgUrl
-                                                                          .isEmpty
-                                                                      ? Image.asset(
-                                                                          icGoldCoin,
-                                                                          height: 4
-                                                                              .h)
-                                                                      : Image.network(
-                                                                          widget
-                                                                              .goldPointHistoryData
-                                                                              .history[
-                                                                                  index]
-                                                                              .imgUrl,
-                                                                          height:
-                                                                              4.h)),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: List.generate(
+                                      widget
+                                          .goldPointHistoryData.history.length,
+                                      (index) =>
+                                          selectedGoldPointType.contains(widget
+                                                  .goldPointHistoryData
+                                                  .history[index]
+                                                  .goldPointType)
+                                              ? Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 4.w),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical:
+                                                                    1.5.h),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        right: 3
+                                                                            .w),
+                                                                child: IconButton(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    onPressed:
+                                                                        () {},
+                                                                    icon: widget
+                                                                            .goldPointHistoryData
+                                                                            .history[
+                                                                                index]
+                                                                            .imgUrl
+                                                                            .isEmpty
+                                                                        ? Image.asset(
+                                                                            icGoldCoin,
+                                                                            height: 4
+                                                                                .h)
+                                                                        : Image.network(
+                                                                            widget.goldPointHistoryData.history[index].imgUrl,
+                                                                            height: 4.h)),
+                                                              ),
                                                             ),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 6,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                RichText(
-                                                                  text:
-                                                                      TextSpan(
+                                                            Expanded(
+                                                              flex: 6,
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  RichText(
                                                                     text:
-                                                                        '${widget.goldPointHistoryData.history[index].description} - ',
-                                                                    style: textStyle10(
-                                                                        colorText7070),
-                                                                    children: <TextSpan>[
-                                                                      TextSpan(
-                                                                          text: widget
-                                                                              .goldPointHistoryData
-                                                                              .history[index]
-                                                                              .status,
-                                                                          style: textStyle10Medium(widget.goldPointHistoryData.history[index].goldPointType == 'Redeemable'
-                                                                              ? colorTextFFC1
-                                                                              : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
-                                                                                  ? colorBoxGradiant0040
-                                                                                  : colorRed)),
-                                                                    ],
+                                                                        TextSpan(
+                                                                      text:
+                                                                          '${widget.goldPointHistoryData.history[index].description} - ',
+                                                                      style: textStyle10(
+                                                                          colorText7070),
+                                                                      children: <TextSpan>[
+                                                                        TextSpan(
+                                                                            text:
+                                                                                widget.goldPointHistoryData.history[index].status,
+                                                                            style: textStyle10Medium(widget.goldPointHistoryData.history[index].goldPointType == 'Redeemable'
+                                                                                ? colorTextFFC1
+                                                                                : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
+                                                                                    ? colorBoxGradiant0040
+                                                                                    : colorRed)),
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 0.2.h,
-                                                                ),
-                                                                Text(
-                                                                    "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
-                                                                    style: textStyle10(
-                                                                        colorText7070))
-                                                              ],
+                                                                  SizedBox(
+                                                                    height:
+                                                                        0.2.h,
+                                                                  ),
+                                                                  Text(
+                                                                      "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
+                                                                      style: textStyle10(
+                                                                          colorText7070))
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Image.asset(
-                                                                    widget.goldPointHistoryData.history[index].credit !=
-                                                                            0
-                                                                        ? icAdd
-                                                                        : icMinus,
-                                                                    color: widget.goldPointHistoryData.history[index].credit !=
-                                                                            0
-                                                                        ? colorGreen
-                                                                        : colorRed,
-                                                                    width:
-                                                                        2.5.w),
-                                                                SizedBox(
-                                                                    width: 1.w),
-                                                                if (widget
-                                                                        .goldPointHistoryData
-                                                                        .history[
-                                                                            index]
-                                                                        .credit !=
-                                                                    0)
-                                                                  Text(
-                                                                      '${widget.goldPointHistoryData.history[index].credit}',
-                                                                      style: textStyle13Medium(
-                                                                          colorGreen)),
-                                                                if (widget
-                                                                        .goldPointHistoryData
-                                                                        .history[
-                                                                            index]
-                                                                        .debit !=
-                                                                    0)
-                                                                  Text(
-                                                                      widget
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Image.asset(
+                                                                      widget.goldPointHistoryData.history[index].credit !=
+                                                                              0
+                                                                          ? icAdd
+                                                                          : icMinus,
+                                                                      color: widget.goldPointHistoryData.history[index].credit !=
+                                                                              0
+                                                                          ? colorGreen
+                                                                          : colorRed,
+                                                                      width: 2.5
+                                                                          .w),
+                                                                  SizedBox(
+                                                                      width:
+                                                                          1.w),
+                                                                  if (widget
                                                                           .goldPointHistoryData
                                                                           .history[
                                                                               index]
-                                                                          .debit
-                                                                          .toString()
-                                                                          .replaceAll(
-                                                                              '-',
-                                                                              ''),
-                                                                      style: textStyle13Medium(
-                                                                          colorRed)),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
+                                                                          .credit !=
+                                                                      0)
+                                                                    Text(
+                                                                        '${widget.goldPointHistoryData.history[index].credit}',
+                                                                        style: textStyle13Medium(
+                                                                            colorGreen)),
+                                                                  if (widget
+                                                                          .goldPointHistoryData
+                                                                          .history[
+                                                                              index]
+                                                                          .debit !=
+                                                                      0)
+                                                                    Text(
+                                                                        widget
+                                                                            .goldPointHistoryData
+                                                                            .history[
+                                                                                index]
+                                                                            .debit
+                                                                            .toString()
+                                                                            .replaceAll('-',
+                                                                                ''),
+                                                                        style: textStyle13Medium(
+                                                                            colorRed)),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Container(
-                                                        height: 1,
-                                                        color: colorTextBCBC
-                                                            .withOpacity(0.36))
-                                                  ],
-                                                ),
-                                              )
-                                            : Container()),
+                                                      Container(
+                                                          height: 1,
+                                                          color: colorTextBCBC
+                                                              .withOpacity(
+                                                                  0.36))
+                                                    ],
+                                                  ),
+                                                )
+                                              : Container()),
+                                ),
                               ),
                             ),
-                          ),
+                          ]
+                        ] else ...[
+                          if (selectedHistoryTime == 'All Time') ...[
+                            Expanded(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  controller: scrollController,
+                                  itemCount: historyData.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4.w),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 1.5.h),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 3.w),
+                                                    child: IconButton(
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        onPressed: () {},
+                                                        icon: widget
+                                                                .goldPointHistoryData
+                                                                .history[index]
+                                                                .imgUrl
+                                                                .isEmpty
+                                                            ? Image.asset(
+                                                                icGoldCoin,
+                                                                height: 4.h)
+                                                            : Image.network(
+                                                                widget
+                                                                    .goldPointHistoryData
+                                                                    .history[
+                                                                        index]
+                                                                    .imgUrl,
+                                                                height: 4.h)),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      RichText(
+                                                        text: TextSpan(
+                                                          text:
+                                                              '${widget.goldPointHistoryData.history[index].description} - ',
+                                                          style: textStyle10(
+                                                              colorText7070),
+                                                          children: <TextSpan>[
+                                                            TextSpan(
+                                                                text: widget
+                                                                    .goldPointHistoryData
+                                                                    .history[
+                                                                        index]
+                                                                    .status,
+                                                                style: textStyle10Medium(widget
+                                                                            .goldPointHistoryData
+                                                                            .history[
+                                                                                index]
+                                                                            .goldPointType ==
+                                                                        'Redeemable'
+                                                                    ? colorTextFFC1
+                                                                    : widget.goldPointHistoryData.history[index].goldPointType ==
+                                                                            'Non-Redeemable'
+                                                                        ? colorBoxGradiant0040
+                                                                        : colorRed)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 0.2.h,
+                                                      ),
+                                                      Text(
+                                                          "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
+                                                          style: textStyle10(
+                                                              colorText7070))
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Image.asset(
+                                                          widget
+                                                                      .goldPointHistoryData
+                                                                      .history[
+                                                                          index]
+                                                                      .credit !=
+                                                                  0
+                                                              ? icAdd
+                                                              : icMinus,
+                                                          color: widget
+                                                                      .goldPointHistoryData
+                                                                      .history[
+                                                                          index]
+                                                                      .credit !=
+                                                                  0
+                                                              ? colorGreen
+                                                              : colorRed,
+                                                          width: 2.5.w),
+                                                      SizedBox(width: 1.w),
+                                                      if (widget
+                                                              .goldPointHistoryData
+                                                              .history[index]
+                                                              .credit !=
+                                                          0)
+                                                        Text(
+                                                            '${widget.goldPointHistoryData.history[index].credit}',
+                                                            style:
+                                                                textStyle13Medium(
+                                                                    colorGreen)),
+                                                      if (widget
+                                                              .goldPointHistoryData
+                                                              .history[index]
+                                                              .debit !=
+                                                          0)
+                                                        Text(
+                                                            widget
+                                                                .goldPointHistoryData
+                                                                .history[index]
+                                                                .debit
+                                                                .toString()
+                                                                .replaceAll(
+                                                                    '-', ''),
+                                                            style:
+                                                                textStyle13Medium(
+                                                                    colorRed)),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                              height: 1,
+                                              color: colorTextBCBC
+                                                  .withOpacity(0.36))
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ] else ...[
+                            if (selectedHistoryTime == 'This Month')
+                              if (month == false) ...[
+                                SizedBox(
+                                  height: 100.h / 3,
+                                ),
+                                Text(
+                                  'No contact added this month please add contacts and earn gold point.',
+                                  style: textStyle13(colorText7070),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            if (selectedHistoryTime == 'This Year')
+                              if (year == false) ...[
+                                SizedBox(
+                                  height: 100.h / 3,
+                                ),
+                                Text(
+                                  'No contact added this year please add contacts and earn gold point.',
+                                  style: textStyle13(colorText7070),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: List.generate(
+                                      widget
+                                          .goldPointHistoryData.history.length,
+                                      (index) =>
+                                          DateFormat(selectedHistoryTime ==
+                                                          'This Year'
+                                                      ? 'yyyy'
+                                                      : selectedHistoryTime ==
+                                                              'This Month'
+                                                          ? 'MM-yyyy'
+                                                          : '')
+                                                  .format(DateTime.parse(widget
+                                                      .goldPointHistoryData
+                                                      .history[index]
+                                                      .date))
+                                                  .contains(filteredItem)
+                                              ? Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 4.w),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical:
+                                                                    1.5.h),
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        right: 3
+                                                                            .w),
+                                                                child: IconButton(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    onPressed:
+                                                                        () {},
+                                                                    icon: widget
+                                                                            .goldPointHistoryData
+                                                                            .history[
+                                                                                index]
+                                                                            .imgUrl
+                                                                            .isEmpty
+                                                                        ? Image.asset(
+                                                                            icGoldCoin,
+                                                                            height: 4
+                                                                                .h)
+                                                                        : Image.network(
+                                                                            widget.goldPointHistoryData.history[index].imgUrl,
+                                                                            height: 4.h)),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 6,
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  RichText(
+                                                                    text:
+                                                                        TextSpan(
+                                                                      text:
+                                                                          '${widget.goldPointHistoryData.history[index].description} - ',
+                                                                      style: textStyle10(
+                                                                          colorText7070),
+                                                                      children: <TextSpan>[
+                                                                        TextSpan(
+                                                                            text:
+                                                                                widget.goldPointHistoryData.history[index].status,
+                                                                            style: textStyle10Medium(widget.goldPointHistoryData.history[index].goldPointType == 'Redeemable'
+                                                                                ? colorTextFFC1
+                                                                                : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
+                                                                                    ? colorBoxGradiant0040
+                                                                                    : colorRed)),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height:
+                                                                        0.2.h,
+                                                                  ),
+                                                                  Text(
+                                                                      "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
+                                                                      style: textStyle10(
+                                                                          colorText7070))
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Image.asset(
+                                                                      widget.goldPointHistoryData.history[index].credit !=
+                                                                              0
+                                                                          ? icAdd
+                                                                          : icMinus,
+                                                                      color: widget.goldPointHistoryData.history[index].credit !=
+                                                                              0
+                                                                          ? colorGreen
+                                                                          : colorRed,
+                                                                      width: 2.5
+                                                                          .w),
+                                                                  SizedBox(
+                                                                      width:
+                                                                          1.w),
+                                                                  if (widget
+                                                                          .goldPointHistoryData
+                                                                          .history[
+                                                                              index]
+                                                                          .credit !=
+                                                                      0)
+                                                                    Text(
+                                                                        '${widget.goldPointHistoryData.history[index].credit}',
+                                                                        style: textStyle13Medium(
+                                                                            colorGreen)),
+                                                                  if (widget
+                                                                          .goldPointHistoryData
+                                                                          .history[
+                                                                              index]
+                                                                          .debit !=
+                                                                      0)
+                                                                    Text(
+                                                                        widget
+                                                                            .goldPointHistoryData
+                                                                            .history[
+                                                                                index]
+                                                                            .debit
+                                                                            .toString()
+                                                                            .replaceAll('-',
+                                                                                ''),
+                                                                        style: textStyle13Medium(
+                                                                            colorRed)),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                          height: 1,
+                                                          color: colorTextBCBC
+                                                              .withOpacity(
+                                                                  0.36))
+                                                    ],
+                                                  ),
+                                                )
+                                              : Container()),
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
                         Container(
                             height: 1, color: colorTextBCBC.withOpacity(0.36)),
@@ -511,7 +920,11 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                       .copyWith(letterSpacing: 0.7)),
                               Text(
                                   CommonFunction().splitString(
-                                      GpDashBoardData.goldPoint.toString()),
+                                      selectedHistoryTime == 'All Time' &&
+                                              selectedGoldPointType ==
+                                                  'All Type'
+                                          ? GpDashBoardData.goldPoint.toString()
+                                          : totalCredit.toInt().toString()),
                                   style: textStyle11Bold(colorGreen)
                                       .copyWith(letterSpacing: 0.7)),
                             ],
@@ -538,7 +951,12 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
   }
 
   dropDownRow(
-      String title, String selectedType, List<PopupMenuItem> menuItemList) {
+    String title,
+    String selectedGoldPointType,
+    List<PopupMenuItem> goldPointTypeList,
+    String selectedType,
+    List<PopupMenuItem> menuItemList,
+  ) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 1.7.h),
       child: Row(
@@ -549,6 +967,35 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
             child: Text(title,
                 style:
                     textStyle11Bold(colorBlack).copyWith(letterSpacing: 0.7)),
+          ),
+          Container(
+            height: 4.h,
+            width: 28.w,
+            decoration: BoxDecoration(
+                border: Border.all(
+                    color: colorTextBCBC.withOpacity(0.36), width: 1),
+                borderRadius: BorderRadius.circular(5)),
+            child: PopupMenuButton(
+              icon: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      selectedGoldPointType,
+                      style: textStyle10(colorText3D3D),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Image.asset(icDropdown, color: colorText3D3D, width: 5.w)
+                ],
+              ),
+              offset: Offset(0, 4.3.h),
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: colorRed, width: 1),
+                  borderRadius: BorderRadius.circular(7)),
+              itemBuilder: (context) => goldPointTypeList,
+            ),
           ),
           Container(
             height: 4.h,
@@ -572,7 +1019,7 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                   borderRadius: BorderRadius.circular(7)),
               itemBuilder: (context) => menuItemList,
             ),
-          )
+          ),
         ],
       ),
     );

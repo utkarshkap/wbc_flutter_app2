@@ -213,7 +213,7 @@ class FetchingApi {
     final response = await http
         .get(Uri.parse("$stockTransactionUrl$userid&stockname='$stockName'"));
     print(
-        '--StockTransaction--URL----$stockTransactionUrl$userid&stockname=$stockName');
+        '--StockTransaction--URL----$stockTransactionUrl$userid&stockname=${Uri.encodeComponent(stockName)}');
     if (response.statusCode == 200) {
       print('--StockTransaction--statusCode----${response.statusCode}');
       log('--StockTransaction--body----${response.body}');

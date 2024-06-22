@@ -26,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String dob = '';
   final TextEditingController _pinController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _stateController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
 
@@ -34,7 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   FocusNode emailFocus = FocusNode();
   FocusNode pinFocus = FocusNode();
   FocusNode countryFocus = FocusNode();
-  FocusNode stateFocus = FocusNode();
   FocusNode cityFocus = FocusNode();
   FocusNode addressFocus = FocusNode();
   bool isSave = false;
@@ -47,7 +45,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     emailFocus.unfocus();
     pinFocus.unfocus();
     countryFocus.unfocus();
-    stateFocus.unfocus();
     cityFocus.unfocus();
     addressFocus.unfocus();
     showDatePicker(
@@ -150,7 +147,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     print('email--------${_emailController.text.trim()}');
                     print('address--------${_addressController.text.trim()}');
                     print('city--------${_cityController.text.trim()}');
-                    print('state--------${_stateController.text.trim()}');
                     print('country--------${_countryController.text.trim()}');
                     print('pinCode--------${_pinController.text}');
                     print(
@@ -168,7 +164,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ? 0
                             : int.parse(_pinController.text.trim()),
                         // area: '',
-                        area: _stateController.text.trim(),
                         deviceId: notificationToken,
                         dob: DateTime.parse(
                             DateFormat('yyyy-MM-dd').format(selectedDate)),
@@ -202,7 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _emailController.text = state.data!.data!.email.trim();
               _pinController.text = state.data!.data!.pincode.toString();
               _countryController.text = state.data!.data!.country!;
-              _stateController.text = state.data!.data!.area;
               _cityController.text = state.data!.data!.city!;
               _addressController.text = state.data!.data!.address!;
             }
@@ -279,9 +273,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             isSave)
                           userDetail('Country', state.data!.data!.country!,
                               _countryController, TextInputType.streetAddress),
-                        if (state.data!.data!.area.trim().isNotEmpty || isSave)
-                          userDetail('State', state.data!.data!.area,
-                              _stateController, TextInputType.streetAddress),
                         if (state.data!.data!.city!.trim().isNotEmpty || isSave)
                           userDetail('City', state.data!.data!.city!,
                               _cityController, TextInputType.streetAddress),
@@ -342,13 +333,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ? pinFocus
                             : controller == _countryController
                                 ? countryFocus
-                                : controller == _stateController
-                                    ? stateFocus
-                                    : controller == _cityController
-                                        ? cityFocus
-                                        : controller == _addressController
-                                            ? addressFocus
-                                            : nameFocus,
+                                : controller == _cityController
+                                    ? cityFocus
+                                    : controller == _addressController
+                                        ? addressFocus
+                                        : nameFocus,
                     onFieldSubmitted: (val) {
                       if (controller == _nameController) {
                         FocusScope.of(context).requestFocus(emailFocus);
@@ -360,11 +349,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         FocusScope.of(context).requestFocus(countryFocus);
                       }
                       if (controller == _countryController) {
-                        FocusScope.of(context).requestFocus(stateFocus);
-                      }
-                      if (controller == _stateController) {
                         FocusScope.of(context).requestFocus(cityFocus);
                       }
+
                       if (controller == _cityController) {
                         FocusScope.of(context).requestFocus(addressFocus);
                       }

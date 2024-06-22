@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wbc_connect_app/models/mGain_ledger_model.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
@@ -429,23 +430,30 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
                 style: const pdfWidgets.TextStyle(fontSize: 20)),
             pdfWidgets.SizedBox(height: 30),
             pdfWidgets.Table.fromTextArray(
-                context: context,
-                data: <List<dynamic>>[
-                  <String>['Name', 'Date', 'Debit', 'Credit'],
-                  ...ledgerEntriesList.map(
-                    (entry) => [
-                      entry.name,
-                      DateFormat('dd-MM-yyyy').format(entry.investmentDate),
-                      entry.debit.toInt(),
-                      entry.credit.toInt(),
-                    ],
-                  ),
-                  // ['Total', '', totalDebit.toString(), totalDebit.toString()]
-                ],
-                headerStyle: pdfWidgets.TextStyle(
-                    fontWeight: pdfWidgets.FontWeight.bold),
-                cellStyle: const pdfWidgets.TextStyle(),
-                cellAlignment: pdfWidgets.Alignment.center),
+              context: context,
+              data: <List<dynamic>>[
+                <String>['Name', 'Date', 'Debit', 'Credit'],
+                ...ledgerEntriesList.map(
+                  (entry) => [
+                    entry.name,
+                    DateFormat('dd-MM-yyyy').format(entry.investmentDate),
+                    entry.debit.toInt(),
+                    entry.credit.toInt(),
+                  ],
+                ),
+                // ['Total', '', totalDebit.toString(), totalDebit.toString()]
+              ],
+              headerStyle:
+                  pdfWidgets.TextStyle(fontWeight: pdfWidgets.FontWeight.bold),
+              cellStyle: const pdfWidgets.TextStyle(),
+              cellAlignment: pdfWidgets.Alignment.center,
+              columnWidths: {
+                0: const pdfWidgets.FixedColumnWidth(150.0),
+              },
+              cellAlignments: {
+                0: pdfWidgets.Alignment.topLeft,
+              },
+            ),
             // pdfWidgets.SizedBox(height: 20),
             // pdfWidgets.Padding(
             //   padding: const pdfWidgets.EdgeInsets.symmetric(horizontal: 10),
@@ -468,7 +476,6 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
       );
 
       // Save PDF to a file
-      final pdfBytes = await pdfDoc.save();
 
       // Determine the file path based on platform
       Directory dir;
@@ -486,10 +493,16 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
       if (!await dir.exists()) {
         await dir.create(recursive: true);
       }
+      final filePath =
+          '${dir.path}/${ApiUser.userName}-mGainValuation${widget.mGainLedgerScreenData.mGainId}.pdf';
+      final file = File(filePath);
+      final pdfBytes = await pdfDoc.save();
 
-      final file = File(
-          '${dir.path}/${ApiUser.userName}-mGainValuation${widget.mGainLedgerScreenData.mGainId}.pdf');
       await file.writeAsBytes(pdfBytes);
+
+      // print("path  :::::::::::::::::${file.path}");
+      OpenFile.open(filePath);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

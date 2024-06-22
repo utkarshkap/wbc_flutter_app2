@@ -17,8 +17,10 @@ import '../widgets/appbarButton.dart';
 class ViewScreenData {
   final List<GoldReferral> myContact;
   final bool? isClientsConverted;
+  final String? title;
 
-  ViewScreenData({required this.myContact, this.isClientsConverted});
+  ViewScreenData(
+      {required this.myContact, this.isClientsConverted, this.title});
 }
 
 class ViewMyContacts extends StatefulWidget {
@@ -317,7 +319,11 @@ class _ViewMyContactsState extends State<ViewMyContacts> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text('My Referrals', style: textStyle14Bold(colorBlack)),
+          title: Text(
+              widget.viewScreenData.title == null
+                  ? 'My Referrals'
+                  : widget.viewScreenData.title.toString(),
+              style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,

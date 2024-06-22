@@ -5,6 +5,7 @@ import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/models/getuser_model.dart';
+import 'package:wbc_connect_app/presentations/Review/add_member_details.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
@@ -132,12 +133,80 @@ class _WBCProgressState extends State<WBCProgress> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        portFolioWidget(icFamily, 'Family', () {}),
-                        portFolioWidget(
-                            icFriends, 'Friends & Relatives', () {}),
-                        portFolioWidget(icNeighbour, 'Neighbours', () {}),
-                        portFolioWidget(icVip, 'HNI/VIP', () {}),
-                        portFolioWidget(icOthers, 'Others', () {}),
+                        portFolioWidget(icFamily, 'Family', () {
+                          Navigator.of(context).pushNamed(
+                              AddMemberDetails.route,
+                              arguments: AddMemberDetailsData(
+                                  familyList: ApiUser.membersList));
+                        }),
+                        portFolioWidget(icFriends, 'Friends & Relatives', () {
+                          if (GpDashBoardData.availableContacts != 0) {
+                            Preference.setRenewContact(true);
+                            Navigator.of(context).pushNamed(
+                                VerificationScreen.route,
+                                arguments: VerificationScreenData(
+                                    getNumber: "",
+                                    number: mono,
+                                    verificationId: "",
+                                    isLogin: true,
+                                    selectedContact:
+                                        GpDashBoardData.availableContacts!,
+                                    isHomeContactOpen: true));
+                          } else {
+                            CommonFunction().reachedMaxContactPopup(context);
+                          }
+                        }),
+                        portFolioWidget(icNeighbour, 'Neighbours', () {
+                          if (GpDashBoardData.availableContacts != 0) {
+                            Preference.setRenewContact(true);
+                            Navigator.of(context).pushNamed(
+                                VerificationScreen.route,
+                                arguments: VerificationScreenData(
+                                    getNumber: "",
+                                    number: mono,
+                                    verificationId: "",
+                                    isLogin: true,
+                                    selectedContact:
+                                        GpDashBoardData.availableContacts!,
+                                    isHomeContactOpen: true));
+                          } else {
+                            CommonFunction().reachedMaxContactPopup(context);
+                          }
+                        }),
+                        portFolioWidget(icVip, 'HNI/VIP', () {
+                          if (GpDashBoardData.availableContacts != 0) {
+                            Preference.setRenewContact(true);
+                            Navigator.of(context).pushNamed(
+                                VerificationScreen.route,
+                                arguments: VerificationScreenData(
+                                    getNumber: "",
+                                    number: mono,
+                                    verificationId: "",
+                                    isLogin: true,
+                                    selectedContact:
+                                        GpDashBoardData.availableContacts!,
+                                    isHomeContactOpen: true));
+                          } else {
+                            CommonFunction().reachedMaxContactPopup(context);
+                          }
+                        }),
+                        portFolioWidget(icOthers, 'Others', () {
+                          if (GpDashBoardData.availableContacts != 0) {
+                            Preference.setRenewContact(true);
+                            Navigator.of(context).pushNamed(
+                                VerificationScreen.route,
+                                arguments: VerificationScreenData(
+                                    getNumber: "",
+                                    number: mono,
+                                    verificationId: "",
+                                    isLogin: true,
+                                    selectedContact:
+                                        GpDashBoardData.availableContacts!,
+                                    isHomeContactOpen: true));
+                          } else {
+                            CommonFunction().reachedMaxContactPopup(context);
+                          }
+                        }),
                       ],
                     ),
                   ),
@@ -184,8 +253,7 @@ class _WBCProgressState extends State<WBCProgress> {
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
                         arguments: ViewScreenData(
-                          myContact: temp,
-                        ));
+                            myContact: temp, title: 'Your Team'));
                   }, () {
                     List<GoldReferral> temp = [];
 
@@ -199,8 +267,7 @@ class _WBCProgressState extends State<WBCProgress> {
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
                         arguments: ViewScreenData(
-                          myContact: temp,
-                        ));
+                            myContact: temp, title: 'Your Team'));
                   }),
                 Container(
                   width: 90.w,
@@ -238,10 +305,10 @@ class _WBCProgressState extends State<WBCProgress> {
                                   : percentRatio >= 1.0
                                       ? '100 %'
                                       : '${percentRatio.toString().substring(2, 4)} %',
-                              style: textStyle9Bold(colorTextFFC1)),
+                              style: textStyle9Bold(colorBlack)),
                           barRadius: const Radius.circular(15),
                           backgroundColor: colorTextBCBC.withOpacity(0.25),
-                          progressColor: colorRed,
+                          progressColor: _getProgressColor(percentRatio),
                         ),
                       ),
                       SizedBox(height: 2.h),
@@ -289,6 +356,16 @@ class _WBCProgressState extends State<WBCProgress> {
         ),
       ),
     );
+  }
+
+  Color _getProgressColor(double percentRatio) {
+    if (percentRatio >= 1.0) {
+      return Colors.green; // or any other color for 100%
+    } else if (percentRatio >= 0.5) {
+      return Colors.yellow; // or any other color for 50%-99%
+    } else {
+      return Colors.red; // or any other color for 0%-49%
+    }
   }
 
   BoxDecoration decoration(Color bgColor) {

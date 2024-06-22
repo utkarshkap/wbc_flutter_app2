@@ -88,6 +88,7 @@ dependencies:
   device_preview: ^1.1.0
   crypto: ^3.0.3
   pdf: ^3.10.8
+  open_file: ^3.3.2
 
 dev_dependencies:
   flutter_test:
