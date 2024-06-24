@@ -500,9 +500,6 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
 
       await file.writeAsBytes(pdfBytes);
 
-      // print("path  :::::::::::::::::${file.path}");
-      OpenFile.open(filePath);
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -516,23 +513,16 @@ class _MGainLedgerScreenState extends State<MGainLedgerScreen> {
           backgroundColor: colorSplashBG,
         ),
       );
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertDialog(
-      //     title: const Text('Success'),
-      //     content: const Text('PDF generated successfully and saved.'),
-      //     actions: [
-      //       TextButton(
-      //         onPressed: () {
-      //           Navigator.of(context).pop();
-      //         },
-      //         child: const Text('OK'),
-      //       ),
-      //     ],
-      //   ),
-      // );
+//
+      final directory = await getTemporaryDirectory();
+      final tempPath =
+          '${directory.path}/${ApiUser.userName}-mGainValuation-${widget.mGainLedgerScreenData.mGainId}.pdf';
+      final tempFile = File(tempPath);
+      await tempFile.writeAsBytes(pdfBytes);
+      OpenResult result = await OpenFile.open(tempPath);
+      print('Open file result: ${result.message}');
     } catch (e) {
-      print('Error generating PDF: $e');
+      print('Error generating PDF:::::---: $e');
     }
   }
 

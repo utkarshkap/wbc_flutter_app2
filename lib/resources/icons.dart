@@ -38,6 +38,8 @@ const String icPaymentSuccess = '${_path}payment_success.png';
 const String icSqrEdit = '${_path}sqrEdit.png';
 const String icEdit = '${_path}edit.png';
 const String icSave = '${_path}save.png';
+const String icWarning = '${_path}warning.png';
+const String icCheck = '${_path}check.png';
 
 const String _homePath = 'assets/icons/home/';
 const String _brokerPath = 'assets/icons/brokers/';
@@ -114,6 +116,7 @@ const String icPostOfficeOrvikasPatra =
     '${_investmentsPath}postofficeorvikaspatra_icon.png';
 const String icPrivateInvestmentsScheme =
     '${_investmentsPath}privateinvestmentscheme_icon.png';
+const String icDebenture = '${_investmentsPath}debenture_icon.png';
 
 const String _incomePath = 'assets/icons/income/';
 
@@ -123,6 +126,8 @@ const String icProfessional = '${_incomePath}professional_icon.png';
 const String icSpouselncome = '${_incomePath}spouseincome_icon.png';
 const String icOtherIncome = '${_incomePath}otherincome_icon.png';
 const String icHouseHoldMonthly = '${_incomePath}house_icon.png';
+const String icEMI = '${_incomePath}emi_icon.png';
+const String icChildrenEducation = '${_incomePath}emi_icon.png';
 
 const String _loanPath = 'assets/icons/loan/';
 
@@ -151,6 +156,7 @@ const String icRealEstate1 = '${_assetsPath}realestate_icon.png';
 const String icVehical = '${_assetsPath}vehical_icon.png';
 const String icOtherAssets = '${_assetsPath}otherasset_icon.png';
 const String icFixeDeposit = '${_assetsPath}fixeddeposit_icon.png';
+const String icEmergencyFunds = '${_assetsPath}emergencyFunds_icon.png';
 
 const String icSort = '${_mallPath}sort.png';
 const String icFilter = '${_mallPath}filter.png';

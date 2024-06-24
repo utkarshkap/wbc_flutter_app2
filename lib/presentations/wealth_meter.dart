@@ -77,6 +77,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     false,
     false,
     false,
+    false,
   ];
   bool isCheckedStocks = false;
   bool isCheckedMutualFunds = false;
@@ -87,41 +88,39 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
 
     stocksValue = pref.getInt('stocksValue') ?? 0;
     mutualFundsValue = pref.getInt('mutualFundsValue') ?? 0;
-    sIPMonthly = pref.getInt('sIPMonthly') ?? 0;
     pPFMonthly = pref.getInt('pPFMonthly') ?? 0;
-    postOfficeOrVikasPatra = pref.getInt('postOfficeOrVikasPatra') ?? 0;
-    privateInvestmentScheme = pref.getInt('privateInvestmentScheme') ?? 0;
+    debenture = pref.getInt('debenture') ?? 0;
+    fixedDeposite = pref.getInt('fixedDeposite') ?? 0;
     business = pref.getInt('business') ?? 0;
-    salary = pref.getInt('salary') ?? 1;
-    professional = pref.getInt('professional') ?? 0;
+    salary = pref.getInt('salary') ?? 0;
     spouseIncome = pref.getInt('spouseIncome') ?? 0;
     otherIncome = pref.getInt('otherIncome') ?? 0;
     houseHoldMonthly = pref.getInt('houseHoldMonthly') ?? 0;
+    totalMonthlyEmi = pref.getInt('totalMonthlyEmi') ?? 0;
+    childrenEducationYearly = pref.getInt('childrenEducationYearly') ?? 0;
     housingLoan = pref.getInt('housingLoan') ?? 0;
     vehicleLoan = pref.getInt('vehicleLoan') ?? 0;
     educationLoan = pref.getInt('educationLoan') ?? 0;
     personalLoan = pref.getInt('personalLoan') ?? 0;
-    otherLoan = pref.getInt('otherLoan') ?? 0;
     mortgageLoan = pref.getInt('mortgageLoan') ?? 0;
-    healthInsurance = pref.getInt('healthInsurance') ?? 0;
-    vehicleInsurance = pref.getInt('vehicleInsurance') ?? 0;
+    otherLoan = pref.getInt('otherLoan') ?? 0;
     termInsurance = pref.getInt('termInsurance') ?? 0;
+    vehicleInsurance = pref.getInt('vehicleInsurance') ?? 0;
     traditionalInsurance = pref.getInt('traditionalInsurance') ?? 0;
-    otherInsurance = pref.getInt('otherInsurance') ?? 0;
     uLIP = pref.getInt('uLIP') ?? 0;
-    gold = pref.getInt('gold') ?? 0;
-    cash = pref.getInt('cash') ?? 0;
-    realEstate = pref.getInt('realEstate') ?? 0;
+    healthInsurance = pref.getInt('healthInsurance') ?? 0;
+    otherInsurance = pref.getInt('otherInsurance') ?? 0;
     vehicle = pref.getInt('vehicle') ?? 0;
+    gold = pref.getInt('gold') ?? 0;
+    emergencyFunds = pref.getInt('emergencyFunds') ?? 0;
     otherAsset = pref.getInt('otherAsset') ?? 0;
-    fixedDeposite = pref.getInt('fixedDeposite') ?? 0;
     wealthMeter();
   }
 
   // User Details
   String userDoB = '';
   int userAge = 0;
-  double interestRate = 7;
+  double interestRate = 6.5;
   int overdraft = 0;
 
   int stocksApiData = 0;
@@ -130,56 +129,58 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
   // Investments
   int stocksValue = 0;
   int mutualFundsValue = 0;
-  int sIPMonthly = 0;
   int pPFMonthly = 0;
-  int postOfficeOrVikasPatra = 0;
-  int privateInvestmentScheme = 0;
+  int debenture = 0;
+  int fixedDeposite = 0;
 
-  // INCOME & EXPENSE
+  // INCOME
   int business = 0;
-  int salary = 1;
-  int professional = 0;
+  int salary = 0;
   int spouseIncome = 0;
   int otherIncome = 0;
+
+  // EXPENSE
   int houseHoldMonthly = 0;
+  int totalMonthlyEmi = 0;
+  int childrenEducationYearly = 0;
 
   // Loan
   int housingLoan = 0;
   int vehicleLoan = 0;
   int educationLoan = 0;
   int personalLoan = 0;
-  int otherLoan = 0;
   int mortgageLoan = 0;
+  int otherLoan = 0;
 
   // Insurance
-  int healthInsurance = 0;
-  int vehicleInsurance = 0;
   int termInsurance = 0;
+  int vehicleInsurance = 0;
   int traditionalInsurance = 0;
-  int otherInsurance = 0;
   int uLIP = 0;
+  int healthInsurance = 0;
+  int otherInsurance = 0;
 
   // Assets
-  int gold = 0;
-  int cash = 0;
-  int realEstate = 0;
   int vehicle = 0;
+  int gold = 0;
+  int emergencyFunds = 0;
   int otherAsset = 0;
-  int fixedDeposite = 0;
+
 //
 
-  int emergencyFunds = 0;
+  int cash = 0;
+  int realEstate = 0;
   int pPF = 0;
   int savingAccount = 0;
   int guided = 0;
   int unguided = 0;
-  int totalMonthlyEmi = 0;
   int totalInsurancePremiumYearly = 0;
-  int childrenEducationYearly = 0;
   int otherExpenseYearly = 0;
-  int debenture = 0;
   int pMS = 0;
-
+  int professional = 0;
+  int sIPMonthly = 0;
+  int postOfficeOrVikasPatra = 0;
+  int privateInvestmentScheme = 0;
   @override
   Widget build(BuildContext context) {
     return ShowCaseWidget(
@@ -363,173 +364,1113 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                               ]),
                             ),
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.only(top: 1.h, bottom: 2.h),
-                          //   child: Text('BIRD EYE VIEW',
-                          //       style: textStyle10Bold(colorBlack)
-                          //           .copyWith(letterSpacing: 0.7)),
-                          // ),
                           SingleChildScrollView(
                             child: Column(
                               children: List.generate(
                                   queOpenList.length,
                                   (index) => index == 0
-                                      ? newBirdEyeView(
-                                          queOpenList[index],
-                                          'INVESTMENTS',
-                                          icStocks,
-                                          'Stocks',
-                                          stocksValue,
-                                          icMutualFunds,
-                                          'Mutual Funds',
-                                          mutualFundsValue,
-                                          icSIP,
-                                          'SIPMonthly',
-                                          sIPMonthly,
-                                          icPPF,
-                                          'PPFMonthly',
-                                          pPFMonthly,
-                                          icPostOfficeOrvikasPatra,
-                                          'PostOfficeOrVikas..',
-                                          postOfficeOrVikasPatra,
-                                          icPrivateInvestmentsScheme,
-                                          'PrivateInvestment..',
-                                          privateInvestmentScheme,
-                                          colorGreenEFC, () {
-                                          setState(() {
-                                            queOpenList[index] =
-                                                !queOpenList[index];
-                                          });
-                                        })
+                                      ?
+                                      //  INVESTMENTS
+                                      Container(
+                                          width: 90.w,
+                                          decoration: decoration(colorWhite),
+                                          child: BlocListener<MFInvestmentsBloc,
+                                              MFInvestmentsState>(
+                                            listener: (context, state) {
+                                              if (state
+                                                  is MFInvestmentsLoadedState) {
+                                                mutualFundsApiData = 0;
+                                                mutualFundsApiData = state
+                                                    .investmentPortfolio
+                                                    .totalAmount
+                                                    .toInt();
+                                                setState(() {});
+                                              }
+                                            },
+                                            child: BlocListener<
+                                                FetchingDataBloc,
+                                                FetchingDataState>(
+                                              listener: (context, state) {
+                                                if (state
+                                                    is StockInvestmentLoadedState) {
+                                                  stocksApiData = 0;
+
+                                                  for (int i = 0;
+                                                      i <
+                                                          state
+                                                              .stockInvestmentPortfolio
+                                                              .stocks
+                                                              .length;
+                                                      i++) {
+                                                    stocksApiData += ((state
+                                                                .stockInvestmentPortfolio
+                                                                .stocks[i]
+                                                                .balanceQty) *
+                                                            state
+                                                                .stockInvestmentPortfolio
+                                                                .stocks[i]
+                                                                .rate)
+                                                        .toInt();
+                                                  }
+                                                  setState(() {});
+                                                }
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 2.h,
+                                                        bottom: 2.h,
+                                                        left: 3.5.w),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text('INVESTMENTS',
+                                                            style: textStyle10Bold(
+                                                                    colorBlack)
+                                                                .copyWith(
+                                                                    letterSpacing:
+                                                                        0.7)),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 5.w),
+                                                          child: InkWell(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  queOpenList[
+                                                                          index] =
+                                                                      !queOpenList[
+                                                                          index];
+                                                                });
+                                                              },
+                                                              child: Icon(
+                                                                queOpenList[
+                                                                        index]
+                                                                    ? Icons
+                                                                        .keyboard_arrow_up_rounded
+                                                                    : Icons
+                                                                        .keyboard_arrow_down_outlined,
+                                                                size: 2.7.h,
+                                                                opticalSize:
+                                                                    25.h,
+                                                                color:
+                                                                    colorBlack,
+                                                              )),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                      height: 1,
+                                                      color: colorTextBCBC
+                                                          .withOpacity(0.36)),
+                                                  AnimatedContainer(
+                                                    duration: const Duration(
+                                                        milliseconds: 00),
+                                                    curve: Curves.easeInOut,
+                                                    height: !queOpenList[index]
+                                                        ? 9.h
+                                                        : 27.h,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            iconTextValue(
+                                                                icStocks,
+                                                                colorGreenEFC,
+                                                                'Stocks',
+                                                                stocksValue
+                                                                    .toString(),
+                                                                () {
+                                                              textEditingController
+                                                                      .text =
+                                                                  stocksValue ==
+                                                                          0
+                                                                      ? ''
+                                                                      : stocksValue
+                                                                          .toString();
+
+                                                              newSelectFormDialog(
+                                                                  'Stocks',
+                                                                  icStocks);
+                                                            }),
+                                                            Container(
+                                                                height: 9.h,
+                                                                width: 1,
+                                                                color: colorTextBCBC
+                                                                    .withOpacity(
+                                                                        0.36)),
+                                                            iconTextValue(
+                                                                icMutualFunds,
+                                                                colorGreenEFC,
+                                                                'Mutual Funds',
+                                                                mutualFundsValue
+                                                                    .toString(),
+                                                                () {
+                                                              textEditingController
+                                                                  .text = mutualFundsValue ==
+                                                                      0
+                                                                  ? ''
+                                                                  : mutualFundsValue
+                                                                      .toString();
+
+                                                              newSelectFormDialog(
+                                                                  'Mutual Funds',
+                                                                  icMutualFunds);
+                                                            })
+                                                          ],
+                                                        ),
+                                                        if (queOpenList[
+                                                            index]) ...[
+                                                          Row(
+                                                            children: [
+                                                              iconTextValue(
+                                                                  icPPF,
+                                                                  colorGreenEFC,
+                                                                  'PPF Monthly',
+                                                                  pPFMonthly
+                                                                      .toString(),
+                                                                  () {
+                                                                textEditingController
+                                                                    .text = pPFMonthly ==
+                                                                        0
+                                                                    ? ''
+                                                                    : pPFMonthly
+                                                                        .toString();
+                                                                newSelectFormDialog(
+                                                                    'PPF Monthly',
+                                                                    icPPF);
+                                                              }),
+                                                              Container(
+                                                                  height: 9.h,
+                                                                  width: 1,
+                                                                  color: colorTextBCBC
+                                                                      .withOpacity(
+                                                                          0.36)),
+                                                              iconTextValue(
+                                                                  icDebenture,
+                                                                  colorGreenEFC,
+                                                                  'Debenture',
+                                                                  debenture
+                                                                      .toString(),
+                                                                  () {
+                                                                textEditingController
+                                                                        .text =
+                                                                    debenture ==
+                                                                            0
+                                                                        ? ''
+                                                                        : debenture
+                                                                            .toString();
+                                                                newSelectFormDialog(
+                                                                    'Debenture',
+                                                                    icDebenture);
+                                                              })
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              iconTextValue(
+                                                                  icFixeDeposit,
+                                                                  colorGreenEFC,
+                                                                  'Fixed Deposite',
+                                                                  fixedDeposite
+                                                                      .toString(),
+                                                                  () {
+                                                                textEditingController
+                                                                    .text = fixedDeposite ==
+                                                                        0
+                                                                    ? ''
+                                                                    : fixedDeposite
+                                                                        .toString();
+
+                                                                newSelectFormDialog(
+                                                                    'Fixed Deposite',
+                                                                    icFixeDeposit);
+                                                              }),
+                                                              Container(
+                                                                  height: 9.h,
+                                                                  width: 1,
+                                                                  color: colorTextBCBC
+                                                                      .withOpacity(
+                                                                          0.36)),
+                                                            ],
+                                                          ),
+                                                        ]
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                       : index == 1
-                                          ? Padding(
+                                          ?
+                                          // INCOME
+                                          Padding(
                                               padding:
                                                   EdgeInsets.only(top: 2.h),
-                                              child: newBirdEyeView(
-                                                  queOpenList[index],
-                                                  'INCOME & EXPENSE',
-                                                  icBusiness,
-                                                  'Business',
-                                                  business,
-                                                  icSalary,
-                                                  'Salary',
-                                                  salary == 1 ? 0 : salary,
-                                                  icProfessional,
-                                                  'Professional',
-                                                  professional,
-                                                  icSpouselncome,
-                                                  'SpouseIncome',
-                                                  spouseIncome,
-                                                  icOtherIncome,
-                                                  'OtherIncome',
-                                                  otherIncome,
-                                                  icHouseHoldMonthly,
-                                                  'HouseHoldMonthly',
-                                                  houseHoldMonthly,
-                                                  colorGreenEFC, () {
-                                                setState(() {
-                                                  queOpenList[index] =
-                                                      !queOpenList[index];
-                                                });
-                                              }),
+                                              child: Container(
+                                                width: 90.w,
+                                                decoration:
+                                                    decoration(colorWhite),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 2.h,
+                                                          bottom: 2.h,
+                                                          left: 3.5.w),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text('INCOME',
+                                                              style: textStyle10Bold(
+                                                                      colorBlack)
+                                                                  .copyWith(
+                                                                      letterSpacing:
+                                                                          0.7)),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right: 5.w),
+                                                            child: InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    queOpenList[
+                                                                            index] =
+                                                                        !queOpenList[
+                                                                            index];
+                                                                  });
+                                                                },
+                                                                child: Icon(
+                                                                  queOpenList[
+                                                                          index]
+                                                                      ? Icons
+                                                                          .keyboard_arrow_up_rounded
+                                                                      : Icons
+                                                                          .keyboard_arrow_down_outlined,
+                                                                  size: 2.7.h,
+                                                                  opticalSize:
+                                                                      25.h,
+                                                                  color:
+                                                                      colorBlack,
+                                                                )),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                        height: 1,
+                                                        color: colorTextBCBC
+                                                            .withOpacity(0.36)),
+                                                    AnimatedContainer(
+                                                      duration: const Duration(
+                                                          milliseconds: 00),
+                                                      curve: Curves.easeInOut,
+                                                      height:
+                                                          !queOpenList[index]
+                                                              ? 9.h
+                                                              : 18.h,
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              iconTextValue(
+                                                                  icBusiness,
+                                                                  colorGreenEFC,
+                                                                  'Business',
+                                                                  business
+                                                                      .toString(),
+                                                                  () {
+                                                                textEditingController
+                                                                        .text =
+                                                                    business ==
+                                                                            0
+                                                                        ? ''
+                                                                        : business
+                                                                            .toString();
+
+                                                                newSelectFormDialog(
+                                                                    'Business',
+                                                                    icBusiness);
+                                                              }),
+                                                              Container(
+                                                                  height: 9.h,
+                                                                  width: 1,
+                                                                  color: colorTextBCBC
+                                                                      .withOpacity(
+                                                                          0.36)),
+                                                              iconTextValue(
+                                                                  icSalary,
+                                                                  colorGreenEFC,
+                                                                  'Salary',
+                                                                  salary
+                                                                      .toString(),
+                                                                  () {
+                                                                textEditingController
+                                                                        .text =
+                                                                    salary == 0
+                                                                        ? ''
+                                                                        : salary
+                                                                            .toString();
+                                                                newSelectFormDialog(
+                                                                  'Salary',
+                                                                  icSalary,
+                                                                );
+                                                              })
+                                                            ],
+                                                          ),
+                                                          if (queOpenList[
+                                                              index]) ...[
+                                                            Row(
+                                                              children: [
+                                                                iconTextValue(
+                                                                    icSpouselncome,
+                                                                    colorGreenEFC,
+                                                                    'Spouse',
+                                                                    spouseIncome
+                                                                        .toString(),
+                                                                    () {
+                                                                  textEditingController
+                                                                      .text = spouseIncome ==
+                                                                          0
+                                                                      ? ''
+                                                                      : spouseIncome
+                                                                          .toString();
+
+                                                                  newSelectFormDialog(
+                                                                      'Spouse',
+                                                                      icSpouselncome);
+                                                                }),
+                                                                Container(
+                                                                    height: 9.h,
+                                                                    width: 1,
+                                                                    color: colorTextBCBC
+                                                                        .withOpacity(
+                                                                            0.36)),
+                                                                iconTextValue(
+                                                                    icOtherIncome,
+                                                                    colorGreenEFC,
+                                                                    'Other',
+                                                                    otherIncome
+                                                                        .toString(),
+                                                                    () {
+                                                                  textEditingController
+                                                                      .text = otherIncome ==
+                                                                          0
+                                                                      ? ''
+                                                                      : otherIncome
+                                                                          .toString();
+
+                                                                  newSelectFormDialog(
+                                                                      'Other Income',
+                                                                      icOtherIncome);
+                                                                }),
+                                                              ],
+                                                            ),
+                                                          ]
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                             )
                                           : index == 2
-                                              ? Padding(
+                                              ?
+                                              // EXPENSE
+                                              Padding(
                                                   padding:
                                                       EdgeInsets.only(top: 2.h),
-                                                  child: newBirdEyeView(
-                                                      queOpenList[index],
-                                                      'LOAN',
-                                                      icHousingLoan,
-                                                      'HousingLoan',
-                                                      housingLoan,
-                                                      icVehicalLoan,
-                                                      'VehicleLoan',
-                                                      vehicleLoan,
-                                                      icEducationLoan,
-                                                      'EducationLoan',
-                                                      educationLoan,
-                                                      icPersonalLoan,
-                                                      'PersonalLoan',
-                                                      personalLoan,
-                                                      icOtherLoan,
-                                                      'OtherLoan',
-                                                      otherLoan,
-                                                      icMortgageLoan,
-                                                      'MortgageLoan',
-                                                      mortgageLoan,
-                                                      colorGreenEFC, () {
-                                                    setState(() {
-                                                      queOpenList[index] =
-                                                          !queOpenList[index];
-                                                    });
-                                                  }),
+                                                  child: Container(
+                                                    width: 90.w,
+                                                    decoration:
+                                                        decoration(colorWhite),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 2.h,
+                                                                  bottom: 2.h,
+                                                                  left: 3.5.w),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text('EXPENSE',
+                                                                  style: textStyle10Bold(
+                                                                          colorBlack)
+                                                                      .copyWith(
+                                                                          letterSpacing:
+                                                                              0.7)),
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        right: 5
+                                                                            .w),
+                                                                child: InkWell(
+                                                                    onTap: () {
+                                                                      setState(
+                                                                          () {
+                                                                        queOpenList[index] =
+                                                                            !queOpenList[index];
+                                                                      });
+                                                                    },
+                                                                    child: Icon(
+                                                                      queOpenList[
+                                                                              index]
+                                                                          ? Icons
+                                                                              .keyboard_arrow_up_rounded
+                                                                          : Icons
+                                                                              .keyboard_arrow_down_outlined,
+                                                                      size:
+                                                                          2.7.h,
+                                                                      opticalSize:
+                                                                          25.h,
+                                                                      color:
+                                                                          colorBlack,
+                                                                    )),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                            height: 1,
+                                                            color: colorTextBCBC
+                                                                .withOpacity(
+                                                                    0.36)),
+                                                        AnimatedContainer(
+                                                          duration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      00),
+                                                          curve:
+                                                              Curves.easeInOut,
+                                                          height: !queOpenList[
+                                                                  index]
+                                                              ? 9.h
+                                                              : 18.h,
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  iconTextValue(
+                                                                      icHouseHoldMonthly,
+                                                                      colorGreenEFC,
+                                                                      'HouseHold',
+                                                                      houseHoldMonthly
+                                                                          .toString(),
+                                                                      () {
+                                                                    textEditingController
+                                                                        .text = houseHoldMonthly ==
+                                                                            0
+                                                                        ? ''
+                                                                        : houseHoldMonthly
+                                                                            .toString();
+                                                                    newSelectFormDialog(
+                                                                        'HouseHold',
+                                                                        icHouseHoldMonthly);
+                                                                  }),
+                                                                  Container(
+                                                                      height:
+                                                                          9.h,
+                                                                      width: 1,
+                                                                      color: colorTextBCBC
+                                                                          .withOpacity(
+                                                                              0.36)),
+                                                                  iconTextValue(
+                                                                      icEMI,
+                                                                      colorGreenEFC,
+                                                                      'EMI',
+                                                                      totalMonthlyEmi
+                                                                          .toString(),
+                                                                      () {
+                                                                    textEditingController
+                                                                        .text = totalMonthlyEmi ==
+                                                                            0
+                                                                        ? ''
+                                                                        : totalMonthlyEmi
+                                                                            .toString();
+                                                                    newSelectFormDialog(
+                                                                      'EMI',
+                                                                      icEMI,
+                                                                    );
+                                                                  })
+                                                                ],
+                                                              ),
+                                                              if (queOpenList[
+                                                                  index]) ...[
+                                                                Row(
+                                                                  children: [
+                                                                    iconTextValue(
+                                                                        icChildrenEducation,
+                                                                        colorGreenEFC,
+                                                                        'Children Fees',
+                                                                        childrenEducationYearly
+                                                                            .toString(),
+                                                                        () {
+                                                                      textEditingController
+                                                                          .text = childrenEducationYearly ==
+                                                                              0
+                                                                          ? ''
+                                                                          : childrenEducationYearly
+                                                                              .toString();
+
+                                                                      newSelectFormDialog(
+                                                                          'Children Fees',
+                                                                          icChildrenEducation);
+                                                                    }),
+                                                                    Container(
+                                                                        height:
+                                                                            9.h,
+                                                                        width:
+                                                                            1,
+                                                                        color: colorTextBCBC
+                                                                            .withOpacity(0.36)),
+                                                                  ],
+                                                                ),
+                                                              ]
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
                                                 )
                                               : index == 3
-                                                  ? Padding(
+                                                  ?
+                                                  // LOAN
+                                                  Padding(
                                                       padding: EdgeInsets.only(
                                                           top: 2.h),
-                                                      child: newBirdEyeView(
-                                                          queOpenList[index],
-                                                          'INSURANCE',
-                                                          icHealthInsurance,
-                                                          'HealthInsurance',
-                                                          healthInsurance,
-                                                          icVehicleInsurance,
-                                                          'VehicleInsurance',
-                                                          vehicleInsurance,
-                                                          icTermInsurance,
-                                                          'TermInsurance',
-                                                          termInsurance,
-                                                          icTraditionalInsurance,
-                                                          'TraditionalInsurance',
-                                                          traditionalInsurance,
-                                                          icOtherInsurance,
-                                                          'OtherInsurance',
-                                                          otherInsurance,
-                                                          icUlip,
-                                                          'ULIP',
-                                                          uLIP,
-                                                          colorGreenEFC, () {
-                                                        setState(() {
-                                                          queOpenList[index] =
-                                                              !queOpenList[
-                                                                  index];
-                                                        });
-                                                      }),
+                                                      child: Container(
+                                                        width: 90.w,
+                                                        decoration: decoration(
+                                                            colorWhite),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 2.h,
+                                                                      bottom:
+                                                                          2.h,
+                                                                      left: 3.5
+                                                                          .w),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text('LOAN',
+                                                                      style: textStyle10Bold(
+                                                                              colorBlack)
+                                                                          .copyWith(
+                                                                              letterSpacing: 0.7)),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        right: 5
+                                                                            .w),
+                                                                    child: InkWell(
+                                                                        onTap: () {
+                                                                          setState(
+                                                                              () {
+                                                                            queOpenList[index] =
+                                                                                !queOpenList[index];
+                                                                          });
+                                                                        },
+                                                                        child: Icon(
+                                                                          queOpenList[index]
+                                                                              ? Icons.keyboard_arrow_up_rounded
+                                                                              : Icons.keyboard_arrow_down_outlined,
+                                                                          size:
+                                                                              2.7.h,
+                                                                          opticalSize:
+                                                                              25.h,
+                                                                          color:
+                                                                              colorBlack,
+                                                                        )),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                                height: 1,
+                                                                color: colorTextBCBC
+                                                                    .withOpacity(
+                                                                        0.36)),
+                                                            AnimatedContainer(
+                                                              duration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          00),
+                                                              curve: Curves
+                                                                  .easeInOut,
+                                                              height:
+                                                                  !queOpenList[
+                                                                          index]
+                                                                      ? 9.h
+                                                                      : 27.h,
+                                                              child: Column(
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      iconTextValue(
+                                                                          icHousingLoan,
+                                                                          colorGreenEFC,
+                                                                          'Housing',
+                                                                          housingLoan
+                                                                              .toString(),
+                                                                          () {
+                                                                        textEditingController
+                                                                            .text = housingLoan ==
+                                                                                0
+                                                                            ? ''
+                                                                            : housingLoan.toString();
+
+                                                                        newSelectFormDialog(
+                                                                            'Housing',
+                                                                            icHousingLoan);
+                                                                      }),
+                                                                      Container(
+                                                                          height: 9
+                                                                              .h,
+                                                                          width:
+                                                                              1,
+                                                                          color:
+                                                                              colorTextBCBC.withOpacity(0.36)),
+                                                                      iconTextValue(
+                                                                          icVehicalLoan,
+                                                                          colorGreenEFC,
+                                                                          'Vehicle',
+                                                                          vehicleLoan
+                                                                              .toString(),
+                                                                          () {
+                                                                        textEditingController
+                                                                            .text = vehicleLoan ==
+                                                                                0
+                                                                            ? ''
+                                                                            : vehicleLoan.toString();
+                                                                        newSelectFormDialog(
+                                                                          'Vehicle Loan',
+                                                                          icVehicalLoan,
+                                                                        );
+                                                                      })
+                                                                    ],
+                                                                  ),
+                                                                  if (queOpenList[
+                                                                      index]) ...[
+                                                                    Row(
+                                                                      children: [
+                                                                        iconTextValue(
+                                                                            icEducationLoan,
+                                                                            colorGreenEFC,
+                                                                            'Education',
+                                                                            educationLoan.toString(),
+                                                                            () {
+                                                                          textEditingController
+                                                                              .text = educationLoan ==
+                                                                                  0
+                                                                              ? ''
+                                                                              : educationLoan.toString();
+
+                                                                          newSelectFormDialog(
+                                                                              'Education',
+                                                                              icEducationLoan);
+                                                                        }),
+                                                                        Container(
+                                                                            height: 9
+                                                                                .h,
+                                                                            width:
+                                                                                1,
+                                                                            color:
+                                                                                colorTextBCBC.withOpacity(0.36)),
+                                                                        iconTextValue(
+                                                                            icPersonalLoan,
+                                                                            colorGreenEFC,
+                                                                            'Personal',
+                                                                            personalLoan.toString(),
+                                                                            () {
+                                                                          textEditingController
+                                                                              .text = personalLoan ==
+                                                                                  0
+                                                                              ? ''
+                                                                              : personalLoan.toString();
+                                                                          newSelectFormDialog(
+                                                                              'Personal',
+                                                                              icPersonalLoan);
+                                                                        })
+                                                                      ],
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        iconTextValue(
+                                                                            icMortgageLoan,
+                                                                            colorGreenEFC,
+                                                                            'Mortgage',
+                                                                            mortgageLoan.toString(),
+                                                                            () {
+                                                                          textEditingController
+                                                                              .text = mortgageLoan ==
+                                                                                  0
+                                                                              ? ''
+                                                                              : mortgageLoan.toString();
+
+                                                                          newSelectFormDialog(
+                                                                              'Mortgage',
+                                                                              icMortgageLoan);
+                                                                        }),
+                                                                        Container(
+                                                                            height: 9
+                                                                                .h,
+                                                                            width:
+                                                                                1,
+                                                                            color:
+                                                                                colorTextBCBC.withOpacity(0.36)),
+                                                                        iconTextValue(
+                                                                            icOtherLoan,
+                                                                            colorGreenEFC,
+                                                                            'Other',
+                                                                            otherLoan.toString(),
+                                                                            () {
+                                                                          textEditingController
+                                                                              .text = otherLoan ==
+                                                                                  0
+                                                                              ? ''
+                                                                              : otherLoan.toString();
+
+                                                                          newSelectFormDialog(
+                                                                              'Other Loan',
+                                                                              icOtherLoan);
+                                                                        }),
+                                                                      ],
+                                                                    ),
+                                                                  ]
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
                                                     )
-                                                  : Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 2.h),
-                                                      child: newBirdEyeView(
-                                                          queOpenList[index],
-                                                          'ASSETS',
-                                                          icGold,
-                                                          'Gold',
-                                                          gold,
-                                                          icCash,
-                                                          'Cash',
-                                                          cash,
-                                                          icRealEstate1,
-                                                          'RealEstate',
-                                                          realEstate,
-                                                          icVehical,
-                                                          'Vehicle',
-                                                          vehicle,
-                                                          icOtherAssets,
-                                                          'OtherAsset',
-                                                          otherAsset,
-                                                          icFixeDeposit,
-                                                          'FixedDeposite',
-                                                          fixedDeposite,
-                                                          colorGreenEFC, () {
-                                                        setState(() {
-                                                          queOpenList[index] =
-                                                              !queOpenList[
-                                                                  index];
-                                                        });
-                                                      }),
-                                                    )),
+                                                  : index == 4
+                                                      ?
+                                                      // INSURANCE COVER
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 2.h),
+                                                          child: Container(
+                                                            width: 90.w,
+                                                            decoration:
+                                                                decoration(
+                                                                    colorWhite),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top: 2.h,
+                                                                      bottom:
+                                                                          2.h,
+                                                                      left: 3.5
+                                                                          .w),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                          'INSURANCE COVER',
+                                                                          style:
+                                                                              textStyle10Bold(colorBlack).copyWith(letterSpacing: 0.7)),
+                                                                      Padding(
+                                                                        padding:
+                                                                            EdgeInsets.only(right: 5.w),
+                                                                        child: InkWell(
+                                                                            onTap: () {
+                                                                              setState(() {
+                                                                                queOpenList[index] = !queOpenList[index];
+                                                                              });
+                                                                            },
+                                                                            child: Icon(
+                                                                              queOpenList[index] ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_outlined,
+                                                                              size: 2.7.h,
+                                                                              opticalSize: 25.h,
+                                                                              color: colorBlack,
+                                                                            )),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                    height: 1,
+                                                                    color: colorTextBCBC
+                                                                        .withOpacity(
+                                                                            0.36)),
+                                                                AnimatedContainer(
+                                                                  duration: const Duration(
+                                                                      milliseconds:
+                                                                          00),
+                                                                  curve: Curves
+                                                                      .easeInOut,
+                                                                  height: !queOpenList[
+                                                                          index]
+                                                                      ? 9.h
+                                                                      : 27.h,
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          iconTextValue(
+                                                                              icTermInsurance,
+                                                                              colorGreenEFC,
+                                                                              'Term',
+                                                                              termInsurance.toString(),
+                                                                              () {
+                                                                            textEditingController.text = termInsurance == 0
+                                                                                ? ''
+                                                                                : termInsurance.toString();
+
+                                                                            newSelectFormDialog('Term',
+                                                                                icTermInsurance);
+                                                                          }),
+                                                                          Container(
+                                                                              height: 9.h,
+                                                                              width: 1,
+                                                                              color: colorTextBCBC.withOpacity(0.36)),
+                                                                          iconTextValue(
+                                                                              icVehicleInsurance,
+                                                                              colorGreenEFC,
+                                                                              'Vehicle',
+                                                                              vehicleInsurance.toString(),
+                                                                              () {
+                                                                            textEditingController.text = vehicleInsurance == 0
+                                                                                ? ''
+                                                                                : vehicleInsurance.toString();
+                                                                            newSelectFormDialog('Vehicle Insurance',
+                                                                                icVehicleInsurance);
+                                                                          })
+                                                                        ],
+                                                                      ),
+                                                                      if (queOpenList[
+                                                                          index]) ...[
+                                                                        Row(
+                                                                          children: [
+                                                                            iconTextValue(
+                                                                                icTraditionalInsurance,
+                                                                                colorGreenEFC,
+                                                                                'Traditional',
+                                                                                traditionalInsurance.toString(),
+                                                                                () {
+                                                                              textEditingController.text = traditionalInsurance == 0 ? '' : traditionalInsurance.toString();
+                                                                              newSelectFormDialog('Traditional', icTraditionalInsurance);
+                                                                            }),
+                                                                            Container(
+                                                                                height: 9.h,
+                                                                                width: 1,
+                                                                                color: colorTextBCBC.withOpacity(0.36)),
+                                                                            iconTextValue(
+                                                                                icUlip,
+                                                                                colorGreenEFC,
+                                                                                'ULIP',
+                                                                                uLIP.toString(),
+                                                                                () {
+                                                                              textEditingController.text = uLIP == 0 ? '' : uLIP.toString();
+                                                                              newSelectFormDialog('ULIP', icUlip);
+                                                                            })
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            iconTextValue(
+                                                                                icHealthInsurance,
+                                                                                colorGreenEFC,
+                                                                                'Health',
+                                                                                healthInsurance.toString(),
+                                                                                () {
+                                                                              textEditingController.text = healthInsurance == 0 ? '' : healthInsurance.toString();
+                                                                              newSelectFormDialog('Health', icHealthInsurance);
+                                                                            }),
+                                                                            Container(
+                                                                                height: 9.h,
+                                                                                width: 1,
+                                                                                color: colorTextBCBC.withOpacity(0.36)),
+                                                                            iconTextValue(
+                                                                                icOtherInsurance,
+                                                                                colorGreenEFC,
+                                                                                'Other',
+                                                                                otherInsurance.toString(),
+                                                                                () {
+                                                                              textEditingController.text = otherInsurance == 0 ? '' : otherInsurance.toString();
+                                                                              newSelectFormDialog('Other Insurance', icUlip);
+                                                                            })
+                                                                          ],
+                                                                        ),
+                                                                      ]
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      :
+                                                      //  ASSETS
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 2.h),
+                                                          child: Container(
+                                                            width: 90.w,
+                                                            decoration:
+                                                                decoration(
+                                                                    colorWhite),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top: 2.h,
+                                                                      bottom:
+                                                                          2.h,
+                                                                      left: 3.5
+                                                                          .w),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                          'ASSETS',
+                                                                          style:
+                                                                              textStyle10Bold(colorBlack).copyWith(letterSpacing: 0.7)),
+                                                                      Padding(
+                                                                        padding:
+                                                                            EdgeInsets.only(right: 5.w),
+                                                                        child: InkWell(
+                                                                            onTap: () {
+                                                                              setState(() {
+                                                                                queOpenList[index] = !queOpenList[index];
+                                                                              });
+                                                                            },
+                                                                            child: Icon(
+                                                                              queOpenList[index] ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_outlined,
+                                                                              size: 2.7.h,
+                                                                              opticalSize: 25.h,
+                                                                              color: colorBlack,
+                                                                            )),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                    height: 1,
+                                                                    color: colorTextBCBC
+                                                                        .withOpacity(
+                                                                            0.36)),
+                                                                AnimatedContainer(
+                                                                  duration: const Duration(
+                                                                      milliseconds:
+                                                                          00),
+                                                                  curve: Curves
+                                                                      .easeInOut,
+                                                                  height: !queOpenList[
+                                                                          index]
+                                                                      ? 9.h
+                                                                      : 18.h,
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          iconTextValue(
+                                                                              icVehical,
+                                                                              colorGreenEFC,
+                                                                              'Vehicle',
+                                                                              vehicle.toString(),
+                                                                              () {
+                                                                            textEditingController.text = vehicle == 0
+                                                                                ? ''
+                                                                                : vehicle.toString();
+
+                                                                            newSelectFormDialog('Vehicle',
+                                                                                icVehical);
+                                                                          }),
+                                                                          Container(
+                                                                              height: 9.h,
+                                                                              width: 1,
+                                                                              color: colorTextBCBC.withOpacity(0.36)),
+                                                                          iconTextValue(
+                                                                              icGold,
+                                                                              colorGreenEFC,
+                                                                              'Gold',
+                                                                              gold.toString(),
+                                                                              () {
+                                                                            textEditingController.text = gold == 0
+                                                                                ? ''
+                                                                                : gold.toString();
+                                                                            newSelectFormDialog('Gold',
+                                                                                icGold);
+                                                                          })
+                                                                        ],
+                                                                      ),
+                                                                      if (queOpenList[
+                                                                          index]) ...[
+                                                                        Row(
+                                                                          children: [
+                                                                            iconTextValue(
+                                                                                icEmergencyFunds,
+                                                                                colorGreenEFC,
+                                                                                'Emergency Funds',
+                                                                                emergencyFunds.toString(),
+                                                                                () {
+                                                                              textEditingController.text = emergencyFunds == 0 ? '' : emergencyFunds.toString();
+                                                                              newSelectFormDialog('Emergency Funds', icEmergencyFunds);
+                                                                            }),
+                                                                            Container(
+                                                                                height: 9.h,
+                                                                                width: 1,
+                                                                                color: colorTextBCBC.withOpacity(0.36)),
+                                                                            iconTextValue(
+                                                                                icOtherAssets,
+                                                                                colorGreenEFC,
+                                                                                'Other',
+                                                                                otherAsset.toString(),
+                                                                                () {
+                                                                              textEditingController.text = otherAsset == 0 ? '' : otherAsset.toString();
+                                                                              newSelectFormDialog('Other Asset', icOtherAssets);
+                                                                            })
+                                                                          ],
+                                                                        ),
+                                                                      ]
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ))),
                             ),
                           ),
                           SizedBox(height: 5.h),
@@ -658,31 +1599,16 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       children: [
                         iconTextValue(icon1, bgColor, text1, value1.toString(),
                             () async {
-                          // if (text1 == 'Stocks') {
-                          // BlocProvider.of<FetchingDataBloc>(context)
-                          //     .add(LoadStockInvestmentEvent(
-                          //         userId: ApiUser.userId,
-                          //         investmentPortfolio: StockInvestmentModel(
-                          //           code: 0,
-                          //           message: '',
-                          //           portfolio: 0,
-                          //           investment: 0,
-                          //           gain: 0,
-                          //           stocks: [],
-                          //         )));
-                          // Navigator.of(context)
-                          //     .pushNamed(StocksInvestment.route);
-                          // } else {
                           final pref = await SharedPreferences.getInstance();
 
                           if (text1 == 'Stocks') {
                             textEditingController.text =
-                                pref.getInt('stocksValue').toString() == 'null'
+                                pref.getInt('stocksValue').toString() == '0'
                                     ? ''
                                     : pref.getInt('stocksValue').toString();
                           } else if (text1 == 'Business') {
                             textEditingController.text =
-                                pref.getInt('business').toString() == 'null'
+                                pref.getInt('business').toString() == '0'
                                     ? ''
                                     : pref.getInt('business').toString();
                           } else if (text1 == 'HousingLoan') {
@@ -702,8 +1628,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                     ? ''
                                     : pref.getInt('gold').toString();
                           }
-                          newSelectFormDialog(mainTitle, text1, icon1);
-                          // }
+                          newSelectFormDialog(text1, icon1);
                         }),
                         Container(
                             height: 9.h,
@@ -711,20 +1636,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                             color: colorTextBCBC.withOpacity(0.36)),
                         iconTextValue(icon2, bgColor, text2, value2.toString(),
                             () async {
-                          // if (text2 == 'Mutual Funds') {
-                          // BlocProvider.of<MFInvestmentsBloc>(context).add(
-                          //     LoadMFInvestmentsEvent(
-                          //         userId: ApiUser.userId,
-                          //         investmentPortfolio: InvestmentPortfolio(
-                          //             code: 0,
-                          //             message: '',
-                          //             portfolio: 0,
-                          //             investment: 0,
-                          //             gain: 0,
-                          //             mFStocks: [])));
-                          // Navigator.of(context)
-                          //     .pushNamed(MutualFundsInvestment.route);
-                          // } else {
                           final pref = await SharedPreferences.getInstance();
                           if (text2 == 'Mutual Funds') {
                             textEditingController.text = pref
@@ -756,8 +1667,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                     ? ''
                                     : pref.getInt('cash').toString();
                           }
-                          newSelectFormDialog(mainTitle, text2, icon2);
-                          // }
+                          newSelectFormDialog(text2, icon2);
                         })
                       ],
                     ),
@@ -798,7 +1708,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                       ? ''
                                       : pref.getInt('realEstate').toString();
                             }
-                            newSelectFormDialog(mainTitle, text3, icon3);
+                            newSelectFormDialog(text3, icon3);
                           }),
                           Container(
                               height: 9.h,
@@ -841,7 +1751,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                       ? ''
                                       : pref.getInt('vehicle').toString();
                             }
-                            newSelectFormDialog(mainTitle, text4, icon4);
+                            newSelectFormDialog(text4, icon4);
                           })
                         ],
                       ),
@@ -885,7 +1795,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                       ? ''
                                       : pref.getInt('otherAsset').toString();
                             }
-                            newSelectFormDialog(mainTitle, text5, icon5);
+                            newSelectFormDialog(text5, icon5);
                           }),
                           Container(
                               height: 9.h,
@@ -930,7 +1840,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                       ? ''
                                       : pref.getInt('fixedDeposite').toString();
                             }
-                            newSelectFormDialog(mainTitle, text6, icon6);
+                            newSelectFormDialog(text6, icon6);
                           })
                         ],
                       ),
@@ -945,7 +1855,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
     );
   }
 
-  newSelectFormDialog(String mainTitle, String lable, String icon) {
+  newSelectFormDialog(String lable, String icon) {
     isCheckedStocks = false;
     isCheckedMutualFunds = false;
     return showGeneralDialog(
@@ -1020,10 +1930,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                         stocksApiData
                                                             .toString();
                                                   }
-                                                  // else {
-                                                  //   textEditingController.text =
-                                                  //       '';
-                                                  // }
                                                 } else {
                                                   isCheckedMutualFunds =
                                                       !isCheckedMutualFunds;
@@ -1033,10 +1939,6 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                                         mutualFundsApiData
                                                             .toString();
                                                   }
-                                                  //  else {
-                                                  //   textEditingController.text =
-                                                  //       '';
-                                                  // }
                                                 }
                                               });
                                             }),
@@ -1056,74 +1958,67 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   cTextFormField(
                                     'Enter $lable',
                                     (values) {
-                                      int value = values.isNotEmpty
-                                          ? int.parse(
-                                              values.replaceAll(',', ''))
-                                          : 0;
-                                      if (lable == 'Stocks') {
-                                        stocksValue = value;
-                                      } else if (lable == 'Mutual Funds') {
-                                        mutualFundsValue == value;
-                                      } else if (lable == 'SIPMonthly') {
-                                        sIPMonthly = value;
-                                      } else if (lable == 'PPFMonthly') {
-                                        pPFMonthly = value;
-                                      } else if (lable ==
-                                          'PostOfficeOrVikas..') {
-                                        postOfficeOrVikasPatra = value;
-                                      } else if (lable ==
-                                          'PrivateInvestment..') {
-                                        privateInvestmentScheme = value;
-                                      } else if (lable == 'Business') {
-                                        business = value;
-                                      } else if (lable == 'Salary') {
-                                        salary = value;
-                                      } else if (lable == 'Professional') {
-                                        professional = value;
-                                      } else if (lable == 'SpouseIncome') {
-                                        spouseIncome = value;
-                                      } else if (lable == 'OtherIncome') {
-                                        otherIncome = value;
-                                      } else if (lable == 'HouseHoldMonthly') {
-                                        houseHoldMonthly = value;
-                                      } else if (lable == 'HousingLoan') {
-                                        housingLoan = value;
-                                      } else if (lable == 'VehicleLoan') {
-                                        vehicleLoan = value;
-                                      } else if (lable == 'EducationLoan') {
-                                        educationLoan = value;
-                                      } else if (lable == 'PersonalLoan') {
-                                        personalLoan = value;
-                                      } else if (lable == 'OtherLoan') {
-                                        otherLoan = value;
-                                      } else if (lable == 'MortgageLoan') {
-                                        mortgageLoan = value;
-                                      } else if (lable == 'HealthInsurance') {
-                                        healthInsurance = value;
-                                      } else if (lable == 'VehicleInsurance') {
-                                        vehicleInsurance = value;
-                                      } else if (lable == 'TermInsurance') {
-                                        termInsurance = value;
-                                      } else if (lable ==
-                                          'TraditionalInsurance') {
-                                        traditionalInsurance = value;
-                                      } else if (lable == 'OtherInsurance') {
-                                        otherInsurance = value;
-                                      } else if (lable == 'ULIP') {
-                                        uLIP = value;
-                                      } else if (lable == 'Gold') {
-                                        gold = value;
-                                      } else if (lable == 'Cash') {
-                                        cash = value;
-                                      } else if (lable == 'RealEstate') {
-                                        realEstate = value;
-                                      } else if (lable == 'OtherAsset') {
-                                        otherAsset = value;
-                                      } else if (lable == 'Vehicle') {
-                                        vehicle = value;
-                                      } else if (lable == 'FixedDeposite') {
-                                        fixedDeposite = value;
-                                      }
+                                      // int value = values.isNotEmpty
+                                      //     ? int.parse(
+                                      //         values.replaceAll(',', ''))
+                                      //     : 0;
+                                      // if (lable == 'Stocks') {
+                                      //   stocksValue = value;
+                                      // } else if (lable == 'Mutual Funds') {
+                                      //   mutualFundsValue == value;
+                                      // } else if (lable == 'PPF Monthly') {
+                                      //   pPFMonthly = value;
+                                      // } else if (lable == 'Debenture') {
+                                      //   debenture = value;
+                                      // } else if (lable == 'Fixed Deposite') {
+                                      //   fixedDeposite = value;
+                                      // } else if (lable == 'Business') {
+                                      //   business = value;
+                                      // } else if (lable == 'Salary') {
+                                      //   salary = value;
+                                      // } else if (lable == 'Spouse') {
+                                      //   spouseIncome = value;
+                                      // } else if (lable == 'Other Income') {
+                                      //   otherIncome = value;
+                                      // } else if (lable == 'HouseHold') {
+                                      //   houseHoldMonthly = value;
+                                      // } else if (lable == 'EMI') {
+                                      //   totalMonthlyEmi = value;
+                                      // } else if (lable == 'Children Fees') {
+                                      //   childrenEducationYearly = value;
+                                      // } else if (lable == 'Housing') {
+                                      //   housingLoan = value;
+                                      // } else if (lable == 'Vehicle Loan') {
+                                      //   vehicleLoan = value;
+                                      // } else if (lable == 'Education') {
+                                      //   educationLoan = value;
+                                      // } else if (lable == 'Personal') {
+                                      //   personalLoan = value;
+                                      // } else if (lable == 'Mortgage') {
+                                      //   mortgageLoan = value;
+                                      // } else if (lable == 'Other Loan') {
+                                      //   otherLoan = value;
+                                      // } else if (lable == 'Term') {
+                                      //   termInsurance = value;
+                                      // } else if (lable == 'Traditional') {
+                                      //   traditionalInsurance = value;
+                                      // } else if (lable == 'Vehicle Insurance') {
+                                      //   vehicleInsurance = value;
+                                      // } else if (lable == 'ULIP') {
+                                      //   uLIP = value;
+                                      // } else if (lable == 'Health') {
+                                      //   healthInsurance = value;
+                                      // } else if (lable == 'Other Insurance') {
+                                      //   otherInsurance = value;
+                                      // } else if (lable == 'Vehicle') {
+                                      //   vehicle = value;
+                                      // } else if (lable == 'Gold') {
+                                      //   gold = value;
+                                      // } else if (lable == 'Emergency Funds') {
+                                      //   emergencyFunds = value;
+                                      // } else if (lable == 'Other Asset') {
+                                      //   otherAsset = value;
+                                      // }
                                     },
                                   ),
                                   SizedBox(
@@ -1147,91 +2042,113 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                         mutualFundsValue = value;
                                         await pref.setInt(
                                             'mutualFundsValue', value);
-                                      } else if (lable == 'SIPMonthly') {
-                                        await pref.setInt(
-                                            'sIPMonthly', sIPMonthly);
-                                      } else if (lable == 'PPFMonthly') {
+                                      } else if (lable == 'PPF Monthly') {
+                                        pPFMonthly = value;
                                         await pref.setInt(
                                             'pPFMonthly', pPFMonthly);
-                                      } else if (lable ==
-                                          'PostOfficeOrVikas..') {
+                                      } else if (lable == 'Debenture') {
+                                        debenture = value;
                                         await pref.setInt(
-                                            'postOfficeOrVikasPatra',
-                                            postOfficeOrVikasPatra);
-                                      } else if (lable ==
-                                          'PrivateInvestment..') {
+                                            'debenture', debenture);
+                                      } else if (lable == 'Fixed Deposite') {
+                                        fixedDeposite = value;
                                         await pref.setInt(
-                                            'privateInvestmentScheme',
-                                            privateInvestmentScheme);
+                                            'fixedDeposite', fixedDeposite);
                                       } else if (lable == 'Business') {
+                                        business = value;
                                         await pref.setInt('business', business);
                                       } else if (lable == 'Salary') {
+                                        salary = value;
                                         await pref.setInt('salary', salary);
-                                      } else if (lable == 'Professional') {
-                                        await pref.setInt(
-                                            'professional', professional);
-                                      } else if (lable == 'SpouseIncome') {
+                                      } else if (lable == 'Spouse') {
+                                        spouseIncome = value;
                                         await pref.setInt(
                                             'spouseIncome', spouseIncome);
-                                      } else if (lable == 'OtherIncome') {
+                                      } else if (lable == 'Other Income') {
+                                        otherIncome = value;
                                         await pref.setInt(
                                             'otherIncome', otherIncome);
-                                      } else if (lable == 'HouseHoldMonthly') {
+                                      } else if (lable == 'HouseHold') {
+                                        houseHoldMonthly = value;
                                         await pref.setInt('houseHoldMonthly',
                                             houseHoldMonthly);
-                                      } else if (lable == 'HousingLoan') {
+                                      } else if (lable == 'EMI') {
+                                        totalMonthlyEmi = value;
+                                        await pref.setInt(
+                                            'totalMonthlyEmi', totalMonthlyEmi);
+                                      } else if (lable == 'Children Fees') {
+                                        childrenEducationYearly = value;
+                                        await pref.setInt(
+                                            'childrenEducationYearly',
+                                            childrenEducationYearly);
+                                      } else if (lable == 'FixedDeposite') {
+                                        fixedDeposite = value;
+                                        await pref.setInt(
+                                            'fixedDeposite', fixedDeposite);
+                                      } else if (lable == 'Housing') {
+                                        housingLoan = value;
                                         await pref.setInt(
                                             'housingLoan', housingLoan);
-                                      } else if (lable == 'VehicleLoan') {
+                                      } else if (lable == 'Vehicle Loan') {
+                                        vehicleLoan = value;
                                         await pref.setInt(
                                             'vehicleLoan', vehicleLoan);
-                                      } else if (lable == 'EducationLoan') {
+                                      } else if (lable == 'Education') {
+                                        educationLoan = value;
                                         await pref.setInt(
                                             'educationLoan', educationLoan);
-                                      } else if (lable == 'PersonalLoan') {
+                                      } else if (lable == 'Personal') {
+                                        personalLoan = value;
                                         await pref.setInt(
                                             'personalLoan', personalLoan);
-                                      } else if (lable == 'OtherLoan') {
-                                        await pref.setInt(
-                                            'otherLoan', otherLoan);
-                                      } else if (lable == 'MortgageLoan') {
+                                      } else if (lable == 'Mortgage') {
+                                        mortgageLoan = value;
                                         await pref.setInt(
                                             'mortgageLoan', mortgageLoan);
-                                      } else if (lable == 'HealthInsurance') {
+                                      } else if (lable == 'Other Loan') {
+                                        otherLoan = value;
                                         await pref.setInt(
-                                            'healthInsurance', healthInsurance);
-                                      } else if (lable == 'VehicleInsurance') {
-                                        await pref.setInt('vehicleInsurance',
-                                            vehicleInsurance);
-                                      } else if (lable == 'TermInsurance') {
+                                            'otherLoan', otherLoan);
+                                      } else if (lable == 'Term') {
+                                        termInsurance = value;
                                         await pref.setInt(
                                             'termInsurance', termInsurance);
-                                      } else if (lable ==
-                                          'TraditionalInsurance') {
+                                      } else if (lable == 'Vehicle Insurance') {
+                                        vehicleInsurance = value;
+                                        await pref.setInt('vehicleInsurance',
+                                            vehicleInsurance);
+                                      } else if (lable == 'Traditional') {
+                                        traditionalInsurance = value;
                                         await pref.setInt(
                                             'traditionalInsurance',
                                             traditionalInsurance);
-                                      } else if (lable == 'OtherInsurance') {
+                                      } else if (lable == 'ULIP') {
+                                        uLIP = value;
+                                        await pref.setInt('uLIP', uLIP);
+                                      } else if (lable == 'Health') {
+                                        healthInsurance = value;
+                                        await pref.setInt(
+                                            'healthInsurance', healthInsurance);
+                                      } else if (lable == 'Other Insurance') {
+                                        otherInsurance = value;
                                         await pref.setInt(
                                             'otherInsurance', otherInsurance);
-                                      } else if (lable == 'ULIP') {
-                                        await pref.setInt('uLIP', uLIP);
+                                      } else if (lable == 'Vehicle') {
+                                        vehicle = value;
+                                        await pref.setInt('vehicle', vehicle);
                                       } else if (lable == 'Gold') {
+                                        gold = value;
                                         await pref.setInt('gold', gold);
-                                      } else if (lable == 'Cash') {
-                                        await pref.setInt('cash', cash);
-                                      } else if (lable == 'RealEstate') {
+                                      } else if (lable == 'Emergency Funds') {
+                                        emergencyFunds = value;
                                         await pref.setInt(
-                                            'realEstate', realEstate);
-                                      } else if (lable == 'OtherAsset') {
+                                            'emergencyFunds', emergencyFunds);
+                                      } else if (lable == 'Other Asset') {
+                                        otherAsset = value;
                                         await pref.setInt(
                                             'otherAsset', otherAsset);
-                                      } else if (lable == 'Vehicle') {
-                                        await pref.setInt('vehicle', vehicle);
-                                      } else if (lable == 'FixedDeposite') {
-                                        await pref.setInt(
-                                            'fixedDeposite', fixedDeposite);
                                       }
+
                                       wealthMeter();
                                       Navigator.of(context).pop();
                                       checkWealthScoreDialogBox();
@@ -1356,9 +2273,20 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(text,
-                            overflow: TextOverflow.fade,
-                            style: textStyle9(colorText3D3D)),
+                        Row(
+                          children: [
+                            Text(text,
+                                overflow: TextOverflow.fade,
+                                style: textStyle9(colorText3D3D)),
+                            if (text == 'Business') ...[
+                              SizedBox(
+                                width: 1.w,
+                              ),
+                              Image.asset(business == 0 ? icWarning : icCheck,
+                                  height: 1.5.h)
+                            ]
+                          ],
+                        ),
                         SizedBox(height: 0.5.h),
                         Text(
                             value.length == 6
@@ -1398,9 +2326,27 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(text,
-                          overflow: TextOverflow.fade,
-                          style: textStyle9(colorText3D3D)),
+                      Row(
+                        children: [
+                          Text(text,
+                              overflow: TextOverflow.fade,
+                              style: textStyle9(colorText3D3D)),
+                          if (text == 'Salary') ...[
+                            SizedBox(
+                              width: 1.w,
+                            ),
+                            Image.asset(salary == 0 ? icWarning : icCheck,
+                                height: 1.5.h)
+                          ] else if (text == 'HouseHold') ...[
+                            SizedBox(
+                              width: 1.w,
+                            ),
+                            Image.asset(
+                                houseHoldMonthly == 0 ? icWarning : icCheck,
+                                height: 1.5.h)
+                          ]
+                        ],
+                      ),
                       SizedBox(height: 0.5.h),
                       Text(
                           value.length == 6
@@ -1454,33 +2400,33 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         interestRate: interestRate,
         business: business,
         salary: salary,
-        professional: professional,
+        professional: 0,
         spouseIncome: spouseIncome,
         otherIncome: otherIncome,
         houseHoldMonthly: houseHoldMonthly,
-        totalMonthlyEmi: 0,
+        totalMonthlyEmi: totalMonthlyEmi,
         totalInsurancePremiumYearly: 0,
-        childrenEducationYearly: 0,
+        childrenEducationYearly: childrenEducationYearly,
         otherExpenseYearly: 0,
         vehicle: vehicle,
         gold: gold,
         savingAccount: 0,
-        cash: cash,
-        emergencyFunds: 0,
+        cash: 0,
+        emergencyFunds: emergencyFunds,
         otherAsset: otherAsset,
         mutualFunds: mutualFundsValue,
         pPF: 0,
-        sIPMonthly: sIPMonthly,
+        sIPMonthly: 0,
         pPFMonthly: pPFMonthly,
-        debenture: 0,
-        fixedDeposite: 0,
+        debenture: debenture,
+        fixedDeposite: fixedDeposite,
         stockPortfolio: stocksValue,
         guided: 0,
         unguided: 0,
-        postOfficeOrVikasPatra: postOfficeOrVikasPatra,
+        postOfficeOrVikasPatra: 0,
         pMS: 0,
-        privateInvestmentScheme: privateInvestmentScheme,
-        realEstate: realEstate,
+        privateInvestmentScheme: 0,
+        realEstate: 0,
         termInsurance: termInsurance,
         traditionalInsurance: traditionalInsurance,
         uLIP: uLIP,
@@ -1492,7 +2438,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
         educationLoan: educationLoan,
         personalLoan: personalLoan,
         vehicleLoan: vehicleLoan,
-        overdraft: overdraft,
+        overdraft: 0,
         otherLoan: otherLoan));
   }
 

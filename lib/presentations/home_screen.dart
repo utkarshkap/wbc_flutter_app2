@@ -778,7 +778,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           verificationId: "",
                                           isLogin: true,
                                           selectedContact: state
-                                              .data!.data.availableContacts!,
+                                              .data!.data.availableContacts,
                                           isHomeContactOpen: true));
                                 } else {
                                   CommonFunction()
