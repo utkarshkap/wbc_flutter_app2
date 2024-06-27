@@ -1957,69 +1957,7 @@ class _WealthMeterScreenState extends State<WealthMeterScreen> {
                                   ),
                                   cTextFormField(
                                     'Enter $lable',
-                                    (values) {
-                                      // int value = values.isNotEmpty
-                                      //     ? int.parse(
-                                      //         values.replaceAll(',', ''))
-                                      //     : 0;
-                                      // if (lable == 'Stocks') {
-                                      //   stocksValue = value;
-                                      // } else if (lable == 'Mutual Funds') {
-                                      //   mutualFundsValue == value;
-                                      // } else if (lable == 'PPF Monthly') {
-                                      //   pPFMonthly = value;
-                                      // } else if (lable == 'Debenture') {
-                                      //   debenture = value;
-                                      // } else if (lable == 'Fixed Deposite') {
-                                      //   fixedDeposite = value;
-                                      // } else if (lable == 'Business') {
-                                      //   business = value;
-                                      // } else if (lable == 'Salary') {
-                                      //   salary = value;
-                                      // } else if (lable == 'Spouse') {
-                                      //   spouseIncome = value;
-                                      // } else if (lable == 'Other Income') {
-                                      //   otherIncome = value;
-                                      // } else if (lable == 'HouseHold') {
-                                      //   houseHoldMonthly = value;
-                                      // } else if (lable == 'EMI') {
-                                      //   totalMonthlyEmi = value;
-                                      // } else if (lable == 'Children Fees') {
-                                      //   childrenEducationYearly = value;
-                                      // } else if (lable == 'Housing') {
-                                      //   housingLoan = value;
-                                      // } else if (lable == 'Vehicle Loan') {
-                                      //   vehicleLoan = value;
-                                      // } else if (lable == 'Education') {
-                                      //   educationLoan = value;
-                                      // } else if (lable == 'Personal') {
-                                      //   personalLoan = value;
-                                      // } else if (lable == 'Mortgage') {
-                                      //   mortgageLoan = value;
-                                      // } else if (lable == 'Other Loan') {
-                                      //   otherLoan = value;
-                                      // } else if (lable == 'Term') {
-                                      //   termInsurance = value;
-                                      // } else if (lable == 'Traditional') {
-                                      //   traditionalInsurance = value;
-                                      // } else if (lable == 'Vehicle Insurance') {
-                                      //   vehicleInsurance = value;
-                                      // } else if (lable == 'ULIP') {
-                                      //   uLIP = value;
-                                      // } else if (lable == 'Health') {
-                                      //   healthInsurance = value;
-                                      // } else if (lable == 'Other Insurance') {
-                                      //   otherInsurance = value;
-                                      // } else if (lable == 'Vehicle') {
-                                      //   vehicle = value;
-                                      // } else if (lable == 'Gold') {
-                                      //   gold = value;
-                                      // } else if (lable == 'Emergency Funds') {
-                                      //   emergencyFunds = value;
-                                      // } else if (lable == 'Other Asset') {
-                                      //   otherAsset = value;
-                                      // }
-                                    },
+                                    (values) {},
                                   ),
                                   SizedBox(
                                     height: 2.h,

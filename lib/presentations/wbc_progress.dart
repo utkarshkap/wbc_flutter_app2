@@ -26,9 +26,15 @@ class _WBCProgressState extends State<WBCProgress> {
   int clientsConverted = 0;
   double percentRatio = 0.0;
   String mono = "";
+  int activeClients = 0;
 
   @override
   void initState() {
+    var temp = ApiUser.myContactsList!.length;
+    if (GpDashBoardData.inActiveClients!.isNotEmpty) {
+      activeClients = temp - GpDashBoardData.inActiveClients![0].count;
+    }
+
     getClientsConvertedMember();
     getMobNog();
     super.initState();
@@ -36,7 +42,7 @@ class _WBCProgressState extends State<WBCProgress> {
 
   getClientsConvertedMember() {
     if (ApiUser.myContactsList!.isNotEmpty) {
-      percentRatio = ApiUser.myContactsList!.length / 100;
+      percentRatio = activeClients / ApiUser.myContactsList!.length;
       for (int i = 0; i < ApiUser.myContactsList!.length; i++) {
         if (ApiUser.myContactsList![i].userexist == true) {
           clientsConverted++;
@@ -298,13 +304,16 @@ class _WBCProgressState extends State<WBCProgress> {
                           animation: true,
                           padding: EdgeInsets.zero,
                           animationDuration: 2500,
-                          percent: percentRatio >= 1.0 ? 1.0 : percentRatio,
+                          percent: percentRatio,
                           center: Text(
-                              percentRatio == 0.0
+                              activeClients == 0
                                   ? '0 %'
-                                  : percentRatio >= 1.0
+                                  : activeClients ==
+                                          ApiUser.myContactsList!.length
                                       ? '100 %'
-                                      : '${percentRatio.toString().substring(2, 4)} %',
+                                      : percentRatio <= 0.01
+                                          ? '01 %'
+                                          : '${percentRatio.toStringAsFixed(5).substring(2, 4)} %',
                               style: textStyle9Bold(colorBlack)),
                           barRadius: const Radius.circular(15),
                           backgroundColor: colorTextBCBC.withOpacity(0.25),
@@ -320,8 +329,7 @@ class _WBCProgressState extends State<WBCProgress> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                'Active Clients - ${ApiUser.myContactsList?.length}',
+                            Text('Active Clients - $activeClients',
                                 style: textStyle9Medium(
                                     colorText7070.withOpacity(0.7))),
                             const SizedBox(height: 5),
@@ -359,7 +367,7 @@ class _WBCProgressState extends State<WBCProgress> {
   }
 
   Color _getProgressColor(double percentRatio) {
-    if (percentRatio >= 1.0) {
+    if (percentRatio >= 0.8) {
       return Colors.green; // or any other color for 100%
     } else if (percentRatio >= 0.5) {
       return Colors.yellow; // or any other color for 50%-99%

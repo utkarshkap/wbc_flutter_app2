@@ -160,6 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getFastTrackStatus() async {
+    ApiUser.wealthMeterScore = await Preference.getWealthScore();
+
     if (widget.homeScreenData.isFastTrackActivate == true) {
       setState(() {
         fastTrackStatus = true;
@@ -169,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
       fastTrackStatus = await Preference.getFastTrackStatus();
     }
     print("fastTrackStatus-->$fastTrackStatus");
-    ApiUser.wealthMeterScore = await Preference.getWealthScore() ?? 50.0;
   }
 
   getCheckUserLog() async {
