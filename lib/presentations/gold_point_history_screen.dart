@@ -422,145 +422,130 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                   .goldPointHistoryData
                                                   .history[index]
                                                   .goldPointType)
-                                              ? Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 4.w),
-                                                  child: Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical:
-                                                                    1.5.h),
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 2,
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
+                                              ? totalCredit != 0
+                                                  ? Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 4.w),
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        1.5.h),
+                                                            child: Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsets.only(
                                                                         right: 3
                                                                             .w),
-                                                                child: IconButton(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    onPressed:
-                                                                        () {},
-                                                                    icon: widget
-                                                                            .goldPointHistoryData
-                                                                            .history[
-                                                                                index]
-                                                                            .imgUrl
-                                                                            .isEmpty
-                                                                        ? Image.asset(
-                                                                            icGoldCoin,
-                                                                            height: 4
-                                                                                .h)
-                                                                        : Image.network(
-                                                                            widget.goldPointHistoryData.history[index].imgUrl,
-                                                                            height: 4.h)),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              flex: 6,
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      text:
-                                                                          '${widget.goldPointHistoryData.history[index].description} - ',
-                                                                      style: textStyle10(
-                                                                          colorText7070),
-                                                                      children: <TextSpan>[
-                                                                        TextSpan(
-                                                                            text:
-                                                                                widget.goldPointHistoryData.history[index].status,
-                                                                            style: textStyle10Medium(widget.goldPointHistoryData.history[index].goldPointType == 'Redeemable'
-                                                                                ? colorTextFFC1
-                                                                                : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
-                                                                                    ? colorBoxGradiant0040
-                                                                                    : colorRed)),
-                                                                      ],
-                                                                    ),
+                                                                    child: IconButton(
+                                                                        padding:
+                                                                            EdgeInsets
+                                                                                .zero,
+                                                                        onPressed:
+                                                                            () {},
+                                                                        icon: widget.goldPointHistoryData.history[index].imgUrl.isEmpty
+                                                                            ? Image.asset(icGoldCoin,
+                                                                                height: 4.h)
+                                                                            : Image.network(widget.goldPointHistoryData.history[index].imgUrl, height: 4.h)),
                                                                   ),
-                                                                  SizedBox(
-                                                                    height:
-                                                                        0.2.h,
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 6,
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          text:
+                                                                              '${widget.goldPointHistoryData.history[index].description} - ',
+                                                                          style:
+                                                                              textStyle10(colorText7070),
+                                                                          children: <TextSpan>[
+                                                                            TextSpan(
+                                                                                text: widget.goldPointHistoryData.history[index].status,
+                                                                                style: textStyle10Medium(widget.goldPointHistoryData.history[index].goldPointType == 'Redeemable'
+                                                                                    ? colorTextFFC1
+                                                                                    : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
+                                                                                        ? colorBoxGradiant0040
+                                                                                        : colorRed)),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            0.2.h,
+                                                                      ),
+                                                                      Text(
+                                                                          "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
+                                                                          style:
+                                                                              textStyle10(colorText7070))
+                                                                    ],
                                                                   ),
-                                                                  Text(
-                                                                      "Date:${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.goldPointHistoryData.history[index].date))}",
-                                                                      style: textStyle10(
-                                                                          colorText7070))
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              flex: 2,
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .end,
-                                                                children: [
-                                                                  Image.asset(
-                                                                      widget.goldPointHistoryData.history[index].credit !=
-                                                                              0
-                                                                          ? icAdd
-                                                                          : icMinus,
-                                                                      color: widget.goldPointHistoryData.history[index].credit !=
-                                                                              0
-                                                                          ? colorGreen
-                                                                          : colorRed,
-                                                                      width: 2.5
-                                                                          .w),
-                                                                  SizedBox(
-                                                                      width:
-                                                                          1.w),
-                                                                  if (widget
-                                                                          .goldPointHistoryData
-                                                                          .history[
-                                                                              index]
-                                                                          .credit !=
-                                                                      0)
-                                                                    Text(
-                                                                        '${widget.goldPointHistoryData.history[index].credit}',
-                                                                        style: textStyle13Medium(
-                                                                            colorGreen)),
-                                                                  if (widget
-                                                                          .goldPointHistoryData
-                                                                          .history[
-                                                                              index]
-                                                                          .debit !=
-                                                                      0)
-                                                                    Text(
-                                                                        widget
-                                                                            .goldPointHistoryData
-                                                                            .history[
-                                                                                index]
-                                                                            .debit
-                                                                            .toString()
-                                                                            .replaceAll('-',
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 2,
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      Image.asset(
+                                                                          widget.goldPointHistoryData.history[index].credit != 0
+                                                                              ? icAdd
+                                                                              : icMinus,
+                                                                          color: widget.goldPointHistoryData.history[index].credit != 0
+                                                                              ? colorGreen
+                                                                              : colorRed,
+                                                                          width:
+                                                                              2.5.w),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              1.w),
+                                                                      if (widget
+                                                                              .goldPointHistoryData
+                                                                              .history[
+                                                                                  index]
+                                                                              .credit !=
+                                                                          0)
+                                                                        Text(
+                                                                            '${widget.goldPointHistoryData.history[index].credit}',
+                                                                            style:
+                                                                                textStyle13Medium(colorGreen)),
+                                                                      if (widget
+                                                                              .goldPointHistoryData
+                                                                              .history[
+                                                                                  index]
+                                                                              .debit !=
+                                                                          0)
+                                                                        Text(
+                                                                            widget.goldPointHistoryData.history[index].debit.toString().replaceAll('-',
                                                                                 ''),
-                                                                        style: textStyle13Medium(
-                                                                            colorRed)),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
+                                                                            style:
+                                                                                textStyle13Medium(colorRed)),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                              height: 1,
+                                                              color: colorTextBCBC
+                                                                  .withOpacity(
+                                                                      0.36))
+                                                        ],
                                                       ),
-                                                      Container(
-                                                          height: 1,
-                                                          color: colorTextBCBC
-                                                              .withOpacity(
-                                                                  0.36))
-                                                    ],
-                                                  ),
-                                                )
+                                                    )
+                                                  : Container()
                                               : Container()),
                                 ),
                               ),

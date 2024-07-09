@@ -31,42 +31,42 @@ class _SigInPageState extends State<SigInPage> {
   bool isLoading = false;
 
   sendOtp() async {
-    // setState(() {
-    //   isSendOtp = true;
-    // });
-    // FocusManager.instance.primaryFocus?.unfocus();
-    // Preference.setMobNo(_numController.text);
-    // Preference.setCountryCode(countryCode);
+    setState(() {
+      isSendOtp = true;
+    });
+    FocusManager.instance.primaryFocus?.unfocus();
+    Preference.setMobNo(_numController.text);
+    Preference.setCountryCode(countryCode);
 
-    // print('Submitted your Number: $countryCode${_numController.text}');
-    // await FirebaseAuth.instance.verifyPhoneNumber(
-    //   phoneNumber: countryCode + _numController.text,
-    //   verificationCompleted: (PhoneAuthCredential credential) {},
-    //   verificationFailed: (FirebaseAuthException e) {
-    //     print('verification failed exception------$e');
+    print('Submitted your Number: $countryCode${_numController.text}');
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: countryCode + _numController.text,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        print('verification failed exception------$e');
 
-    //     setState(() {
-    //       validationString = 'Invalid Number';
-    //       isSendOtp = false;
-    //     });
-    //   },
-    //   codeSent: (String verificationId, int? resendToken) {
-    //     print("verificationId--->" + verificationId.toString());
-    //     Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
-    //         arguments: VerificationScreenData(
-    //             getNumber: _numController.text.replaceAll(' ', ''),
-    //             number: "$countryCode ${_numController.text}",
-    //             verificationId: verificationId.toString(),
-    //             selectedContact: 0));
-    //   },
-    //   codeAutoRetrievalTimeout: (String verificationId) {},
-    // );
-    Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
-        arguments: VerificationScreenData(
-            getNumber: _numController.text.replaceAll(' ', ''),
-            number: "$countryCode ${_numController.text}",
-            verificationId: "",
-            selectedContact: 0));
+        setState(() {
+          validationString = 'Invalid Number';
+          isSendOtp = false;
+        });
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print("verificationId--->" + verificationId.toString());
+        Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
+            arguments: VerificationScreenData(
+                getNumber: _numController.text.replaceAll(' ', ''),
+                number: "$countryCode ${_numController.text}",
+                verificationId: verificationId.toString(),
+                selectedContact: 0));
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+    // Navigator.of(context).pushReplacementNamed(VerificationScreen.route,
+    //     arguments: VerificationScreenData(
+    //         getNumber: _numController.text.replaceAll(' ', ''),
+    //         number: "$countryCode ${_numController.text}",
+    //         verificationId: "",
+    //         selectedContact: 0));
   }
 
   void _showCountryPicker() async {

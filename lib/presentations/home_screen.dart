@@ -119,11 +119,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    getFastTrackStatus();
+
     super.initState();
     getClientsConvertedMember();
 
     // getShowCase();
-    getFastTrackStatus();
     print('userId-----${ApiUser.userId}');
     print('rewardPopup-----${widget.homeScreenData.rewardPopUpShow}');
     Future.delayed(Duration.zero, () {
@@ -160,8 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getFastTrackStatus() async {
-    ApiUser.wealthMeterScore = await Preference.getWealthScore();
-
     if (widget.homeScreenData.isFastTrackActivate == true) {
       setState(() {
         fastTrackStatus = true;
@@ -171,6 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
       fastTrackStatus = await Preference.getFastTrackStatus();
     }
     print("fastTrackStatus-->$fastTrackStatus");
+
+    ApiUser.wealthMeterScore = await Preference.getWealthScore();
   }
 
   getCheckUserLog() async {
@@ -191,6 +192,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "widget.homeScreenData.isFastTrackActivate:::::::::::::::::::::::::::::::${widget.homeScreenData.isFastTrackActivate}");
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(

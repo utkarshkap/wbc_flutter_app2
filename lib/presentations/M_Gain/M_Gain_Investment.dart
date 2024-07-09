@@ -181,10 +181,12 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                       height: 10.h,
                                       width: 1,
                                       color: colorTextBCBC.withOpacity(0.36)),
-                                  interestValue(icInterestReceived, colorRed,
-                                      'Interest received', '-'
-                                      // '₹ ${CommonFunction().splitString(state.mGainInvestment.totalIntrestReceived.toInt().toString())}/-'
-                                      ),
+                                  interestValue(
+                                      icInterestReceived,
+                                      colorRed,
+                                      'Interest received',
+                                      //  '-'
+                                      '₹ ${CommonFunction().splitString(state.mGainInvestment.totalIntrestReceived.toInt().toString())}/-'),
                                 ],
                               ),
                             ),

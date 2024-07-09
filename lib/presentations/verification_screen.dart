@@ -155,38 +155,38 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   verifyOtp() async {
-    // try {
-    //   setState(() {
-    //     isVerify = true;
-    //   });
-    //   print(
-    //       'verificationId-----${widget.verificationScreenData.verificationId}');
+    try {
+      setState(() {
+        isVerify = true;
+      });
+      print(
+          'verificationId-----${widget.verificationScreenData.verificationId}');
 
-    //   print(resendVerificationId);
-    //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-    //       verificationId: resendVerificationId.isNotEmpty
-    //           ? resendVerificationId
-    //           : widget.verificationScreenData.verificationId,
-    //       smsCode: sms);
+      print(resendVerificationId);
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: resendVerificationId.isNotEmpty
+              ? resendVerificationId
+              : widget.verificationScreenData.verificationId,
+          smsCode: sms);
 
-    //   await auth.signInWithCredential(credential);
-    //   getToken();
+      await auth.signInWithCredential(credential);
+      getToken();
 
-    //   BlocProvider.of<SigningBloc>(context)
-    //       .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
-    // } catch (e) {
-    //   print('exception------');
-    //   setState(() {
-    //     isVerify = false;
-    //     pinValidationString = 'The Code Is Incorrect';
-    //   });
-    // }
+      BlocProvider.of<SigningBloc>(context)
+          .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+    } catch (e) {
+      print('exception------');
+      setState(() {
+        isVerify = false;
+        pinValidationString = 'The Code Is Incorrect';
+      });
+    }
 
-    setState(() {
-      isVerify = true;
-    });
-    BlocProvider.of<SigningBloc>(context)
-        .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+    // setState(() {
+    //   isVerify = true;
+    // });
+    // BlocProvider.of<SigningBloc>(context)
+    //     .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
   }
 
   reSendOtp() async {
@@ -405,69 +405,76 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
         for (int i = 0; i < value.length; i++) {
           if (i > 0) {
-            print('---xxxx------$i---xxx----${value[i].name.first}');
-            if (value[i].name.first.isNotEmpty) {
-              if (value[i - 1].name.first.isEmpty) {
-                setState(() {
-                  if (value[i].name.first.substring(0, 1).toUpperCase() ==
-                      value[i - 2].name.first.substring(0, 1).toUpperCase()) {
-                    print(
-                        '----isMatched----$i--${value[i - 2].name.first}--${value[i - 2].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
-                    count = count;
-                  } else {
-                    print(
-                        '----unMatched----$i--${value[i - 2].name.first}--${value[i - 2].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
-                    count = count + 1;
-                  }
-                  print('------count11---$count');
-                });
+            // print('---xxxx------$i---xxx----${value[i].name.first}');
+            if (value[i]
+                .name
+                .first
+                .contains("[a-zA-Z\u0900-\u097F\u0A80-\u0AFF]")) {
+              if (value[i].name.first.isNotEmpty) {
+                if (value[i - 1].name.first.isEmpty) {
+                  setState(() {
+                    if (value[i].name.first.substring(0, 1).toUpperCase() ==
+                        value[i - 2].name.first.substring(0, 1).toUpperCase()) {
+                      // print(
+                      //     '----isMatched----$i--${value[i - 2].name.first}--${value[i - 2].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
+                      count = count;
+                    } else {
+                      // print(
+                      //     '----unMatched----$i--${value[i - 2].name.first}--${value[i - 2].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
+                      count = count + 1;
+                    }
+                    print('------count11---$count');
+                  });
+                } else {
+                  setState(() {
+                    if (value[i].name.first.substring(0, 1).toUpperCase() ==
+                        value[i - 1].name.first.substring(0, 1).toUpperCase()) {
+                      // print(
+                      //     '----isMatched----$i--${value[i - 1].name.first}--${value[i - 1].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
+                      count = count;
+                    } else {
+                      // print(
+                      //     '----unMatched----$i--${value[i - 1].name.first}--${value[i - 1].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
+                      count = count + 1;
+                    }
+                    // print('------count11---$count');
+                  });
+                }
               } else {
-                setState(() {
-                  if (value[i].name.first.substring(0, 1).toUpperCase() ==
-                      value[i - 1].name.first.substring(0, 1).toUpperCase()) {
-                    print(
-                        '----isMatched----$i--${value[i - 1].name.first}--${value[i - 1].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
-                    count = count;
-                  } else {
-                    print(
-                        '----unMatched----$i--${value[i - 1].name.first}--${value[i - 1].name.first.substring(0, 1)}--=--${value[i].name.first}--${value[i].name.first.substring(0, 1)}');
-                    count = count + 1;
-                  }
-                  print('------count11---$count');
-                });
+                print("ELSE:::::::::::::::::::::::::::::::::");
               }
             }
-          }
-          if (count == 4) {
-            print('-----is--4---$count');
-            setState(() {
-              count = 0;
-            });
-          }
-          print("ADD CONTACTS::::::::::::::::${value[i].groups}");
+            if (count == 4) {
+              // print('-----is--4---$count');
+              setState(() {
+                count = 0;
+              });
+            }
 
-          if (value[i].phones.isNotEmpty) {
-            if (value[i].phones.first.number.length >= 10) {
-              String num = value[i]
-                  .phones
-                  .first
-                  .number
-                  .replaceAll(' ', '')
-                  .replaceAll('-', '')
-                  .replaceAll('(', '')
-                  .replaceAll(')', '');
+            if (value[i].phones.isNotEmpty) {
+              if (value[i].phones.first.number.length >= 10) {
+                String num = value[i]
+                    .phones
+                    .first
+                    .number
+                    .replaceAll(' ', '')
+                    .replaceAll('-', '')
+                    .replaceAll('(', '')
+                    .replaceAll(')', '');
 
-              if (value[i]
-                      .displayName
-                      .substring(0, 1)
-                      .contains(RegExp("[0-9a-zA-Z]")) &&
-                  num.length <= 14) {
-                contactsList.add(ContactsData(
-                    contact: value[i],
-                    isAdd: false,
-                    color: colorContacts[count]));
-              } else {
-                print("FALSE:::::::::::::::::::::${value[i]}");
+                print(
+                    'NUMBER::::::::::::${value[i].name.first}:::${value[i].phones.first.number}');
+
+                if (value[i].displayName.substring(0, 1).contains(
+                        RegExp("[0-9a-zA-Z\u0900-\u097F\u0A80-\u0AFF]")) &&
+                    num.length <= 14) {
+                  contactsList.add(ContactsData(
+                      contact: value[i],
+                      isAdd: false,
+                      color: colorContacts[count]));
+                } else {
+                  print("FALSE:::::::::::::::::::::${value[i]}");
+                }
               }
             }
           }
@@ -1625,6 +1632,21 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                           .first
                                                           .substring(0, 1)
                                                           .toUpperCase(),
+                                                      // contactsData[index]
+                                                      //         .contact
+                                                      //         .name
+                                                      //         .first
+                                                      //         .substring(0, 1)
+                                                      //         .contains(RegExp(
+                                                      //             "[0-9a-zA-Z\u0900-\u097F\u0A80-\u0AFF]"))
+                                                      //     ? contactsData[index]
+                                                      //         .contact
+                                                      //         .name
+                                                      //         .first
+                                                      //         .substring(0, 1)
+                                                      //         .toUpperCase()
+                                                      //     : 'N',
+
                                                       style: textStyle16Bold(
                                                           contactsData[index]
                                                               .color),
