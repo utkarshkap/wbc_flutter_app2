@@ -383,7 +383,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: Image.network(
-                                                imgBaseUrl +
+                                                imgNewBaseUrl +
                                                     ApiUser.offersList[index]
                                                         .imgUrl,
                                                 fit: BoxFit.fill)),
@@ -567,7 +567,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                                             height: 14.h,
                                                             width: 35.w,
                                                             child: Image.network(
-                                                                imgBaseUrl +
+                                                                imgNewBaseUrl +
                                                                     state
                                                                         .newArrival
                                                                         .products[
@@ -820,7 +820,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                                             height: 14.h,
                                                             width: 35.w,
                                                             child: Image.network(
-                                                                imgBaseUrl +
+                                                                imgNewBaseUrl +
                                                                     state
                                                                         .popular
                                                                         .products[
@@ -1146,7 +1146,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                     height: 50,
                     width: 20.w,
                     child: Image.network(
-                      imgBaseUrl + list.imgPath,
+                      imgNewBaseUrl + list.imgPath,
                       fit: BoxFit.contain,
                     )),
               ),
@@ -1197,7 +1197,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
           SizedBox(
               height: 13.h,
               width: 35.w,
-              child: Image.network(imgBaseUrl + product.img.first.imgPath,
+              child: Image.network(imgNewBaseUrl + product.img.first.imgPath,
                   fit: BoxFit.contain)),
           Padding(
             padding: EdgeInsets.only(top: 2.h, bottom: 1.h),

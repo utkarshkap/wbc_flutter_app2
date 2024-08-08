@@ -208,7 +208,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                     height: 7.h,
                                     width: 10.w,
                                     child: Image.network(
-                                        imgBaseUrl +
+                                        imgNewBaseUrl +
                                             widget
                                                 .data.product.img.first.imgPath,
                                         fit: BoxFit.fill),

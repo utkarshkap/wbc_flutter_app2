@@ -316,7 +316,7 @@ class _CartScreenState extends State<CartScreen> {
                                               height: 7.h,
                                               width: 10.w,
                                               child: Image.network(
-                                                  imgBaseUrl +
+                                                  imgNewBaseUrl +
                                                       cartList[index].img,
                                                   fit: BoxFit.fill),
                                             ),

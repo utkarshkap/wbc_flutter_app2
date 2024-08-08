@@ -89,7 +89,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Container(
                         height: 60.h,
                         width: 100.w,
-                        decoration: BoxDecoration(color: colorWhite, boxShadow: [
+                        decoration:
+                            BoxDecoration(color: colorWhite, boxShadow: [
                           BoxShadow(
                               color: colorTextBCBC.withOpacity(0.5),
                               blurRadius: 6,
@@ -100,7 +101,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           itemCount: widget.data.product.img.length,
                           itemBuilder: (_, index) {
                             return Image.network(
-                                imgBaseUrl +
+                                imgNewBaseUrl +
                                     widget.data.product.img[index].imgPath,
                                 fit: BoxFit.contain);
                           },
@@ -122,7 +123,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 Text(widget.data.product.rate.toString(),
                                     style: textStyle11Bold(colorText3D3D)),
                                 SizedBox(width: 1.w),
-                                Icon(Icons.star, size: 4.w, color: colorText7070)
+                                Icon(Icons.star,
+                                    size: 4.w, color: colorText7070)
                               ],
                             ),
                           ))
@@ -178,8 +180,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 style: textStyle10(colorGreen)),
                           ],
                         ),
-                        SizedBox(
-                            height: 1.5.h),
+                        SizedBox(height: 1.5.h),
                         if (widget.data.product.availableQty == 0)
                           Text('Out of Stock',
                               style: textStyle10Medium(colorRed)),
@@ -215,7 +216,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       BlocBuilder<CartBloc, CartState>(
                         builder: (context, state) {
-                          if(state is CartListLoadedState){
+                          if (state is CartListLoadedState) {
                             return addToCartButton(state.cartList);
                           }
                           return addToCartButton(cartItemList);
@@ -227,11 +228,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           color: colorText7070.withOpacity(0.3)),
                       GestureDetector(
                         onTap: () async {
-                          if(widget.data.product.availableQty>0) {
-                            Navigator.of(context).pushNamed(BuyNowScreen.route, arguments: BuyNowData(quantity: 1, product: widget.data.product));
-                          }else{
-
-                          }
+                          if (widget.data.product.availableQty > 0) {
+                            Navigator.of(context).pushNamed(BuyNowScreen.route,
+                                arguments: BuyNowData(
+                                    quantity: 1, product: widget.data.product));
+                          } else {}
                         },
                         child: Container(
                             width: 50.w - 0.5,
@@ -304,7 +305,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       } else {
         return GestureDetector(
           onTap: () {
-            if(widget.data.product.availableQty>0){
+            if (widget.data.product.availableQty > 0) {
               setState(() {
                 if (cartList.isNotEmpty) {
                   id = cartList.last.id;
@@ -314,19 +315,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               print('----product--add11---${widget.data.product.name}---$id');
               BlocProvider.of<CartBloc>(context).add(LoadAddCartEvent(
                   cartItem: CartItem(
-                    id: id,
-                    categoryId: widget.data.categoryId,
-                    productId: widget.data.product.id,
-                    img: widget.data.product.img.first.imgPath,
-                    name: widget.data.product.name,
-                    price: widget.data.product.price,
-                    discount: widget.data.product.discount,
-                    quantity: 1,
-                  )));
+                id: id,
+                categoryId: widget.data.categoryId,
+                productId: widget.data.product.id,
+                img: widget.data.product.img.first.imgPath,
+                name: widget.data.product.name,
+                price: widget.data.product.price,
+                discount: widget.data.product.discount,
+                quantity: 1,
+              )));
               BlocProvider.of<CartBloc>(context).add(LoadCartListEvent());
-            }else{
-
-            }
+            } else {}
           },
           child: Container(
               width: 50.w - 0.5,

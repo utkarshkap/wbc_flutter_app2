@@ -29,6 +29,7 @@ const addRealEstateBaseUrl =
 
 const String baseUrl = "https://wbcapi.kagroup.in/api/User/";
 const String imgBaseUrl = 'https://wbcapi.kagroup.in/';
+const String imgNewBaseUrl = 'https://wbcapi.kagroup.in';
 
 const String popularUrl = "${baseUrl}popular";
 const String newArrivalUrl = "${baseUrl}newarriaval";

@@ -709,7 +709,7 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                           children: [
                             Text('Last NAV: ',
                                 style: textStyle9Bold(colorText7070)),
-                            Text('₹ $value/-', style: textStyle9Bold(bgColor)),
+                            Text('₹$value/-', style: textStyle9Bold(bgColor)),
                             SizedBox(width: 1.w),
                             Text('Unit: ',
                                 style: textStyle9Bold(colorText7070)),

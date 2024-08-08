@@ -178,7 +178,7 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                                   height: 60,
                                   width: 25.w,
                                   child: Image.network(
-                                    imgBaseUrl +
+                                    imgNewBaseUrl +
                                         widget
                                             .category.categories[index].imgPath,
                                     fit: BoxFit.contain,

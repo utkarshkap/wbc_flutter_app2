@@ -290,7 +290,7 @@ class _ExpandCategoryState extends State<ExpandCategory> {
                                                     height: 7.h,
                                                     width: 10.w,
                                                     child: Image.network(
-                                                        imgBaseUrl +
+                                                        imgNewBaseUrl +
                                                             state
                                                                 .expandedCategory
                                                                 .productList![

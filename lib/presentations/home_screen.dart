@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,10 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getFastTrackStatus();
+    getAndroidDeviceId();
 
     super.initState();
     getClientsConvertedMember();
-
     // getShowCase();
     print('userId-----${ApiUser.userId}');
     print('rewardPopup-----${widget.homeScreenData.rewardPopUpShow}');
@@ -158,6 +159,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     BlocProvider.of<DashboardBloc>(context)
         .add(GetDashboardData(userId: ApiUser.userId));
+  }
+
+  Future getAndroidDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+    print("androidInfo.id::::::::::::::::${androidInfo.id}");
   }
 
   getFastTrackStatus() async {
@@ -1162,7 +1169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   child: Image.network(
-                                                      imgBaseUrl +
+                                                      imgNewBaseUrl +
                                                           state
                                                               .data!
                                                               .data
@@ -1785,7 +1792,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   height: 14.h,
                                                                   width: 35.w,
                                                                   child: Image.network(
-                                                                      imgBaseUrl +
+                                                                      imgNewBaseUrl +
                                                                           state
                                                                               .popular
                                                                               .products[
