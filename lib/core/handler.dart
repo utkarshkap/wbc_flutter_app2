@@ -6,7 +6,6 @@ import 'package:wbc_connect_app/models/cart_model.dart';
 import '../models/address_model.dart';
 
 class DatabaseHelper {
-
   static DatabaseHelper? _databaseHelper; // Singleton DatabaseHelper
   static Database? _database; // Singleton Database
 
@@ -120,7 +119,8 @@ class DatabaseHelper {
 
   Future<int> deleteAddressData(int id) async {
     var db = await database;
-    var result = await db.delete(addressTable, where: "id = ?", whereArgs: [id]);
+    var result =
+        await db.delete(addressTable, where: "id = ?", whereArgs: [id]);
     return result;
   }
 
@@ -163,4 +163,9 @@ class DatabaseHelper {
   }
 
 //----------------------------------
+
+  Future closeDataBase() async {
+    Database db = await database;
+    await db.close();
+  }
 }

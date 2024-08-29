@@ -45,6 +45,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
   DatabaseHelper helper = DatabaseHelper();
   int productQuantity = 1;
   double cartValue = 0;
+  double shippingCharges = 500.0;
   List<ShippingAddress> shippingAddressList = [];
   ShippingAddress shippingAddress = ShippingAddress(
       id: 0,
@@ -239,18 +240,22 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                               style: textStyle9Bold(
                                                   colorTextFFC1)),
                                           SizedBox(width: 2.w),
-                                          Image.asset(icGoldCoin, width: 3.w),
-                                          SizedBox(width: 1.w),
-                                          Text(
-                                              '${widget.data.product.price.toInt()}GP',
-                                              style: textStyle8(colorText7070)
-                                                  .copyWith(
-                                                      decoration: TextDecoration
-                                                          .lineThrough)),
-                                          SizedBox(width: 2.w),
-                                          Text(
-                                              '${widget.data.product.discount}% off',
-                                              style: textStyle7(colorGreen)),
+                                          if (widget.data.product.discount !=
+                                              0) ...[
+                                            Image.asset(icGoldCoin, width: 3.w),
+                                            SizedBox(width: 1.w),
+                                            Text(
+                                                '${widget.data.product.price.toInt()}GP',
+                                                style: textStyle8(colorText7070)
+                                                    .copyWith(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough)),
+                                            SizedBox(width: 2.w),
+                                            Text(
+                                                '${widget.data.product.discount}% off',
+                                                style: textStyle7(colorGreen)),
+                                          ]
                                         ],
                                       ),
                                     ],
@@ -329,7 +334,16 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                               children: [
                                 Text('Shipping Charges',
                                     style: textStyle10(colorText7070)),
-                                Text('FREE', style: textStyle9(colorRed)),
+                                Row(
+                                  children: [
+                                    Image.asset(icGoldCoin, width: 3.w),
+                                    SizedBox(width: 1.w),
+                                    Text('$shippingCharges',
+                                        style: textStyle10(colorBlack)),
+                                  ],
+                                ),
+
+                                // Text('FREE', style: textStyle9(colorRed)),
                               ],
                             ),
                             Padding(
@@ -357,7 +371,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                   children: [
                                     Image.asset(icGoldCoin, width: 4.w),
                                     SizedBox(width: 1.w),
-                                    Text('$cartValue',
+                                    Text('${cartValue + shippingCharges}',
                                         style: textStyle14Bold(colorRed)
                                             .copyWith(letterSpacing: 1.5)),
                                   ],
@@ -611,7 +625,8 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                     Padding(
                                       padding:
                                           EdgeInsets.symmetric(vertical: 1.5.h),
-                                      child: Text('1200 Coins',
+                                      child: Text(
+                                          '${ApiUser.goldReferralPoint} Coins',
                                           style: textStyle11Bold(colorRed)),
                                     ),
                                     Text('Use Coin You',

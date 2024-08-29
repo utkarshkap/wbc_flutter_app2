@@ -307,15 +307,21 @@ class _ExpandCategoryState extends State<ExpandCategory> {
                                                             .start,
                                                     children: [
                                                       SizedBox(height: 0.5.h),
-                                                      Text(
-                                                          state
-                                                              .expandedCategory
-                                                              .productList![
-                                                                  index]
-                                                              .name,
-                                                          style:
-                                                              textStyle10Bold(
-                                                                  colorBlack)),
+                                                      SizedBox(
+                                                        width: 60.w,
+                                                        child: Text(
+                                                            state
+                                                                .expandedCategory
+                                                                .productList![
+                                                                    index]
+                                                                .name,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                textStyle10Bold(
+                                                                    colorBlack)),
+                                                      ),
                                                       SizedBox(height: 0.5.h),
                                                       Text('1 Packet',
                                                           style: textStyle8(
@@ -332,23 +338,29 @@ class _ExpandCategoryState extends State<ExpandCategory> {
                                                               style: textStyle9Bold(
                                                                   colorTextFFC1)),
                                                           SizedBox(width: 2.w),
-                                                          Image.asset(
-                                                              icGoldCoin,
-                                                              width: 3.w),
-                                                          SizedBox(width: 1.w),
-                                                          Text(
-                                                              '${productsList[index].price.toInt()}GP',
-                                                              style: textStyle8(
-                                                                      colorText7070)
-                                                                  .copyWith(
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .lineThrough)),
-                                                          SizedBox(width: 2.w),
-                                                          Text(
-                                                              '${productsList[index].discount}% off',
-                                                              style: textStyle7(
-                                                                  colorGreen)),
+                                                          if (productsList[
+                                                                      index]
+                                                                  .discount !=
+                                                              0) ...[
+                                                            Image.asset(
+                                                                icGoldCoin,
+                                                                width: 3.w),
+                                                            SizedBox(
+                                                                width: 1.w),
+                                                            Text(
+                                                                '${productsList[index].price.toInt()}GP',
+                                                                style: textStyle8(
+                                                                        colorText7070)
+                                                                    .copyWith(
+                                                                        decoration:
+                                                                            TextDecoration.lineThrough)),
+                                                            SizedBox(
+                                                                width: 2.w),
+                                                            Text(
+                                                                '${productsList[index].discount}% off',
+                                                                style: textStyle7(
+                                                                    colorGreen)),
+                                                          ]
                                                         ],
                                                       ),
                                                     ],

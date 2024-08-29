@@ -43,7 +43,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Scaffold(
             backgroundColor: colorWhite,
             appBar: AppBar(
-              toolbarHeight: 8.h,
+              // toolbarHeight: 8.h,
               backgroundColor: colorTransparent,
               elevation: 0,
               leadingWidth: 15.w,
@@ -80,14 +80,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 SizedBox(width: 5.w)
               ],
             ),
-            extendBodyBehindAppBar: true,
+            extendBodyBehindAppBar: false,
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   Stack(
                     children: [
                       Container(
-                        height: 60.h,
+                        height: 50.h,
                         width: 100.w,
                         decoration:
                             BoxDecoration(color: colorWhite, boxShadow: [
@@ -96,20 +96,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               blurRadius: 6,
                               offset: const Offset(0, 3))
                         ]),
-                        child: PageView.builder(
-                          controller: controller,
-                          itemCount: widget.data.product.img.length,
-                          itemBuilder: (_, index) {
-                            return Image.network(
-                                imgNewBaseUrl +
-                                    widget.data.product.img[index].imgPath,
-                                fit: BoxFit.contain);
-                          },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 0.h),
+                          child: PageView.builder(
+                            controller: controller,
+                            itemCount: widget.data.product.img.length,
+                            itemBuilder: (_, index) {
+                              return Image.network(
+                                  imgNewBaseUrl +
+                                      widget.data.product.img[index].imgPath,
+                                  fit: BoxFit.contain);
+                            },
+                          ),
                         ),
                       ),
                       Positioned(
                           right: 4.w,
-                          top: 54.5.h,
+                          top: 44.h,
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 vertical: 0.6.h, horizontal: 2.w),
@@ -170,14 +173,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 '${widget.data.product.price.toInt() - ((widget.data.product.price.toInt() * widget.data.product.discount) ~/ 100).toInt()}GP',
                                 style: textStyle11Bold(colorTextFFC1)),
                             SizedBox(width: 2.w),
-                            Image.asset(icGoldCoin, width: 4.w),
-                            SizedBox(width: 1.w),
-                            Text('${widget.data.product.price.toInt()}GP',
-                                style: textStyle11(colorText7070).copyWith(
-                                    decoration: TextDecoration.lineThrough)),
-                            SizedBox(width: 2.w),
-                            Text('(${widget.data.product.discount}% off)',
-                                style: textStyle10(colorGreen)),
+                            if (widget.data.product.discount != 0) ...[
+                              Image.asset(icGoldCoin, width: 4.w),
+                              SizedBox(width: 1.w),
+                              Text('${widget.data.product.price.toInt()}GP',
+                                  style: textStyle11(colorText7070).copyWith(
+                                      decoration: TextDecoration.lineThrough)),
+                              SizedBox(width: 2.w),
+                              Text('(${widget.data.product.discount}% off)',
+                                  style: textStyle10(colorGreen)),
+                            ]
                           ],
                         ),
                         SizedBox(height: 1.5.h),
@@ -190,6 +195,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ? 'in Stock'
                                   : 'only ${widget.data.product.availableQty} item in Stock',
                               style: textStyle10Medium(colorRed)),
+                        SizedBox(height: 1.5.h),
                       ],
                     ),
                   ),

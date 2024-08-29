@@ -475,170 +475,184 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 child: Row(
                                   children: List.generate(
                                       state.newArrival.products.length,
-                                      (index) =>
-                                          state.newArrival.products[index].img
-                                                  .isEmpty
-                                              ? Padding(
-                                                  padding: EdgeInsets.only(
-                                                    left: index == 0 ? 5.w : 0,
-                                                  ),
-                                                  child: Container(),
-                                                )
-                                              : Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left:
-                                                          index == 0 ? 5.w : 0,
-                                                      right: 2.5.w,
-                                                      bottom: 2.h),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.of(context).pushNamed(ProductDetailScreen.route,
-                                                          arguments: ProductDetailData(
-                                                              categoryId: state
+                                      (index) => state.newArrival
+                                              .products[index].img.isEmpty
+                                          ? Padding(
+                                              padding: EdgeInsets.only(
+                                                left: index == 0 ? 5.w : 0,
+                                              ),
+                                              child: Container(),
+                                            )
+                                          : Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: index == 0 ? 5.w : 0,
+                                                  right: 2.5.w,
+                                                  bottom: 2.h),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.of(context).pushNamed(
+                                                      ProductDetailScreen.route,
+                                                      arguments: ProductDetailData(
+                                                          categoryId: state
+                                                              .newArrival
+                                                              .products[index]
+                                                              .catId,
+                                                          product: ProductList(
+                                                              id: state
                                                                   .newArrival
                                                                   .products[
                                                                       index]
-                                                                  .catId,
-                                                              product: ProductList(
-                                                                  id: state
-                                                                      .newArrival
-                                                                      .products[
-                                                                          index]
-                                                                      .id,
-                                                                  name: state
+                                                                  .id,
+                                                              name: state
+                                                                  .newArrival
+                                                                  .products[
+                                                                      index]
+                                                                  .name,
+                                                              price: state
+                                                                  .newArrival
+                                                                  .products[
+                                                                      index]
+                                                                  .price,
+                                                              discount: state
+                                                                  .newArrival
+                                                                  .products[
+                                                                      index]
+                                                                  .discount,
+                                                              availableQty: state
+                                                                  .newArrival
+                                                                  .products[
+                                                                      index]
+                                                                  .availableQty,
+                                                              description: state.newArrival.products[index].description,
+                                                              rate: state.newArrival.products[index].rate,
+                                                              img: state.newArrival.products[index].img)));
+                                                },
+                                                child: Container(
+                                                  width: 42.w,
+                                                  decoration:
+                                                      decoration(colorWhite),
+                                                  padding: EdgeInsets.all(2.w),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          if (state
+                                                                  .newArrival
+                                                                  .products[
+                                                                      index]
+                                                                  .discount !=
+                                                              0)
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      colorGreen,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5)),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            0.5
+                                                                                .h,
+                                                                        horizontal:
+                                                                            1.w),
+                                                                child: Text(
+                                                                    '${state.newArrival.products[index].discount}% off',
+                                                                    style: textStyle8(
+                                                                        colorWhite)),
+                                                              ),
+                                                            )
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 1.h),
+                                                      SizedBox(
+                                                        height: 14.h,
+                                                        width: 35.w,
+                                                        child: Image.network(
+                                                            imgNewBaseUrl +
+                                                                state
+                                                                    .newArrival
+                                                                    .products[
+                                                                        index]
+                                                                    .img
+                                                                    .first
+                                                                    .imgPath,
+                                                            fit:
+                                                                BoxFit.contain),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 2.h,
+                                                                bottom: 1.h),
+                                                        child: Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 35.w,
+                                                              child: Text(
+                                                                  state
                                                                       .newArrival
                                                                       .products[
                                                                           index]
                                                                       .name,
-                                                                  price: state
-                                                                      .newArrival
-                                                                      .products[
-                                                                          index]
-                                                                      .price,
-                                                                  discount: state
-                                                                      .newArrival
-                                                                      .products[
-                                                                          index]
-                                                                      .discount,
-                                                                  availableQty: state
-                                                                      .newArrival
-                                                                      .products[index]
-                                                                      .availableQty,
-                                                                  description: state.newArrival.products[index].description,
-                                                                  rate: state.newArrival.products[index].rate,
-                                                                  img: state.newArrival.products[index].img)));
-                                                    },
-                                                    child: Container(
-                                                      width: 42.w,
-                                                      decoration: decoration(
-                                                          colorWhite),
-                                                      padding:
-                                                          EdgeInsets.all(2.w),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              Container(
-                                                                decoration: BoxDecoration(
-                                                                    color:
-                                                                        colorGreen,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5)),
-                                                                child: Padding(
-                                                                  padding: EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                          0.5.h,
-                                                                      horizontal:
-                                                                          1.w),
-                                                                  child: Text(
-                                                                      '${state.newArrival.products[index].discount}% off',
-                                                                      style: textStyle8(
-                                                                          colorWhite)),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          SizedBox(height: 1.h),
-                                                          SizedBox(
-                                                            height: 14.h,
-                                                            width: 35.w,
-                                                            child: Image.network(
-                                                                imgNewBaseUrl +
-                                                                    state
-                                                                        .newArrival
-                                                                        .products[
-                                                                            index]
-                                                                        .img
-                                                                        .first
-                                                                        .imgPath,
-                                                                fit: BoxFit
-                                                                    .contain),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 2.h,
-                                                                    bottom:
-                                                                        1.h),
-                                                            child: Row(
-                                                              children: [
-                                                                SizedBox(
-                                                                  width: 35.w,
-                                                                  child: Text(
-                                                                      state
-                                                                          .newArrival
-                                                                          .products[
-                                                                              index]
-                                                                          .name,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: textStyle9(colorBlack).copyWith(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: textStyle9(
+                                                                          colorBlack)
+                                                                      .copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w600,
                                                                           height:
                                                                               1.2)),
-                                                                ),
-                                                              ],
                                                             ),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Image.asset(
-                                                                  icGoldCoin,
-                                                                  width: 2.w),
-                                                              SizedBox(
-                                                                  width: 1.w),
-                                                              Text(
-                                                                  '${state.newArrival.products[index].price.toInt() - ((state.newArrival.products[index].price.toInt() * state.newArrival.products[index].discount) ~/ 100).toInt()}GP',
-                                                                  style: textStyle9Bold(
-                                                                      colorTextFFC1)),
-                                                              SizedBox(
-                                                                  width: 1.5.w),
-                                                              Image.asset(
-                                                                  icGoldCoin,
-                                                                  width: 2.w),
-                                                              SizedBox(
-                                                                  width: 1.w),
-                                                              Text(
-                                                                  '${state.newArrival.products[index].price.toInt()}GP',
-                                                                  style: textStyle8(
-                                                                          colorText7070)
-                                                                      .copyWith(
-                                                                          decoration:
-                                                                              TextDecoration.lineThrough)),
-                                                            ],
-                                                          ),
-                                                          SizedBox(height: 1.h),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                              icGoldCoin,
+                                                              width: 2.w),
+                                                          SizedBox(width: 1.w),
+                                                          Text(
+                                                              '${state.newArrival.products[index].price.toInt() - ((state.newArrival.products[index].price.toInt() * state.newArrival.products[index].discount) ~/ 100).toInt()}GP',
+                                                              style: textStyle9Bold(
+                                                                  colorTextFFC1)),
+                                                          SizedBox(
+                                                              width: 1.5.w),
+                                                          if (state
+                                                                  .newArrival
+                                                                  .products[
+                                                                      index]
+                                                                  .discount !=
+                                                              0) ...[
+                                                            Image.asset(
+                                                                icGoldCoin,
+                                                                width: 2.w),
+                                                            SizedBox(
+                                                                width: 1.w),
+                                                            Text(
+                                                                '${state.newArrival.products[index].price.toInt()}GP',
+                                                                style: textStyle8(
+                                                                        colorText7070)
+                                                                    .copyWith(
+                                                                        decoration:
+                                                                            TextDecoration.lineThrough)),
+                                                          ]
                                                         ],
                                                       ),
-                                                    ),
+                                                      SizedBox(height: 1.h),
+                                                    ],
                                                   ),
-                                                )),
+                                                ),
+                                              ),
+                                            )),
                                 ),
                               );
                       } else {
@@ -728,170 +742,184 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 child: Row(
                                   children: List.generate(
                                       state.popular.products.length,
-                                      (index) =>
-                                          state.popular.products[index].img
-                                                  .isEmpty
-                                              ? Padding(
-                                                  padding: EdgeInsets.only(
-                                                    left: index == 0 ? 5.w : 0,
-                                                  ),
-                                                  child: Container(),
-                                                )
-                                              : Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left:
-                                                          index == 0 ? 5.w : 0,
-                                                      right: 2.5.w,
-                                                      bottom: 2.h),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.of(context).pushNamed(ProductDetailScreen.route,
-                                                          arguments: ProductDetailData(
-                                                              categoryId: state
+                                      (index) => state.popular.products[index]
+                                              .img.isEmpty
+                                          ? Padding(
+                                              padding: EdgeInsets.only(
+                                                left: index == 0 ? 5.w : 0,
+                                              ),
+                                              child: Container(),
+                                            )
+                                          : Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: index == 0 ? 5.w : 0,
+                                                  right: 2.5.w,
+                                                  bottom: 2.h),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.of(context).pushNamed(
+                                                      ProductDetailScreen.route,
+                                                      arguments: ProductDetailData(
+                                                          categoryId: state
+                                                              .popular
+                                                              .products[index]
+                                                              .catId,
+                                                          product: ProductList(
+                                                              id: state
                                                                   .popular
                                                                   .products[
                                                                       index]
-                                                                  .catId,
-                                                              product: ProductList(
-                                                                  id: state
-                                                                      .popular
-                                                                      .products[
-                                                                          index]
-                                                                      .id,
-                                                                  name: state
+                                                                  .id,
+                                                              name: state
+                                                                  .popular
+                                                                  .products[
+                                                                      index]
+                                                                  .name,
+                                                              price: state
+                                                                  .popular
+                                                                  .products[
+                                                                      index]
+                                                                  .price,
+                                                              discount: state
+                                                                  .popular
+                                                                  .products[
+                                                                      index]
+                                                                  .discount,
+                                                              availableQty: state
+                                                                  .popular
+                                                                  .products[
+                                                                      index]
+                                                                  .availableQty,
+                                                              description: state.popular.products[index].description,
+                                                              rate: state.popular.products[index].rate,
+                                                              img: state.popular.products[index].img)));
+                                                },
+                                                child: Container(
+                                                  width: 42.w,
+                                                  decoration:
+                                                      decoration(colorWhite),
+                                                  padding: EdgeInsets.all(2.w),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          if (state
+                                                                  .popular
+                                                                  .products[
+                                                                      index]
+                                                                  .discount !=
+                                                              0)
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      colorGreen,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5)),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            0.5
+                                                                                .h,
+                                                                        horizontal:
+                                                                            1.w),
+                                                                child: Text(
+                                                                    '${state.popular.products[index].discount}% off',
+                                                                    style: textStyle8(
+                                                                        colorWhite)),
+                                                              ),
+                                                            )
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 1.h),
+                                                      SizedBox(
+                                                        height: 14.h,
+                                                        width: 35.w,
+                                                        child: Image.network(
+                                                            imgNewBaseUrl +
+                                                                state
+                                                                    .popular
+                                                                    .products[
+                                                                        index]
+                                                                    .img
+                                                                    .first
+                                                                    .imgPath,
+                                                            fit:
+                                                                BoxFit.contain),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 2.h,
+                                                                bottom: 1.h),
+                                                        child: Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 35.w,
+                                                              child: Text(
+                                                                  state
                                                                       .popular
                                                                       .products[
                                                                           index]
                                                                       .name,
-                                                                  price: state
-                                                                      .popular
-                                                                      .products[
-                                                                          index]
-                                                                      .price,
-                                                                  discount: state
-                                                                      .popular
-                                                                      .products[
-                                                                          index]
-                                                                      .discount,
-                                                                  availableQty: state
-                                                                      .popular
-                                                                      .products[index]
-                                                                      .availableQty,
-                                                                  description: state.popular.products[index].description,
-                                                                  rate: state.popular.products[index].rate,
-                                                                  img: state.popular.products[index].img)));
-                                                    },
-                                                    child: Container(
-                                                      width: 42.w,
-                                                      decoration: decoration(
-                                                          colorWhite),
-                                                      padding:
-                                                          EdgeInsets.all(2.w),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              Container(
-                                                                decoration: BoxDecoration(
-                                                                    color:
-                                                                        colorGreen,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5)),
-                                                                child: Padding(
-                                                                  padding: EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                          0.5.h,
-                                                                      horizontal:
-                                                                          1.w),
-                                                                  child: Text(
-                                                                      '${state.popular.products[index].discount}% off',
-                                                                      style: textStyle8(
-                                                                          colorWhite)),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          SizedBox(height: 1.h),
-                                                          SizedBox(
-                                                            height: 14.h,
-                                                            width: 35.w,
-                                                            child: Image.network(
-                                                                imgNewBaseUrl +
-                                                                    state
-                                                                        .popular
-                                                                        .products[
-                                                                            index]
-                                                                        .img
-                                                                        .first
-                                                                        .imgPath,
-                                                                fit: BoxFit
-                                                                    .contain),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 2.h,
-                                                                    bottom:
-                                                                        1.h),
-                                                            child: Row(
-                                                              children: [
-                                                                SizedBox(
-                                                                  width: 35.w,
-                                                                  child: Text(
-                                                                      state
-                                                                          .popular
-                                                                          .products[
-                                                                              index]
-                                                                          .name,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: textStyle9(colorBlack).copyWith(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: textStyle9(
+                                                                          colorBlack)
+                                                                      .copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w600,
                                                                           height:
                                                                               1.2)),
-                                                                ),
-                                                              ],
                                                             ),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Image.asset(
-                                                                  icGoldCoin,
-                                                                  width: 2.w),
-                                                              SizedBox(
-                                                                  width: 1.w),
-                                                              Text(
-                                                                  '${state.popular.products[index].price.toInt() - ((state.popular.products[index].price.toInt() * state.popular.products[index].discount) ~/ 100).toInt()}GP',
-                                                                  style: textStyle9Bold(
-                                                                      colorTextFFC1)),
-                                                              SizedBox(
-                                                                  width: 1.5.w),
-                                                              Image.asset(
-                                                                  icGoldCoin,
-                                                                  width: 2.w),
-                                                              SizedBox(
-                                                                  width: 1.w),
-                                                              Text(
-                                                                  '${state.popular.products[index].price.toInt()}GP',
-                                                                  style: textStyle8(
-                                                                          colorText7070)
-                                                                      .copyWith(
-                                                                          decoration:
-                                                                              TextDecoration.lineThrough)),
-                                                            ],
-                                                          ),
-                                                          SizedBox(height: 1.h),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                              icGoldCoin,
+                                                              width: 2.w),
+                                                          SizedBox(width: 1.w),
+                                                          Text(
+                                                              '${state.popular.products[index].price.toInt() - ((state.popular.products[index].price.toInt() * state.popular.products[index].discount) ~/ 100).toInt()}GP',
+                                                              style: textStyle9Bold(
+                                                                  colorTextFFC1)),
+                                                          SizedBox(
+                                                              width: 1.5.w),
+                                                          if (state
+                                                                  .popular
+                                                                  .products[
+                                                                      index]
+                                                                  .discount !=
+                                                              0) ...[
+                                                            Image.asset(
+                                                                icGoldCoin,
+                                                                width: 2.w),
+                                                            SizedBox(
+                                                                width: 1.w),
+                                                            Text(
+                                                                '${state.popular.products[index].price.toInt()}GP',
+                                                                style: textStyle8(
+                                                                        colorText7070)
+                                                                    .copyWith(
+                                                                        decoration:
+                                                                            TextDecoration.lineThrough)),
+                                                          ]
                                                         ],
                                                       ),
-                                                    ),
+                                                      SizedBox(height: 1.h),
+                                                    ],
                                                   ),
-                                                )),
+                                                ),
+                                              ),
+                                            )),
                                 ),
                               );
                       } else {
@@ -1001,7 +1029,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                                 crossAxisSpacing: 10,
                                                 childAspectRatio: 0.85,
                                                 crossAxisCount: 2),
-                                        itemCount: 4,
+                                        itemCount: 2,
                                         itemBuilder: (context, index) {
                                           return state.trending.products[index]
                                                   .img.isEmpty
@@ -1181,16 +1209,18 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: colorGreen, borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 0.5.h, horizontal: 1.w),
-                  child: Text('${product.discount}% off',
-                      style: textStyle8(colorWhite)),
-                ),
-              )
+              if (product.discount != 0)
+                Container(
+                  decoration: BoxDecoration(
+                      color: colorGreen,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 0.5.h, horizontal: 1.w),
+                    child: Text('${product.discount}% off',
+                        style: textStyle8(colorWhite)),
+                  ),
+                )
             ],
           ),
           SizedBox(height: 1.h),
@@ -1221,11 +1251,13 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                   '${product.price.toInt() - ((product.price.toInt() * product.discount) ~/ 100).toInt()}GP',
                   style: textStyle9Bold(colorTextFFC1)),
               SizedBox(width: 1.5.w),
-              Image.asset(icGoldCoin, width: 3.w),
-              SizedBox(width: 1.w),
-              Text('${product.price.toInt()}GP',
-                  style: textStyle8(colorText7070)
-                      .copyWith(decoration: TextDecoration.lineThrough)),
+              if (product.discount != 0) ...[
+                Image.asset(icGoldCoin, width: 3.w),
+                SizedBox(width: 1.w),
+                Text('${product.price.toInt()}GP',
+                    style: textStyle8(colorText7070)
+                        .copyWith(decoration: TextDecoration.lineThrough)),
+              ]
             ],
           ),
         ],

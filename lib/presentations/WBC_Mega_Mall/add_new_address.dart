@@ -241,8 +241,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         child: CircularProgressIndicator(
                             color: colorRed, strokeWidth: 0.7.w)),
                   );
-                }
-                else if (state is GetUserLoaded) {
+                } else if (state is GetUserLoaded) {
                   return Stack(
                     children: [
                       SingleChildScrollView(
@@ -636,7 +635,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                               ),
                               dropDownWidget(
                                   'State', selectedState, isStateFieldTap, () {
-                                BlocProvider.of<FetchingDataBloc>(context).add(LoadStatesEvent(states: const []));
+                                BlocProvider.of<FetchingDataBloc>(context)
+                                    .add(LoadStatesEvent(states: const []));
                                 setState(() {
                                   isFullNameFieldTap = false;
                                   isMobileNumFieldTap = false;
@@ -656,7 +656,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 areaFocus.unfocus();
                                 landMarkFocus.unfocus();
                                 cityFocus.unfocus();
-                                CommonFunction().selectFormDialog(context, 'Select State', [], (val) {
+                                CommonFunction().selectFormDialog(
+                                    context, 'Select State', [], (val) {
                                   setState(() {
                                     selectedState = val;
                                   });

@@ -1765,24 +1765,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       MainAxisAlignment
                                                                           .end,
                                                                   children: [
-                                                                    Container(
-                                                                      decoration: BoxDecoration(
-                                                                          color:
-                                                                              colorGreen,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(5)),
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: EdgeInsets.symmetric(
-                                                                            vertical:
-                                                                                0.5.h,
-                                                                            horizontal: 1.w),
-                                                                        child: Text(
-                                                                            '${state.popular.products[index].discount}% off',
-                                                                            style:
-                                                                                textStyle8(colorWhite)),
-                                                                      ),
-                                                                    )
+                                                                    if (state
+                                                                            .popular
+                                                                            .products[index]
+                                                                            .discount !=
+                                                                        0)
+                                                                      Container(
+                                                                        decoration: BoxDecoration(
+                                                                            color:
+                                                                                colorGreen,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(5)),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: EdgeInsets.symmetric(
+                                                                              vertical: 0.5.h,
+                                                                              horizontal: 1.w),
+                                                                          child: Text(
+                                                                              '${state.popular.products[index].discount}% off',
+                                                                              style: textStyle8(colorWhite)),
+                                                                        ),
+                                                                      )
                                                                   ],
                                                                 ),
                                                                 SizedBox(
@@ -1845,17 +1848,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     ),
                                                                     Row(
                                                                       children: [
-                                                                        Image.asset(
-                                                                            icGoldCoin,
-                                                                            width:
-                                                                                2.w),
-                                                                        SizedBox(
-                                                                            width:
-                                                                                1.w),
-                                                                        Text(
-                                                                            '${state.popular.products[index].price.toInt()}GP',
-                                                                            style:
-                                                                                textStyle8(colorText7070).copyWith(decoration: TextDecoration.lineThrough)),
+                                                                        if (state.popular.products[index].discount !=
+                                                                            0) ...[
+                                                                          Image.asset(
+                                                                              icGoldCoin,
+                                                                              width: 2.w),
+                                                                          SizedBox(
+                                                                              width: 1.w),
+                                                                          Text(
+                                                                              '${state.popular.products[index].price.toInt()}GP',
+                                                                              style: textStyle8(colorText7070).copyWith(decoration: TextDecoration.lineThrough)),
+                                                                        ]
                                                                       ],
                                                                     ),
                                                                   ],

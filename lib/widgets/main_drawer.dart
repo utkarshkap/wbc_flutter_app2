@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wbc_connect_app/blocs/order/order_bloc.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/core/handler.dart';
 import 'package:wbc_connect_app/models/mGain_investment_model.dart';
 import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Investment.dart';
 import 'package:wbc_connect_app/presentations/Review/loan_EMI.dart';
@@ -52,12 +54,13 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String mobileNo = '';
+  DatabaseHelper helper = DatabaseHelper();
 
   signOut() async {
     await auth.signOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-
+    await helper.closeDataBase();
     relationType = ['Father', 'Mother', 'Husband', 'Wife', 'Son', 'Daughter'];
     setState(() {});
   }
