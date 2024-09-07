@@ -57,11 +57,13 @@ class LoadMGainInvestmentEvent extends FetchingDataEvent {
 class LoadMGainLedgerEvent extends FetchingDataEvent {
   final int mGainId;
   final int accountId;
+  final String docType;
   final MGainLedger mGainLedger;
 
   LoadMGainLedgerEvent(
       {required this.mGainId,
       required this.accountId,
+      required this.docType,
       required this.mGainLedger});
 }
 

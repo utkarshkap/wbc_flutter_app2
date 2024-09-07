@@ -168,9 +168,10 @@ class FetchingApi {
     }
   }
 
-  Future<MGainLedger> getMGainLedger(int mGainId, int accountId) async {
-    final response = await http
-        .get(Uri.parse("$mGainLedgerUrl$mGainId&accountid=$accountId"));
+  Future<MGainLedger> getMGainLedger(
+      int mGainId, int accountId, String docType) async {
+    final response = await http.get(Uri.parse(
+        "$mGainLedgerUrl$mGainId&accountid=$accountId&docType=$docType"));
     if (response.statusCode == 200) {
       print('--MGainLedger--statusCode----${response.statusCode}');
       print('--MGainLedger--body----${response.body}');

@@ -32,7 +32,7 @@ const String imgBaseUrl = 'https://wbcapi.kagroup.in/';
 const String imgNewBaseUrl = 'https://wbcapi.kagroup.in';
 
 const String popularUrl = "${baseUrl}popular";
-const String newArrivalUrl = "${baseUrl}newarriaval";
+const String newArrivalUrl = "${baseUrl}newarrival";
 const String trendingUrl = "${baseUrl}trending";
 
 const String productCategoryUrl = "${baseUrl}getProductCategory";

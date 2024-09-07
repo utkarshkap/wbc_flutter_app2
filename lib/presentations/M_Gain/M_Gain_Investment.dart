@@ -244,6 +244,7 @@ class _MGainInvestmentScreenState extends State<MGainInvestmentScreen> {
                                                         .mGainInvestment
                                                         .mGains[index]
                                                         .accountid,
+                                                    docType: 'Payment',
                                                     mGainLedger: MGainLedger(
                                                         code: 0,
                                                         message: '',

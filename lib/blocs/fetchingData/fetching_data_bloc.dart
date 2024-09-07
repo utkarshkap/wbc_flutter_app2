@@ -125,8 +125,8 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       emit(MGainLedgerInitial());
       try {
         print('---=----mGainId--=----${event.mGainId}');
-        final ledgerData =
-            await FetchingApi().getMGainLedger(event.mGainId, event.accountId);
+        final ledgerData = await FetchingApi()
+            .getMGainLedger(event.mGainId, event.accountId, event.docType);
         emit(MGainLedgerLoadedState(ledgerData));
       } catch (e) {
         emit(MGainLedgerErrorState(e.toString()));

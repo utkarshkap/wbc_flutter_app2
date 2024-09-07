@@ -1029,7 +1029,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                                 crossAxisSpacing: 10,
                                                 childAspectRatio: 0.85,
                                                 crossAxisCount: 2),
-                                        itemCount: 2,
+                                        itemCount: 4,
                                         itemBuilder: (context, index) {
                                           return state.trending.products[index]
                                                   .img.isEmpty
