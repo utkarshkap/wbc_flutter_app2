@@ -5,6 +5,7 @@ const setUser = 'setUser';
 const addContact = 'addContacts';
 const getUserKey = 'getUser?MobileNo=';
 const getPendingDeleteUserKey = 'pendingdeleteuser?mobileNo=';
+const setFcmIdAndDeviceId = 'setFcmIdAndDeviceId';
 const getDashboardKey = 'getGPDashboard?userid=';
 const getContactKey = 'getContact?id=';
 const setOrderKey = 'wbcOrder';

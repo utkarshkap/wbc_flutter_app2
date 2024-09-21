@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-Authentication authenticationFromJson(String str) => Authentication.fromJson(json.decode(str));
+Authentication authenticationFromJson(String str) =>
+    Authentication.fromJson(json.decode(str));
 
 String authenticationToJson(Authentication data) => json.encode(data.toJson());
 
@@ -39,6 +40,7 @@ class Data {
       this.country,
       this.pincode,
       this.deviceId,
+      this.fcmId,
       this.dob,
       required this.tnc});
 
@@ -52,6 +54,7 @@ class Data {
   int? pincode;
   DateTime? dob;
   String? deviceId;
+  String? fcmId;
   bool tnc;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -64,6 +67,7 @@ class Data {
         country: json["country"] ?? '',
         pincode: json["pincode"] ?? '',
         deviceId: json["deviceid"] ?? '',
+        fcmId: json["fcmId"] ?? '',
         dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
         tnc: json["tnc"] ?? false,
       );
@@ -78,12 +82,13 @@ class Data {
         "country": country,
         "pincode": pincode,
         "deviceid": deviceId,
+        "fcmId": fcmId,
         "dob": dob == null ? null : dob!.toIso8601String(),
         "tnc": tnc,
       };
 
   @override
   String toString() {
-    return 'Data{name: $name, mobileNo: $mobileNo, email: $email, address: $address, area: $area, city: $city, country: $country, pincode: $pincode, dob: $dob, deviceId: $deviceId, tnc: $tnc}';
+    return 'Data{name: $name, mobileNo: $mobileNo, email: $email, address: $address, area: $area, city: $city, country: $country, pincode: $pincode, dob: $dob, deviceId: $deviceId, fcmId: $fcmId, tnc: $tnc}';
   }
 }

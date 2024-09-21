@@ -24,8 +24,8 @@ class AddContactLoaded extends SigningState {
   final String acceptedNRIContacts;
   final List<GoldReferral> myContacts;
 
-  AddContactLoaded(
-      this.data, this.userId, this.acceptedContacts,this.acceptedNRIContacts, this.myContacts);
+  AddContactLoaded(this.data, this.userId, this.acceptedContacts,
+      this.acceptedNRIContacts, this.myContacts);
 }
 
 class AddContactFailed extends SigningState {}
@@ -69,3 +69,13 @@ class DeleteUserAccountDataAdded extends SigningState {
 }
 
 class DeleteUserAccountFailed extends SigningState {}
+
+class SetFcmIdAndDeviceIdDataAdding extends SigningState {}
+
+class SetFcmIdAndDeviceIdDataAdded extends SigningState {
+  final Response response;
+
+  SetFcmIdAndDeviceIdDataAdded(this.response);
+}
+
+class SetFcmIdAndDeviceIdDataFailed extends SigningState {}

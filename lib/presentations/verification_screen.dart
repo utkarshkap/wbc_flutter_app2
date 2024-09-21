@@ -367,6 +367,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         area: area.trim(),
         // deviceId: notificationToken,
         deviceId: deviceId,
+        fcmId: notificationToken,
         dob: selectedDate,
         tnc: isCheckedPrivacyPolicy));
     setState(() {
@@ -735,6 +736,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         HomeScreen.route, (route) => false,
                         arguments: HomeScreenData());
+
+                    BlocProvider.of<SigningBloc>(context).add(
+                        SetFcmIdAndDeviceIdData(
+                            userId: state.data!.data!.uid.toString(),
+                            deviceid: deviceId,
+                            fcmId: notificationToken));
 
                     /*if (state.data!.data!.availableContacts != 0) {
                       widget.verificationScreenData.selectedContact =

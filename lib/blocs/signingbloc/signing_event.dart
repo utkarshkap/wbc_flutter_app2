@@ -13,6 +13,7 @@ class CreateUser extends SigningEvent {
   final String? country;
   final int? pincode;
   final String deviceId;
+  final String fcmId;
   final DateTime? dob;
   final bool tnc;
 
@@ -26,6 +27,7 @@ class CreateUser extends SigningEvent {
       this.country,
       this.pincode,
       required this.deviceId,
+      required this.fcmId,
       this.dob,
       required this.tnc});
 }
@@ -61,4 +63,13 @@ class GetPendingDeleteUser extends SigningEvent {
   final String mobileNo;
 
   GetPendingDeleteUser({required this.mobileNo});
+}
+
+class SetFcmIdAndDeviceIdData extends SigningEvent {
+  final String userId;
+  final String deviceid;
+  final String fcmId;
+
+  SetFcmIdAndDeviceIdData(
+      {required this.userId, required this.deviceid, required this.fcmId});
 }

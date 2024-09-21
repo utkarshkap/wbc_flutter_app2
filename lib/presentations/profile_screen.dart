@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   DateTime initialDate = DateTime.now();
   DateTime selectedDate = DateTime.now();
   String notificationToken = "";
+  String deviceId = '';
 
   dateOfBirth() {
     nameFocus.unfocus();
@@ -88,7 +90,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     getUserData();
+    getAndroidDeviceId();
     super.initState();
+  }
+
+  Future getAndroidDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+
+    deviceId = androidInfo.id;
   }
 
   @override
@@ -164,7 +174,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ? 0
                             : int.parse(_pinController.text.trim()),
                         // area: '',
-                        deviceId: notificationToken,
+                        fcmId: notificationToken,
+                        deviceId: deviceId,
                         dob: DateTime.parse(
                             DateFormat('yyyy-MM-dd').format(selectedDate)),
                         tnc: ApiUser.termNdCondition));

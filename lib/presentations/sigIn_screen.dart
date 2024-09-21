@@ -319,6 +319,7 @@ class _SigInPageState extends State<SigInPage> {
                               BlocProvider.of<SigningBloc>(context).add(
                                   GetPendingDeleteUser(
                                       mobileNo: _numController.text));
+
                               isLoading = true;
                             }
                           }

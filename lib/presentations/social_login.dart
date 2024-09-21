@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -101,6 +102,7 @@ class _SocialLoginState extends State<SocialLogin> {
   Timer? countdownTimer;
   Duration myDuration = const Duration(seconds: 30);
   String notificationToken = "";
+  String deviceId = '';
 
   MapLatLng? _markerPosition;
   final MapZoomPanBehavior _mapZoomPanBehavior =
@@ -307,6 +309,7 @@ class _SocialLoginState extends State<SocialLogin> {
 
       await auth.signInWithCredential(credential);
       getToken();
+      getAndroidDeviceId();
 
       BlocProvider.of<SigningBloc>(context)
           .add(GetUserData(mobileNo: _numController.text));
@@ -350,6 +353,14 @@ class _SocialLoginState extends State<SocialLogin> {
         notificationToken = token!;
       });
     });
+  }
+
+  Future getAndroidDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+
+    deviceId = androidInfo.id;
+    print("androidInfo.id::::::::::::::::${deviceId}");
   }
 
   reSendOtp() async {
@@ -560,7 +571,8 @@ class _SocialLoginState extends State<SocialLogin> {
         country: _countryController.text.trim(),
         pincode: pinCode,
         area: area.trim(),
-        deviceId: notificationToken,
+        fcmId: notificationToken,
+        deviceId: deviceId,
         dob: selectedDate,
         tnc: isCheckedPrivacyPolicy));
     setState(() {

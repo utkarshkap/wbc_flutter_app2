@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/add_contacts_model.dart';
+import 'package:wbc_connect_app/models/set_fcmId_and_deviceId_model.dart';
 
 import '../core/api/api_handler.dart';
 import '../models/signing_screen_model.dart' as sigingmodel;
@@ -17,6 +18,7 @@ class SigningRepository {
       String? city,
       String? country,
       String? deviceId,
+      String? fcmId,
       int? pincode,
       DateTime? dob,
       required bool tnc}) async {
@@ -31,6 +33,7 @@ class SigningRepository {
           country: country,
           pincode: pincode,
           deviceId: deviceId,
+          fcmId: fcmId,
           dob: dob,
           tnc: tnc));
 
@@ -125,6 +128,22 @@ class SigningRepository {
     try {
       final response = await ApiHandler.get(getPendingDeleteUserKey + moNo);
       return jsonDecode(response.body)['message'];
+    } on BadRequestException {
+      return ApiResponse.withError('Something went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
+
+  setFcmIdAndDeviceIdData(String userId, String deviceid, String fcmId) async {
+    try {
+      final data = jsonEncode(SetFcmIdAndDeviceIdModel(
+          userId: userId, deviceid: deviceid, fcmId: fcmId));
+      final response =
+          await ApiHandler.post(url: setFcmIdAndDeviceId, body: data);
+      return response;
     } on BadRequestException {
       return ApiResponse.withError('Something went wrong', statusCode: 400);
     } on ApiException catch (e) {

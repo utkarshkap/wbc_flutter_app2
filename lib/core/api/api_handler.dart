@@ -15,7 +15,9 @@ class ApiHandler {
       log(baseUrl + url);
       log('----------------------------------------------------------------');
 
-      final response = await Client().get(Uri.parse(baseUrl + url)).timeout(const Duration(seconds: 60));
+      final response = await Client()
+          .get(Uri.parse(baseUrl + url))
+          .timeout(const Duration(seconds: 60));
       log('STATUS : ${response.statusCode}');
       log('----------------------------------------------------------------');
       log(response.body);
@@ -32,7 +34,8 @@ class ApiHandler {
     }
   }
 
-  static Future<Response> post({required String url, required String body}) async {
+  static Future<Response> post(
+      {required String url, required String body}) async {
     try {
       print('----------------------------------------------------------------');
       print(baseUrl + url);
@@ -59,17 +62,16 @@ class ApiHandler {
     }
   }
 
-  static Future<Response> postWithoutBaseURL({required String url, required String body}) async {
+  static Future<Response> postWithoutBaseURL(
+      {required String url, required String body}) async {
     try {
       log('----------------------------------------------------------------');
       log(url);
       log('----------------------------------------------------------------');
-      final response = await http.post(Uri.parse(url),
-          body: body,
-          headers: {
-            "Accept": "application/json",
-            "content-type": "application/json",
-          }).timeout(const Duration(seconds: 60));
+      final response = await http.post(Uri.parse(url), body: body, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+      }).timeout(const Duration(seconds: 60));
       log('STATUS : ${response.statusCode}');
       log('----------------------------------------------------------------');
       log(response.body);
@@ -86,18 +88,19 @@ class ApiHandler {
     }
   }
 
-  static Future<Response> post3({required String url, required String body, required String accessToken}) async {
+  static Future<Response> post3(
+      {required String url,
+      required String body,
+      required String accessToken}) async {
     try {
       log('----------------------------------------------------------------');
       log(url);
       log('----------------------------------------------------------------');
-      final response = await http.post(Uri.parse(url),
-          body: body,
-          headers: {
-            "Accept": "application/json",
-            "content-type": "application/json",
-            "Authorization":"bearer "+accessToken.toString()
-          }).timeout(const Duration(seconds: 60));
+      final response = await http.post(Uri.parse(url), body: body, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        "Authorization": "bearer " + accessToken.toString()
+      }).timeout(const Duration(seconds: 60));
       log('STATUS : ${response.statusCode}');
       log('----------------------------------------------------------------');
       log(response.body);
@@ -120,12 +123,11 @@ class ApiHandler {
       log('----------------------------------------------------------------');
       log(baseUrl + url);
       log('----------------------------------------------------------------');
-      final response = await http.put(Uri.parse(baseUrl + url),
-          body: body,
-          headers: {
-            "Accept": "application/json",
-            "content-type": "application/json",
-          }).timeout(const Duration(seconds: 60));
+      final response =
+          await http.put(Uri.parse(baseUrl + url), body: body, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+      }).timeout(const Duration(seconds: 60));
       log('STATUS : ${response.statusCode}');
       log('----------------------------------------------------------------');
       log(response.body);

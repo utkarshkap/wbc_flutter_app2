@@ -30,6 +30,7 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
             area: event.area,
             address: event.address,
             deviceId: event.deviceId,
+            fcmId: event.fcmId,
             tnc: event.tnc);
 
         print('Create user status code-----${response.statusCode}');
@@ -149,6 +150,13 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
 
       final response = await signingRepo.getPendingDeleteUser(event.mobileNo);
       emit(PendingDeleteUserDataAdded(response));
+    });
+    on<SetFcmIdAndDeviceIdData>((event, emit) async {
+      emit(SetFcmIdAndDeviceIdDataAdding());
+      final signingRepo = SigningRepository();
+      final response = await signingRepo.setFcmIdAndDeviceIdData(
+          event.userId, event.deviceid, event.fcmId);
+      emit(SetFcmIdAndDeviceIdDataAdded(response));
     });
   }
 }
