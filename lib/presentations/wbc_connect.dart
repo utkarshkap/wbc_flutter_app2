@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
 import 'package:wbc_connect_app/models/getuser_model.dart';
+import 'package:wbc_connect_app/presentations/earning_history_screen.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -40,7 +41,7 @@ class _WBCConnectState extends State<WBCConnect> {
   double totalEarning = 0.0;
 
   List<String> earningTime = [
-    'Monthly',
+    'This Month',
     'Yearly',
   ];
   List<ChartData> mainList = [];
@@ -365,7 +366,7 @@ class _WBCConnectState extends State<WBCConnect> {
                             padding: EdgeInsets.only(top: 5.h, bottom: 3.h),
                             child: AspectRatio(
                               aspectRatio: 1.8,
-                              child: selectedEarningTime == 'Monthly'
+                              child: selectedEarningTime == 'This Month'
                                   ? monthView()
                                   : yearView(),
                             ),
@@ -393,28 +394,54 @@ class _WBCConnectState extends State<WBCConnect> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              '₹${CommonFunction().splitString(totalEarning.toStringAsFixed(0))}',
+                                              '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toStringAsFixed(0))}',
                                               style: textStyle13Bold(
                                                   colorBoxGradiant0040)),
                                           SizedBox(height: 0.5.h),
-                                          Text('TOTAL',
+                                          Text(' TOTAL',
                                               style: textStyle9(colorText7070)),
                                         ],
                                       ),
                                       SizedBox(width: 12.w),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toStringAsFixed(0))}',
-                                              style: textStyle12Bold(
-                                                  colorText4747)),
-                                          SizedBox(height: 0.5.h),
-                                          Text('EARNING',
-                                              style: textStyle9(colorText7070)),
-                                        ],
+                                      // Column(
+                                      //   crossAxisAlignment:
+                                      //       CrossAxisAlignment.start,
+                                      //   children: [
+                                      //     Text(
+                                      //         '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toStringAsFixed(0))}',
+                                      //         style: textStyle12Bold(
+                                      //             colorText4747)),
+                                      //     SizedBox(height: 0.5.h),
+                                      //     Text('EARNING',
+                                      //         style: textStyle9(colorText7070)),
+                                      //   ],
+                                      // ),
+
+                                      const Spacer(),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed(
+                                              EarningHistoryScreen.route,
+                                              arguments: EarningHistoryData(
+                                                  earning: GpDashBoardData
+                                                      .earning!));
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 2.w),
+                                          height: 6.h,
+                                          decoration: BoxDecoration(
+                                            color: colorBG,
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Text('VIEW EARNING',
+                                              style: textStyle11Bold(
+                                                  colorBoxGradiant0040)),
+                                        ),
                                       ),
+                                      SizedBox(width: 4.w),
                                     ],
                                   ),
                           )
@@ -1034,7 +1061,7 @@ class _WBCConnectState extends State<WBCConnect> {
         .map((point) => BarChartGroupData(x: point.year, barRods: [
               BarChartRodData(
                   backDrawRodData: BackgroundBarChartRodData(
-                      color: colorF3F3, show: true, toY: 3500.0),
+                      color: colorF3F3, show: true, toY: 20000.0),
                   toY: point.value,
                   width: 3.w,
                   color: colorBoxGradiant0040,
@@ -1049,7 +1076,7 @@ class _WBCConnectState extends State<WBCConnect> {
               BarChartRodData(
                   // rodStackItems: [BarChartRodStackItem(10, 700, Colors.red)],
                   backDrawRodData: BackgroundBarChartRodData(
-                      color: colorF3F3, show: true, toY: 1500.0),
+                      color: colorF3F3, show: true, toY: 20000.0),
                   toY: point.value,
                   width: 3.w,
                   color: colorBoxGradiant0040,

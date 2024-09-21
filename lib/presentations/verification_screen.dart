@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -118,6 +119,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   int count = 0;
   int contactCount = 0;
   String notificationToken = "";
+  String deviceId = '';
   bool fastTrackStatus = false;
 
   bool dialogTimer = false;
@@ -138,8 +140,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
       setState(() {
         notificationToken = token!;
       });
-      print("notificationToken-->" + notificationToken.toString());
+      print("notificationToken---------------------------->" +
+          notificationToken.toString());
     });
+  }
+
+  Future getAndroidDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+
+    deviceId = androidInfo.id;
+    print("androidInfo.id::::::::::::::::${deviceId}");
   }
 
   setCountDown() {
@@ -354,7 +365,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
         country: _countryController.text.trim(),
         pincode: pinCode,
         area: area.trim(),
-        deviceId: notificationToken,
+        // deviceId: notificationToken,
+        deviceId: deviceId,
         dob: selectedDate,
         tnc: isCheckedPrivacyPolicy));
     setState(() {
@@ -506,6 +518,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
     super.initState();
     startTimer();
     getFastTrackStatus();
+    getToken();
+    getAndroidDeviceId();
 
     print('widget verification-------${widget.verificationScreenData.isLogin}');
     print(
@@ -1054,6 +1068,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
     );
   }
 
+//
+// Create Account
+//
   step2() {
     return Expanded(
         child: Container(
@@ -1238,6 +1255,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
       locationFocus.requestFocus();
     });
   }
+//
+// Create Account
+//
 
   step3(SigningState state) {
     return Expanded(
@@ -1457,6 +1477,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ),
     ));
   }
+//
+// Add contacts
+//
 
   step4(SigningState state) {
     return Expanded(

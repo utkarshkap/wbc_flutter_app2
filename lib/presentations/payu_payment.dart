@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payumoney_pro_unofficial/payumoney_pro_unofficial.dart';
 import 'package:sizer/sizer.dart';
+import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 
 import '../blocs/payuMoneyPayment/payumoney_payment_bloc.dart';
@@ -63,14 +64,14 @@ class _Payu_paymentState extends State<PayuPayment> {
               if (state is PayumoneyHashKeyLoadedState) {
                 if (state.customPayumoneyHashkeyModel.paymentHash != null &&
                     state.customPayumoneyHashkeyModel.paymentHash != "") {
-                  BlocProvider.of<PayumoneyPaymentBloc>(context)
-                      .add(UpdateFastTrackUserEvent(
-                    userId: int.parse(ApiUser.userId),
-                    mobile: ApiUser.mobileNo,
-                    date: DateTime.now().toString(),
-                    paymentAmount: fastTrackAmount,
-                    taxAmount: fastTrackGST,
-                  ));
+                  // BlocProvider.of<PayumoneyPaymentBloc>(context)
+                  //     .add(UpdateFastTrackUserEvent(
+                  //   userId: int.parse(ApiUser.userId),
+                  //   mobile: ApiUser.mobileNo,
+                  //   date: DateTime.now().toString(),
+                  //   paymentAmount: fastTrackAmount,
+                  //   taxAmount: fastTrackGST,
+                  // ));
                   payuPayment(state.customPayumoneyHashkeyModel.paymentHash);
                 }
               }
@@ -116,6 +117,7 @@ class _Payu_paymentState extends State<PayuPayment> {
               date: DateTime.now().toString(),
               paymentAmount: fastTrackAmount,
               taxAmount: fastTrackGST));
+      // Preference.setFastTrackStatus(true);
       Navigator.of(context).pushReplacementNamed(HomeScreen.route,
           arguments: HomeScreenData(isFastTrackActivate: true));
       CommonFunction().errorDialog(context, response['message']);

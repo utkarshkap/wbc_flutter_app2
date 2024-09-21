@@ -25,6 +25,7 @@ const String icDropdown = '${_path}dropdown.png';
 const String icUpload = '${_path}upload.png';
 const String icLocation = '${_path}location.png';
 const String icCurrentLocation = '${_path}currentLocation.png';
+const String icEarning = '${_path}earning.png';
 
 const String icSendReview = '${_path}send_review.png';
 const String icCheckReview = '${_path}check_review.png';
