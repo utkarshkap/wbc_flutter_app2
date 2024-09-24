@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/earning_data.dart';
 import 'package:wbc_connect_app/models/getuser_model.dart';
-import 'package:wbc_connect_app/presentations/earning_history_screen.dart';
+import 'package:wbc_connect_app/presentations/fastTrack_earning_screen.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -421,8 +421,8 @@ class _WBCConnectState extends State<WBCConnect> {
                                       InkWell(
                                         onTap: () {
                                           Navigator.of(context).pushNamed(
-                                              EarningHistoryScreen.route,
-                                              arguments: EarningHistoryData(
+                                              FastTrackEarningScreen.route,
+                                              arguments: FastTrackEarningData(
                                                   earning: GpDashBoardData
                                                       .earning!));
                                         },

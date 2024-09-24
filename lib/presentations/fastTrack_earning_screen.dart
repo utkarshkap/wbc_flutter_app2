@@ -8,25 +8,25 @@ import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 import 'package:wbc_connect_app/widgets/appbarButton.dart';
 
-class EarningHistoryData {
+class FastTrackEarningData {
   final List<Earning> earning;
 
-  EarningHistoryData({
+  FastTrackEarningData({
     required this.earning,
   });
 }
 
-class EarningHistoryScreen extends StatefulWidget {
+class FastTrackEarningScreen extends StatefulWidget {
   static const route = '/earning-history';
-  final EarningHistoryData earningHistoryData;
+  final FastTrackEarningData earningHistoryData;
 
-  const EarningHistoryScreen({super.key, required this.earningHistoryData});
+  const FastTrackEarningScreen({super.key, required this.earningHistoryData});
 
   @override
-  State<EarningHistoryScreen> createState() => _EarningHistoryScreenState();
+  State<FastTrackEarningScreen> createState() => _FastTrackEarningScreenState();
 }
 
-class _EarningHistoryScreenState extends State<EarningHistoryScreen> {
+class _FastTrackEarningScreenState extends State<FastTrackEarningScreen> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -46,7 +46,7 @@ class _EarningHistoryScreenState extends State<EarningHistoryScreen> {
                   icon: Image.asset(icBack, color: colorRed, width: 6.w)),
               titleSpacing: 0,
               title:
-                  Text('Earning History', style: textStyle14Bold(colorBlack)),
+                  Text('FastTrack Earning', style: textStyle14Bold(colorBlack)),
               actions: [
                 AppBarButton(
                     splashColor: colorWhite,
@@ -157,7 +157,7 @@ class _EarningHistoryScreenState extends State<EarningHistoryScreen> {
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    flex: 2,
+                                                    flex: 3,
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment.end,
@@ -187,7 +187,7 @@ class _EarningHistoryScreenState extends State<EarningHistoryScreen> {
                                                                 .credit !=
                                                             0)
                                                           Text(
-                                                              '${widget.earningHistoryData.earning[index].credit.toInt()}',
+                                                              '₹${widget.earningHistoryData.earning[index].credit.toInt()}',
                                                               style: textStyle13Medium(
                                                                   colorGreen)),
                                                         if (widget
@@ -196,13 +196,7 @@ class _EarningHistoryScreenState extends State<EarningHistoryScreen> {
                                                                 .debit !=
                                                             0)
                                                           Text(
-                                                              widget
-                                                                  .earningHistoryData
-                                                                  .earning[
-                                                                      index]
-                                                                  .debit
-                                                                  .toInt()
-                                                                  .toString(),
+                                                              '₹${widget.earningHistoryData.earning[index].debit.toInt()}',
                                                               style:
                                                                   textStyle13Medium(
                                                                       colorRed)),
@@ -234,10 +228,7 @@ class _EarningHistoryScreenState extends State<EarningHistoryScreen> {
                                         style: textStyle11Bold(colorBlack)
                                             .copyWith(letterSpacing: 0.7)),
                                     Text(
-                                        CommonFunction().splitString(
-                                            GpDashBoardData.fastTrackEarning!
-                                                .toInt()
-                                                .toString()),
+                                        '₹${CommonFunction().splitString(GpDashBoardData.fastTrackEarning!.toInt().toString())}',
                                         style: textStyle11Bold(colorGreen)
                                             .copyWith(letterSpacing: 0.7)),
                                   ],

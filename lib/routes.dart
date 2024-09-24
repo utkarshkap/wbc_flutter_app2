@@ -43,7 +43,7 @@ import 'package:wbc_connect_app/presentations/brokers_api/5paisa/webview_5paisa.
 import 'package:wbc_connect_app/presentations/brokers_api/IIFL/webview_IIFL.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/fyers/weview_fyers.dart';
 import 'package:wbc_connect_app/presentations/delete_account/delete_account_screen.dart';
-import 'package:wbc_connect_app/presentations/earning_history_screen.dart';
+import 'package:wbc_connect_app/presentations/fastTrack_earning_screen.dart';
 import 'package:wbc_connect_app/presentations/emisip_cal_result.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
@@ -411,9 +411,9 @@ Route onGenerateRoute(RouteSettings routeSettings) {
         builder: (_) => const NRICarnivalScreen(),
       );
     case '/earning-history':
-      final data = arguments as EarningHistoryData;
+      final data = arguments as FastTrackEarningData;
       return MaterialPageRoute(
-        builder: (_) => EarningHistoryScreen(earningHistoryData: data),
+        builder: (_) => FastTrackEarningScreen(earningHistoryData: data),
       );
 
     default:

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gallery_3d/gallery3d.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wbc_connect_app/blocs/payuMoneyPayment/payumoney_payment_bloc.dart';
+import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
-import 'package:wbc_connect_app/presentations/payu_payment.dart';
 import '../../resources/resource.dart';
-import '../blocs/payuMoneyPayment/payumoney_payment_bloc.dart';
 import '../blocs/signingbloc/signing_bloc.dart';
 import '../core/preferences.dart';
 import '../widgets/appbarButton.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class FastTrackBenefits extends StatefulWidget {
   static const route = '/FastTrack-Benefits';
@@ -28,6 +32,7 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
   final pageController = PageController();
   final swipeController = SwiperController();
   int index = 0;
+  Razorpay razorpay = Razorpay();
 
   bool isLoading = false;
 
@@ -67,6 +72,8 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
 
   @override
   Widget build(BuildContext context) {
+    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Scaffold(
@@ -256,23 +263,25 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                               setState(() {
                                 isLoading = true;
                               });
-                              BlocProvider.of<PayumoneyPaymentBloc>(context)
-                                  .add(
-                                LoadPayumoneyPaymentEvent(
-                                  amount: fastTrackAmount,
-                                  taxAmount: fastTrackGST,
-                                  txnid: '1',
-                                  email: ApiUser.emailId,
-                                  productinfo: 'Become Merchant',
-                                  firstname: ApiUser.userName,
-                                  user_credentials: ApiUser.emailId,
-                                ),
-                              );
+                              // BlocProvider.of<PayumoneyPaymentBloc>(context)
+                              //     .add(
+                              //   LoadPayumoneyPaymentEvent(
+                              //     amount: fastTrackAmount,
+                              //     taxAmount: fastTrackGST,
+                              //     txnid: '1',
+                              //     email: ApiUser.emailId,
+                              //     productinfo: 'Become Merchant',
+                              //     firstname: ApiUser.userName,
+                              //     user_credentials: ApiUser.emailId,
+                              //   ),
+                              // );
+                              RazorpayPayment();
+
                               setState(() {
                                 isLoading = false;
                               });
-                              Navigator.of(context)
-                                  .pushNamed(PayuPayment.route);
+                              // Navigator.of(context)
+                              //     .pushNamed(PayuPayment.route);
                             },
                             child: Center(
                               child: Container(
@@ -331,5 +340,38 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
             ],
           ),
         ));
+  }
+
+  Future RazorpayPayment() async {
+    var options = {
+      'key': razorpayKey,
+      'amount': ((int.parse(fastTrackAmount) + int.parse(fastTrackGST)) * 100)
+          .toString(),
+      'name': ApiUser.userName,
+      'description': 'Become Merchant',
+      'prefill': {'contact': ApiUser.mobileNo, 'email': ApiUser.emailId}
+    };
+    razorpay.open(options);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    BlocProvider.of<PayumoneyPaymentBloc>(context).add(UpdateFastTrackUserEvent(
+        userId: int.parse(ApiUser.userId),
+        mobile: ApiUser.mobileNo,
+        date: DateTime.now().toString(),
+        paymentAmount: fastTrackAmount,
+        taxAmount: fastTrackGST));
+    Navigator.of(context).pushReplacementNamed(HomeScreen.route,
+        arguments: HomeScreenData(isFastTrackActivate: true));
+    // CommonFunction().errorDialog(context, response);
+    print(
+        "::::::::::::PaymentSuccess::::${response.data}::${response.signature}::::::::::::");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Navigator.pop(context);
+    // CommonFunction().errorDialog(context, response['message']);
+    print(
+        "::::::::::::PaymentErro::::${response.error}::::::${response.message} :: :${response.code}::::::");
   }
 }

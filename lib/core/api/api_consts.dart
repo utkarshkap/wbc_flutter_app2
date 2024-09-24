@@ -88,6 +88,9 @@ const fastTrackGST = '648';
 const createPayUMoneyHashKeyUrl =
     'http://api2.kafinsec.in/api/WebApi/CustomPayUMoneyHashKey?';
 
+//RazorpayPayment Credential
+const razorpayKey = 'rzp_test_4vj76FZqWURAwF';
+
 //Fyers Credential
 const clientId = 'FP38PDERY5-100';
 const clientSecret = 'UJI8FJ7B8N';
