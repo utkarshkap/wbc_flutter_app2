@@ -65,7 +65,7 @@ dependencies:
   percent_indicator: ^4.2.2
   smooth_page_indicator: ^1.0.0+2
   card_swiper: ^3.0.1
-  flutter_local_notifications:
+  flutter_local_notifications: ^17.2.3
   fluttertoast: ^8.1.1
   file_picker: ^5.2.2
   http_parser: ^4.0.2

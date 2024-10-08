@@ -109,7 +109,7 @@ Route onGenerateRoute(RouteSettings routeSettings) {
     case '/WBC-Connect':
       // final connectData = arguments as WBCConnectData;
       return MaterialPageRoute(
-        builder: (_) => WBCConnect(
+        builder: (_) => const WBCConnect(
             // connectData: connectData
             ),
       );
@@ -262,12 +262,12 @@ Route onGenerateRoute(RouteSettings routeSettings) {
 
     case '/Insurance-Calculator':
       return MaterialPageRoute(
-        builder: (_) => InsuranceCalculator(),
+        builder: (_) => const InsuranceCalculator(),
       );
 
     case '/EMISIP-Calculator-result':
       return MaterialPageRoute(
-        builder: (_) => EMISIPCalculatorResult(),
+        builder: (_) => const EMISIPCalculatorResult(),
       );
 
     case '/Munafe-Ki-Class':
@@ -384,12 +384,12 @@ Route onGenerateRoute(RouteSettings routeSettings) {
 
     case '/SIP-Calculator':
       return MaterialPageRoute(
-        builder: (_) => SIPCalculator(),
+        builder: (_) => const SIPCalculator(),
       );
 
     case '/EMISIP-Calculator':
       return MaterialPageRoute(
-        builder: (_) => EMISIPCalculator(),
+        builder: (_) => const EMISIPCalculator(),
       );
 
     case '/Retirement-Calculator':

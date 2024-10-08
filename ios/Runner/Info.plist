@@ -95,5 +95,12 @@
     <true/>
     <key>UIFileSharingEnabled</key>
     <true/>
+	<key>UIBackgroundModes</key>
+	<array>
+    	<string>fetch</string>
+    	<string>remote-notification</string>
+	</array>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+<false/>
 </dict>
 </plist>

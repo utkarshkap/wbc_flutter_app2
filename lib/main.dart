@@ -1,7 +1,8 @@
-import 'package:device_preview/device_preview.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wbc_connect_app/blocs/dashboardbloc/dashboard_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
@@ -26,12 +27,41 @@ import 'blocs/sipcalculator/sip_calculator_bloc.dart';
 import 'blocs/stockInvestmentTransaction/stock_investment_transaction_bloc.dart';
 import 'resources/colors.dart';
 
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message: ${message.messageId}');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Set background message handler
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  // Initialize local notifications plugin
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  // Android initialization settings
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/finer_logo');
+
+  // // iOS initialization settings
+  // final IOSInitializationSettings initializationSettingsIOS =
+  //     IOSInitializationSettings();
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    // iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   // runApp(
   //   DevicePreview(
-  //     enabled: true,
+  //     enabled: true,-
   //     tools: const [
   //       ...DevicePreview.defaultTools,
   //       // const CustomPlugin(),

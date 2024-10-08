@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/core/preferences.dart';
@@ -36,6 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
   String email = "";
   int selectedContact = 0;
   DatabaseHelper helper = DatabaseHelper();
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   void getCartData() {
     final Future<Database> dbFuture = helper.initializeDatabase();
@@ -57,6 +62,92 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     getLoginValue();
     getCartData();
+    _requestPermission();
+    firebaseMessaging.getToken().then((value) {
+      print("FCM Token: $value");
+    });
+
+    // Handle foreground messages
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(
+          "Received message in the foreground: ${message.notification?.title}");
+
+      // Show proper notification for foreground messages
+      if (message.notification != null) {
+        _showNotification(
+            title: message.notification!.title ?? 'No title',
+            body: message.notification!.body ?? 'No body');
+      }
+    });
+
+    // Handle when app is opened from a background state
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("Message clicked in background: ${message.notification?.title}");
+
+      // Handle background message
+      _handleMessage(message);
+    });
+
+    // Handle when the app is launched from a terminated state by clicking the notification
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) {
+        print(
+            "App opened from a terminated state: ${message.notification?.title}");
+        _handleMessage(message);
+      }
+    });
+  }
+
+  // Request notification permission
+  void _requestPermission() async {
+    NotificationSettings settings = await firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  // Handle the background and terminated messages
+  void _handleMessage(RemoteMessage message) {
+    if (message.notification != null) {
+      _showNotification(
+        title: message.notification!.title ?? 'No title',
+        body: message.notification!.body ?? 'No body',
+      );
+    }
+  }
+
+  // Show system notification using flutter_local_notifications
+  void _showNotification({required String title, required String body}) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+            'This_over_channel', // channel id
+            'High Importance Notifications', // channel name
+            channelDescription:
+                'This channel is used for important notifications.',
+            importance: Importance.max,
+            priority: Priority.high,
+            showWhen: false,
+            icon: '@mipmap/finer_logo');
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      // iOS: IOSNotificationDetails(),
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      title,
+      body,
+      platformChannelSpecifics,
+    );
   }
 
   getLoginValue() async {

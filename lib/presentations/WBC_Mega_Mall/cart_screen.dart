@@ -909,7 +909,8 @@ class _CartScreenState extends State<CartScreen> {
                           setState(() {
                             addressValidation = '';
                           });
-                          if (cartValue.toInt() > ApiUser.goldReferralPoint) {
+                          if ((cartValue.toInt() + shippingCharges) >
+                              ApiUser.goldReferralPoint) {
                             CommonFunction().errorDialog(context,
                                 'You don\'t have sufficient gold point for buying this cart products.');
                           } else {
@@ -979,7 +980,7 @@ class _CartScreenState extends State<CartScreen> {
                                   Text('${cartList.length} items',
                                       style: textStyle9(colorTextFFC1)),
                                   SizedBox(height: 0.5.h),
-                                  Text('$cartValue',
+                                  Text('${cartValue + shippingCharges}',
                                       style: textStyle14Bold(colorWhite)
                                           .copyWith(letterSpacing: 1.5)),
                                 ],

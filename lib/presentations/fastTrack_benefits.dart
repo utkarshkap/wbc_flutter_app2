@@ -275,7 +275,7 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
                               //     user_credentials: ApiUser.emailId,
                               //   ),
                               // );
-                              RazorpayPayment();
+                              razorpayPayment();
 
                               setState(() {
                                 isLoading = false;
@@ -342,7 +342,7 @@ class _FastTrackBenefitsState extends State<FastTrackBenefits> {
         ));
   }
 
-  Future RazorpayPayment() async {
+  Future razorpayPayment() async {
     var options = {
       'key': razorpayKey,
       'amount': ((int.parse(fastTrackAmount) + int.parse(fastTrackGST)) * 100)

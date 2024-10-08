@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '217717536609',
     projectId: 'wbcconnect-8cd0a',
     storageBucket: 'wbcconnect-8cd0a.appspot.com',
-    androidClientId: '217717536609-3ao99bm0ic46rhsi5ssrhscnk60c6vgs.apps.googleusercontent.com',
-    iosClientId: '217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5.apps.googleusercontent.com',
+    androidClientId:
+        '217717536609-16pqq20jvr3210sp8sntcehkbgja7pfb.apps.googleusercontent.com',
+    iosClientId:
+        '217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5.apps.googleusercontent.com',
     iosBundleId: 'in.kagroup.finer',
   );
 }
