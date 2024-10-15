@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:crypto/crypto.dart';
+import 'package:wbc_connect_app/models/get_brokerList_model.dart';
+import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
 import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
 import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
@@ -348,6 +350,17 @@ class FetchingApi {
     }
   }
 
+  Future<GetBrokerListModel> getBrokerList() async {
+    final response = await http.get(Uri.parse(getBrokerListUrl));
+    if (response.statusCode == 200) {
+      print("Broker List statuscode----------------${response.statusCode}");
+      print('get beoker list body*---------------------${response.body}');
+      return getBrokerListModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to load BrokersList');
+    }
+  }
+
   Future<GetFyersAccessTokenModel> getFyersAccessTokenAPI() async {
     final response =
         await http.get(Uri.parse(getFyersAccessTokenUrl + ApiUser.userId));
@@ -369,6 +382,19 @@ class FetchingApi {
       return getFyersHoldingsModelFromJson(response.body);
     } else {
       throw Exception("Failed to load Faq");
+    }
+  }
+
+  Future<GetBrokerHoldingModel> getBrokerHoldingData() async {
+    final response = await http
+        .get(Uri.parse('${getBrokerholdingsUrl}?userid=${ApiUser.userId}'));
+
+    print("response:::::::::::::::::::----${response.body}");
+
+    if (response.statusCode == 200) {
+      return getBrokerHoldingModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to load GetBrokersHolding');
     }
   }
 

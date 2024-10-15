@@ -32,7 +32,9 @@ class _WBCProgressState extends State<WBCProgress> {
   void initState() {
     var temp = ApiUser.myContactsList!.length;
     if (GpDashBoardData.inActiveClients!.isNotEmpty) {
-      activeClients = temp - GpDashBoardData.inActiveClients![0].count;
+      activeClients = temp -
+          (GpDashBoardData.inActiveClients![0].count +
+              GpDashBoardData.inActiveClients![1].count);
     }
 
     getClientsConvertedMember();
@@ -110,12 +112,14 @@ class _WBCProgressState extends State<WBCProgress> {
                     'Contacts converted',
                     clientsConverted, () {
                   Navigator.of(context).pushNamed(ViewMyContacts.route,
-                      arguments:
-                          ViewScreenData(myContact: ApiUser.myContactsList!));
+                      arguments: ViewScreenData(
+                          myContact: ApiUser.myContactsList!,
+                          title: 'My Entered Referrals'));
                 }, () {
                   Navigator.of(context).pushNamed(ViewMyContacts.route,
                       arguments: ViewScreenData(
                           myContact: ApiUser.myContactsList!,
+                          title: 'My Converted Referrals',
                           isClientsConverted: true));
                 }),
                 Row(
@@ -259,7 +263,7 @@ class _WBCProgressState extends State<WBCProgress> {
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
                         arguments: ViewScreenData(
-                            myContact: temp, title: 'Your Team'));
+                            myContact: temp, title: 'Your Standard Team'));
                   }, () {
                     List<GoldReferral> temp = [];
 
@@ -273,7 +277,7 @@ class _WBCProgressState extends State<WBCProgress> {
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
                         arguments: ViewScreenData(
-                            myContact: temp, title: 'Your Team'));
+                            myContact: temp, title: 'Your FastTrack Team'));
                   }),
                 Container(
                   width: 90.w,

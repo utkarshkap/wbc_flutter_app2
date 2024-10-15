@@ -699,8 +699,8 @@ class _WBCConnectState extends State<WBCConnect> {
                           userexist: element.userexist));
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments:
-                            ViewScreenData(myContact: temp, title: 'My Team'));
+                        arguments: ViewScreenData(
+                            myContact: temp, title: 'My Standard Team'));
                   }, () {
                     List<GoldReferral> temp = [];
                     GpDashBoardData.contactBase![1].referralList
@@ -712,8 +712,8 @@ class _WBCConnectState extends State<WBCConnect> {
                           userexist: element.userexist));
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
-                        arguments:
-                            ViewScreenData(myContact: temp, title: 'My Team'));
+                        arguments: ViewScreenData(
+                            myContact: temp, title: 'My FastTrack Team'));
                   }),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -764,7 +764,8 @@ class _WBCConnectState extends State<WBCConnect> {
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
                         arguments: ViewScreenData(
-                            myContact: temp, title: 'Inactive Clients'));
+                            myContact: temp,
+                            title: 'Inactive Standard Clients'));
                   }, () {
                     List<GoldReferral> temp = [];
                     GpDashBoardData.inActiveClients![1].userList
@@ -777,7 +778,8 @@ class _WBCConnectState extends State<WBCConnect> {
                     });
                     Navigator.of(context).pushNamed(ViewMyContacts.route,
                         arguments: ViewScreenData(
-                            myContact: temp, title: 'Inactive Clients'));
+                            myContact: temp,
+                            title: 'Inactive FastTrack Clients'));
                   }),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),

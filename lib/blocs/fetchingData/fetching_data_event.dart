@@ -107,6 +107,12 @@ class LoadGmailInboxEvent extends FetchingDataEvent {
   LoadGmailInboxEvent({required this.gmailInbox, required this.accessToken});
 }
 
+class LoadGetBrokersListEvent extends FetchingDataEvent {
+  final GetBrokerListModel getBrokersList;
+
+  LoadGetBrokersListEvent({required this.getBrokersList});
+}
+
 class LoadFyersAccessTokenEvent extends FetchingDataEvent {
   final GetFyersAccessTokenModel getFyersAccessToken;
 
@@ -167,4 +173,16 @@ class LoadICICIHoldingDataEvent extends FetchingDataEvent {
 
   LoadICICIHoldingDataEvent(
       {required this.sessionToken, required this.getICICIHoldingData});
+}
+
+class AddBrokerholdingsEvent extends FetchingDataEvent {
+  final List<AddbrokerholdingsModel> holdings;
+
+  AddBrokerholdingsEvent({required this.holdings});
+}
+
+class GetBrokerholdingsEvent extends FetchingDataEvent {
+  final GetBrokerHoldingModel holdings;
+
+  GetBrokerholdingsEvent({required this.holdings});
 }

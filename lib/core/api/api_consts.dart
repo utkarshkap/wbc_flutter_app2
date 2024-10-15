@@ -91,6 +91,10 @@ const createPayUMoneyHashKeyUrl =
 //RazorpayPayment Credential
 const razorpayKey = 'rzp_test_4vj76FZqWURAwF';
 
+const getBrokerListUrl = "${baseUrl}GetBrokerList";
+const addbrokerholdings = "addbrokerholdings";
+const getBrokerholdingsUrl = "${baseUrl}GetBrokerHolding";
+
 //Fyers Credential
 const clientId = 'FP38PDERY5-100';
 const clientSecret = 'UJI8FJ7B8N';

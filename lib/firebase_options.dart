@@ -50,7 +50,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCUk50_FvGFaxTmcqbd6ujFpi3ngAwMewk',
+    apiKey: 'AIzaSyAc3i9rITqUkzkYd6IDDGHwKZPfsr26go0',
     appId: '1:217717536609:android:1874486d1773432cbcb720',
     messagingSenderId: '217717536609',
     projectId: 'wbcconnect-8cd0a',
@@ -63,10 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '217717536609',
     projectId: 'wbcconnect-8cd0a',
     storageBucket: 'wbcconnect-8cd0a.appspot.com',
-    androidClientId:
-        '217717536609-16pqq20jvr3210sp8sntcehkbgja7pfb.apps.googleusercontent.com',
-    iosClientId:
-        '217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5.apps.googleusercontent.com',
+    androidClientId: '217717536609-16pqq20jvr3210sp8sntcehkbgja7pfb.apps.googleusercontent.com',
+    iosClientId: '217717536609-gabiqf0e9b8t3807qbmeg7uhc73p8co5.apps.googleusercontent.com',
     iosBundleId: 'in.kagroup.finer',
   );
+
 }

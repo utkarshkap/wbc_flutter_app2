@@ -2,7 +2,10 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/models/add_broker_holdings_data_model.dart';
 import 'package:wbc_connect_app/models/country_model.dart';
+import 'package:wbc_connect_app/models/get_brokerList_model.dart';
+import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
 import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
 import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
@@ -201,6 +204,16 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       }
     });
 
+    on<LoadGetBrokersListEvent>((event, emit) async {
+      emit(GetBrokersListInitial());
+      try {
+        final faqData = await FetchingApi().getBrokerList();
+        emit(GetBrokersListLoadedState(faqData));
+      } catch (e) {
+        emit(GetBrokersListErrorState(e.toString()));
+      }
+    });
+
     on<LoadFyersAccessTokenEvent>((event, emit) async {
       emit(GetFyersAccessTokenInitial());
       try {
@@ -303,6 +316,34 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
         emit(GetICICIHoldingDataLoadedState(getICICIHoldingData));
       } catch (e) {
         emit(GetICICIHoldingDataErrorState(e.toString()));
+      }
+    });
+    on<AddBrokerholdingsEvent>((event, emit) async {
+      print("AddHoldingsDataInitial::::::::::::::::::::::::::::::");
+
+      emit(AddHoldingsDataInitial());
+      final brokersRepo = BrokersRepo();
+
+      try {
+        final response =
+            await brokersRepo.postBrokerholdingsData(holdings: event.holdings);
+      } catch (e) {
+        emit(AddHoldingsDataFailed(e.toString()));
+      }
+    });
+
+    on<GetBrokerholdingsEvent>((event, emit) async {
+      emit(GetHoldingsDataInitial());
+
+      try {
+        final response = await FetchingApi().getBrokerHoldingData();
+
+        print(
+            "response::::::::::::::::::::::::::::------------${response.data} ");
+
+        emit(GetHoldingsDataLoaded(response));
+      } catch (e) {
+        emit(AddHoldingsDataFailed(e.toString()));
       }
     });
   }

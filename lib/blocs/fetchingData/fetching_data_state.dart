@@ -352,6 +352,29 @@ class GetGmailInboxErrorState extends FetchingDataState {
   List<Object?> get props => [error];
 }
 
+class GetBrokersListInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetBrokersListLoadedState extends FetchingDataState {
+  final GetBrokerListModel getBroker;
+
+  const GetBrokersListLoadedState(this.getBroker);
+
+  @override
+  List<Object?> get props => [getBroker];
+}
+
+class GetBrokersListErrorState extends FetchingDataState {
+  final String error;
+
+  const GetBrokersListErrorState(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+
 class GetFyersAccessTokenInitial extends FetchingDataState {
   @override
   List<Object> get props => [];
@@ -504,6 +527,50 @@ class GetICICIHoldingDataErrorState extends FetchingDataState {
 
   const GetICICIHoldingDataErrorState(this.error);
 
+  @override
+  List<Object?> get props => [error];
+}
+
+class AddHoldingsDataInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class AddHoldingsDataLoaded extends FetchingDataState {
+  final List<AddbrokerholdingsModel> addHoldings;
+
+  const AddHoldingsDataLoaded(this.addHoldings);
+
+  @override
+  List<Object?> get props => [addHoldings];
+}
+
+class AddHoldingsDataFailed extends FetchingDataState {
+  final String error;
+
+  const AddHoldingsDataFailed(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+class GetHoldingsDataInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetHoldingsDataLoaded extends FetchingDataState {
+  final GetBrokerHoldingModel getBrokerHoldings;
+
+  const GetHoldingsDataLoaded(this.getBrokerHoldings);
+
+  @override
+  List<Object?> get props => [getBrokerHoldings];
+}
+
+class GetHoldingsDataFailed extends FetchingDataState {
+  final String error;
+
+  const GetHoldingsDataFailed(this.error);
   @override
   List<Object?> get props => [error];
 }

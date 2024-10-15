@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/models/add_broker_holdings_data_model.dart';
 import '../core/api/api_handler.dart';
 import '../models/5PaisaDataModel.dart';
 import '../models/5PaisaHoldingDataModel.dart';
@@ -47,6 +48,25 @@ class BrokersRepo {
       return response;
     } on BadRequestException {
       return ApiResponse.withError('Something went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
+
+  postBrokerholdingsData(
+      {required List<AddbrokerholdingsModel> holdings}) async {
+    print("holdings::::::::------${holdings}");
+    try {
+      final response = await ApiHandler.post(
+          url: addbrokerholdings, body: jsonEncode(holdings));
+      print(
+          "postBrokerholdingsData:::::::::::::::${response.body};;;;;;+++${response.statusCode}");
+
+      return response;
+    } on BadRequestException {
+      return ApiResponse.withError('Semething went wrong', statusCode: 400);
     } on ApiException catch (e) {
       return ApiResponse.withError(e.message);
     } catch (e) {
