@@ -8,6 +8,7 @@ import 'package:wbc_connect_app/models/get_brokerList_model.dart';
 import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
 import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
 import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
+import 'package:wbc_connect_app/models/get_iifl_holding_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
 import 'package:wbc_connect_app/models/loan_banks_model.dart';
 import '../../core/fetching_api.dart';
@@ -321,14 +322,14 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
     on<AddBrokerholdingsEvent>((event, emit) async {
       print("AddHoldingsDataInitial::::::::::::::::::::::::::::::");
 
-      emit(AddHoldingsDataInitial());
+      // emit(AddHoldingsDataInitial());
       final brokersRepo = BrokersRepo();
 
       try {
         final response =
             await brokersRepo.postBrokerholdingsData(holdings: event.holdings);
       } catch (e) {
-        emit(AddHoldingsDataFailed(e.toString()));
+        // emit(AddHoldingsDataFailed(e.toString()));
       }
     });
 
@@ -345,6 +346,49 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       } catch (e) {
         emit(AddHoldingsDataFailed(e.toString()));
       }
+    });
+//
+    on<LoadIIFLLoginEvent>((event, emit) async {
+      emit(IIFLLoginInitial());
+
+      try {
+        final brokersRepo = BrokersRepo();
+
+        final response = await brokersRepo.loginIIFLBroker(
+            event.clientCode, event.password, event.dob);
+
+        print("RESPONSE:::::::::::::::::::-----${response}");
+
+        emit(IIFLLoginLoaded(response.toString()));
+      } catch (e) {
+        emit(IIFLLoginFailed(e.toString()));
+      }
+    });
+    on<LoadIIFLHoldingEvent>((event, emit) async {
+      emit(IIFLHoldingitial());
+
+      // try {
+      final brokersRepo = BrokersRepo();
+
+      final response =
+          await brokersRepo.getIIFLHoldingData(event.clientCode, event.cookie);
+
+      // print("response::::::::::::::::::::::::::${response.body}");
+
+      if (response.statusCode == 200) {
+        var responseData = getIiflHoldingModelFromJson(response);
+        print(
+            "response::::::::::::::::::::::::::::------------${responseData}");
+
+        emit(IIFLHoldingLoaded(responseData));
+      } else {
+        emit(const IIFLHoldingFailed('Error'));
+      }
+
+      // } catch (e) {
+      // print("ERROR--------${e}---------");
+      // emit(IIFLHoldingFailed(e.toString()));
+      // }
     });
   }
 }

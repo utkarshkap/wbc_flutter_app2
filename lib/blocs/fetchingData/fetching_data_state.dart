@@ -574,3 +574,47 @@ class GetHoldingsDataFailed extends FetchingDataState {
   @override
   List<Object?> get props => [error];
 }
+
+class IIFLLoginInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class IIFLLoginLoaded extends FetchingDataState {
+  final String cookie;
+
+  const IIFLLoginLoaded(this.cookie);
+
+  @override
+  List<Object?> get props => [cookie];
+}
+
+class IIFLLoginFailed extends FetchingDataState {
+  final String error;
+
+  const IIFLLoginFailed(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+class IIFLHoldingitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class IIFLHoldingLoaded extends FetchingDataState {
+  final GetIiflHoldingModel iiflHoldingData;
+
+  const IIFLHoldingLoaded(this.iiflHoldingData);
+
+  @override
+  List<Object?> get props => [iiflHoldingData];
+}
+
+class IIFLHoldingFailed extends FetchingDataState {
+  final String error;
+
+  const IIFLHoldingFailed(this.error);
+  @override
+  List<Object?> get props => [error];
+}

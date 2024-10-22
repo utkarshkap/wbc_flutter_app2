@@ -119,10 +119,15 @@ const get5PaisaHoldingUrl =
     "https://Openapi.5paisa.com/VendorsAPI/Service1.svc/V3/Holding";
 
 //IIFL Credential
-const generateRequestTokenIIFLUrl =
-    'https://dataservice.iifl.in/openapi/prod/V2/Login';
-const userIIFLKey = 'sUsDmof74N4D6aGiKXgIJ7AZcq5rps4c';
-const userIIFLId = 'p0UVqrzkt3s';
+const iiflEncKey =
+    "lpesfrRtUEc7TIaDoV0A8472IuS3DSLClczffSh0Ffpv0r3xbROrjVLsuRwtbQOa";
+const iiflLoginUrl = 'https://dataservice.iifl.in/openapi/prod/LoginRequest';
+const iiflHoldingUrl = 'https://dataservice.iifl.in/openapi/prod/Holding';
+const iiflSubscriptionKey = 'fc714d8e5b82438a93a95baa493ff45b';
+const iiflAppName = 'IIFLMarUTKARSH';
+const iiflkey = 'sUsDmof74N4D6aGiKXgIJ7AZcq5rps4c';
+const iifluserId = 'p0UVqrzkt3s';
+const iiflpassword = 'VMkhSrOsASt';
 
 // Angel
 const angelApiKey = 'DzKZ7p2x';

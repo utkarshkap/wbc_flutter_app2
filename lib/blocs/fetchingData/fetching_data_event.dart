@@ -186,3 +186,25 @@ class GetBrokerholdingsEvent extends FetchingDataEvent {
 
   GetBrokerholdingsEvent({required this.holdings});
 }
+
+class LoadIIFLLoginEvent extends FetchingDataEvent {
+  final String clientCode;
+  final String password;
+  final String dob;
+
+  LoadIIFLLoginEvent({
+    required this.clientCode,
+    required this.password,
+    required this.dob,
+  });
+}
+
+class LoadIIFLHoldingEvent extends FetchingDataEvent {
+  final String cookie;
+  final String clientCode;
+
+  LoadIIFLHoldingEvent({
+    required this.cookie,
+    required this.clientCode,
+  });
+}

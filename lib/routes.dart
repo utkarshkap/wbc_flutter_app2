@@ -36,6 +36,7 @@ import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_details_scre
 import 'package:wbc_connect_app/presentations/brokers_api/5paisa/view_5paisa_holdings.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/ICICI/view_icici_holding.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/ICICI/webview_ICICI.dart';
+import 'package:wbc_connect_app/presentations/brokers_api/IIFL/view_IIFL_holding.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/angel/view_angel_holding.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/angel/webview_angel.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/fyers/view_fyers_holding.dart';
@@ -350,6 +351,10 @@ Route onGenerateRoute(RouteSettings routeSettings) {
     case '/Webview-IIFL':
       return MaterialPageRoute(
         builder: (_) => const WebviewIIFL(),
+      );
+    case '/View-IIFL-Holding':
+      return MaterialPageRoute(
+        builder: (_) => const ViewIIFLHolding(),
       );
     case '/Webview-Angel':
       return MaterialPageRoute(

@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
 part 'api_response.dart';
 
 class ApiHandler {
@@ -71,6 +73,104 @@ class ApiHandler {
       final response = await http.post(Uri.parse(url), body: body, headers: {
         "Accept": "application/json",
         "content-type": "application/json",
+      }).timeout(const Duration(seconds: 60));
+      log('STATUS : ${response.statusCode}');
+      log('----------------------------------------------------------------');
+      log(response.body);
+      log('----------------------------------------------------------------');
+      return getResponse(response);
+    } on SocketException {
+      throw InternetException();
+    } on TimeoutException {
+      print('Going to request timeout');
+      throw RequestTimeoutException();
+    } on FormatException {
+      print('Going to format');
+      throw GeneralException();
+    }
+  }
+
+  static Future<Response> postIIFL(
+      {required String url,
+      required String clientCode,
+      required String password,
+      required String dob}) async {
+    var data = json.encode({
+      "head": {
+        "appName": "IIFLMarUTKARSH",
+        "appVer": "1.0",
+        "key": iiflkey,
+        "osName": "", //Android, ios
+        "requestCode": "IIFLMarRQLoginRequestV2",
+        "userId": iifluserId,
+        "password": iiflpassword
+      },
+      "body": {
+        "ClientCode": clientCode,
+        "Password": password,
+        "LocalIP": "",
+        "PublicIP": "",
+        "HDSerialNumber": "",
+        "MACAddress": "",
+        "MachineID": "",
+        "VersionNo": "",
+        "RequestNo": 1,
+        "My2PIN": dob,
+        "ConnectionType": "1"
+      }
+    });
+
+    try {
+      log('----------------------------------------------------------------');
+      log(url);
+      log('----------------------------------------------------------------');
+      final response = await http.post(Uri.parse(url), body: data, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": iiflSubscriptionKey,
+      }).timeout(const Duration(seconds: 60));
+      log('STATUS : ${response.statusCode}');
+      log('----------------------------------------------------------------');
+      log(response.body);
+      log('----------------------------------------------------------------');
+      return getResponse(response);
+    } on SocketException {
+      throw InternetException();
+    } on TimeoutException {
+      print('Going to request timeout');
+      throw RequestTimeoutException();
+    } on FormatException {
+      print('Going to format');
+      throw GeneralException();
+    }
+  }
+
+  static Future<Response> postIIFLHolding(
+      {required String url,
+      required String clientCode,
+      required String cookie}) async {
+    var data = json.encode({
+      "head": {
+        "appName": iiflAppName,
+        "appVer": "1.0",
+        "key": iiflkey,
+        "osName": "Android",
+        "requestCode": "IIFLMarRQHoldingV2",
+        "userId": iifluserId,
+        "password": iiflpassword
+      },
+      "body": {"ClientCode": clientCode}
+    });
+
+    try {
+      log('----------------------------------------------------------------');
+      log(url);
+      log('----------------------------------------------------------------');
+      final response = await http.post(Uri.parse(url), body: data, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": iiflSubscriptionKey,
+        "Cookie": cookie
       }).timeout(const Duration(seconds: 60));
       log('STATUS : ${response.statusCode}');
       log('----------------------------------------------------------------');

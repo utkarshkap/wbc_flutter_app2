@@ -57,14 +57,45 @@ class BrokersRepo {
 
   postBrokerholdingsData(
       {required List<AddbrokerholdingsModel> holdings}) async {
-    print("holdings::::::::------${holdings}");
     try {
       final response = await ApiHandler.post(
           url: addbrokerholdings, body: jsonEncode(holdings));
-      print(
-          "postBrokerholdingsData:::::::::::::::${response.body};;;;;;+++${response.statusCode}");
 
       return response;
+    } on BadRequestException {
+      return ApiResponse.withError('Semething went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
+
+  loginIIFLBroker(String clientCode, String password, String dob) async {
+    try {
+      final response = await ApiHandler.postIIFL(
+          url: iiflLoginUrl,
+          clientCode: clientCode,
+          password: password,
+          dob: dob);
+
+      // print(
+      //     "HEDERS:::::::::::${response.headers['set-cookie']!.split(';')[0]}");
+      return response.headers['set-cookie']!.split(';')[0];
+    } on BadRequestException {
+      return ApiResponse.withError('Semething went wrong', statusCode: 400);
+    } on ApiException catch (e) {
+      return ApiResponse.withError(e.message);
+    } catch (e) {
+      return ApiResponse.withError('Unable to load page');
+    }
+  }
+
+  getIIFLHoldingData(String clientCode, String cookie) async {
+    try {
+      final response = await ApiHandler.postIIFLHolding(
+          url: iiflHoldingUrl, clientCode: clientCode, cookie: cookie);
+      return response.body;
     } on BadRequestException {
       return ApiResponse.withError('Semething went wrong', statusCode: 400);
     } on ApiException catch (e) {
