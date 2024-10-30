@@ -127,8 +127,8 @@ class _ViewFyersHoldingState extends State<ViewFyersHolding> {
                             isin: element.isin));
                       });
 
-                      // BlocProvider.of<FetchingDataBloc>(context)
-                      //     .add(AddBrokerholdingsEvent(holdings: data));
+                      BlocProvider.of<FetchingDataBloc>(context)
+                          .add(AddBrokerholdingsEvent(holdings: data));
                       return state.getFyersHoldings.holdings!.isEmpty
                           ? Center(
                               child: Text('No Data Available',

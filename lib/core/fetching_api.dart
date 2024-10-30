@@ -386,8 +386,9 @@ class FetchingApi {
   }
 
   Future<GetBrokerHoldingModel> getBrokerHoldingData() async {
-    final response = await http
-        .get(Uri.parse('${getBrokerholdingsUrl}?userid=${ApiUser.userId}'));
+    final response = await http.get(
+        Uri.parse('${getBrokerholdingsUrl}?userid=${ApiUser.userId}        '));
+    // &brokerid=1
 
     print("response:::::::::::::::::::----${response.body}");
 

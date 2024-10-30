@@ -10,6 +10,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wbc_connect_app/blocs/deletefamilymember/delete_family_member_bloc.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
+import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
 import 'package:wbc_connect_app/models/munafe_ki_class_model.dart';
 import 'package:wbc_connect_app/models/product_category_model.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
@@ -1567,6 +1568,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 arguments: ViewScreenData(
                                                     myContact:
                                                         ApiUser.myContactsList!,
+                                                    title:
+                                                        'My Converted Referrals',
                                                     isClientsConverted: true));
                                           },
                                           child: Column(

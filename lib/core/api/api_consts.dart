@@ -89,7 +89,8 @@ const createPayUMoneyHashKeyUrl =
     'http://api2.kafinsec.in/api/WebApi/CustomPayUMoneyHashKey?';
 
 //RazorpayPayment Credential
-const razorpayKey = 'rzp_test_4vj76FZqWURAwF';
+const razorpayKey = 'rzp_live_kYXFJgsJOfnffn';
+// rzp_test_4vj76FZqWURAwF - test key
 
 const getBrokerListUrl = "${baseUrl}GetBrokerList";
 const addbrokerholdings = "addbrokerholdings";

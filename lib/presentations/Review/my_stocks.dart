@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/models/get_brokerList_model.dart';
 import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -300,6 +302,11 @@ class _StocksReviewState extends State<StocksReview> {
               }),
               SizedBox(height: 2.h),
               button(icConnectFastTrack, 'Connect Your Brokers', () {
+                BlocProvider.of<FetchingDataBloc>(context).add(
+                    LoadGetBrokersListEvent(
+                        getBrokersList: GetBrokerListModel(
+                            code: 0, message: '', brokerList: [])));
+
                 Navigator.of(context).pushNamed(ConnectBrokers.route);
               }),
               SizedBox(height: 2.h)
