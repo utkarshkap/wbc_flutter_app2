@@ -185,12 +185,12 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                                       height: 23.h,
                                       width: 90.w,
                                       fit: BoxFit.fill),
-                                  CircleAvatar(
-                                    radius: 4.5.w,
-                                    backgroundColor: colorWhite,
-                                    child: Icon(Icons.pause,
-                                        color: colorBlack, size: 7.w),
-                                  )
+                                  // CircleAvatar(
+                                  //   radius: 4.5.w,
+                                  //   backgroundColor: colorWhite,
+                                  //   child: Icon(Icons.pause,
+                                  //       color: colorBlack, size: 7.w),
+                                  // )
                                 ],
                               ),
                               Padding(
@@ -250,31 +250,31 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                               uploadEventTap = true;
                             });
 
-                            signInWithGoogle().then((result) {
-                              if (result != null) {
-                                log("accessToken-->>" + accessToken.toString());
-                                print(
-                                    "accessToken-->>" + accessToken.toString());
-                                print("idToken-->>" + idToken.toString());
-                                setState(() {
-                                  isLogin = true;
-                                });
-                                /*Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const GmailFunctionality()),
-                                );*/
+                            // signInWithGoogle().then((result) {
+                            //   if (result != null) {
+                            //     log("accessToken-->>" + accessToken.toString());
+                            //     print(
+                            //         "accessToken-->>" + accessToken.toString());
+                            //     print("idToken-->>" + idToken.toString());
+                            //     setState(() {
+                            //       isLogin = true;
+                            //     });
+                            //     /*Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(builder: (context) => const GmailFunctionality()),
+                            //     );*/
 
-                                BlocProvider.of<FetchingDataBloc>(context).add(
-                                    LoadGmailInboxEvent(
-                                        accessToken: accessToken.toString(),
-                                        gmailInbox: GetGmailInboxModel(
-                                            resultSizeEstimate: 0,
-                                            nextPageToken: '',
-                                            messages: [])));
-                              }
-                            });
+                            //     BlocProvider.of<FetchingDataBloc>(context).add(
+                            //         LoadGmailInboxEvent(
+                            //             accessToken: accessToken.toString(),
+                            //             gmailInbox: GetGmailInboxModel(
+                            //                 resultSizeEstimate: 0,
+                            //                 nextPageToken: '',
+                            //                 messages: [])));
+                            //   }
+                            // });
 
-                            // pickPdfFile();
+                            pickPdfFile();
                           },
                           child: DottedBorder(
                             borderType: BorderType.RRect,

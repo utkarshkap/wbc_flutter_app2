@@ -10,6 +10,7 @@ class MfReview {
     required this.requestMobile,
     required this.requestDate,
     required this.requestType,
+    required this.requestSubtype,
     required this.requestPan,
     required this.requestEmail,
   });
@@ -18,29 +19,32 @@ class MfReview {
   String requestMobile;
   String requestDate;
   int requestType;
+  int requestSubtype;
   String requestPan;
   String requestEmail;
 
   factory MfReview.fromJson(Map<String, dynamic> json) => MfReview(
-    requestUserid: json["request_userid"],
-    requestMobile: json["request_mobile"],
-    requestDate: json["request_date"],
-    requestType: json["request_type"],
-    requestPan: json["request_pan"],
-    requestEmail: json["request_email"],
-  );
+        requestUserid: json["request_userid"],
+        requestMobile: json["request_mobile"],
+        requestDate: json["request_date"],
+        requestType: json["request_type"],
+        requestSubtype: json["request_subtype"],
+        requestPan: json["request_pan"],
+        requestEmail: json["request_email"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "request_userid": requestUserid,
-    "request_mobile": requestMobile,
-    "request_date": requestDate,
-    "request_type": requestType,
-    "request_pan": requestPan,
-    "request_email": requestEmail,
-  };
+        "request_userid": requestUserid,
+        "request_mobile": requestMobile,
+        "request_date": requestDate,
+        "request_type": requestType,
+        "request_subtype": requestSubtype,
+        "request_pan": requestPan,
+        "request_email": requestEmail,
+      };
 
   @override
   String toString() {
-    return 'MfReview{requestUserid: $requestUserid, requestMobile: $requestMobile, requestDate: $requestDate, requestType: $requestType, requestPan: $requestPan, requestEmail: $requestEmail}';
+    return 'MfReview{requestUserid: $requestUserid, requestMobile: $requestMobile, requestDate: $requestDate, requestType: $requestType, requestSubtype: $requestSubtype, requestPan: $requestPan, requestEmail: $requestEmail}';
   }
 }

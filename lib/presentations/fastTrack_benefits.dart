@@ -9,7 +9,6 @@ import 'package:flutter_gallery_3d/gallery3d.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wbc_connect_app/blocs/payuMoneyPayment/payumoney_payment_bloc.dart';
-import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';

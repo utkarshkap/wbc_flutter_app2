@@ -289,7 +289,8 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                             requestUserid: int.parse(ApiUser.userId),
                             requestMobile: mobileNo,
                             requestDate: DateTime.now().toString(),
-                            requestType: 2,
+                            requestType: 1,
+                            requestSubtype: 9,
                             requestPan: _panCardController.text,
                             requestEmail: _emailController.text));
                       } else {

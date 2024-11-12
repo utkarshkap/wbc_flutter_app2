@@ -33,6 +33,7 @@ class CreateMFReview extends ReviewEvent {
   final String requestMobile;
   final String requestDate;
   final int requestType;
+  final int requestSubtype;
   final String requestPan;
   final String requestEmail;
 
@@ -41,12 +42,13 @@ class CreateMFReview extends ReviewEvent {
       required this.requestMobile,
       required this.requestDate,
       required this.requestType,
+      required this.requestSubtype,
       required this.requestPan,
       required this.requestEmail});
 
   @override
   String toString() {
-    return 'CreateMFReview{requestUserid: $requestUserid, requestMobile: $requestMobile, requestDate: $requestDate, requestType: $requestType, requestPan: $requestPan, requestEmail: $requestEmail}';
+    return 'CreateMFReview{requestUserid: $requestUserid, requestMobile: $requestMobile, requestDate: $requestDate, requestType: $requestType, requestSubtype: $requestSubtype, requestPan: $requestPan, requestEmail: $requestEmail}';
   }
 }
 

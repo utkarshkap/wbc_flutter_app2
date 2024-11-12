@@ -49,6 +49,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
             requestDate: event.requestDate,
             requestType: event.requestType,
             requestPan: event.requestPan,
+            requestSubtype: event.requestSubtype,
             requestEmail: event.requestEmail);
 
         print('--mf--review--data--=---$response');
