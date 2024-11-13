@@ -251,6 +251,7 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                             });
 
                             // signInWithGoogle().then((result) {
+                            //   print("Result::::::::::::------$result");
                             //   if (result != null) {
                             //     log("accessToken-->>" + accessToken.toString());
                             //     print(
@@ -422,7 +423,8 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                                   email: email,
                                   mono: mobileNo,
                                   panNumber: _panCardController.text,
-                                  requestType: "2",
+                                  requestType: "1",
+                                  requestSubtype: '9',
                                   uploadFileName: fileName,
                                   uploadFilePath: uploadFile!.path));
                         } else {

@@ -47,6 +47,7 @@ class ReviewMFRepository {
       {required String userId,
       required String mono,
       required String requestType,
+      required String requestSubtype,
       required String panNumber,
       required String email,
       required String uploadFilePath,
@@ -56,6 +57,7 @@ class ReviewMFRepository {
     request.fields['request_userid'] = userId;
     request.fields['request_mobile'] = mono;
     request.fields['request_type'] = requestType;
+    request.fields['request_subtype'] = requestSubtype;
     request.fields['request_pan'] = panNumber;
     request.fields['request_email'] = email;
     request.files.add(await http.MultipartFile.fromPath(

@@ -107,13 +107,14 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
             userId: event.userId,
             mono: event.mono,
             requestType: event.requestType,
+            requestSubtype: event.requestSubtype,
             panNumber: event.panNumber,
             email: event.email,
             uploadFilePath: event.uploadFilePath,
             uploadFileName: event.uploadFileName);
 
         print(
-            '--upload------mf--review--data--=---${mfReviewRepo.uploadMfReview(userId: event.userId, mono: event.mono, requestType: event.requestType, panNumber: event.panNumber, email: event.email, uploadFilePath: event.uploadFilePath, uploadFileName: event.uploadFileName)}');
+            '--upload------mf--review--data--=---${mfReviewRepo.uploadMfReview(userId: event.userId, mono: event.mono, requestType: event.requestType, requestSubtype: event.requestSubtype, panNumber: event.panNumber, email: event.email, uploadFilePath: event.uploadFilePath, uploadFileName: event.uploadFileName)}');
 
         response.statusCode == 200
             ? emit(UploadReviewDataAdded())
