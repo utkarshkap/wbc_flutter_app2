@@ -496,37 +496,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 2.h),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(MunafeKiClassScreen.route);
-                            BlocProvider.of<FetchingDataBloc>(context).add(
-                                LoadMunafeKiClassEvent(
-                                    munafeKiClass: MunafeKiClass(
-                                        code: 0, message: '', list: [])));
-                          },
-                          child: Container(
-                            width: 90.w,
-                            decoration: decoration(),
-                            padding: EdgeInsets.only(
-                                top: 2.h, bottom: 2.h, left: 4.w),
-                            child: Row(
-                              children: [
-                                Image.asset(icCoinCash, height: 3.h),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text('Learn how to earn more',
-                                    style: textStyle12Medium(colorBlack)),
-                                Text(' Gold ',
-                                    style: textStyle13Bold(colorRed)),
-                                Text('Points',
-                                    style: textStyle12Medium(colorBlack)),
-                              ],
-                            ),
-                          ),
-                        ),
+                        // SizedBox(height: 2.h),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigator.of(context)
+                        //         .pushNamed(MunafeKiClassScreen.route);
+                        //     BlocProvider.of<FetchingDataBloc>(context).add(
+                        //         LoadMunafeKiClassEvent(
+                        //             munafeKiClass: MunafeKiClass(
+                        //                 code: 0, message: '', list: [])));
+                        //   },
+                        //   child: Container(
+                        //     width: 90.w,
+                        //     decoration: decoration(),
+                        //     padding: EdgeInsets.only(
+                        //         top: 2.h, bottom: 2.h, left: 4.w),
+                        //     child: Row(
+                        //       children: [
+                        //         Image.asset(icCoinCash, height: 3.h),
+                        //         SizedBox(
+                        //           width: 2.w,
+                        //         ),
+                        //         Text('Learn how to earn more',
+                        //             style: textStyle12Medium(colorBlack)),
+                        //         Text(' Gold ',
+                        //             style: textStyle13Bold(colorRed)),
+                        //         Text('Points',
+                        //             style: textStyle12Medium(colorBlack)),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         // NRI Carnival - VII
 
                         // SizedBox(height: 2.h),

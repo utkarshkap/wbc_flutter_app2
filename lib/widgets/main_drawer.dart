@@ -299,15 +299,15 @@ class _MainDrawerState extends State<MainDrawer> {
                               faq: Faq(code: 0, message: '', questions: [])));
                       Navigator.of(context).pushNamed(FAQs.route);
                     }),
-                    drawerWidget(icMunafeKiClass, 'Munafe ki Class', () {
-                      Scaffold.of(context).closeDrawer();
-                      BlocProvider.of<FetchingDataBloc>(context).add(
-                          LoadMunafeKiClassEvent(
-                              munafeKiClass: MunafeKiClass(
-                                  code: 0, message: '', list: [])));
-                      Navigator.of(context)
-                          .pushNamed(MunafeKiClassScreen.route);
-                    }),
+                    // drawerWidget(icMunafeKiClass, 'Munafe ki Class', () {
+                    //   Scaffold.of(context).closeDrawer();
+                    //   BlocProvider.of<FetchingDataBloc>(context).add(
+                    //       LoadMunafeKiClassEvent(
+                    //           munafeKiClass: MunafeKiClass(
+                    //               code: 0, message: '', list: [])));
+                    //   Navigator.of(context)
+                    //       .pushNamed(MunafeKiClassScreen.route);
+                    // }),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       child: Container(
