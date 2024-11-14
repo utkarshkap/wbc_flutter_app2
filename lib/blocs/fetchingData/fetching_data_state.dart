@@ -352,29 +352,6 @@ class GetGmailInboxErrorState extends FetchingDataState {
   List<Object?> get props => [error];
 }
 
-class GetBrokersListInitial extends FetchingDataState {
-  @override
-  List<Object> get props => [];
-}
-
-class GetBrokersListLoadedState extends FetchingDataState {
-  final GetBrokerListModel getBroker;
-
-  const GetBrokersListLoadedState(this.getBroker);
-
-  @override
-  List<Object?> get props => [getBroker];
-}
-
-class GetBrokersListErrorState extends FetchingDataState {
-  final String error;
-
-  const GetBrokersListErrorState(this.error);
-
-  @override
-  List<Object?> get props => [error];
-}
-
 class GetFyersAccessTokenInitial extends FetchingDataState {
   @override
   List<Object> get props => [];

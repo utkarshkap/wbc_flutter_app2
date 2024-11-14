@@ -107,12 +107,6 @@ class LoadGmailInboxEvent extends FetchingDataEvent {
   LoadGmailInboxEvent({required this.gmailInbox, required this.accessToken});
 }
 
-class LoadGetBrokersListEvent extends FetchingDataEvent {
-  final GetBrokerListModel getBrokersList;
-
-  LoadGetBrokersListEvent({required this.getBrokersList});
-}
-
 class LoadFyersAccessTokenEvent extends FetchingDataEvent {
   final GetFyersAccessTokenModel getFyersAccessToken;
 

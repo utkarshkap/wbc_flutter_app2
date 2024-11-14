@@ -205,16 +205,6 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       }
     });
 
-    on<LoadGetBrokersListEvent>((event, emit) async {
-      emit(GetBrokersListInitial());
-      try {
-        final faqData = await FetchingApi().getBrokerList();
-        emit(GetBrokersListLoadedState(faqData));
-      } catch (e) {
-        emit(GetBrokersListErrorState(e.toString()));
-      }
-    });
-
     on<LoadFyersAccessTokenEvent>((event, emit) async {
       emit(GetFyersAccessTokenInitial());
       try {
@@ -367,15 +357,14 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
     on<LoadIIFLHoldingEvent>((event, emit) async {
       emit(IIFLHoldingitial());
 
-      // try {
       final brokersRepo = BrokersRepo();
 
       final response =
           await brokersRepo.getIIFLHoldingData(event.clientCode, event.cookie);
 
-      // print("response::::::::::::::::::::::::::${response.body}");
+      print("response::::::::::::::::::::::::::${response}");
 
-      if (response.statusCode == 200) {
+      if (response.isNotEmpty) {
         var responseData = getIiflHoldingModelFromJson(response);
         print(
             "response::::::::::::::::::::::::::::------------${responseData}");
@@ -384,11 +373,6 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
       } else {
         emit(const IIFLHoldingFailed('Error'));
       }
-
-      // } catch (e) {
-      // print("ERROR--------${e}---------");
-      // emit(IIFLHoldingFailed(e.toString()));
-      // }
     });
   }
 }

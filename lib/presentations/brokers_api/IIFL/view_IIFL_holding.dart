@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/add_broker_holdings_data_model.dart';
-import 'package:wbc_connect_app/models/get_brokerList_model.dart';
-import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 
 class ViewIIFLHolding extends StatefulWidget {
@@ -36,13 +34,6 @@ class _ViewIIFLHoldingState extends State<ViewIIFLHolding> {
             leading: IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(ConnectBrokers.route);
-                  BlocProvider.of<FetchingDataBloc>(context).add(
-                      LoadGetBrokersListEvent(
-                          getBrokersList: GetBrokerListModel(
-                              code: 0, message: '', brokerList: [])));
                   BlocProvider.of<FetchingDataBloc>(context)
                       .add(AddBrokerholdingsEvent(holdings: data));
                 },
@@ -53,10 +44,6 @@ class _ViewIIFLHoldingState extends State<ViewIIFLHolding> {
           ),
           body: WillPopScope(
             onWillPop: () async {
-              BlocProvider.of<FetchingDataBloc>(context).add(
-                  LoadGetBrokersListEvent(
-                      getBrokersList: GetBrokerListModel(
-                          code: 0, message: '', brokerList: [])));
               BlocProvider.of<FetchingDataBloc>(context)
                   .add(AddBrokerholdingsEvent(holdings: data));
               return true;

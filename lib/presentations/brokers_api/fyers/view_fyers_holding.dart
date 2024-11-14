@@ -39,10 +39,6 @@ class _ViewFyersHoldingState extends State<ViewFyersHolding> {
             leading: IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  BlocProvider.of<FetchingDataBloc>(context).add(
-                      LoadGetBrokersListEvent(
-                          getBrokersList: GetBrokerListModel(
-                              code: 0, message: '', brokerList: [])));
                   BlocProvider.of<FetchingDataBloc>(context)
                       .add(AddBrokerholdingsEvent(holdings: data));
                 },
@@ -52,10 +48,6 @@ class _ViewFyersHoldingState extends State<ViewFyersHolding> {
           ),
           body: WillPopScope(
             onWillPop: () async {
-              BlocProvider.of<FetchingDataBloc>(context).add(
-                  LoadGetBrokersListEvent(
-                      getBrokersList: GetBrokerListModel(
-                          code: 0, message: '', brokerList: [])));
               BlocProvider.of<FetchingDataBloc>(context)
                   .add(AddBrokerholdingsEvent(holdings: data));
               return true;
