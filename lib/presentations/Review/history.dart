@@ -139,28 +139,30 @@ class _ReviewHistoryState extends State<ReviewHistory> {
               return SingleChildScrollView(
                 child: Column(
                     children: List.generate(
-                        state.reviewHistory.reviewresponse.length,
-                        (index) => reviews(
-                            index,
-                            state.reviewHistory.reviewresponse[index]
-                                        .investmentName ==
-                                    'Stock/MF'
-                                ? icStockPortfolio
-                                : state.reviewHistory.reviewresponse[index]
-                                            .investmentName ==
-                                        'Mutual Funds'
-                                    ? icMutualFundsInvestment
-                                    : state.reviewHistory.reviewresponse[index]
-                                                .investmentName ==
-                                            'Insurance'
-                                        ? icInsurance
-                                        : icReviewLoan,
-                            '${state.reviewHistory.reviewresponse[index].investmentName} Review',
-                            DateTime.now()
-                                .difference(state.reviewHistory
-                                    .reviewresponse[index].reqDate)
-                                .inDays,
-                            () => null))),
+                  state.reviewHistory.reviewresponse.length,
+                  (index) => reviews(
+                      index,
+                      state.reviewHistory.reviewresponse[index]
+                                  .investmentName ==
+                              'Stock/MF'
+                          ? icStockPortfolio
+                          : state.reviewHistory.reviewresponse[index]
+                                      .investmentName ==
+                                  'Mutual Funds'
+                              ? icMutualFundsInvestment
+                              : state.reviewHistory.reviewresponse[index]
+                                          .investmentName ==
+                                      'Insurance'
+                                  ? icInsurance
+                                  : icReviewLoan,
+                      '${state.reviewHistory.reviewresponse[index].investmentName} Review',
+                      DateTime.now()
+                          .difference(
+                              state.reviewHistory.reviewresponse[index].reqDate)
+                          .inDays,
+                      () => null,
+                      state.reviewHistory.reviewresponse[index].status),
+                )),
               );
             }
             if (state is ReviewHistoryErrorState) {
@@ -175,8 +177,8 @@ class _ReviewHistoryState extends State<ReviewHistory> {
     );
   }
 
-  reviews(
-      int index, String icon, String title, int subValue, Function() onClick) {
+  reviews(int index, String icon, String title, int subValue,
+      Function() onClick, String status) {
     return Container(
       margin: EdgeInsets.only(top: 0.7.h),
       decoration: BoxDecoration(color: colorWhite, boxShadow: [
@@ -228,6 +230,13 @@ class _ReviewHistoryState extends State<ReviewHistory> {
               ],
             ),
             const Spacer(),
+            Text(status,
+                style: textStyle10Bold(
+                    status == 'Pending' ? colorRed : colorGreen),
+                textAlign: TextAlign.right),
+            SizedBox(
+              width: 2.w,
+            ),
             GestureDetector(
               onTap: onClick,
               child: isDownloadList[index]
@@ -252,7 +261,9 @@ class _ReviewHistoryState extends State<ReviewHistory> {
                       splashRadius: 5.5.w,
                       splashColor: colorWhite,
                       onPressed: () {
-                        startDownloading(index);
+                        if (status != 'Pending') {
+                          startDownloading(index);
+                        }
                       },
                       icon: Image.asset(icDownload,
                           width: 8.w, color: colorTextBCBC)),

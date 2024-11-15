@@ -99,7 +99,7 @@ class _ViewIIFLHoldingState extends State<ViewIIFLHolding> {
                       : SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.only(
-                              top: 8.0.h,
+                              top: 2.0.h,
                             ),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +115,7 @@ class _ViewIIFLHoldingState extends State<ViewIIFLHolding> {
                                       state.iiflHoldingData.body!.data!.length,
                                       (index) => Padding(
                                             padding: EdgeInsets.symmetric(
-                                                vertical: 3.h, horizontal: 5.w),
+                                                vertical: 2.h, horizontal: 5.w),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,

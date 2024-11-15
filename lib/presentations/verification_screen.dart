@@ -743,6 +743,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     //         deviceid: deviceId,
                     //         fcmId: notificationToken));
 
+// ---------------------------------------------------------------------------------------------------------- //
+
                     /*if (state.data!.data!.availableContacts != 0) {
                       widget.verificationScreenData.selectedContact =
                           state.data!.data!.availableContacts;

@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/blocs/brokers/brokers_bloc.dart';
 import 'package:wbc_connect_app/models/get_brokerList_model.dart';
 import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
@@ -226,7 +226,13 @@ class _StocksReviewState extends State<StocksReview> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(fileName, style: textStyle11Bold(colorText7070)),
+                          Flexible(
+                            child: Text(
+                              fileName,
+                              style: textStyle11Bold(colorText7070),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                           uploadFile == null
                               ? Image.asset(icUpload,
                                   color: colorRed, width: 5.w)
@@ -302,7 +308,7 @@ class _StocksReviewState extends State<StocksReview> {
               }),
               SizedBox(height: 2.h),
               button(icConnectFastTrack, 'Connect Your Brokers', () {
-                BlocProvider.of<FetchingDataBloc>(context).add(
+                BlocProvider.of<BrokersBloc>(context).add(
                     LoadGetBrokersListEvent(
                         getBrokersList: GetBrokerListModel(
                             code: 0, message: '', brokerList: [])));

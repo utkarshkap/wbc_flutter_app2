@@ -1,22 +1,15 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:wbc_connect_app/core/api/api_consts.dart';
-import 'package:wbc_connect_app/models/get_gmail_inbox_model.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
-
-import '../../blocs/fetchingData/fetching_data_bloc.dart';
 import '../../blocs/review/review_bloc.dart';
 import '../../common_functions.dart';
-import '../../core/Google_SignIn.dart';
 import '../../core/preferences.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
@@ -47,7 +40,7 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
   String fileValidation = '';
   bool isSend = false;
   String panCardValidation = '';
-  String fileName = 'Upload your stock investment PDF';
+  String fileName = 'Upload your MF investment PDF';
   bool isPanFieldTap = true;
 
   bool isLogin = false;
@@ -297,8 +290,13 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(fileName,
-                                      style: textStyle11Bold(colorText7070)),
+                                  Flexible(
+                                    child: Text(
+                                      fileName,
+                                      style: textStyle11Bold(colorText7070),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                   uploadFile == null
                                       ? Image.asset(icUpload,
                                           color: colorRed, width: 5.w)

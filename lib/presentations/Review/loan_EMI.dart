@@ -593,6 +593,12 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                 SizedBox(
                   width: 84.w - 2,
                   child: TextFormField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(labelText == 'Tenure' ||
+                              labelText == 'Rate of Interest'
+                          ? 2
+                          : 15)
+                    ],
                     controller: controller,
                     style: textStyle11(colorText3D3D).copyWith(height: 1.3),
                     maxLines: 1,

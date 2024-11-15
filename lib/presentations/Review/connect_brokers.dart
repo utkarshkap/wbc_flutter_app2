@@ -2,9 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
+import 'package:wbc_connect_app/blocs/brokers/brokers_bloc.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
-import 'package:wbc_connect_app/models/get_brokerList_model.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/ICICI/webview_ICICI.dart';
 import 'package:wbc_connect_app/presentations/brokers_api/angel/webview_angel.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
@@ -116,7 +115,7 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
             SizedBox(width: 5.w)
           ],
         ),
-        body: BlocConsumer<FetchingDataBloc, FetchingDataState>(
+        body: BlocConsumer<BrokersBloc, BrokersState>(
           listener: (context, state) {
             if (state is GetBrokersListErrorState) {
               AwesomeDialog(
@@ -312,6 +311,11 @@ class _ConnectBrokersState extends State<ConnectBrokers> {
                   )
                 ],
               );
+            }
+            if (state is GetBrokersListErrorState) {
+              return Center(
+                  child: Text(state.error.toString(),
+                      style: textStyle13Medium(colorBlack)));
             }
             return Container();
           },
