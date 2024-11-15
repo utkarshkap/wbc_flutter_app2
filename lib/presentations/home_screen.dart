@@ -250,7 +250,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   state.data!.data.mfTotalAmount;
               Preference.setApproveContactCount(
                   state.data!.data.addContacts.toString());
-              ApiUser.goldReferralPoint = state.data!.data.goldPoint;
               ApiUser.offersList = state.data!.data.offers;
               GpDashBoardData.history = state.data!.data.history;
               GpDashBoardData.contactBase = state.data!.data.contactBase;

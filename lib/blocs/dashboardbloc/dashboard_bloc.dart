@@ -26,7 +26,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         print('goldpoint------${data.data.goldPoint}');
         print('available contact------${data.data.availableContacts}');
 
-        ApiUser.goldReferralPoint = data.data.goldPoint;
         response.data!.statusCode == 200
             ? emit(DashboardDataLoaded(data))
             : emit(DashboardFailed());

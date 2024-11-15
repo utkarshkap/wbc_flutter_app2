@@ -870,7 +870,7 @@ class _CartScreenState extends State<CartScreen> {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 1.5.h),
                                     child: Text(
-                                        '${ApiUser.goldReferralPoint} Coins',
+                                        '${GpDashBoardData.redeemable} Coins',
                                         style: textStyle11Bold(colorRed)),
                                   ),
                                   Text('Use Coin You',
@@ -910,7 +910,7 @@ class _CartScreenState extends State<CartScreen> {
                             addressValidation = '';
                           });
                           if ((cartValue.toInt() + shippingCharges) >
-                              ApiUser.goldReferralPoint) {
+                              GpDashBoardData.redeemable!.toInt()) {
                             CommonFunction().errorDialog(context,
                                 'You don\'t have sufficient gold point for buying this cart products.');
                           } else {

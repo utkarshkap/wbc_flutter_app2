@@ -13,7 +13,6 @@ import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 
 import '../../blocs/cart/cart_bloc.dart';
-import '../../blocs/dashboardbloc/dashboard_bloc.dart';
 import '../../blocs/order/order_bloc.dart';
 import '../../blocs/signingbloc/signing_bloc.dart';
 import '../../common_functions.dart';
@@ -175,12 +174,14 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                   btnOkColor: Colors.red,
                 ).show();
               } else if (state is OrderDataAdded) {
-                BlocProvider.of<DashboardBloc>(context)
-                    .add(GetDashboardData(userId: ApiUser.userId));
+                // BlocProvider.of<DashboardBloc>(context)
+                //     .add(GetDashboardData(userId: ApiUser.userId));
                 Navigator.of(context).pushNamed(OrderHistory.route,
                     arguments: OrderHistoryData(isOrdered: true));
-                BlocProvider.of<CartBloc>(context)
-                    .add(LoadRemoveCartListEvent());
+                BlocProvider.of<OrderBloc>(context)
+                    .add(GetOrderHistory(userId: ApiUser.userId));
+                // BlocProvider.of<CartBloc>(context)
+                //     .add(LoadRemoveCartListEvent());
               }
             }, builder: (context, state) {
               return SingleChildScrollView(
@@ -626,7 +627,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                                       padding:
                                           EdgeInsets.symmetric(vertical: 1.5.h),
                                       child: Text(
-                                          '${ApiUser.goldReferralPoint} Coins',
+                                          '${GpDashBoardData.redeemable} Coins',
                                           style: textStyle11Bold(colorRed)),
                                     ),
                                     Text('Use Coin You',
@@ -666,7 +667,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                               addressValidation = '';
                             });
                             if ((cartValue.toInt() + shippingCharges) >
-                                ApiUser.goldReferralPoint) {
+                                GpDashBoardData.redeemable!.toInt()) {
                               CommonFunction().errorDialog(context,
                                   'You don\'t have sufficient gold point for buying this cart products.');
                             } else {

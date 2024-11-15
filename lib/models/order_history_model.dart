@@ -73,7 +73,7 @@ class Order {
   final double shippingCharge;
   final double tax;
   final String shipDate;
-  final int orderStatus;
+  final String orderStatus;
   final String trackingNumber;
   final bool status;
   final String orderDate;
@@ -86,7 +86,7 @@ class Order {
         amount: json["amount"],
         shipName: json["shipName"],
         shipAddress: json["shipAddress"],
-        deliveryType: json["deliveryType"]??"",
+        deliveryType: json["deliveryType"] ?? "",
         country: json["country"],
         state: json["state"],
         city: json["city"],

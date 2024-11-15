@@ -153,7 +153,6 @@ class ApiUser {
   static String userDob = "";
   static String emailId = "";
   static String mobileNo = "";
-  static int goldReferralPoint = 0;
   static List<GoldReferral>? myContactsList = [];
   static List<Offer> offersList = [];
   static List<Memberlist> membersList = [];

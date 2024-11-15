@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:wbc_connect_app/models/cart_model.dart';
-
 import '../models/address_model.dart';
 
 class DatabaseHelper {
@@ -40,7 +39,9 @@ class DatabaseHelper {
   }
 
   Future<Database> get database async {
-    _database ??= await initializeDatabase();
+    if (_database == null || !_database!.isOpen) {
+      _database = await initializeDatabase();
+    }
     return _database!;
   }
 
@@ -65,68 +66,52 @@ class DatabaseHelper {
 
   //-------------------------
   Future<List<Map<String, dynamic>>> getCartMapList() async {
-    Database db = await database;
-    var result = await db.query(cartTable);
-    return result;
+    var db = await database;
+    return await db.query(cartTable);
   }
 
   Future<List<Map<String, dynamic>>> getAddressMapList() async {
-    Database db = await database;
-    var result = await db.query(addressTable, orderBy: '$addressId ASC');
-    return result;
+    var db = await database;
+    return await db.query(addressTable, orderBy: '$addressId ASC');
   }
 
-  //-------------------------
-
-//----------------------------------
   Future<int> insertCartData(CartItem cartItem) async {
-    Database db = await database;
-    var result = await db.insert(cartTable, cartItem.toJson());
-    return result;
+    var db = await database;
+    return await db.insert(cartTable, cartItem.toJson());
   }
 
   Future<int> insertAddress(ShippingAddress address) async {
-    Database db = await database;
-    var result = await db.insert(addressTable, address.toJson());
-    return result;
+    var db = await database;
+    return await db.insert(addressTable, address.toJson());
   }
 
-//----------------------------------
-
-//----------------------------------
   Future<int> updateCartData(CartItem cartItem) async {
     var db = await database;
-    var result = await db.update(cartTable, cartItem.toJson(),
+    return await db.update(cartTable, cartItem.toJson(),
         where: '$cartId = ?', whereArgs: [cartItem.id]);
-    return result;
   }
 
   Future<int> updateAddressData(ShippingAddress address) async {
     var db = await database;
-    var result = await db.update(addressTable, address.toJson(),
+    return await db.update(addressTable, address.toJson(),
         where: '$addressId = ?', whereArgs: [address.id]);
-    return result;
   }
 
-//----------------------------------
-
-//----------------------------------
   Future<int> deleteCartData(int id) async {
     var db = await database;
-    var result = await db.delete(cartTable, where: "id = ?", whereArgs: [id]);
-    return result;
+    return await db.delete(cartTable, where: "id = ?", whereArgs: [id]);
   }
 
   Future<int> deleteAddressData(int id) async {
     var db = await database;
-    var result =
-        await db.delete(addressTable, where: "id = ?", whereArgs: [id]);
-    return result;
+    return await db.delete(addressTable, where: "id = ?", whereArgs: [id]);
   }
 
-//----------------------------------
+  Future<void> deleteAllAddresses() async {
+    var db = await database;
+    await db.delete(addressTable);
+  }
 
-//----------------------------------
   Future<void> cleanCart() async {
     try {
       var db = await database;
@@ -139,9 +124,7 @@ class DatabaseHelper {
       throw Exception('DbBase.cleanDatabase: $error');
     }
   }
-//----------------------------------
 
-//----------------------------------
   Future<List<CartItem>?> getCartDataList() async {
     var todoMapList = await getCartMapList();
     int count = todoMapList.length;
@@ -162,10 +145,11 @@ class DatabaseHelper {
     return data;
   }
 
-//----------------------------------
-
+  // Only close when necessary
   Future closeDataBase() async {
-    Database db = await database;
-    await db.close();
+    var db = await database;
+    if (db.isOpen) {
+      await db.close();
+    }
   }
 }

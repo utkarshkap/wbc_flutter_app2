@@ -60,6 +60,7 @@ class _MainDrawerState extends State<MainDrawer> {
     await auth.signOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
+    await helper.deleteAllAddresses();
     await helper.closeDataBase();
     relationType = ['Father', 'Mother', 'Husband', 'Wife', 'Son', 'Daughter'];
     setState(() {});

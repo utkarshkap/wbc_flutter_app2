@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/blocs/order/order_bloc.dart';
+import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
 import '../../common_functions.dart';
@@ -53,7 +54,9 @@ class _OrderHistoryState extends State<OrderHistory> {
             leadingWidth: 15.w,
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      HomeScreen.route, (route) => false,
+                      arguments: HomeScreenData());
                 },
                 icon: Image.asset(icBack, color: colorRed, width: 6.w)),
             titleSpacing: 0,
@@ -174,12 +177,9 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                                     2.5.w),
                                                         child: Text(
                                                             state
-                                                                    .data
-                                                                    .orders[
-                                                                        index]
-                                                                    .status
-                                                                ? 'Delivered'
-                                                                : 'Pending',
+                                                                .data
+                                                                .orders[index]
+                                                                .orderStatus,
                                                             style:
                                                                 textStyle10Bold(
                                                                     colorWhite)),
