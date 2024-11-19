@@ -43,6 +43,7 @@ class Datum {
   final String? isin;
   final int? brokerId;
   final int? userId;
+  final String? brokerName;
 
   Datum({
     this.id,
@@ -52,6 +53,7 @@ class Datum {
     this.isin,
     this.brokerId,
     this.userId,
+    this.brokerName,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -62,6 +64,7 @@ class Datum {
         isin: json["isin"],
         brokerId: json["brokerId"],
         userId: json["userId"],
+        brokerName: json["brokerName"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +75,6 @@ class Datum {
         "isin": isin,
         "brokerId": brokerId,
         "userId": userId,
+        "brokerName": brokerName,
       };
 }

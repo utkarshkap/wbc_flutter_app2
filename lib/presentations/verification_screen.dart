@@ -404,7 +404,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       withPhoto: false,
     ).then((value) {
       print('-----contacts--all-----$value');
-      print('-----phones------${value[6].phones}');
+      // print('-----phones------${value[6].phones}');
       if (value.isEmpty) {
         Timer(const Duration(seconds: 2), () {
           setState(() {

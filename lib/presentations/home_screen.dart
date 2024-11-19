@@ -1398,12 +1398,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 2.5.h),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(MunafeKiClassScreen.route);
-                            BlocProvider.of<FetchingDataBloc>(context).add(
-                                LoadMunafeKiClassEvent(
-                                    munafeKiClass: MunafeKiClass(
-                                        code: 0, message: '', list: [])));
+                            // Navigator.of(context)
+                            //     .pushNamed(MunafeKiClassScreen.route);
+                            // BlocProvider.of<FetchingDataBloc>(context).add(
+                            //     LoadMunafeKiClassEvent(
+                            //         munafeKiClass: MunafeKiClass(
+                            //             code: 0, message: '', list: [])));
                           },
                           child: Container(
                               width: 90.w,
