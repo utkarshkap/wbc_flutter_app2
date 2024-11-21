@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/presentations/Review/history.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
@@ -37,11 +38,14 @@ class _PolicyReviewState extends State<PolicyReview> {
       TextEditingController();
   final TextEditingController _premiumController = TextEditingController();
   final TextEditingController _payingTermController = TextEditingController();
-  bool isInsuranceCompanyFieldTap = true;
-  bool isInsuranceTypeFieldTap = false;
+  bool isInsuranceCompanyFieldTap = false;
+  bool isInsuranceTypeFieldTap = true;
   bool isInsuranceAmountFieldTap = false;
   bool isPremiumFieldTap = false;
   bool isPayingTermFieldTap = false;
+  bool isRenewalDateFieldTap = false;
+  bool isPremiumPayingDateFieldTap = false;
+  bool isPremiumPayingModeFieldTap = false;
   FocusNode insuranceAmountFocus = FocusNode();
   FocusNode premiumFocus = FocusNode();
   FocusNode payingTermFocus = FocusNode();
@@ -50,7 +54,14 @@ class _PolicyReviewState extends State<PolicyReview> {
   String insuranceAmountValidation = '';
   String premiumValidation = '';
   String payingTermValidation = '';
+  String renewalDateValidation = '';
+  String premiumPayingDateValidation = '';
+  String premiumPayingModeValidation = '';
   bool isSend = false;
+  DateTime? selectedDate;
+  String renewalDate = 'Select your Renewal Date';
+  String premiumPayingDate = 'Select your Premium Paying Date';
+  String selectedPremiumPayingMode = 'Yearly';
 
   getMobNo() async {
     mobileNo = await Preference.getMobNo();
@@ -133,318 +144,530 @@ class _PolicyReviewState extends State<PolicyReview> {
             },
             builder: (context, state) {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 2.h),
-                  dropDownWidget('Choose your insurance company',
-                      selectedInsuranceCompany, isInsuranceCompanyFieldTap, () {
-                    BlocProvider.of<FetchingDataBloc>(context).add(
-                        LoadInsuranceCompanyEvent(insuranceCompany: const []));
-                    setState(() {
-                      isInsuranceCompanyFieldTap = true;
-                      isInsuranceTypeFieldTap = false;
-                      isInsuranceAmountFieldTap = false;
-                      isPremiumFieldTap = false;
-                      isPayingTermFieldTap = false;
-                    });
-                    insuranceAmountFocus.unfocus();
-                    premiumFocus.unfocus();
-                    payingTermFocus.unfocus();
-                    CommonFunction().selectFormDialog(
-                        context, 'Select Insurance Company', [], (val) {
-                      setState(() {
-                        selectedInsuranceCompany = val;
-                      });
-                      Navigator.of(context).pop();
-                    });
-                  }),
-                  if (companyValidation.isNotEmpty)
-                    SizedBox(
-                      height: 0.5.h,
-                    ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 2.w),
-                      child: companyValidation == 'Empty Insurance Company'
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.error,
-                                    color: colorRed, size: 13),
-                                const SizedBox(width: 4),
-                                Container(
-                                  height: 2.h,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                      'Please Select an Insurance Company',
-                                      style: textStyle9(colorErrorRed)),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                    ),
-                  ),
-                  dropDownWidget('Choose your type of insurance',
-                      selectedInsuranceType, isInsuranceTypeFieldTap, () {
-                    BlocProvider.of<FetchingDataBloc>(context).add(
-                        LoadInsuranceCategoryEvent(
-                            insuranceCategory: const []));
-                    setState(() {
-                      isInsuranceCompanyFieldTap = false;
-                      isInsuranceTypeFieldTap = true;
-                      isInsuranceAmountFieldTap = false;
-                      isPremiumFieldTap = false;
-                      isPayingTermFieldTap = false;
-                    });
-                    insuranceAmountFocus.unfocus();
-                    premiumFocus.unfocus();
-                    payingTermFocus.unfocus();
-                    CommonFunction().selectFormDialog(
-                        context, 'Select Insurance Type', [], (val) {
-                      print('-----selectedType--=---$val');
-                      setState(() {
-                        selectedInsuranceType = val.name;
-                        insuranceTypeId = val.id;
-                        isInsuranceTypeFieldTap = false;
-                        isInsuranceAmountFieldTap = true;
-                      });
-                      print(
-                          '-----selectedInsuranceType--=---$selectedInsuranceType');
-                      print('-----insuranceTypeId--=---$insuranceTypeId');
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 2.h),
+                          dropDownWidget(
+                              'Choose your type of insurance',
+                              selectedInsuranceType,
+                              isInsuranceTypeFieldTap, () {
+                            BlocProvider.of<FetchingDataBloc>(context).add(
+                                LoadInsuranceCategoryEvent(
+                                    insuranceCategory: const []));
+                            setState(() {
+                              isInsuranceTypeFieldTap = true;
+                              isInsuranceCompanyFieldTap = false;
+                              isInsuranceAmountFieldTap = false;
+                              isPremiumFieldTap = false;
+                              isPayingTermFieldTap = false;
+                              isRenewalDateFieldTap = false;
+                              isPremiumPayingDateFieldTap = false;
+                              isPremiumPayingModeFieldTap = false;
+                            });
+                            insuranceAmountFocus.unfocus();
+                            premiumFocus.unfocus();
+                            payingTermFocus.unfocus();
+                            CommonFunction().selectFormDialog(
+                                context, 'Select Insurance Type', [], (val) {
+                              print('-----selectedType--=---$val');
+                              setState(() {
+                                selectedInsuranceType = val.name;
+                                insuranceTypeId = val.id;
+                                // isInsuranceTypeFieldTap = false;
+                                // isInsuranceAmountFieldTap = true;
+                                if (selectedInsuranceType != 'Life') {
+                                  _payingTermController.text = '1';
+                                }
+                              });
+                              print(
+                                  '-----selectedInsuranceType--=---$selectedInsuranceType');
+                              print(
+                                  '-----insuranceTypeId--=---$insuranceTypeId');
 
-                      insuranceAmountFocus.requestFocus();
-                      Navigator.of(context).pop();
-                    });
-                  }),
-                  if (typeValidation.isNotEmpty)
-                    SizedBox(
-                      height: 0.5.h,
-                    ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 2.w),
-                      child: typeValidation == 'Empty Insurance Type'
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.error,
-                                    color: colorRed, size: 13),
-                                const SizedBox(width: 4),
-                                Container(
-                                  height: 2.h,
-                                  alignment: Alignment.center,
-                                  child: Text('Please Select an Insurance Type',
-                                      style: textStyle9(colorErrorRed)),
-                                ),
-                              ],
-                            )
-                          : Container(),
+                              Navigator.of(context).pop();
+                            });
+                          }),
+                          if (typeValidation.isNotEmpty)
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: typeValidation == 'Empty Insurance Type'
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error,
+                                            color: colorRed, size: 13),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          height: 2.h,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                              'Please Select an Insurance Type',
+                                              style: textStyle9(colorErrorRed)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+                          dropDownWidget(
+                              'Choose your insurance company',
+                              selectedInsuranceCompany,
+                              isInsuranceCompanyFieldTap, () {
+                            BlocProvider.of<FetchingDataBloc>(context).add(
+                                LoadInsuranceCompanyEvent(
+                                    insuranceCompany: const []));
+                            setState(() {
+                              isInsuranceTypeFieldTap = false;
+                              isInsuranceCompanyFieldTap = true;
+                              isInsuranceAmountFieldTap = false;
+                              isPremiumFieldTap = false;
+                              isPayingTermFieldTap = false;
+                              isRenewalDateFieldTap = false;
+                              isPremiumPayingDateFieldTap = false;
+                              isPremiumPayingModeFieldTap = false;
+                            });
+                            insuranceAmountFocus.unfocus();
+                            premiumFocus.unfocus();
+                            payingTermFocus.unfocus();
+                            CommonFunction().selectFormDialog(
+                                context, 'Select Insurance Company', [], (val) {
+                              setState(() {
+                                selectedInsuranceCompany = val;
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceAmountFieldTap = true;
+                              });
+                              insuranceAmountFocus.requestFocus();
+                              Navigator.of(context).pop();
+                            });
+                          }),
+                          if (companyValidation.isNotEmpty)
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: companyValidation ==
+                                      'Empty Insurance Company'
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error,
+                                            color: colorRed, size: 13),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          height: 2.h,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                              'Please Select an Insurance Company',
+                                              style: textStyle9(colorErrorRed)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+                          textFormFieldContainer(
+                              'Insurance amount',
+                              'Enter your amount',
+                              isInsuranceAmountFieldTap, () {
+                            setState(() {
+                              isInsuranceCompanyFieldTap = false;
+                              isInsuranceTypeFieldTap = false;
+                              isInsuranceAmountFieldTap = true;
+                              isPremiumFieldTap = false;
+                              isPayingTermFieldTap = false;
+                              isRenewalDateFieldTap = false;
+                              isPremiumPayingDateFieldTap = false;
+                            });
+                            insuranceAmountFocus.requestFocus();
+                          }, _insuranceAmountController, TextInputType.number),
+                          if (insuranceAmountValidation.isNotEmpty)
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: insuranceAmountValidation == 'Empty Amount'
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error,
+                                            color: colorRed, size: 13),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          height: 2.h,
+                                          alignment: Alignment.center,
+                                          child: Text('Please Enter an Amount',
+                                              style: textStyle9(colorErrorRed)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+                          textFormFieldContainer('Yearly premium',
+                              'Enter your Premium', isPremiumFieldTap, () {
+                            setState(() {
+                              isInsuranceCompanyFieldTap = false;
+                              isInsuranceTypeFieldTap = false;
+                              isInsuranceAmountFieldTap = false;
+                              isPremiumFieldTap = true;
+                              isPayingTermFieldTap = false;
+                              isRenewalDateFieldTap = false;
+                              isPremiumPayingDateFieldTap = false;
+                              isPremiumPayingModeFieldTap = false;
+                            });
+                            premiumFocus.requestFocus();
+                          },
+                              _premiumController,
+                              const TextInputType.numberWithOptions(
+                                  decimal: true)),
+                          if (premiumValidation.isNotEmpty)
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: premiumValidation == 'Empty Premium'
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error,
+                                            color: colorRed, size: 13),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          height: 2.h,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                              'Please Enter a Premium value',
+                                              style: textStyle9(colorErrorRed)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+                          if (selectedInsuranceType == 'Life') ...[
+                            textFormFieldContainer(
+                                'Premium paying term',
+                                'Enter your paying term',
+                                isPayingTermFieldTap, () {
+                              setState(() {
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceTypeFieldTap = false;
+                                isInsuranceAmountFieldTap = false;
+                                isPremiumFieldTap = false;
+                                isPayingTermFieldTap = true;
+                                isRenewalDateFieldTap = false;
+                                isPremiumPayingDateFieldTap = false;
+                                isPremiumPayingModeFieldTap = false;
+                              });
+                              payingTermFocus.requestFocus();
+                            }, _payingTermController, TextInputType.number),
+                            if (payingTermValidation.isNotEmpty)
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 2.w),
+                                child: payingTermValidation ==
+                                        'Empty Paying Term'
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.error,
+                                              color: colorRed, size: 13),
+                                          const SizedBox(width: 4),
+                                          Container(
+                                            height: 2.h,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                                'Please Enter your Paying term',
+                                                style:
+                                                    textStyle9(colorErrorRed)),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                              ),
+                            ),
+                          ],
+
+                          dropDownWidget(
+                              'Choose your premium paying mode',
+                              selectedPremiumPayingMode,
+                              isPremiumPayingModeFieldTap, () {
+                            setState(() {
+                              isInsuranceCompanyFieldTap = false;
+                              isInsuranceTypeFieldTap = false;
+                              isInsuranceAmountFieldTap = false;
+                              isPremiumFieldTap = false;
+                              isPayingTermFieldTap = false;
+                              isRenewalDateFieldTap = false;
+                              isPremiumPayingDateFieldTap = false;
+                              isPremiumPayingModeFieldTap = true;
+                            });
+                            insuranceAmountFocus.unfocus();
+                            premiumFocus.unfocus();
+                            payingTermFocus.unfocus();
+
+                            selectDialog(
+                                context, 'Select Premium Paying Mode', [
+                              'Yearly',
+                              'Half yearly',
+                              'Quarterly',
+                              'Monthly'
+                            ], (val) {
+                              setState(() {
+                                selectedPremiumPayingMode = val.toString();
+                              });
+                              Navigator.of(context).pop();
+                            });
+                          }),
+                          dropDownWidget('Choose your Renewal Date',
+                              renewalDate, isRenewalDateFieldTap, () {
+                            setState(() {
+                              isInsuranceCompanyFieldTap = false;
+                              isInsuranceTypeFieldTap = false;
+                              isInsuranceAmountFieldTap = false;
+                              isPremiumFieldTap = false;
+                              isPayingTermFieldTap = false;
+                              isRenewalDateFieldTap = true;
+                              isPremiumPayingDateFieldTap = false;
+                              isPremiumPayingModeFieldTap = false;
+                            });
+                            insuranceAmountFocus.unfocus();
+                            premiumFocus.unfocus();
+                            payingTermFocus.unfocus();
+                            dateOfBirth(true);
+                          }),
+                          if (renewalDateValidation.isNotEmpty)
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: renewalDateValidation ==
+                                      'Empty Renewal Date'
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error,
+                                            color: colorRed, size: 13),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          height: 2.h,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                              'Please Select an Renewal Date',
+                                              style: textStyle9(colorErrorRed)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+                          // dropDownWidget(
+                          //     'Choose your Premium Paying Date',
+                          //     premiumPayingDate,
+                          //     isPremiumPayingDateFieldTap, () {
+                          //   setState(() {
+                          //     isInsuranceCompanyFieldTap = false;
+                          //     isInsuranceTypeFieldTap = false;
+                          //     isInsuranceAmountFieldTap = false;
+                          //     isPremiumFieldTap = false;
+                          //     isPayingTermFieldTap = false;
+                          //     isRenewalDateFieldTap = false;
+                          //     isPremiumPayingDateFieldTap = true;
+                          //     isPremiumPayingFrequencyFieldTap = false;
+                          //   });
+                          //   insuranceAmountFocus.unfocus();
+                          //   premiumFocus.unfocus();
+                          //   payingTermFocus.unfocus();
+                          //   dateOfBirth(false);
+                          // }),
+                          // if (premiumPayingDateValidation.isNotEmpty)
+                          //   SizedBox(
+                          //     height: 0.5.h,
+                          //   ),
+                          // Align(
+                          //   alignment: Alignment.centerLeft,
+                          //   child: Padding(
+                          //     padding: EdgeInsets.only(left: 2.w),
+                          //     child: premiumPayingDateValidation ==
+                          //             'Empty Premium Paying Date'
+                          //         ? Row(
+                          //             crossAxisAlignment:
+                          //                 CrossAxisAlignment.center,
+                          //             children: [
+                          //               const Icon(Icons.error,
+                          //                   color: colorRed, size: 13),
+                          //               const SizedBox(width: 4),
+                          //               Container(
+                          //                 height: 2.h,
+                          //                 alignment: Alignment.center,
+                          //                 child: Text(
+                          //                     'Please Select an Premim Paying Date',
+                          //                     style: textStyle9(colorErrorRed)),
+                          //               ),
+                          //             ],
+                          //           )
+                          //         : Container(),
+                          //   ),
+                          // ),
+
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          if (companyValidation.isEmpty ||
+                              typeValidation.isEmpty ||
+                              insuranceAmountValidation.isEmpty ||
+                              premiumValidation.isEmpty ||
+                              payingTermValidation.isEmpty ||
+                              renewalDateValidation.isEmpty ||
+                              premiumPayingDateValidation.isEmpty)
+                            SizedBox(height: 3.5.h),
+                          button(icSendReview, 'Send For Review', () {
+                            if (selectedInsuranceCompany ==
+                                'Select your insurance company') {
+                              setState(() {
+                                companyValidation = 'Empty Insurance Company';
+                              });
+                            } else {
+                              setState(() {
+                                companyValidation = '';
+                              });
+                            }
+                            if (selectedInsuranceType ==
+                                'Select Insurance Type') {
+                              setState(() {
+                                typeValidation = 'Empty Insurance Type';
+                              });
+                            } else {
+                              setState(() {
+                                typeValidation = '';
+                              });
+                            }
+                            if (_insuranceAmountController.text.isEmpty) {
+                              setState(() {
+                                insuranceAmountValidation = 'Empty Amount';
+                              });
+                            } else {
+                              setState(() {
+                                insuranceAmountValidation = '';
+                              });
+                            }
+                            if (_premiumController.text.isEmpty) {
+                              setState(() {
+                                premiumValidation = 'Empty Premium';
+                              });
+                            } else {
+                              setState(() {
+                                premiumValidation = '';
+                              });
+                            }
+                            if (_payingTermController.text.isEmpty) {
+                              setState(() {
+                                payingTermValidation = 'Empty Paying Term';
+                              });
+                            } else {
+                              setState(() {
+                                payingTermValidation = '';
+                              });
+                            }
+                            if (renewalDate == 'Select your Renewal Date') {
+                              setState(() {
+                                renewalDateValidation = 'Empty Renewal Date';
+                              });
+                            } else {
+                              setState(() {
+                                renewalDateValidation = '';
+                              });
+                            }
+                            if (premiumPayingDate ==
+                                'Select your Premium Paying Date') {
+                              setState(() {
+                                premiumPayingDateValidation =
+                                    'Empty Premium Paying Date';
+                              });
+                            } else {
+                              setState(() {
+                                premiumPayingDateValidation = '';
+                              });
+                            }
+                            if (selectedInsuranceCompany !=
+                                    'Select your insurance company' &&
+                                selectedInsuranceType !=
+                                    'Select Insurance Type' &&
+                                renewalDate != 'Select your Renewal Date' &&
+                                premiumPayingDate !=
+                                    'Select your Premium Paying Date' &&
+                                _insuranceAmountController.text.isNotEmpty &&
+                                _premiumController.text.isNotEmpty &&
+                                _payingTermController.text.isNotEmpty) {
+                              setState(() {
+                                isSend = true;
+                              });
+                              BlocProvider.of<ReviewBloc>(context).add(
+                                  CreateInsuranceReview(
+                                      userid: int.parse(ApiUser.userId),
+                                      mobile: mobileNo,
+                                      company: selectedInsuranceCompany,
+                                      insurancetype: insuranceTypeId,
+                                      insuranceamount: int.parse(
+                                          _insuranceAmountController.text),
+                                      premium: double.parse(
+                                          double.parse(_premiumController.text)
+                                              .toStringAsFixed(1)),
+                                      premiumterm:
+                                          int.parse(_payingTermController.text),
+                                      renewaldate: renewalDate,
+                                      premiumPayingDate: premiumPayingDate,
+                                      premiumPayingFrequency:
+                                          selectedPremiumPayingMode));
+                            } else {
+                              setState(() {
+                                isSend = false;
+                              });
+                            }
+                          }),
+                          SizedBox(height: 2.h),
+                          button(icCheckReview, 'Check Review Report', () {
+                            BlocProvider.of<ReviewBloc>(context)
+                                .add(LoadReviewHistoryEvent(mobNo: mobileNo));
+                            Navigator.of(context)
+                                .pushNamed(ReviewHistory.route);
+                          }),
+                          SizedBox(height: 2.h)
+                        ],
+                      ),
                     ),
                   ),
-                  textFormFieldContainer('Insurance amount',
-                      'Enter your amount', isInsuranceAmountFieldTap, () {
-                    setState(() {
-                      isInsuranceCompanyFieldTap = false;
-                      isInsuranceTypeFieldTap = false;
-                      isInsuranceAmountFieldTap = true;
-                      isPremiumFieldTap = false;
-                      isPayingTermFieldTap = false;
-                    });
-                    insuranceAmountFocus.requestFocus();
-                  }, _insuranceAmountController, TextInputType.number),
-                  if (insuranceAmountValidation.isNotEmpty)
-                    SizedBox(
-                      height: 0.5.h,
-                    ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 2.w),
-                      child: insuranceAmountValidation == 'Empty Amount'
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.error,
-                                    color: colorRed, size: 13),
-                                const SizedBox(width: 4),
-                                Container(
-                                  height: 2.h,
-                                  alignment: Alignment.center,
-                                  child: Text('Please Enter an Amount',
-                                      style: textStyle9(colorErrorRed)),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                    ),
-                  ),
-                  textFormFieldContainer(
-                      'Yearly premium', 'Enter your Premium', isPremiumFieldTap,
-                      () {
-                    setState(() {
-                      isInsuranceCompanyFieldTap = false;
-                      isInsuranceTypeFieldTap = false;
-                      isInsuranceAmountFieldTap = false;
-                      isPremiumFieldTap = true;
-                      isPayingTermFieldTap = false;
-                    });
-                    premiumFocus.requestFocus();
-                  }, _premiumController,
-                      const TextInputType.numberWithOptions(decimal: true)),
-                  if (premiumValidation.isNotEmpty)
-                    SizedBox(
-                      height: 0.5.h,
-                    ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 2.w),
-                      child: premiumValidation == 'Empty Premium'
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.error,
-                                    color: colorRed, size: 13),
-                                const SizedBox(width: 4),
-                                Container(
-                                  height: 2.h,
-                                  alignment: Alignment.center,
-                                  child: Text('Please Enter a Premium value',
-                                      style: textStyle9(colorErrorRed)),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                    ),
-                  ),
-                  textFormFieldContainer('Premium paying term',
-                      'Enter your paying term', isPayingTermFieldTap, () {
-                    setState(() {
-                      isInsuranceCompanyFieldTap = false;
-                      isInsuranceTypeFieldTap = false;
-                      isInsuranceAmountFieldTap = false;
-                      isPremiumFieldTap = false;
-                      isPayingTermFieldTap = true;
-                    });
-                    payingTermFocus.requestFocus();
-                  }, _payingTermController, TextInputType.number),
-                  if (payingTermValidation.isNotEmpty)
-                    SizedBox(
-                      height: 0.5.h,
-                    ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 2.w),
-                      child: payingTermValidation == 'Empty Paying Term'
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.error,
-                                    color: colorRed, size: 13),
-                                const SizedBox(width: 4),
-                                Container(
-                                  height: 2.h,
-                                  alignment: Alignment.center,
-                                  child: Text('Please Enter your Paying term',
-                                      style: textStyle9(colorErrorRed)),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                    ),
-                  ),
-                  if (companyValidation.isEmpty ||
-                      typeValidation.isEmpty ||
-                      insuranceAmountValidation.isEmpty ||
-                      premiumValidation.isEmpty ||
-                      payingTermValidation.isEmpty)
-                    SizedBox(height: 3.5.h),
-                  const Spacer(),
-                  button(icSendReview, 'Send For Review', () {
-                    if (selectedInsuranceCompany ==
-                        'Select your insurance company') {
-                      setState(() {
-                        companyValidation = 'Empty Insurance Company';
-                      });
-                    } else {
-                      setState(() {
-                        companyValidation = '';
-                      });
-                    }
-                    if (selectedInsuranceType == 'Select Insurance Type') {
-                      setState(() {
-                        typeValidation = 'Empty Insurance Type';
-                      });
-                    } else {
-                      setState(() {
-                        typeValidation = '';
-                      });
-                    }
-                    if (_insuranceAmountController.text.isEmpty) {
-                      setState(() {
-                        insuranceAmountValidation = 'Empty Amount';
-                      });
-                    } else {
-                      setState(() {
-                        insuranceAmountValidation = '';
-                      });
-                    }
-                    if (_premiumController.text.isEmpty) {
-                      setState(() {
-                        premiumValidation = 'Empty Premium';
-                      });
-                    } else {
-                      setState(() {
-                        premiumValidation = '';
-                      });
-                    }
-                    if (_payingTermController.text.isEmpty) {
-                      setState(() {
-                        payingTermValidation = 'Empty Paying Term';
-                      });
-                    } else {
-                      setState(() {
-                        payingTermValidation = '';
-                      });
-                    }
-                    if (selectedInsuranceCompany !=
-                            'Select your insurance company' &&
-                        selectedInsuranceType != 'Select Insurance Type' &&
-                        _insuranceAmountController.text.isNotEmpty &&
-                        _premiumController.text.isNotEmpty &&
-                        _payingTermController.text.isNotEmpty) {
-                      setState(() {
-                        isSend = true;
-                      });
-                      BlocProvider.of<ReviewBloc>(context).add(
-                          CreateInsuranceReview(
-                              userid: int.parse(ApiUser.userId),
-                              mobile: mobileNo,
-                              company: selectedInsuranceCompany,
-                              insurancetype: insuranceTypeId,
-                              insuranceamount:
-                                  int.parse(_insuranceAmountController.text),
-                              premium: double.parse(
-                                  double.parse(_premiumController.text)
-                                      .toStringAsFixed(1)),
-                              premiumterm:
-                                  int.parse(_payingTermController.text)));
-                    } else {
-                      setState(() {
-                        isSend = false;
-                      });
-                    }
-                  }),
-                  SizedBox(height: 2.h),
-                  button(icCheckReview, 'Check Review Report', () {
-                    BlocProvider.of<ReviewBloc>(context)
-                        .add(LoadReviewHistoryEvent(mobNo: mobileNo));
-                    Navigator.of(context).pushNamed(ReviewHistory.route);
-                  }),
-                  SizedBox(height: 2.h)
                 ],
               );
             },
@@ -548,8 +771,13 @@ class _PolicyReviewState extends State<PolicyReview> {
                           child: Text(selectedType,
                               style: textStyle11(colorText3D3D)),
                         ),
-                        Image.asset(icDropdown,
-                            color: colorText3D3D, width: 5.w)
+                        Image.asset(
+                            title == 'Choose your Renewal Date' ||
+                                    title == 'Choose your Premium Paying Date'
+                                ? icCalendar
+                                : icDropdown,
+                            color: colorText3D3D,
+                            width: 5.w)
                       ],
                     ),
                   ),
@@ -594,7 +822,9 @@ class _PolicyReviewState extends State<PolicyReview> {
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'^\d+\.?\d*')),
                           ]
-                        : [],
+                        : labelText == 'Premium paying term'
+                            ? [LengthLimitingTextInputFormatter(2)]
+                            : [],
                     decoration: InputDecoration.collapsed(
                         hintText: hintText,
                         hintStyle: textStyle11(colorText3D3D),
@@ -642,5 +872,140 @@ class _PolicyReviewState extends State<PolicyReview> {
         ),
       ),
     );
+  }
+
+  dateOfBirth(bool select) {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1951, 1, 1),
+        lastDate: DateTime.now(),
+        builder: (context, child) {
+          return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: colorRed,
+                  onPrimary: colorWhite,
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    textStyle: textStyle14Bold(colorRed),
+                  ),
+                ),
+              ),
+              child: child!);
+        }).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      print('-------pickedDate---$pickedDate');
+      setState(() {
+        selectedDate = pickedDate;
+        // if (select == true) {
+        renewalDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+        // } else {
+        premiumPayingDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+        // }
+      });
+    });
+  }
+
+  selectDialog(BuildContext context, String title, List<String> list,
+      Function(dynamic) onSelect) {
+    return showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: '',
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                  opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                  child: StatefulBuilder(
+                      builder: (context, setState) => AlertDialog(
+                            contentPadding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            content: SizedBox(
+                              height: 33.5.h,
+                              width: 77.8.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: 60,
+                                      width: 77.8.w,
+                                      decoration: const BoxDecoration(
+                                          color: colorBG,
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(10))),
+                                      padding: EdgeInsets.only(left: 3.5.w),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(title,
+                                              style:
+                                                  textStyle11Bold(colorBlack)),
+                                          IconButton(
+                                              padding: EdgeInsets.zero,
+                                              splashColor: colorBG,
+                                              splashRadius: 5.5.w,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon: Icon(Icons.close,
+                                                  size: 3.h, color: colorRed))
+                                        ],
+                                      )),
+                                  SizedBox(
+                                    height: 25.5.h,
+                                    child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: list.length,
+                                        itemBuilder: (context, i) => InkWell(
+                                              onTap: () {
+                                                onSelect(list[i]);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        deviceWidth(context) *
+                                                            0.778,
+                                                    color: colorTransparent,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 2.h),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 3.5.w,
+                                                          right: 2.5.w),
+                                                      child: Text(list[i],
+                                                          style: textStyle11(
+                                                                  colorBlack)
+                                                              .copyWith(
+                                                                  height: 1.2)),
+                                                    ),
+                                                  ),
+                                                  if (i != list.length - 1)
+                                                    Container(
+                                                        height: 1,
+                                                        color: colorTextBCBC
+                                                            .withOpacity(0.36))
+                                                ],
+                                              ),
+                                            )),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ))));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
   }
 }

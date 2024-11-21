@@ -11,6 +11,9 @@ class CreateInsuranceReview extends ReviewEvent {
   final int insuranceamount;
   final double premium;
   final int premiumterm;
+  final String renewaldate;
+  final String premiumPayingDate;
+  final String premiumPayingFrequency;
 
   CreateInsuranceReview({
     required this.userid,
@@ -20,11 +23,14 @@ class CreateInsuranceReview extends ReviewEvent {
     required this.insuranceamount,
     required this.premium,
     required this.premiumterm,
+    required this.renewaldate,
+    required this.premiumPayingDate,
+    required this.premiumPayingFrequency,
   });
 
   @override
   String toString() {
-    return 'CreateInsuranceReview{userid: $userid, mobile: $mobile, company: $company, insurancetype: $insurancetype, insuranceamount: $insuranceamount, premium: $premium, premiumterm: $premiumterm}';
+    return 'CreateInsuranceReview{userid: $userid, mobile: $mobile, company: $company, insurancetype: $insurancetype, insuranceamount: $insuranceamount, premium: $premium, premiumterm: $premiumterm, renewaldate: $renewaldate, premiumPayingDate: $premiumPayingDate, premiumPayingFrequency: $premiumPayingFrequency}';
   }
 }
 

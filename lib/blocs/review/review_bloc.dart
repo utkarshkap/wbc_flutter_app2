@@ -28,7 +28,10 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
             insurancetype: event.insurancetype,
             insuranceamount: event.insuranceamount,
             premium: event.premium,
-            premiumterm: event.premiumterm);
+            premiumterm: event.premiumterm,
+            renewaldate: event.renewaldate,
+            premiumPayingDate: event.premiumPayingDate,
+            premiumPayingFrequency: event.premiumPayingFrequency);
 
         print('--insurance--review--data--=---$response');
 

@@ -15,6 +15,9 @@ class ReviewInsuranceRepository {
     required int insuranceamount,
     required double premium,
     required int premiumterm,
+    required String renewaldate,
+    required String premiumPayingDate,
+    required String premiumPayingFrequency,
   }) async {
     try {
       final data = jsonEncode(InsuranceReview(
@@ -24,10 +27,14 @@ class ReviewInsuranceRepository {
           insurancetype: insurancetype,
           insuranceamount: insuranceamount,
           premium: premium,
-          premiumterm: premiumterm));
+          premiumterm: premiumterm,
+          renewaldate: renewaldate,
+          premiumPayingDate: premiumPayingDate,
+          premiumPayingFrequency: premiumPayingFrequency));
 
       print('review-insurance-data------$data');
-      final response = await ApiHandler.post(url: setInsuranceReviewKey, body: data);
+      final response =
+          await ApiHandler.post(url: setInsuranceReviewKey, body: data);
 
       print('api--order--response------${response.statusCode}');
       print(response.statusCode);
@@ -43,8 +50,7 @@ class ReviewInsuranceRepository {
 
   Future<ApiResponse<Response>> getAllReview(String mobNo) async {
     try {
-      final response =
-          await ApiHandler.get('$getAllReviewKey$mobNo');
+      final response = await ApiHandler.get('$getAllReviewKey$mobNo');
 
       print('order-code------${response.statusCode}');
 
