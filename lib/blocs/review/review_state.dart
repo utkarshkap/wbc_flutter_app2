@@ -10,9 +10,7 @@ class InsuranceReviewInitial extends ReviewState {}
 class InsuranceReviewDataAdding extends ReviewState {}
 
 class InsuranceReviewDataAdded extends ReviewState {
-  final Response data;
-
-  InsuranceReviewDataAdded(this.data);
+  InsuranceReviewDataAdded();
 }
 
 class InsuranceReviewFailed extends ReviewState {}

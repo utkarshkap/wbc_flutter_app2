@@ -12,7 +12,8 @@ const setOrderKey = 'wbcOrder';
 const getAllOrderKey = 'getallorder?userid=';
 const deleteAccountKey = 'deleteaccount?mobileno=';
 
-const setInsuranceReviewKey = 'addreviewInsurance';
+const setInsuranceReviewKey =
+    'https://wbcapi.kagroup.in/api/User/addreviewInsurance';
 const setFamilyMember = 'addfamilymember';
 
 const insuranceKey = 'insurancecalculator';

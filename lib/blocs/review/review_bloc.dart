@@ -21,22 +21,26 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       await Future.delayed(const Duration(seconds: 3), () async {
         final insuranceReviewRepo = ReviewInsuranceRepository();
 
-        final response = await insuranceReviewRepo.setReviewInsurance(
-            userid: event.userid,
-            mobile: event.mobile,
-            company: event.company,
-            insurancetype: event.insurancetype,
-            insuranceamount: event.insuranceamount,
-            premium: event.premium,
-            premiumterm: event.premiumterm,
-            renewaldate: event.renewaldate,
-            premiumPayingDate: event.premiumPayingDate,
-            premiumPayingFrequency: event.premiumPayingFrequency);
+        final StreamedResponse response =
+            await insuranceReviewRepo.setReviewInsurance(
+                userid: event.userid,
+                mobile: event.mobile,
+                company: event.company,
+                insurancetype: event.insurancetype,
+                insuranceamount: event.insuranceamount,
+                premium: event.premium,
+                premiumterm: event.premiumterm,
+                renewaldate: event.renewaldate,
+                premiumPayingDate: event.premiumPayingDate,
+                premiumPayingFrequency: event.premiumPayingFrequency,
+                uploadFilePath: event.uploadFilePath,
+                uploadFileName: event.uploadFileName);
 
-        print('--insurance--review--data--=---$response');
+        // print(
+        //     '--upload------mf--review--data--=---${mfReviewRepo.uploadMfReview(userId: event.userId, mono: event.mono, requestType: event.requestType, requestSubtype: event.requestSubtype, panNumber: event.panNumber, email: event.email, uploadFilePath: event.uploadFilePath, uploadFileName: event.uploadFileName)}');
 
         response.statusCode == 200
-            ? emit(InsuranceReviewDataAdded(response))
+            ? emit(InsuranceReviewDataAdded())
             : emit(InsuranceReviewFailed());
       });
     });

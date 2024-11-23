@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +50,7 @@ class _PolicyReviewState extends State<PolicyReview> {
   bool isRenewalDateFieldTap = false;
   bool isPremiumPayingDateFieldTap = false;
   bool isPremiumPayingModeFieldTap = false;
+  bool isuploadEventTap = false;
   FocusNode insuranceAmountFocus = FocusNode();
   FocusNode premiumFocus = FocusNode();
   FocusNode payingTermFocus = FocusNode();
@@ -62,6 +67,8 @@ class _PolicyReviewState extends State<PolicyReview> {
   String renewalDate = 'Select your Renewal Date';
   String premiumPayingDate = 'Select your Premium Paying Date';
   String selectedPremiumPayingMode = 'Yearly';
+  File? uploadFile;
+  String fileName = 'Upload your Policy PDF';
 
   getMobNo() async {
     mobileNo = await Preference.getMobNo();
@@ -72,6 +79,23 @@ class _PolicyReviewState extends State<PolicyReview> {
   void initState() {
     getMobNo();
     super.initState();
+  }
+
+  pickPdfFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      uploadFile = File(result.files.single.path!);
+
+      setState(() {
+        fileName = uploadFile!.path.split('/').last;
+      });
+
+      print('uploadfilepath------$uploadFile');
+    } else {}
   }
 
   @override
@@ -167,6 +191,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                               isRenewalDateFieldTap = false;
                               isPremiumPayingDateFieldTap = false;
                               isPremiumPayingModeFieldTap = false;
+                              isuploadEventTap = false;
                             });
                             insuranceAmountFocus.unfocus();
                             premiumFocus.unfocus();
@@ -235,6 +260,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                               isRenewalDateFieldTap = false;
                               isPremiumPayingDateFieldTap = false;
                               isPremiumPayingModeFieldTap = false;
+                              isuploadEventTap = false;
                             });
                             insuranceAmountFocus.unfocus();
                             premiumFocus.unfocus();
@@ -280,7 +306,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                             ),
                           ),
                           textFormFieldContainer(
-                              'Insurance amount',
+                              'Sum Assured amount',
                               'Enter your amount',
                               isInsuranceAmountFieldTap, () {
                             setState(() {
@@ -291,6 +317,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                               isPayingTermFieldTap = false;
                               isRenewalDateFieldTap = false;
                               isPremiumPayingDateFieldTap = false;
+                              isuploadEventTap = false;
                             });
                             insuranceAmountFocus.requestFocus();
                           }, _insuranceAmountController, TextInputType.number),
@@ -332,6 +359,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                               isRenewalDateFieldTap = false;
                               isPremiumPayingDateFieldTap = false;
                               isPremiumPayingModeFieldTap = false;
+                              isuploadEventTap = false;
                             });
                             premiumFocus.requestFocus();
                           },
@@ -380,6 +408,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                                 isRenewalDateFieldTap = false;
                                 isPremiumPayingDateFieldTap = false;
                                 isPremiumPayingModeFieldTap = false;
+                                isuploadEventTap = false;
                               });
                               payingTermFocus.requestFocus();
                             }, _payingTermController, TextInputType.number),
@@ -428,6 +457,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                               isRenewalDateFieldTap = false;
                               isPremiumPayingDateFieldTap = false;
                               isPremiumPayingModeFieldTap = true;
+                              isuploadEventTap = false;
                             });
                             insuranceAmountFocus.unfocus();
                             premiumFocus.unfocus();
@@ -457,6 +487,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                               isRenewalDateFieldTap = true;
                               isPremiumPayingDateFieldTap = false;
                               isPremiumPayingModeFieldTap = false;
+                              isuploadEventTap = false;
                             });
                             insuranceAmountFocus.unfocus();
                             premiumFocus.unfocus();
@@ -540,6 +571,77 @@ class _PolicyReviewState extends State<PolicyReview> {
                           //         : Container(),
                           //   ),
                           // ),
+
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 1.5.h, left: 2.5, right: 2.5),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isInsuranceCompanyFieldTap = false;
+                                  isInsuranceTypeFieldTap = false;
+                                  isInsuranceAmountFieldTap = false;
+                                  isPremiumFieldTap = false;
+                                  isPayingTermFieldTap = false;
+                                  isRenewalDateFieldTap = false;
+                                  isPremiumPayingDateFieldTap = false;
+                                  isPremiumPayingModeFieldTap = false;
+                                  isuploadEventTap = true;
+                                });
+                                pickPdfFile();
+                              },
+                              child: DottedBorder(
+                                borderType: BorderType.RRect,
+                                radius: const Radius.circular(10),
+                                color: isuploadEventTap
+                                    ? colorRed
+                                    : colorTextBCBC.withOpacity(0.36),
+                                padding: EdgeInsets.zero,
+                                strokeWidth: 5,
+                                dashPattern: const [5, 5],
+                                child: Container(
+                                  height: 6.h,
+                                  decoration: BoxDecoration(
+                                      color: colorWhite,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  alignment: Alignment.center,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 3.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          fileName,
+                                          style: textStyle11Bold(colorText7070),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      uploadFile == null
+                                          ? Image.asset(icUpload,
+                                              color: colorRed, width: 5.w)
+                                          : IconButton(
+                                              padding: EdgeInsets.zero,
+                                              constraints:
+                                                  BoxConstraints(minWidth: 5.w),
+                                              onPressed: () {
+                                                setState(() {
+                                                  fileName =
+                                                      'Upload your stock investment PDF';
+                                                  uploadFile = null;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.close,
+                                                color: colorRed,
+                                              )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
 
                           SizedBox(
                             height: 1.h,
@@ -635,21 +737,26 @@ class _PolicyReviewState extends State<PolicyReview> {
                               });
                               BlocProvider.of<ReviewBloc>(context).add(
                                   CreateInsuranceReview(
-                                      userid: int.parse(ApiUser.userId),
+                                      userid: ApiUser.userId,
                                       mobile: mobileNo,
                                       company: selectedInsuranceCompany,
-                                      insurancetype: insuranceTypeId,
-                                      insuranceamount: int.parse(
-                                          _insuranceAmountController.text),
-                                      premium: double.parse(
-                                          double.parse(_premiumController.text)
-                                              .toStringAsFixed(1)),
-                                      premiumterm:
-                                          int.parse(_payingTermController.text),
+                                      insurancetype: insuranceTypeId.toString(),
+                                      insuranceamount:
+                                          _insuranceAmountController.text,
+                                      premium: _premiumController.text,
+                                      premiumterm: _payingTermController.text,
                                       renewaldate: renewalDate,
                                       premiumPayingDate: premiumPayingDate,
                                       premiumPayingFrequency:
-                                          selectedPremiumPayingMode));
+                                          selectedPremiumPayingMode,
+                                      uploadFilePath:
+                                          fileName == 'Upload your Policy PDF'
+                                              ? ''
+                                              : uploadFile!.path,
+                                      uploadFileName:
+                                          fileName == 'Upload your Policy PDF'
+                                              ? ''
+                                              : fileName));
                             } else {
                               setState(() {
                                 isSend = false;

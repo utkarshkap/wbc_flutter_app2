@@ -4,16 +4,18 @@ part of 'review_bloc.dart';
 abstract class ReviewEvent {}
 
 class CreateInsuranceReview extends ReviewEvent {
-  final int userid;
+  final String userid;
   final String mobile;
   final String company;
-  final int insurancetype;
-  final int insuranceamount;
-  final double premium;
-  final int premiumterm;
+  final String insurancetype;
+  final String insuranceamount;
+  final String premium;
+  final String premiumterm;
   final String renewaldate;
   final String premiumPayingDate;
   final String premiumPayingFrequency;
+  final String uploadFilePath;
+  final String uploadFileName;
 
   CreateInsuranceReview({
     required this.userid,
@@ -26,11 +28,13 @@ class CreateInsuranceReview extends ReviewEvent {
     required this.renewaldate,
     required this.premiumPayingDate,
     required this.premiumPayingFrequency,
+    required this.uploadFilePath,
+    required this.uploadFileName,
   });
 
   @override
   String toString() {
-    return 'CreateInsuranceReview{userid: $userid, mobile: $mobile, company: $company, insurancetype: $insurancetype, insuranceamount: $insuranceamount, premium: $premium, premiumterm: $premiumterm, renewaldate: $renewaldate, premiumPayingDate: $premiumPayingDate, premiumPayingFrequency: $premiumPayingFrequency}';
+    return 'CreateInsuranceReview{userid: $userid, mobile: $mobile, company: $company, insurancetype: $insurancetype, insuranceamount: $insuranceamount, premium: $premium, premiumterm: $premiumterm, renewaldate: $renewaldate, premiumPayingDate: $premiumPayingDate, premiumPayingFrequency: $premiumPayingFrequency, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
   }
 }
 
