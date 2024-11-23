@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -19,8 +20,12 @@ import 'history.dart';
 class MFReviewScreenData {
   final String panNumber;
   final bool isSendReview;
+  final String requestId;
 
-  MFReviewScreenData({required this.panNumber, required this.isSendReview});
+  MFReviewScreenData(
+      {required this.panNumber,
+      required this.isSendReview,
+      required this.requestId});
 }
 
 class MFReviewScreen extends StatefulWidget {
@@ -59,6 +64,7 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
 
   @override
   void initState() {
+    ApiUser.uploadMFHolidingApiMessage = '';
     getMobNo();
     _panCardController.text = widget.mfReviewScreenData.panNumber;
     if (widget.mfReviewScreenData.isSendReview) {
@@ -155,8 +161,12 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                     btnOkColor: Colors.red,
                   ).show();
                 } else if (state is UploadReviewDataAdded) {
-                  Navigator.of(context).pushReplacementNamed(HomeScreen.route,
-                      arguments: HomeScreenData(isSendReview: 'SendReview'));
+                  if (ApiUser.uploadMFHolidingApiMessage == 'Sucessfull') {
+                    Navigator.of(context).pushReplacementNamed(HomeScreen.route,
+                        arguments: HomeScreenData(isSendReview: 'SendReview'));
+                  } else {
+                    isSend = false;
+                  }
                 }
               },
               builder: (context, state) {
@@ -347,6 +357,16 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                               : Container(),
                         ),
                       ),
+                      if (ApiUser.uploadMFHolidingApiMessage !=
+                          'Sucessfull') ...[
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Text(
+                          ApiUser.uploadMFHolidingApiMessage,
+                          style: textStyle13Bold(colorRed),
+                        )
+                      ],
                       SizedBox(
                         height: 3.h,
                       ),
@@ -418,12 +438,11 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                           BlocProvider.of<ReviewBloc>(context).add(
                               UploadMFReview(
                                   userId: ApiUser.userId,
-                                  email: email,
-                                  mono: mobileNo,
                                   panNumber: _panCardController.text,
                                   requestType: "1",
                                   requestSubtype: '9',
-                                  uploadFileName: fileName,
+                                  requestId:
+                                      widget.mfReviewScreenData.requestId,
                                   uploadFilePath: uploadFile!.path));
                         } else {
                           setState(() {

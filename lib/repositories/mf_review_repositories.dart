@@ -43,37 +43,41 @@ class ReviewMFRepository {
     }
   }
 
-  uploadMfReview(
-      {required String userId,
-      required String mono,
-      required String requestType,
-      required String requestSubtype,
-      required String panNumber,
-      required String email,
-      required String uploadFilePath,
-      required String uploadFileName}) async {
+  uploadMfReview({
+    required String userId,
+    required String requestType,
+    required String requestSubtype,
+    required String panNumber,
+    required String requestId,
+    required String uploadFilePath,
+  }) async {
     var request =
-        http.MultipartRequest("POST", Uri.parse(uploadMfReviewBaseUrl));
-    request.fields['request_userid'] = userId;
-    request.fields['request_mobile'] = mono;
-    request.fields['request_type'] = requestType;
-    request.fields['request_subtype'] = requestSubtype;
-    request.fields['request_pan'] = panNumber;
-    request.fields['request_email'] = email;
-    request.files.add(await http.MultipartFile.fromPath(
-      'pdffile',
-      uploadFilePath,
-      filename: uploadFileName,
-      contentType: MediaType('application', 'x-tar'),
-    ));
-    final response = await request.send().then((response) {
-      if (response.statusCode == 200) {
-        print('200-------');
-        print("Response:::::::::::::${response.stream.isBroadcast}");
+        http.MultipartRequest('POST', Uri.parse(uploadMfReviewBaseUrl));
 
-        return response;
-      }
+    request.fields.addAll({
+      'request_userid': userId,
+      'request_type': requestType,
+      'request_pan': panNumber,
+      'request_id': requestId,
+      'request_subtype': requestSubtype,
+      'pdfpassword': 'Surat@123#'
     });
+    request.files
+        .add(await http.MultipartFile.fromPath('pdffile', uploadFilePath));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      ApiUser.uploadMFHolidingApiMessage =
+          json.decode(await response.stream.bytesToString())['message'];
+
+      // print("RESPONE----------${await response.stream.bytesToString()}");
+
+      return response;
+    } else {
+      print(response.reasonPhrase);
+    }
+
     return response;
   }
 }

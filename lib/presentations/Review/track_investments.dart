@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -105,7 +107,12 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
             } else if (state is MFReviewDataAdded) {
               Navigator.of(context).pushNamed(MFReviewScreen.route,
                   arguments: MFReviewScreenData(
-                      panNumber: _panCardController.text, isSendReview: true));
+                      panNumber: _panCardController.text,
+                      isSendReview: true,
+                      requestId: json
+                          .decode(state.data.body)['reviewresponse']
+                              ['request_id']
+                          .toString()));
             }
           },
           builder: (context, state) {
@@ -304,7 +311,8 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                       Navigator.of(context).pushNamed(MFReviewScreen.route,
                           arguments: MFReviewScreenData(
                               panNumber: _panCardController.text,
-                              isSendReview: false));
+                              isSendReview: false,
+                              requestId: ''));
                     }),
                     SizedBox(height: 2.h)
                   ],

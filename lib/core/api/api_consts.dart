@@ -160,6 +160,7 @@ class ApiUser {
   static bool termNdCondition = false;
   static List numberList = [];
   static double wealthMeterScore = 0;
+  static String uploadMFHolidingApiMessage = '';
 }
 
 class GpDashBoardData {
