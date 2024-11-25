@@ -156,15 +156,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       children: [
                         Text(widget.data.product.name,
                             style: textStyle14Bold(colorBlack)),
-                        SizedBox(
-                            height: widget.data.product.description.isNotEmpty
-                                ? 0.5.h
-                                : 1.5.h),
-                        if (widget.data.product.description.isNotEmpty)
-                          Text(widget.data.product.description,
-                              style: textStyle12(colorText7070)),
-                        if (widget.data.product.description.isNotEmpty)
-                          SizedBox(height: 1.5.h),
+                        SizedBox(height: 2.h),
                         Row(
                           children: [
                             Image.asset(icGoldCoin, width: 4.w),
@@ -185,7 +177,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ]
                           ],
                         ),
-                        SizedBox(height: 1.5.h),
+                        SizedBox(height: 1.h),
                         if (widget.data.product.availableQty == 0)
                           Text('Out of Stock',
                               style: textStyle10Medium(colorRed)),
@@ -196,6 +188,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   : 'only ${widget.data.product.availableQty} item in Stock',
                               style: textStyle10Medium(colorRed)),
                         SizedBox(height: 1.5.h),
+                        SizedBox(
+                            height: widget.data.product.description.isNotEmpty
+                                ? 0.5.h
+                                : 1.5.h),
+                        if (widget.data.product.description.isNotEmpty)
+                          Text(widget.data.product.description,
+                              style: textStyle12(colorText7070)),
+                        if (widget.data.product.description.isNotEmpty)
+                          SizedBox(height: 1.5.h),
                       ],
                     ),
                   ),
