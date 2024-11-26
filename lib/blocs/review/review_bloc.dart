@@ -27,6 +27,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
                 mobile: event.mobile,
                 company: event.company,
                 insurancetype: event.insurancetype,
+                insuranceSubType: event.insuranceSubType,
                 insuranceamount: event.insuranceamount,
                 premium: event.premium,
                 premiumterm: event.premiumterm,

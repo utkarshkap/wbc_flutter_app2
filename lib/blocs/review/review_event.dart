@@ -8,6 +8,7 @@ class CreateInsuranceReview extends ReviewEvent {
   final String mobile;
   final String company;
   final String insurancetype;
+  final String insuranceSubType;
   final String insuranceamount;
   final String premium;
   final String premiumterm;
@@ -22,6 +23,7 @@ class CreateInsuranceReview extends ReviewEvent {
     required this.mobile,
     required this.company,
     required this.insurancetype,
+    required this.insuranceSubType,
     required this.insuranceamount,
     required this.premium,
     required this.premiumterm,
@@ -34,7 +36,7 @@ class CreateInsuranceReview extends ReviewEvent {
 
   @override
   String toString() {
-    return 'CreateInsuranceReview{userid: $userid, mobile: $mobile, company: $company, insurancetype: $insurancetype, insuranceamount: $insuranceamount, premium: $premium, premiumterm: $premiumterm, renewaldate: $renewaldate, premiumPayingDate: $premiumPayingDate, premiumPayingFrequency: $premiumPayingFrequency, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
+    return 'CreateInsuranceReview{userid: $userid, mobile: $mobile, company: $company, insurancetype: $insurancetype, insuranceSubType: $insuranceSubType, insuranceamount: $insuranceamount, premium: $premium, premiumterm: $premiumterm, renewaldate: $renewaldate, premiumPayingDate: $premiumPayingDate, premiumPayingFrequency: $premiumPayingFrequency, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
   }
 }
 

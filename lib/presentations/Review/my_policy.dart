@@ -740,7 +740,9 @@ class _PolicyReviewState extends State<PolicyReview> {
                                       userid: ApiUser.userId,
                                       mobile: mobileNo,
                                       company: selectedInsuranceCompany,
-                                      insurancetype: insuranceTypeId.toString(),
+                                      insurancetype: '4',
+                                      insuranceSubType:
+                                          insuranceTypeId.toString(),
                                       insuranceamount:
                                           _insuranceAmountController.text,
                                       premium: _premiumController.text,
