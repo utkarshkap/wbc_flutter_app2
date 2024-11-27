@@ -59,14 +59,14 @@ class _NRICarnivalScreenState extends State<NRICarnivalScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'NRI Carnival-VII',
+                              'NRI Carnival-VIII',
                               style: textStyle28Bold(colorBlack),
                             ),
                             SizedBox(
                               height: 1.5.h,
                             ),
                             Text(
-                              'From 20th Nov, 2023 To 31st March, 2024',
+                              'From 20th Nov, 2024 To 31st March, 2025',
                               style: textStyle10Bold(colorSplashBG),
                             )
                           ],

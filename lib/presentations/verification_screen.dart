@@ -849,7 +849,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     .verificationScreenData.isNRICarnivalPage ==
                                 true)
                               Text(
-                                'NRI Carnival-VII',
+                                'NRI Carnival-VIII',
                                 style: textStyle11Bold(colorSplashBG),
                               ),
                             const Spacer(),

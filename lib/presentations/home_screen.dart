@@ -13,6 +13,7 @@ import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
 import 'package:wbc_connect_app/models/munafe_ki_class_model.dart';
 import 'package:wbc_connect_app/models/product_category_model.dart';
+import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -526,25 +527,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         //     ),
                         //   ),
                         // ),
-                        // NRI Carnival - VII
 
-                        // SizedBox(height: 2.h),
-                        // InkWell(
-                        //   onTap: () {
-                        //     Navigator.of(context)
-                        //         .pushNamed(NRICarnivalScreen.route);
-                        //   },
-                        //   child: Container(
-                        //     width: 90.w,
-                        //     height: 16.h,
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //       image: const DecorationImage(
-                        //           image: AssetImage(nriCarnival7Banner),
-                        //           fit: BoxFit.cover),
-                        //     ),
-                        //   ),
-                        // ),
+                        // NRI Carnival - VIII
+
+                        SizedBox(height: 2.h),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(NRICarnivalScreen.route);
+                          },
+                          child: Container(
+                            width: 90.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: const DecorationImage(
+                                  image: AssetImage(nriCarnival7Banner),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 2.h),
                         Container(
                           width: 90.w,
