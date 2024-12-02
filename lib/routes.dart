@@ -30,6 +30,7 @@ import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/add_new_address.dart
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/buy_now_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/cart_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/expand_category.dart';
+import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/expand_product_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/order_history.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_category.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_details_screen.dart';
@@ -134,6 +135,12 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       final category = arguments as CategoryData;
       return MaterialPageRoute(
         builder: (_) => ProductCategoryScreen(category: category),
+      );
+
+    case '/Expand-Product':
+      final product = arguments as ProductExpandData;
+      return MaterialPageRoute(
+        builder: (_) => ExpandProductScreen(product: product),
       );
 
     case '/Expand-Category':

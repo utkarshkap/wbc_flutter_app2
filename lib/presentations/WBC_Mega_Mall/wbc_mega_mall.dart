@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
+import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/expand_product_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_category.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_details_screen.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
@@ -38,6 +39,9 @@ class WbcMegaMall extends StatefulWidget {
 class _WbcMegaMallState extends State<WbcMegaMall> {
   final TextEditingController _searchController = TextEditingController();
   List<Category> categories = [];
+  List<Product> arrivalsProduct = [];
+  List<Product> popularProduct = [];
+  List<Product> trendingProduct = [];
   int _selectedIndex = 1;
   bool isNewArrival = false;
   bool isPopular = false;
@@ -409,8 +413,14 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 padding: EdgeInsets.only(right: 1.w),
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .pushNamed(WbcMegaMall.route);
+                                    if (arrivalsProduct.length > 5) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              ExpandProductScreen.route,
+                                              arguments: ProductExpandData(
+                                                  title: 'NEW ARRIVALS',
+                                                  product: arrivalsProduct));
+                                    }
                                   },
                                   child: Row(
                                     children: [
@@ -435,6 +445,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                         if (state.newArrival.products.isEmpty) {
                           isNewArrival = true;
                         }
+                        arrivalsProduct = state.newArrival.products;
                       } else if (state is MallDataErrorState) {
                         isNewArrival = true;
                       }
@@ -474,7 +485,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: List.generate(
-                                      state.newArrival.products.length,
+                                      5,
                                       (index) => state.newArrival
                                               .products[index].img.isEmpty
                                           ? Padding(
@@ -676,8 +687,14 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 padding: EdgeInsets.only(right: 1.w),
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .pushNamed(WbcMegaMall.route);
+                                    if (popularProduct.length > 5) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              ExpandProductScreen.route,
+                                              arguments: ProductExpandData(
+                                                  title: 'MOST POPULAR',
+                                                  product: popularProduct));
+                                    }
                                   },
                                   child: Row(
                                     children: [
@@ -702,6 +719,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                         if (state.popular.products.isEmpty) {
                           isPopular = true;
                         }
+                        popularProduct = state.popular.products;
                       } else if (state is MallDataErrorState) {
                         isPopular = true;
                       }
@@ -741,7 +759,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: List.generate(
-                                      state.popular.products.length,
+                                      5,
                                       (index) => state.popular.products[index]
                                               .img.isEmpty
                                           ? Padding(
@@ -951,8 +969,14 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                 padding: EdgeInsets.only(right: 1.w),
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .pushNamed(WbcMegaMall.route);
+                                    if (trendingProduct.length > 4) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              ExpandProductScreen.route,
+                                              arguments: ProductExpandData(
+                                                  title: 'TRENDING PRODUCTS',
+                                                  product: trendingProduct));
+                                    }
                                   },
                                   child: Row(
                                     children: [
@@ -977,6 +1001,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                         if (state.trending.products.isEmpty) {
                           isTrending = true;
                         }
+                        trendingProduct = state.trending.products;
                         state.trending.products
                             .removeWhere((element) => element.img.isEmpty);
                       } else if (state is MallDataErrorState) {
