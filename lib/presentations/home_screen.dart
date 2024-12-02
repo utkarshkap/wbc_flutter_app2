@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
             print('state=====$state');
             if (state is DashboardDataLoaded) {
               total = state.data!.data.mgainInv +
-                  state.data!.data.stockBalance +
+                  // state.data!.data.stockBalance +
                   state.data!.data.mfTotalAmount;
               Preference.setApproveContactCount(
                   state.data!.data.addContacts.toString());
@@ -377,8 +377,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: textStyle10(colorText7070),
                                             children: <TextSpan>[
                                               TextSpan(
-                                                  text:
-                                                      '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
+                                                  text: 'Coming soon',
+                                                      // '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
                                                   style: textStyle10Bold(
                                                       colorBlack)),
                                             ],

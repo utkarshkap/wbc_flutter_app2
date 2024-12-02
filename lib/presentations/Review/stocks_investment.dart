@@ -82,7 +82,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
               },
               icon: Image.asset(icBack, color: colorRed, width: 6.w)),
           titleSpacing: 0,
-          title: Text('Stock Investments', style: textStyle14Bold(colorBlack)),
+                title: Text('Stock Investments',
+                    style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
                 splashColor: colorWhite,
@@ -90,7 +91,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                 icon: icNotification,
                 iconColor: colorText7070,
                 onClick: () {
-                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                        Navigator.of(context)
+                            .pushNamed(NotificationScreen.route);
                 }),
             SizedBox(width: 5.w)
           ],
@@ -144,13 +146,17 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                             gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [colorRed, colorBoxGradiant3333])),
+                                      colors: [
+                                    colorRed,
+                                    colorBoxGradiant3333
+                                  ])),
                         child: Padding(
                           padding: EdgeInsets.only(top: 4.h, bottom: 2.h),
                           child: Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.w),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -165,10 +171,12 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                             splashRadius: 5.5.w,
                                             splashColor: colorWhite,
                                             onPressed: () {
-                                              CommonFunction().selectFormDialog(
+                                                    CommonFunction()
+                                                        .selectFormDialog(
                                                   context,
                                                   'Select Member',
-                                                  members, (val) {
+                                                      print(
+                                                          '-----val---=---$val');
                                                 print('-----val---=---$val');
                                                 setState(() {
                                                   selectedUser = val.name
@@ -178,16 +186,13 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                       false;
                                                   totalQty = 0;
                                                 });
-                                                Navigator.of(context).pop();
-                                                BlocProvider.of<
-                                                            FetchingDataBloc>(
-                                                        context)
-                                                    .add(
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      BlocProvider.of<FetchingDataBloc>(context).add(
                                                         LoadStockInvestmentEvent(
                                                             userId: val
                                                                         .relation ==
-                                                                    "You"
-                                                                ? val.id
+                                                              userId: val.relation ==
                                                                     .toString()
                                                                 : val
                                                                     .relativeUserId
@@ -199,7 +204,8 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                                               portfolio: 0,
                                                               investment: 0,
                                                               gain: 0,
-                                                              balanceAmount: 0,
+                                                                balanceAmount:
+                                                                    0,
                                                               stocks: [],
                                                             )));
                                               });
@@ -207,15 +213,19 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                             icon: Container(
                                                 height: 5.5.h,
                                                 width: 5.5.h,
-                                                decoration: const BoxDecoration(
-                                                    color: colorF3F3,
-                                                    shape: BoxShape.circle),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle),
+                                                      alignment:
+                                                          Alignment.center,
                                                 alignment: Alignment.center,
                                                 child: Text(
                                                     selectedUser
                                                         .substring(0, 1)
                                                         .toUpperCase(),
-                                                    style: textStyle20Bold(
+                                                          style:
+                                                              textStyle20Bold(
                                                         colorRed)))),
                                         SizedBox(
                                           width: 3.w,
@@ -224,13 +234,17 @@ class _StocksInvestmentState extends State<StocksInvestment> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                                '₹${CommonFunction().splitString(state.stockInvestmentPortfolio.balanceAmount.toStringAsFixed(0))}',
-                                                style: textStyle22(colorWhite)
-                                                    .copyWith(height: 1.2)),
+                                                  Text( '₹0',
+                                                      // '₹${CommonFunction().splitString(state.stockInvestmentPortfolio.balanceAmount.toStringAsFixed(0))}',
+                                                      style: textStyle22(
+                                                              colorWhite)
+                                                          .copyWith(
+                                                              height: 1.2)),
                                             Text('STOCK PORTFOLIO',
-                                                style: textStyle10(colorE5E5)
-                                                    .copyWith(height: 1.2)),
+                                                      style:
+                                                          textStyle10(colorE5E5)
+                                                              .copyWith(
+                                                                  height: 1.2)),
                                           ],
                                         ),
                                       ],
