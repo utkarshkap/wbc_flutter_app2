@@ -60,6 +60,7 @@ import 'package:wbc_connect_app/presentations/social_login.dart';
 import 'package:wbc_connect_app/presentations/splash_screen.dart';
 import 'package:wbc_connect_app/presentations/stock_investment_transaction.dart';
 import 'package:wbc_connect_app/presentations/terms_nd_condition.dart';
+import 'package:wbc_connect_app/presentations/review_report_screen.dart';
 import 'package:wbc_connect_app/presentations/vender_bill_pay.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
@@ -426,6 +427,11 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       final data = arguments as FastTrackEarningData;
       return MaterialPageRoute(
         builder: (_) => FastTrackEarningScreen(earningHistoryData: data),
+      );
+          case '/Review-Report-Screen':
+      final data = arguments as ReviewReportData;
+      return MaterialPageRoute(
+        builder: (_) => ReviewReportScreen(data),
       );
 
     default:

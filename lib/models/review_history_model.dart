@@ -48,6 +48,7 @@ class Reviewresponse {
     required this.amount,
     required this.insuranceamount,
     required this.status,
+    required this.reportPath,
   });
 
   int requestId;
@@ -60,6 +61,7 @@ class Reviewresponse {
   double amount;
   num insuranceamount;
   String status;
+  String reportPath;
 
   factory Reviewresponse.fromJson(Map<String, dynamic> json) => Reviewresponse(
         requestId: json["request_Id"],
@@ -72,6 +74,7 @@ class Reviewresponse {
         amount: json["amount"],
         insuranceamount: double.parse(json["insuranceamount"].toString()),
         status: json["status"],
+        reportPath: json["reportPath"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,10 +88,11 @@ class Reviewresponse {
         "amount": amount,
         "insuranceamount": insuranceamount,
         "status": status,
+        "reportPath": reportPath,
       };
 
   @override
   String toString() {
-    return 'Reviewresponse{requestId: $requestId, requestMobile: $requestMobile, requestPan: $requestPan, reqEmail: $reqEmail, reqDate: $reqDate, investmentName: $investmentName, investmentType: $investmentType, amount: $amount, insuranceamount: $insuranceamount, status: $status}';
+    return 'Reviewresponse{requestId: $requestId, requestMobile: $requestMobile, requestPan: $requestPan, reqEmail: $reqEmail, reqDate: $reqDate, investmentName: $investmentName, investmentType: $investmentType, amount: $amount, insuranceamount: $insuranceamount, status: $status, reportPath: $reportPath}';
   }
 }

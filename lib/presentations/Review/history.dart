@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_file/open_file.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
+import 'package:wbc_connect_app/presentations/review_report_screen.dart';
 
 import '../../blocs/review/review_bloc.dart';
 import '../../core/pdfdownloadhandler.dart';
@@ -25,10 +30,13 @@ class _ReviewHistoryState extends State<ReviewHistory> {
   List<bool> isDownloadList = [];
   bool startProgressBar = false;
 
-  String pdf =
-      "http://enos.itcollege.ee/~jpoial/allalaadimised/reading/Android-Programming-Cookbook.pdf";
+  // String pdf =
+  //     "http://enos.itcollege.ee/~jpoial/allalaadimised/reading/Android-Programming-Cookbook.pdf";
 
-  startDownloading(int index) async {
+  startDownloading(int index, var pdfId) async {
+    String pdf =
+        'https://wbcapi.kagroup.in/api/user/GetReviewReport?requestId=$pdfId';
+    print("PDF PATH------$pdf");
     try {
       setState(() {
         startProgressBar = true;
@@ -36,10 +44,12 @@ class _ReviewHistoryState extends State<ReviewHistory> {
       });
       if (await PermissionClass.i.getStoragePermission()) {
         String path = await FileHelper.i.getDirectoryPath();
+        String filePath = '$path/PDAdvisory-$pdfId-${ApiUser.userName}.pdf';
+
         Dio dio = Dio();
         await dio.download(
           pdf,
-          '$path/${pdf.split('/').last}',
+          filePath,
           onReceiveProgress: (count, total) {
             progressList[index] = (count / total);
             setState(() {});
@@ -61,6 +71,18 @@ class _ReviewHistoryState extends State<ReviewHistory> {
             );
           },
         );
+        
+          File file = File(filePath);
+          if (await file.exists()) {
+              // ignore: use_build_context_synchronously
+              Navigator.of(context)
+                                    .pushNamed(ReviewReportScreen.route,arguments: ReviewReportData(pdf:file ));
+            print("IF------------------$filePath");
+ 
+          } else {
+            print('File does not exist at $filePath');
+          }
+        
       }
     } catch (e) {
       print('download error-----${e.toString()}');
@@ -134,36 +156,44 @@ class _ReviewHistoryState extends State<ReviewHistory> {
               );
             }
             if (state is ReviewHistoryLoadedState) {
-              print(
-                  '--=-=-----reviewresponse--=---${state.reviewHistory.reviewresponse[0].investmentName}');
-              return SingleChildScrollView(
-                child: Column(
-                    children: List.generate(
-                  state.reviewHistory.reviewresponse.length,
-                  (index) => reviews(
-                      index,
-                      state.reviewHistory.reviewresponse[index]
-                                  .investmentName ==
-                              'Stock/MF'
-                          ? icStockPortfolio
-                          : state.reviewHistory.reviewresponse[index]
-                                      .investmentName ==
-                                  'Mutual Funds'
-                              ? icMutualFundsInvestment
-                              : state.reviewHistory.reviewresponse[index]
-                                          .investmentName ==
-                                      'Insurance'
-                                  ? icInsurance
-                                  : icReviewLoan,
-                      '${state.reviewHistory.reviewresponse[index].investmentName} Review',
-                      DateTime.now()
-                          .difference(
-                              state.reviewHistory.reviewresponse[index].reqDate)
-                          .inDays,
-                      () => null,
-                      state.reviewHistory.reviewresponse[index].status),
-                )),
-              );
+              // print(
+              //     '--=-=-----reviewresponse--=---${state.reviewHistory.reviewresponse[0].investmentName}');
+
+              if (state.reviewHistory.reviewresponse.isEmpty) {
+                return Center(
+                    child: Text('There are no History',
+                        style: textStyle13(colorText7070)));
+              } else {
+                return SingleChildScrollView(
+                  child: Column(
+                      children: List.generate(
+                    state.reviewHistory.reviewresponse.length,
+                    (index) => reviews(
+                        index,
+                        state.reviewHistory.reviewresponse[index]
+                                    .investmentName ==
+                                'Stock/MF'
+                            ? icStockPortfolio
+                            : state.reviewHistory.reviewresponse[index]
+                                        .investmentName ==
+                                    'Mutual Funds'
+                                ? icMutualFundsInvestment
+                                : state.reviewHistory.reviewresponse[index]
+                                            .investmentName ==
+                                        'Insurance'
+                                    ? icInsurance
+                                    : icReviewLoan,
+                        '${state.reviewHistory.reviewresponse[index].investmentName} Review',
+                        DateTime.now()
+                            .difference(state
+                                .reviewHistory.reviewresponse[index].reqDate)
+                            .inDays,
+                        () => null,
+                        state.reviewHistory.reviewresponse[index].status,
+                        state.reviewHistory.reviewresponse[index].requestId),
+                  )),
+                );
+              }
             }
             if (state is ReviewHistoryErrorState) {
               return Center(
@@ -178,7 +208,7 @@ class _ReviewHistoryState extends State<ReviewHistory> {
   }
 
   reviews(int index, String icon, String title, int subValue,
-      Function() onClick, String status) {
+      Function() onClick, String status, var pdfId) {
     return Container(
       margin: EdgeInsets.only(top: 0.7.h),
       decoration: BoxDecoration(color: colorWhite, boxShadow: [
@@ -262,7 +292,7 @@ class _ReviewHistoryState extends State<ReviewHistory> {
                       splashColor: colorWhite,
                       onPressed: () {
                         if (status != 'Pending') {
-                          startDownloading(index);
+                          startDownloading(index, pdfId);
                         }
                       },
                       icon: Image.asset(icDownload,

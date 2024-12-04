@@ -9,20 +9,37 @@ class FileHelper {
   FileHelper._();
 
   getDirectoryPath() async {
-    Directory? directory;
-    try {
-      if (Platform.isIOS) {
-        directory = await getApplicationDocumentsDirectory();
+    // Directory? directory;
+    // try {
+    //   if (Platform.isIOS) {
+    //     directory = await getApplicationDocumentsDirectory();
+    //   } else {
+    //     // directory = Directory('/storage/emulated/0/Download');
+    //     // if (!await directory.exists()) {
+    //     directory = await getExternalStorageDirectory();
+    //     // }
+    //   }
+    // } catch (err) {
+    //   print("Cannot get download folder path::::::");
+    // }
+    // return directory?.path;
+
+    Directory dir;
+      if (Platform.isAndroid) {
+        // Android code
+        const downloadsFolderPath = '/storage/emulated/0/Download/';
+        dir = Directory(downloadsFolderPath);
+      } else if (Platform.isIOS) {
+        // iOS code
+        dir = await getApplicationDocumentsDirectory();
       } else {
-        // directory = Directory('/storage/emulated/0/Download');
-        // if (!await directory.exists()) {
-        directory = await getExternalStorageDirectory();
-        // }
+        throw UnsupportedError('Unsupported platform');
       }
-    } catch (err) {
-      print("Cannot get download folder path::::::");
-    }
-    return directory?.path;
+
+      if (!await dir.exists()) {
+        await dir.create(recursive: true);
+      }
+      return dir.path;
 
     // final directory = await getDownloadsDirectory();
     // print("FILE PATH::::::::::::::::${directory!.path}");

@@ -2,9 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:payumoney_pro_unofficial/payumoney_pro_unofficial.dart';
 import 'package:sizer/sizer.dart';
-import 'package:wbc_connect_app/core/preferences.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 
 import '../blocs/payuMoneyPayment/payumoney_payment_bloc.dart';
@@ -72,7 +70,7 @@ class _Payu_paymentState extends State<PayuPayment> {
                   //   paymentAmount: fastTrackAmount,
                   //   taxAmount: fastTrackGST,
                   // ));
-                  payuPayment(state.customPayumoneyHashkeyModel.paymentHash);
+                  // payuPayment(state.customPayumoneyHashkeyModel.paymentHash);
                 }
               }
               return Column(
@@ -89,43 +87,43 @@ class _Payu_paymentState extends State<PayuPayment> {
         ));
   }
 
-  Future<void> payuPayment(String paymentHash) async {
-    String orderId = DateTime.now().millisecondsSinceEpoch.toString();
+  // Future<void> payuPayment(String paymentHash) async {
+  //   String orderId = DateTime.now().millisecondsSinceEpoch.toString();
 
-    var response = await PayumoneyProUnofficial.payUParams(
-      email: ApiUser.emailId,
-      firstName: ApiUser.userName,
-      merchantName: ApiUser.userName,
-      isProduction: true,
-      merchantKey: merchantKey,
-      merchantSalt: merchantSalt,
-      amount: (int.parse(fastTrackAmount) + int.parse(fastTrackGST)).toString(),
-      productInfo: 'Become Merchant', // Enter Product Name
-      transactionId: orderId,
-      hashUrl: paymentHash.toString(),
-      userCredentials: ApiUser.emailId,
-      showLogs: true,
-      userPhoneNumber: ApiUser.mobileNo,
-    );
+  //   var response = await PayumoneyProUnofficial.payUParams(
+  //     email: ApiUser.emailId,
+  //     firstName: ApiUser.userName,
+  //     merchantName: ApiUser.userName,
+  //     isProduction: true,
+  //     merchantKey: merchantKey,
+  //     merchantSalt: merchantSalt,
+  //     amount: (int.parse(fastTrackAmount) + int.parse(fastTrackGST)).toString(),
+  //     productInfo: 'Become Merchant', // Enter Product Name
+  //     transactionId: orderId,
+  //     hashUrl: paymentHash.toString(),
+  //     userCredentials: ApiUser.emailId,
+  //     showLogs: true,
+  //     userPhoneNumber: ApiUser.mobileNo,
+  //   );
 
-    print("response pay==> ${response}");
-    if (response['status'] == PayUParams.success) {
-      BlocProvider.of<PayumoneyPaymentBloc>(context).add(
-          UpdateFastTrackUserEvent(
-              userId: int.parse(ApiUser.userId),
-              mobile: ApiUser.mobileNo,
-              date: DateTime.now().toString(),
-              paymentAmount: fastTrackAmount,
-              taxAmount: fastTrackGST));
-      // Preference.setFastTrackStatus(true);
-      Navigator.of(context).pushReplacementNamed(HomeScreen.route,
-          arguments: HomeScreenData(isFastTrackActivate: true));
-      CommonFunction().errorDialog(context, response['message']);
-    }
-    if (response['status'] == PayUParams.failed) {
-      print("fail=== ");
-      Navigator.pop(context);
-      CommonFunction().errorDialog(context, response['message']);
-    }
-  }
+  //   print("response pay==> ${response}");
+  //   if (response['status'] == PayUParams.success) {
+  //     BlocProvider.of<PayumoneyPaymentBloc>(context).add(
+  //         UpdateFastTrackUserEvent(
+  //             userId: int.parse(ApiUser.userId),
+  //             mobile: ApiUser.mobileNo,
+  //             date: DateTime.now().toString(),
+  //             paymentAmount: fastTrackAmount,
+  //             taxAmount: fastTrackGST));
+  //     // Preference.setFastTrackStatus(true);
+  //     Navigator.of(context).pushReplacementNamed(HomeScreen.route,
+  //         arguments: HomeScreenData(isFastTrackActivate: true));
+  //     CommonFunction().errorDialog(context, response['message']);
+  //   }
+  //   if (response['status'] == PayUParams.failed) {
+  //     print("fail=== ");
+  //     Navigator.pop(context);
+  //     CommonFunction().errorDialog(context, response['message']);
+  //   }
+  // }
 }

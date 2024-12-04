@@ -451,6 +451,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_pdfview:
+    dependency: "direct main"
+    description:
+      name: flutter_pdfview
+      sha256: "715085f9f2c1ad5129dfe0d31a5f0e5481e2e296ce4e6ce72662de28df5456a6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.4"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -845,14 +853,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.7"
-  payumoney_pro_unofficial:
-    dependency: "direct main"
-    description:
-      name: payumoney_pro_unofficial
-      sha256: "8bb4122ed71f25739dc5536d9191022e4862a4a4f5ee8a2c4b2d61d9ff7ed794"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.9"
   pdf:
     dependency: "direct main"
     description:
@@ -942,7 +942,7 @@ packages:
     source: hosted
     version: "2.1.6"
   pointycastle:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pointycastle
       sha256: "70fe966348fe08c34bf929582f1d8247d9d9408130723206472b4687227e4333"
