@@ -4,11 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:open_file/open_file.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
-import 'package:wbc_connect_app/presentations/review_report_screen.dart';
+import 'package:wbc_connect_app/presentations/Review/review_report_screen.dart';
 
 import '../../blocs/review/review_bloc.dart';
 import '../../core/pdfdownloadhandler.dart';
@@ -71,18 +70,16 @@ class _ReviewHistoryState extends State<ReviewHistory> {
             );
           },
         );
-        
-          File file = File(filePath);
-          if (await file.exists()) {
-              // ignore: use_build_context_synchronously
-              Navigator.of(context)
-                                    .pushNamed(ReviewReportScreen.route,arguments: ReviewReportData(pdf:file ));
-            print("IF------------------$filePath");
- 
-          } else {
-            print('File does not exist at $filePath');
-          }
-        
+
+        File file = File(filePath);
+        if (await file.exists()) {
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).pushNamed(ReviewReportScreen.route,
+              arguments: ReviewReportData(pdf: file));
+          print("IF------------------$filePath");
+        } else {
+          print('File does not exist at $filePath');
+        }
       }
     } catch (e) {
       print('download error-----${e.toString()}');

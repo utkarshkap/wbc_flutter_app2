@@ -2,14 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:wbc_connect_app/blocs/order/order_bloc.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/core/handler.dart';
 import 'package:wbc_connect_app/models/mGain_investment_model.dart';
 import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Investment.dart';
+import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/Review/loan_EMI.dart';
-import 'package:wbc_connect_app/presentations/Review/munafe_ki_class.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/cart_screen.dart';
 import 'package:wbc_connect_app/presentations/delete_account/delete_account_screen.dart';
 import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
@@ -20,14 +19,12 @@ import '../blocs/mall/mall_bloc.dart';
 import '../blocs/review/review_bloc.dart';
 import '../core/preferences.dart';
 import '../models/faq_model.dart';
-import '../models/munafe_ki_class_model.dart';
 import '../models/newArrival_data_model.dart';
 import '../models/popular_data_model.dart';
 import '../models/product_category_model.dart';
 import '../models/terms_conditions_model.dart';
 import '../models/trending_data_model.dart';
 import '../presentations/FAQs_screen.dart';
-import '../presentations/Real_Estate/real_estate_property.dart';
 import '../presentations/Review/emi_sip_calculator.dart';
 import '../presentations/Review/history.dart';
 import '../presentations/Review/insurance_calculator.dart';
@@ -43,6 +40,7 @@ import '../presentations/terms_nd_condition.dart';
 import '../presentations/wbc_progress.dart';
 import '../resources/resource.dart';
 
+// ignore: must_be_immutable
 class MainDrawer extends StatefulWidget {
   Function()? reLoadHomePage;
   MainDrawer({Key? key, this.reLoadHomePage}) : super(key: key);
@@ -195,7 +193,8 @@ class _MainDrawerState extends State<MainDrawer> {
                     }),
                     drawerWidget(icReviewProperty, 'Review Property', () {
                       Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushNamed(RealEstateProperty.route);
+                      Navigator.of(context).pushNamed(RealEstateScreen.route);
+                      // Navigator.of(context).pushNamed(RealEstateProperty.route);
                     }),
                     drawerWidget(icReviewLoan, 'Review My Loan', () {
                       Scaffold.of(context).closeDrawer();

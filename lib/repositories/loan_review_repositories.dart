@@ -1,46 +1,42 @@
-import 'dart:convert';
-
-import 'package:wbc_connect_app/presentations/Review/loan_EMI.dart';
-
 import '../core/api/api_consts.dart';
-import '../core/api/api_handler.dart';
-import '../models/loan_review_model.dart';
-import '../models/mf_review_model.dart';
+import 'package:http/http.dart' as http;
 
 class ReviewLoanRepository {
-  setReviewLoan({
-    required int userid,
-    required String mobile,
-    required String bankname,
-    required int loantype,
-    required int loanamount,
-    required int tenure,
-    required int emi,
-    required double rateofinterest,
-  }) async {
-    try {
-      final data = jsonEncode(LoanReviewModel(
-          userid: userid,
-          mobile: mobile,
-          bankname: bankname,
-          loantype: loantype,
-          loanamount: loanamount,
-          tenure: tenure,
-          emi: emi,
-          rateofinterest: rateofinterest));
+  setReviewLoan(
+      {required String userid,
+      required String mobile,
+      required String bankname,
+      required String loantype,
+      required String loanamount,
+      required String emi,
+      required String rateofinterest,
+      required String tenure,
+      required String note,
+      required String uploadFilePath}) async {
+    var request = http.MultipartRequest('POST', Uri.parse(reviewLoanUrl));
+    request.fields.addAll({
+      'userid': userid,
+      'mobile': mobile,
+      'bankname': bankname,
+      'loantype': loantype,
+      'loanamount': loanamount,
+      'emi': emi,
+      'rateofinterest': rateofinterest,
+      'tenure': tenure,
+      'note': note
+    });
 
-      print('review-insurance-data------$data');
-      final response = await ApiHandler.post(url: reviewLoanUrl, body: data);
+    request.files
+        .add(await http.MultipartFile.fromPath('PdfFile', uploadFilePath));
 
-      print('xapi--order--response------${response.statusCode}');
-      print(response.statusCode);
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
       return response;
-    } on BadRequestException {
-      return ApiResponse.withError('Something went wrong', statusCode: 400);
-    } on ApiException catch (e) {
-      return ApiResponse.withError(e.message);
-    } catch (e) {
-      return ApiResponse.withError('Unable to load page');
+    } else {
+      print(response.reasonPhrase);
     }
+    return response;
   }
 }

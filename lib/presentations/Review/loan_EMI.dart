@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,19 +32,27 @@ class LoanEMIReview extends StatefulWidget {
 
 class _LoanEMIReviewState extends State<LoanEMIReview> {
   String selectedBankType = 'Select Bank';
+  String selectedLoanType = 'Select Loan';
+  int selectedLoanId = 0;
   final TextEditingController _loanAmountController = TextEditingController();
   final TextEditingController _tenureController = TextEditingController();
   final TextEditingController _interestController = TextEditingController();
   final TextEditingController _emiAmountController = TextEditingController();
-  bool isBankFieldTap = true;
+  final TextEditingController _otherController = TextEditingController();
+  bool isLoanTypeFieldTap = true;
+  bool isBankFieldTap = false;
   bool isLoanAmountFieldTap = false;
   bool isTenureFieldTap = false;
   bool isInterestFieldTap = false;
   bool isEMIAmountFieldTap = false;
+  bool isOtherFieldTap = false;
+  bool isuploadEventTap = false;
   FocusNode loanAmountFocus = FocusNode();
   FocusNode tenureFocus = FocusNode();
   FocusNode interestFocus = FocusNode();
   FocusNode emiAmountFocus = FocusNode();
+  FocusNode otherFocus = FocusNode();
+  String loanTypeValidation = '';
   String bankValidation = '';
   String loanAmountValidation = '';
   String tenureValidation = '';
@@ -48,10 +60,37 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
   String emiAmountValidation = '';
   bool isSend = false;
   String mobileNo = '';
+  String fileName = 'Upload your Loan PDF';
+  File? uploadFile;
+
+  List loanType = [
+    {"id": 15, "name": "Eductions"},
+    {"id": 5, "name": "Personal"},
+    {"id": 6, "name": "Vehicle"},
+    {"id": 1, "name": "Home"},
+    {"id": 7, "name": "Other"},
+  ];
 
   getMobNo() async {
     mobileNo = await Preference.getMobNo();
     setState(() {});
+  }
+
+  pickPdfFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      uploadFile = File(result.files.single.path!);
+
+      setState(() {
+        fileName = uploadFile!.path.split('/').last;
+      });
+
+      print('uploadfilepath------$uploadFile');
+    } else {}
   }
 
   @override
@@ -140,29 +179,140 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                               padding: EdgeInsets.only(top: 1.h),
                               child: InkWell(
                                 onTap: () {
+                                  setState(() {
+                                    isLoanTypeFieldTap = true;
+                                    isBankFieldTap = false;
+                                    isLoanAmountFieldTap = false;
+                                    isTenureFieldTap = false;
+                                    isInterestFieldTap = false;
+                                    isEMIAmountFieldTap = false;
+                                    isOtherFieldTap = false;
+                                    isuploadEventTap = false;
+                                  });
+                                  CommonFunction().selectDialog(
+                                      context, 'Select Loan', loanType, (val) {
+                                    setState(() {
+                                      selectedLoanType = val['name'].toString();
+                                      selectedLoanId = val['id'];
+                                    });
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: colorWhite,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: isLoanTypeFieldTap
+                                              ? colorRed
+                                              : colorDFDF,
+                                          width: 1)),
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 3.w),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 1.h),
+                                          child: Text('Choose your loan',
+                                              style: textStyle9(colorText8181)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 0.5.h, bottom: 1.h),
+                                          child: SizedBox(
+                                            width: 84.w - 2,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(selectedLoanType,
+                                                      style: textStyle11(
+                                                          colorText3D3D)),
+                                                ),
+                                                Image.asset(icDropdown,
+                                                    color: colorText3D3D,
+                                                    width: 5.w)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (loanTypeValidation.isNotEmpty)
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 2.w),
+                                child: loanTypeValidation == 'Empty loanType'
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.error,
+                                              color: colorRed, size: 13),
+                                          const SizedBox(width: 4),
+                                          Container(
+                                            height: 2.h,
+                                            alignment: Alignment.center,
+                                            child: Text('Please Select a Loan',
+                                                style:
+                                                    textStyle9(colorErrorRed)),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 1.h),
+                              child: InkWell(
+                                onTap: () {
                                   BlocProvider.of<FetchingDataBloc>(context)
                                       .add(LoadLoanBanksEvent(
                                           loanBanks: const []));
                                   setState(() {
+                                    isLoanTypeFieldTap = false;
                                     isBankFieldTap = true;
                                     isLoanAmountFieldTap = false;
                                     isTenureFieldTap = false;
                                     isInterestFieldTap = false;
                                     isEMIAmountFieldTap = false;
+                                    isOtherFieldTap = false;
+                                    isuploadEventTap = false;
                                   });
                                   loanAmountFocus.unfocus();
                                   tenureFocus.unfocus();
                                   interestFocus.unfocus();
                                   emiAmountFocus.unfocus();
+                                  otherFocus.unfocus();
                                   CommonFunction().selectFormDialog(
                                       context, 'Select Bank', [], (val) {
                                     setState(() {
                                       selectedBankType = val;
+                                      isLoanTypeFieldTap = false;
+
                                       isBankFieldTap = false;
                                       isLoanAmountFieldTap = true;
                                       isTenureFieldTap = false;
                                       isInterestFieldTap = false;
                                       isEMIAmountFieldTap = false;
+                                      isOtherFieldTap = false;
+                                      isuploadEventTap = false;
                                     });
                                     loanAmountFocus.requestFocus();
                                     Navigator.of(context).pop();
@@ -251,11 +401,15 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                             textFormFieldContainer('Loan amount',
                                 'Enter your amount', isLoanAmountFieldTap, () {
                               setState(() {
+                                isLoanTypeFieldTap = false;
+
                                 isBankFieldTap = false;
                                 isLoanAmountFieldTap = true;
                                 isTenureFieldTap = false;
                                 isInterestFieldTap = false;
                                 isEMIAmountFieldTap = false;
+                                isOtherFieldTap = false;
+                                isuploadEventTap = false;
                               });
                               loanAmountFocus.requestFocus();
                             }, _loanAmountController, TextInputType.number),
@@ -288,98 +442,137 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                     : Container(),
                               ),
                             ),
-                            textFormFieldContainer(
-                                'Tenure', 'Enter your tenure', isTenureFieldTap,
-                                () {
-                              setState(() {
-                                isBankFieldTap = false;
-                                isLoanAmountFieldTap = false;
-                                isTenureFieldTap = true;
-                                isInterestFieldTap = false;
-                                isEMIAmountFieldTap = false;
-                              });
-                              tenureFocus.requestFocus();
-                            }, _tenureController, TextInputType.text),
-                            if (tenureValidation.isNotEmpty)
-                              SizedBox(
-                                height: 0.5.h,
-                              ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: tenureValidation == 'Empty Tenure'
-                                    ? Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          const Icon(Icons.error,
-                                              color: colorRed, size: 13),
-                                          const SizedBox(width: 4),
-                                          Container(
-                                            height: 2.h,
-                                            alignment: Alignment.center,
-                                            child: Text('Please Enter a tenure',
-                                                style:
-                                                    textStyle9(colorErrorRed)),
-                                          ),
-                                        ],
-                                      )
-                                    : Container(),
-                              ),
-                            ),
-                            textFormFieldContainer(
-                                'Rate of Interest',
-                                'Enter your Interest rate',
-                                isInterestFieldTap, () {
-                              setState(() {
-                                isBankFieldTap = false;
-                                isLoanAmountFieldTap = false;
-                                isTenureFieldTap = false;
-                                isInterestFieldTap = true;
-                                isEMIAmountFieldTap = false;
-                              });
-                              interestFocus.requestFocus();
-                            }, _interestController, TextInputType.number),
-                            if (interestValidation.isNotEmpty)
-                              SizedBox(
-                                height: 0.5.h,
-                              ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: interestValidation == 'Empty Interest'
-                                    ? Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          const Icon(Icons.error,
-                                              color: colorRed, size: 13),
-                                          const SizedBox(width: 4),
-                                          Container(
-                                            height: 2.h,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                                'Please Enter an Interest Rate',
-                                                style:
-                                                    textStyle9(colorErrorRed)),
-                                          ),
-                                        ],
-                                      )
-                                    : Container(),
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      textFormFieldContainer(
+                                          'Tenure (Years)',
+                                          'Tenure (Years)',
+                                          isTenureFieldTap, () {
+                                        setState(() {
+                                          isLoanTypeFieldTap = false;
+
+                                          isBankFieldTap = false;
+                                          isLoanAmountFieldTap = false;
+                                          isTenureFieldTap = true;
+                                          isInterestFieldTap = false;
+                                          isEMIAmountFieldTap = false;
+                                          isOtherFieldTap = false;
+                                          isuploadEventTap = false;
+                                        });
+                                        tenureFocus.requestFocus();
+                                      }, _tenureController, TextInputType.text),
+                                      if (tenureValidation.isNotEmpty)
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 2.w),
+                                          child: tenureValidation ==
+                                                  'Empty Tenure (Years)'
+                                              ? Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(Icons.error,
+                                                        color: colorRed,
+                                                        size: 13),
+                                                    const SizedBox(width: 4),
+                                                    Container(
+                                                      height: 2.h,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                          'Please Enter a Years',
+                                                          style: textStyle9(
+                                                              colorErrorRed)),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      textFormFieldContainer(
+                                          'Rate of Interest',
+                                          'Interest rate',
+                                          isInterestFieldTap, () {
+                                        setState(() {
+                                          isLoanTypeFieldTap = false;
+
+                                          isBankFieldTap = false;
+                                          isLoanAmountFieldTap = false;
+                                          isTenureFieldTap = false;
+                                          isInterestFieldTap = true;
+                                          isEMIAmountFieldTap = false;
+                                          isOtherFieldTap = false;
+                                          isuploadEventTap = false;
+                                        });
+                                        interestFocus.requestFocus();
+                                      }, _interestController,
+                                          TextInputType.number),
+                                      if (interestValidation.isNotEmpty)
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 2.w),
+                                          child: interestValidation ==
+                                                  'Empty Interest'
+                                              ? Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(Icons.error,
+                                                        color: colorRed,
+                                                        size: 13),
+                                                    const SizedBox(width: 4),
+                                                    Container(
+                                                      height: 2.h,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                          'Enter a Interest Rate',
+                                                          style: textStyle9(
+                                                              colorErrorRed)),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                             textFormFieldContainer(
                                 'EMI',
                                 'Enter your EMI amount',
                                 isEMIAmountFieldTap, () {
                               setState(() {
+                                isLoanTypeFieldTap = false;
                                 isBankFieldTap = false;
                                 isLoanAmountFieldTap = false;
                                 isTenureFieldTap = false;
                                 isInterestFieldTap = false;
                                 isEMIAmountFieldTap = true;
+                                isOtherFieldTap = false;
+                                isuploadEventTap = false;
                               });
                               emiAmountFocus.requestFocus();
                             }, _emiAmountController, TextInputType.number),
@@ -412,13 +605,114 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                     : Container(),
                               ),
                             ),
-                            if (bankValidation.isEmpty ||
+                            textFormFieldContainer(
+                                'Other', 'Enter a note', isOtherFieldTap, () {
+                              setState(() {
+                                isLoanTypeFieldTap = false;
+                                isBankFieldTap = false;
+                                isLoanAmountFieldTap = false;
+                                isTenureFieldTap = false;
+                                isInterestFieldTap = false;
+                                isEMIAmountFieldTap = false;
+                                isOtherFieldTap = true;
+                                isuploadEventTap = false;
+                              });
+                              otherFocus.requestFocus();
+                            }, _otherController, TextInputType.text),
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 1.5.h, left: 2.5, right: 2.5),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isLoanTypeFieldTap = false;
+                                    isBankFieldTap = false;
+                                    isLoanAmountFieldTap = false;
+                                    isTenureFieldTap = false;
+                                    isInterestFieldTap = false;
+                                    isEMIAmountFieldTap = false;
+                                    isOtherFieldTap = false;
+                                    isuploadEventTap = true;
+                                  });
+                                  pickPdfFile();
+                                },
+                                child: DottedBorder(
+                                  borderType: BorderType.RRect,
+                                  radius: const Radius.circular(10),
+                                  color: isuploadEventTap
+                                      ? colorRed
+                                      : colorTextBCBC.withOpacity(0.36),
+                                  padding: EdgeInsets.zero,
+                                  strokeWidth: 5,
+                                  dashPattern: const [5, 5],
+                                  child: Container(
+                                    height: 6.h,
+                                    decoration: BoxDecoration(
+                                        color: colorWhite,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    alignment: Alignment.center,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 3.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            fileName,
+                                            style:
+                                                textStyle11Bold(colorText7070),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        uploadFile == null
+                                            ? Image.asset(icUpload,
+                                                color: colorRed, width: 5.w)
+                                            : IconButton(
+                                                padding: EdgeInsets.zero,
+                                                constraints: BoxConstraints(
+                                                    minWidth: 5.w),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    fileName =
+                                                        'Upload your Loan PDF';
+                                                    uploadFile = null;
+                                                  });
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  color: colorRed,
+                                                )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            if (loanTypeValidation.isEmpty ||
+                                bankValidation.isEmpty ||
                                 loanAmountValidation.isEmpty ||
                                 tenureValidation.isEmpty ||
                                 interestValidation.isEmpty ||
                                 emiAmountValidation.isEmpty)
                               SizedBox(height: 4.5.h),
                             button(icSendReview, 'Send For Review', () {
+                              if (selectedLoanType == 'Select Loan') {
+                                setState(() {
+                                  loanTypeValidation = 'Empty loanType';
+                                });
+                              } else {
+                                setState(() {
+                                  loanTypeValidation = '';
+                                });
+                              }
                               if (selectedBankType == 'Select Bank') {
                                 setState(() {
                                   bankValidation = 'Empty Bank';
@@ -439,7 +733,7 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                               }
                               if (_tenureController.text.isEmpty) {
                                 setState(() {
-                                  tenureValidation = 'Empty Tenure';
+                                  tenureValidation = 'Empty Tenure (Years)';
                                 });
                               } else {
                                 setState(() {
@@ -464,7 +758,8 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                   emiAmountValidation = '';
                                 });
                               }
-                              if (selectedBankType != 'Select Bank' &&
+                              if (selectedLoanType != 'Select Loan' &&
+                                  selectedBankType != 'Select Bank' &&
                                   _loanAmountController.text.isNotEmpty &&
                                   _tenureController.text.isNotEmpty &&
                                   _interestController.text.isNotEmpty &&
@@ -474,18 +769,20 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                 });
                                 BlocProvider.of<ReviewBloc>(context).add(
                                     CreateLoanReview(
-                                        userid: int.parse(ApiUser.userId),
+                                        userid: ApiUser.userId,
                                         mobile: mobileNo,
                                         bankname: selectedBankType,
-                                        loantype: 1,
-                                        loanamount: int.parse(
-                                            _loanAmountController.text),
-                                        tenure:
-                                            int.parse(_tenureController.text),
-                                        email: int.parse(
-                                            _emiAmountController.text),
-                                        rateofinterest: double.parse(
-                                            _interestController.text)));
+                                        loantype: selectedLoanId.toString(),
+                                        loanamount: _loanAmountController.text,
+                                        emi: _emiAmountController.text,
+                                        rateofinterest:
+                                            _interestController.text,
+                                        tenure: _tenureController.text,
+                                        note: _otherController.text,
+                                        uploadFilePath:
+                                            fileName == 'Upload your Loan PDF'
+                                                ? ''
+                                                : uploadFile!.path));
                               }
                             }),
                             SizedBox(height: 2.h),
@@ -594,10 +891,12 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                   width: 84.w - 2,
                   child: TextFormField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(labelText == 'Tenure' ||
-                              labelText == 'Rate of Interest'
-                          ? 2
-                          : 15)
+                      LengthLimitingTextInputFormatter(
+                          labelText == 'Tenure (Years)'
+                              ? 2
+                              : labelText == 'Rate of Interest'
+                                  ? 4
+                                  : 1500)
                     ],
                     controller: controller,
                     style: textStyle11(colorText3D3D).copyWith(height: 1.3),
@@ -614,7 +913,9 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                             ? interestFocus
                             : controller == _emiAmountController
                                 ? emiAmountFocus
-                                : loanAmountFocus,
+                                : controller == _otherController
+                                    ? otherFocus
+                                    : loanAmountFocus,
                     onTap: onClick,
                     onFieldSubmitted: (val) {
                       if (controller == _loanAmountController) {
@@ -638,9 +939,16 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                         });
                         FocusScope.of(context).requestFocus(emiAmountFocus);
                       }
+                      if (controller == _emiAmountController) {
+                        setState(() {
+                          isEMIAmountFieldTap = false;
+                          isOtherFieldTap = true;
+                        });
+                        FocusScope.of(context).requestFocus(otherFocus);
+                      }
                     },
                     keyboardType: keyboardType,
-                    textInputAction: controller == _emiAmountController
+                    textInputAction: controller == _otherController
                         ? TextInputAction.done
                         : TextInputAction.next,
                     textCapitalization: TextCapitalization.sentences,

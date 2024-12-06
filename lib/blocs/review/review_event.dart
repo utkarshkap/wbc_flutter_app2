@@ -114,14 +114,16 @@ class UploadStockReview extends ReviewEvent {
 }
 
 class CreateLoanReview extends ReviewEvent {
-  final int userid;
+  final String userid;
   final String mobile;
   final String bankname;
-  final int loantype;
-  final int loanamount;
-  final int tenure;
-  final int email;
-  final double rateofinterest;
+  final String loantype;
+  final String loanamount;
+  final String emi;
+  final String rateofinterest;
+  final String tenure;
+  final String note;
+  final String uploadFilePath;
 
   CreateLoanReview(
       {required this.userid,
@@ -129,13 +131,15 @@ class CreateLoanReview extends ReviewEvent {
       required this.bankname,
       required this.loantype,
       required this.loanamount,
+      required this.emi,
+      required this.rateofinterest,
       required this.tenure,
-      required this.email,
-      required this.rateofinterest});
+      required this.note,
+      required this.uploadFilePath});
 
   @override
   String toString() {
-    return 'CreateLoanReview{userid: $userid, mobile: $mobile, bankname: $bankname, loantype: $loantype, loanamount: $loanamount, tenure: $tenure, emi: $email, rateofinterest: $rateofinterest}';
+    return 'CreateLoanReview{userid: $userid, mobile: $mobile, bankname: $bankname, loantype: $loantype, loanamount: $loanamount, emi: $emi, rateofinterest: $rateofinterest, tenure: $tenure, note: $note, uploadFilePath: $uploadFilePath}';
   }
 }
 

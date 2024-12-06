@@ -584,6 +584,105 @@ class CommonFunction {
         });
   }
 
+  selectDialog(BuildContext context, String title, List list,
+      Function(dynamic) onSelect) {
+    return showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: '',
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                  opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                  child: StatefulBuilder(
+                      builder: (context, setState) => AlertDialog(
+                            contentPadding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            content: SizedBox(
+                              height: 33.5.h,
+                              width: 77.8.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: 60,
+                                      width: 77.8.w,
+                                      decoration: const BoxDecoration(
+                                          color: colorBG,
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(10))),
+                                      padding: EdgeInsets.only(left: 3.5.w),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(title,
+                                              style:
+                                                  textStyle11Bold(colorBlack)),
+                                          IconButton(
+                                              padding: EdgeInsets.zero,
+                                              splashColor: colorBG,
+                                              splashRadius: 5.5.w,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon: Icon(Icons.close,
+                                                  size: 3.h, color: colorRed))
+                                        ],
+                                      )),
+                                  SizedBox(
+                                    height: 25.5.h,
+                                    child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: list.length,
+                                        itemBuilder: (context, i) => InkWell(
+                                              onTap: () {
+                                                onSelect(list[i]);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        deviceWidth(context) *
+                                                            0.778,
+                                                    color: colorTransparent,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 2.h),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 3.5.w,
+                                                          right: 2.5.w),
+                                                      child: Text(title == 'Select Loan' ? list[i]['name'] : list[i],
+                                                          style: textStyle11(
+                                                                  colorBlack)
+                                                              .copyWith(
+                                                                  height: 1.2)),
+                                                    ),
+                                                  ),
+                                                  if (i != list.length - 1)
+                                                    Container(
+                                                        height: 1,
+                                                        color: colorTextBCBC
+                                                            .withOpacity(0.36))
+                                                ],
+                                              ),
+                                            )),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ))));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
+  }
+
   blocListView(BuildContext context, int i, String title, List<dynamic> list,
       Function(dynamic) onSelect) {
     return Column(

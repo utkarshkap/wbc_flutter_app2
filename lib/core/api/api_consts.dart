@@ -14,6 +14,8 @@ const deleteAccountKey = 'deleteaccount?mobileno=';
 
 const setInsuranceReviewKey =
     'https://wbcapi.kagroup.in/api/User/addreviewInsurance';
+
+const reviewLoanUrl = 'https://wbcapi.kagroup.in/api/User/addreviewLoanEMI';
 const setFamilyMember = 'addfamilymember';
 
 const insuranceKey = 'insurancecalculator';
@@ -68,7 +70,6 @@ const String munafeKiClassUrl = "${baseUrl}getMunafeKiClass";
 const String termsConditionsUrl = "${baseUrl}getTermsConditions";
 
 const String faqsUrl = "${baseUrl}getQuestions";
-const String reviewLoanUrl = "addreviewLoanEMI";
 
 const updateTncKey = 'updatetermsandcondition?mobileno=';
 

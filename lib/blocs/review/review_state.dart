@@ -56,9 +56,7 @@ class LoanReviewInitial extends ReviewState {}
 class LoanReviewDataAdding extends ReviewState {}
 
 class LoanReviewDataAdded extends ReviewState {
-  final Response data;
-
-  LoanReviewDataAdded(this.data);
+  LoanReviewDataAdded();
 }
 
 class LoanReviewFailed extends ReviewState {}

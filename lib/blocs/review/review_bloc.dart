@@ -73,20 +73,23 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       await Future.delayed(const Duration(seconds: 3), () async {
         final loanReviewRepo = ReviewLoanRepository();
 
-        final response = await loanReviewRepo.setReviewLoan(
-            userid: event.userid,
-            mobile: event.mobile,
-            bankname: event.bankname,
-            loantype: event.loantype,
-            loanamount: event.loanamount,
-            tenure: event.tenure,
-            emi: event.email,
-            rateofinterest: event.rateofinterest);
+        final StreamedResponse response = await loanReviewRepo.setReviewLoan(
+          userid: event.userid,
+          mobile: event.mobile,
+          bankname: event.bankname,
+          loantype: event.loantype,
+          loanamount: event.loanamount,
+          emi: event.emi,
+          rateofinterest: event.rateofinterest,
+          tenure: event.tenure,
+          note: event.note,
+          uploadFilePath: event.uploadFilePath,
+        );
 
         print('--loan--review--data--=---$response');
 
         response.statusCode == 200
-            ? emit(LoanReviewDataAdded(response))
+            ? emit(LoanReviewDataAdded())
             : emit(LoanReviewFailed());
       });
     });
