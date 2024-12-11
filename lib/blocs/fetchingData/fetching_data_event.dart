@@ -169,12 +169,6 @@ class LoadICICIHoldingDataEvent extends FetchingDataEvent {
       {required this.sessionToken, required this.getICICIHoldingData});
 }
 
-class AddBrokerholdingsEvent extends FetchingDataEvent {
-  final List<AddbrokerholdingsModel> holdings;
-
-  AddBrokerholdingsEvent({required this.holdings});
-}
-
 class GetBrokerholdingsEvent extends FetchingDataEvent {
   final GetBrokerHoldingModel holdings;
 

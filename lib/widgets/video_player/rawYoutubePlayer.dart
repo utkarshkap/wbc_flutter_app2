@@ -15,8 +15,7 @@ class RawYoutube extends StatefulWidget {
   State<RawYoutube> createState() => _RawYoutubeState();
 }
 
-class _RawYoutubeState extends State<RawYoutube>
-    with WidgetsBindingObserver {
+class _RawYoutubeState extends State<RawYoutube> with WidgetsBindingObserver {
   YoutubePlayerController? controller;
   PlayerState? _cachedPlayerState;
   bool _isPlayerReady = false;

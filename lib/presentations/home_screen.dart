@@ -10,8 +10,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wbc_connect_app/blocs/deletefamilymember/delete_family_member_bloc.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
-import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
-import 'package:wbc_connect_app/models/munafe_ki_class_model.dart';
 import 'package:wbc_connect_app/models/product_category_model.dart';
 import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
@@ -47,7 +45,6 @@ import 'Review/emi_sip_calculator.dart';
 import 'Review/insurance_calculator.dart';
 import 'Review/insurance_investment.dart';
 import 'Review/loan_investment.dart';
-import 'Review/munafe_ki_class.dart';
 import 'Review/mutual_funds_investment.dart';
 import 'Review/my_investment.dart';
 import 'Review/retirement_calculator.dart';
@@ -156,6 +153,14 @@ class _HomeScreenState extends State<HomeScreen> {
             mono,
             globalKey,
             isShowCase);
+      }
+      if (widget.homeScreenData.isSendReview == 'ImportBrokersData') {
+        CommonFunction().successPopup(
+          context,
+          'Thank You',
+          'Your data has been successfully imported.',
+          jsonReviewSuccess,
+        );
       }
     });
 
@@ -378,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             children: <TextSpan>[
                                               TextSpan(
                                                   text: 'Coming soon',
-                                                      // '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
+                                                  // '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
                                                   style: textStyle10Bold(
                                                       colorBlack)),
                                             ],

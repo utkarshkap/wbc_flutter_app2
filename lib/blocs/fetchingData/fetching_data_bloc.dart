@@ -309,20 +309,6 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
         emit(GetICICIHoldingDataErrorState(e.toString()));
       }
     });
-    on<AddBrokerholdingsEvent>((event, emit) async {
-      print("AddHoldingsDataInitial::::::::::::::::::::::::::::::");
-
-      // emit(AddHoldingsDataInitial());
-      final brokersRepo = BrokersRepo();
-
-      try {
-        final response =
-            await brokersRepo.postBrokerholdingsData(holdings: event.holdings);
-      } catch (e) {
-        // emit(AddHoldingsDataFailed(e.toString()));
-      }
-    });
-
     on<GetBrokerholdingsEvent>((event, emit) async {
       emit(GetHoldingsDataInitial());
 
@@ -334,7 +320,7 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
 
         emit(GetHoldingsDataLoaded(response));
       } catch (e) {
-        emit(AddHoldingsDataFailed(e.toString()));
+        emit(GetHoldingsDataFailed(e.toString()));
       }
     });
 //

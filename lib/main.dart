@@ -135,7 +135,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => RetirementCalculatorBloc(),
           ),
-          BlocProvider(create: (context) => WealthMeterBloc())
+          BlocProvider(create: (context) => WealthMeterBloc()),
+          BlocProvider(create: (context) => BrokersBloc()),
+          BlocProvider(create: (context) => AddBrokersHoldingDataBloc())
         ],
         child: MaterialApp(
           title: 'Finer',

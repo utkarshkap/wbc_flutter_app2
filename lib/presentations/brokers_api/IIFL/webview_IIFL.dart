@@ -22,7 +22,7 @@ class _WebviewIIFLState extends State<WebviewIIFL> {
   final TextEditingController clientIDController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>(); // Form key for validation
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,7 @@ class _WebviewIIFLState extends State<WebviewIIFL> {
             icon: Image.asset(icBack, color: colorRed, width: 6.w)),
       ),
       body: BlocConsumer<FetchingDataBloc, FetchingDataState>(
-        listener: (context, state) {
-          // Error handling can be added here for login failure
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is IIFLLoginLoaded) {
             print('cookie::::${state.cookie}');
@@ -61,8 +59,7 @@ class _WebviewIIFLState extends State<WebviewIIFL> {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Form(
-              // Added Form for validation
-              key: _formKey, // Assign the form key
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -77,7 +74,6 @@ class _WebviewIIFLState extends State<WebviewIIFL> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    // Validation for Client ID
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Client ID cannot be empty';
@@ -98,7 +94,6 @@ class _WebviewIIFLState extends State<WebviewIIFL> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    // Validation for Password
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password cannot be empty';
@@ -114,7 +109,6 @@ class _WebviewIIFLState extends State<WebviewIIFL> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          // Form is valid, proceed with login
                           DateTime dateTime = DateTime.parse(ApiUser.userDob);
 
                           var clientCode = EncryptionClientData()

@@ -508,28 +508,6 @@ class GetICICIHoldingDataErrorState extends FetchingDataState {
   List<Object?> get props => [error];
 }
 
-class AddHoldingsDataInitial extends FetchingDataState {
-  @override
-  List<Object> get props => [];
-}
-
-class AddHoldingsDataLoaded extends FetchingDataState {
-  final List<AddbrokerholdingsModel> addHoldings;
-
-  const AddHoldingsDataLoaded(this.addHoldings);
-
-  @override
-  List<Object?> get props => [addHoldings];
-}
-
-class AddHoldingsDataFailed extends FetchingDataState {
-  final String error;
-
-  const AddHoldingsDataFailed(this.error);
-  @override
-  List<Object?> get props => [error];
-}
-
 class GetHoldingsDataInitial extends FetchingDataState {
   @override
   List<Object> get props => [];
