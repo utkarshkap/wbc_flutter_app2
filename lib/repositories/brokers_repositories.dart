@@ -60,7 +60,6 @@ class BrokersRepo {
     try {
       final response = await ApiHandler.post(
           url: addbrokerholdings, body: jsonEncode(holdings));
-
       return response;
     } on BadRequestException {
       return ApiResponse.withError('Semething went wrong', statusCode: 400);

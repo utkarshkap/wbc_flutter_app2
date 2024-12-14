@@ -7,7 +7,8 @@ import 'package:wbc_connect_app/blocs/fetchingData/fetching_data_bloc.dart';
 import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/add_broker_holdings_data_model.dart';
-import 'package:wbc_connect_app/presentations/home_screen.dart';
+import 'package:wbc_connect_app/models/stock_investment_model.dart';
+import 'package:wbc_connect_app/presentations/Review/stocks_investment.dart';
 import 'package:wbc_connect_app/resources/resource.dart';
 
 class ViewIIFLHolding extends StatefulWidget {
@@ -233,13 +234,21 @@ class _ViewIIFLHoldingState extends State<ViewIIFLHolding> {
                                     setState(() {
                                       isSubmit = false;
                                     });
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            HomeScreen.route, (route) => false,
-                                            arguments: HomeScreenData(
-                                                acceptedContacts: '',
-                                                isSendReview:
-                                                    'ImportBrokersData'));
+                                    BlocProvider.of<FetchingDataBloc>(context)
+                                        .add(LoadStockInvestmentEvent(
+                                            userId: ApiUser.userId,
+                                            investmentPortfolio:
+                                                StockInvestmentModel(
+                                              code: 0,
+                                              message: '',
+                                              portfolio: 0,
+                                              investment: 0,
+                                              gain: 0,
+                                              balanceAmount: 0,
+                                              stocks: [],
+                                            )));
+                                    Navigator.of(context).pushReplacementNamed(
+                                        StocksInvestment.route);
                                   }
                                 },
                                 builder: (context, state1) {
