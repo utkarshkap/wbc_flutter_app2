@@ -20,7 +20,7 @@ class SIPCalculator extends StatefulWidget {
 class _SIPCalculatorState extends State<SIPCalculator> {
   int sipAmount = 15000;
   int noOfYear = 20;
-  int expectedReturn = 15;
+  double expectedReturn = 15;
 
   String maturityValue = "";
   String investedAmount = "";
@@ -252,16 +252,17 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                       ),
                                     ),
                                     Slider(
-                                        value: expectedReturn.toDouble(),
+                                        value: expectedReturn,
                                         min: 1,
                                         max: 25,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${expectedReturn.round()}',
+                                        label: '$expectedReturn',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            expectedReturn = newValue.round();
+                                            expectedReturn = double.parse(
+                                                newValue.toStringAsFixed(1));
                                           });
                                           print(
                                               "expectedReturn-->$expectedReturn");
@@ -276,7 +277,7 @@ class _SIPCalculatorState extends State<SIPCalculator> {
                                         },
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          return '${double.parse(newValue.toStringAsFixed(1))}';
                                         }),
                                   ],
                                 ),

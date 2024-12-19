@@ -64,10 +64,10 @@ class RetirementDetails {
   final int? retirementAge;
   final int? lifeExpectancy;
   final int? monthlyExpenses;
-  final int? preRetirementReturn;
-  final int? postRetirementReturn;
+  final double? preRetirementReturn;
+  final double? postRetirementReturn;
   final int? currentInvestment;
-  final int? inflationRate;
+  final double? inflationRate;
 
   factory RetirementDetails.fromJson(Map<String, dynamic> json) =>
       RetirementDetails(

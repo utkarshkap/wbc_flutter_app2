@@ -4,16 +4,15 @@ part of 'retirement_calculator_bloc.dart';
 abstract class RetirementCalculatorEvent {}
 
 class RetirementData extends RetirementCalculatorEvent {
-
   final String name;
   final int currentAge;
   final int retirementAge;
   final int lifeExpectancy;
   final int monthlyExpenses;
-  final int preRetirementReturn;
-  final int postRetirementReturn;
+  final double preRetirementReturn;
+  final double postRetirementReturn;
   final int currentInvestment;
-  final int inflationRate;
+  final double inflationRate;
 
   RetirementData({
     required this.name,

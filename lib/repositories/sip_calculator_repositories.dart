@@ -8,7 +8,7 @@ class SIPCalculatorRepo {
     required String name,
     required int sipAmount,
     required int noOfYear,
-    required int expectedReturn,
+    required double expectedReturn,
   }) async {
     try {
       final data = jsonEncode(SIPDetails(

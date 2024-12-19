@@ -56,7 +56,7 @@ class SIPDetails {
   final String? name;
   final int? sipAmount;
   final int? noOfYear;
-  final int? expectedReturn;
+  final double? expectedReturn;
 
   factory SIPDetails.fromJson(Map<String, dynamic> json) => SIPDetails(
         name: json["name"],

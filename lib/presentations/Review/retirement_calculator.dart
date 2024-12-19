@@ -51,8 +51,9 @@ class RetirementCalculator extends StatefulWidget {
 
 class _RetirementCalculatorState extends State<RetirementCalculator> {
   int currentAge = 18;
-  int lifeExpectancy = 80;
   int retirementAge = 50;
+  int lifeExpectancy = 80;
+
   String corpusAfterRetirement = "";
   String investmentRequired = "";
   String inflationAdjustedExpense = "";
@@ -104,10 +105,10 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
   String inflationRateValidation = '';*/
 
   int monthlyExpense = 30000;
-  int preRetirementReturn = 15;
-  int postRetirementReturn = 7;
+  double preRetirementReturn = 15;
+  double postRetirementReturn = 7;
   int currentInvestmentAmount = 10000;
-  int inflactionRate = 6;
+  double inflactionRate = 6;
   var formatter = NumberFormat('#,##,000');
 
   bool isSubmit = false;
@@ -390,124 +391,38 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                     ),*/
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          left: 5.w,
-                                          right: 3.5.w,
-                                          top: 4.w,
-                                          bottom: 3.w),
+                                          left: 5.w, right: 5.w, top: 4.w),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text("Current Age",
-                                                  style: textStyle10Bold(
-                                                      colorBlack)),
-                                              SizedBox(
-                                                height: 2.5.w,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 20.w,
-                                                    child: Text(
-                                                        "$currentAge years"),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            if (currentAge <
-                                                                retirementAge) {
-                                                              setState(() {
-                                                                currentAge++;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Icon(Icons.add,
-                                                              size: 6.w)),
-                                                      SizedBox(
-                                                        width: 1.5.w,
-                                                      ),
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            if (currentAge >
-                                                                1) {
-                                                              setState(() {
-                                                                currentAge--;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Icon(
-                                                              Icons.remove,
-                                                              size: 6.w)),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text("Retirement Age",
-                                                  style: textStyle10Bold(
-                                                      colorBlack)),
-                                              SizedBox(
-                                                height: 2.5.w,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 20.w,
-                                                    child: Text(
-                                                        "$retirementAge years"),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              retirementAge++;
-                                                            });
-                                                          },
-                                                          child: Icon(Icons.add,
-                                                              size: 6.w)),
-                                                      SizedBox(
-                                                        width: 1.5.w,
-                                                      ),
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            if (retirementAge >
-                                                                1) {
-                                                              setState(() {
-                                                                retirementAge--;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Icon(
-                                                              Icons.remove,
-                                                              size: 6.w)),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                          Text("Current Age",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text(currentAge.toString(),
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
+                                    Slider(
+                                        value: currentAge.toDouble(),
+                                        min: 0,
+                                        max: 100,
+                                        divisions: 250,
+                                        activeColor: colorRedFF6,
+                                        inactiveColor: Colors.grey,
+                                        label: '${currentAge.round()}',
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            currentAge = newValue.round();
+                                          });
+                                        },
+                                        onChangeEnd: (double newValue) {},
+                                        semanticFormatterCallback:
+                                            (double newValue) {
+                                          return '${newValue.round()}';
+                                        }),
                                     Padding(
                                       padding: EdgeInsets.only(
                                           top: 0.3.h, bottom: 0.3.h),
@@ -517,57 +432,81 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                               colorTextBCBC.withOpacity(0.36)),
                                     ),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 5.w, top: 4.w),
-                                      child: Text("Life Expectancy",
-                                          style: textStyle10Bold(colorBlack)),
-                                    ),
-                                    Padding(
                                       padding: EdgeInsets.only(
-                                          left: 5.w,
-                                          right: 3.5.w,
-                                          top: 2.w,
-                                          bottom: 3.w),
+                                          left: 5.w, right: 5.w, top: 4.w),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          SizedBox(
-                                            width: 20.w,
-                                            child:
-                                                Text("$lifeExpectancy years"),
-                                          ),
-                                          Row(
-                                            children: [
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    if (lifeExpectancy < 120) {
-                                                      setState(() {
-                                                        lifeExpectancy++;
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Icon(Icons.add,
-                                                      size: 6.w)),
-                                              SizedBox(
-                                                width: 1.5.w,
-                                              ),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    if (lifeExpectancy >
-                                                        retirementAge) {
-                                                      setState(() {
-                                                        lifeExpectancy--;
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Icon(Icons.remove,
-                                                      size: 6.w)),
-                                            ],
-                                          )
+                                          Text("Retirement Age",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text(retirementAge.toString(),
+                                              style:
+                                                  textStyle10(colorText7070)),
                                         ],
                                       ),
                                     ),
+                                    Slider(
+                                        value: retirementAge.toDouble(),
+                                        min: 0,
+                                        max: 100,
+                                        divisions: 250,
+                                        activeColor: colorRedFF6,
+                                        inactiveColor: Colors.grey,
+                                        label: '${retirementAge.round()}',
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            retirementAge = newValue.round();
+                                          });
+                                        },
+                                        onChangeEnd: (double newValue) {},
+                                        semanticFormatterCallback:
+                                            (double newValue) {
+                                          return '${newValue.round()}';
+                                        }),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 0.3.h, bottom: 0.3.h),
+                                      child: Container(
+                                          height: 1,
+                                          color:
+                                              colorTextBCBC.withOpacity(0.36)),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 4.w),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Life Expectancy",
+                                              style:
+                                                  textStyle10Bold(colorBlack)),
+                                          Text(lifeExpectancy.toString(),
+                                              style:
+                                                  textStyle10(colorText7070)),
+                                        ],
+                                      ),
+                                    ),
+                                    Slider(
+                                        value: lifeExpectancy.toDouble(),
+                                        min: 0,
+                                        max: 100,
+                                        divisions: 250,
+                                        activeColor: colorRedFF6,
+                                        inactiveColor: Colors.grey,
+                                        label: '${lifeExpectancy.round()}',
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            lifeExpectancy = newValue.round();
+                                          });
+                                        },
+                                        onChangeEnd: (double newValue) {},
+                                        semanticFormatterCallback:
+                                            (double newValue) {
+                                          return '${newValue.round()}';
+                                        }),
                                     Padding(
                                       padding: EdgeInsets.only(
                                           top: 0.3.h, bottom: 0.3.h),
@@ -644,17 +583,17 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                       ),
                                     ),
                                     Slider(
-                                        value: preRetirementReturn.toDouble(),
+                                        value: preRetirementReturn,
                                         min: 0,
                                         max: 30,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${preRetirementReturn.round()}',
+                                        label: '$preRetirementReturn',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            preRetirementReturn =
-                                                newValue.round();
+                                            preRetirementReturn = double.parse(
+                                                newValue.toStringAsFixed(1));
                                           });
                                         },
                                         onChangeEnd: (double newValue) {
@@ -663,7 +602,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         },
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          return '${double.parse(newValue.toStringAsFixed(1))}';
                                         }),
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -690,18 +629,17 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                       ),
                                     ),
                                     Slider(
-                                        value: postRetirementReturn.toDouble(),
+                                        value: postRetirementReturn,
                                         min: 0,
                                         max: 30,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label:
-                                            '${postRetirementReturn.round()}',
+                                        label: '$postRetirementReturn',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            postRetirementReturn =
-                                                newValue.round();
+                                            postRetirementReturn = double.parse(
+                                                newValue.toStringAsFixed(1));
                                           });
                                           print(
                                               "postRetirementReturn-->$postRetirementReturn");
@@ -712,7 +650,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         },
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          return '${double.parse(newValue.toStringAsFixed(1))}';
                                         }),
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -791,16 +729,17 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                       ),
                                     ),
                                     Slider(
-                                        value: inflactionRate.toDouble(),
+                                        value: inflactionRate,
                                         min: 1,
                                         max: 15,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${inflactionRate.round()}',
+                                        label: '$inflactionRate',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            inflactionRate = newValue.round();
+                                            inflactionRate = double.parse(
+                                                newValue.toStringAsFixed(1));
                                           });
                                           print(
                                               "inflactionRate-->$inflactionRate");
@@ -811,7 +750,7 @@ class _RetirementCalculatorState extends State<RetirementCalculator> {
                                         },
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          return '${double.parse(newValue.toStringAsFixed(1))}';
                                         }),
                                   ],
                                 ),

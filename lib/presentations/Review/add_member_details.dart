@@ -323,6 +323,8 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                                         child: TextFormField(
                                           onTap: () {
                                             setState(() {
+                                              FocusScope.of(context).requestFocus(
+                                                  FocusNode()); // Unfocus any current field
                                               nameFieldTap = false;
                                               numFieldTap = true;
                                               relationFieldTap = false;
@@ -351,7 +353,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                                             });
                                           },
                                           keyboardType: TextInputType.number,
-                                          textInputAction: TextInputAction.next,
+                                          textInputAction: TextInputAction.send,
                                         ))
                                   ],
                                 ),
@@ -424,6 +426,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                   dropDownWidget('Relation', selectedRelation, relationFieldTap,
                       () {
                     setState(() {
+                      FocusScope.of(context).unfocus();
                       nameFieldTap = false;
                       numFieldTap = false;
                       relationFieldTap = true;

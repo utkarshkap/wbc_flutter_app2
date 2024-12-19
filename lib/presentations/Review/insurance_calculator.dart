@@ -20,15 +20,14 @@ class InsuranceCalculator extends StatefulWidget {
 
 class _InsuranceCalculatorState extends State<InsuranceCalculator> {
   final TextEditingController _monthlyIncomeController =
-      TextEditingController(text: "0");
+      TextEditingController(text: "");
   final TextEditingController _lifeInsuranceController =
-      TextEditingController(text: "0");
+      TextEditingController(text: "");
   final TextEditingController _homeLoanController =
-      TextEditingController(text: "0");
-  final TextEditingController _loanController =
-      TextEditingController(text: "0");
+      TextEditingController(text: "");
+  final TextEditingController _loanController = TextEditingController(text: "");
   final TextEditingController _savingsController =
-      TextEditingController(text: "0");
+      TextEditingController(text: "");
 
   String annualIncomeValidation = "";
   String lifeInsuranceValidation = "";
@@ -388,6 +387,11 @@ class _InsuranceCalculatorState extends State<InsuranceCalculator> {
                                           isSubmit = true;
                                         });
                                         calculateInsurance();
+                                        incomeFocus.unfocus();
+                                        homeLoanFocus.unfocus();
+                                        loanFocus.unfocus();
+                                        lifeInsuranceFocus.unfocus();
+                                        savingFocus.unfocus();
                                       }
                                     },
                                     child: Container(

@@ -65,8 +65,8 @@ class EMISIPDetails {
   final String? name;
   final int? loanAmount;
   final int? noOfYear;
-  final int? loanInterestRate;
-  final int? interestRateOnInvestment;
+  final double? loanInterestRate;
+  final double? interestRateOnInvestment;
 
   factory EMISIPDetails.fromJson(Map<String, dynamic> json) => EMISIPDetails(
         name: json["name"],

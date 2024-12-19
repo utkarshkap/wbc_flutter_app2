@@ -6,11 +6,11 @@ abstract class SIPCalculatorEvent {}
 class SIPInsuranceData extends SIPCalculatorEvent {
   final int sipAmount;
   final int noOfYear;
-  final int expectedReturn;
+  final double expectedReturn;
 
   SIPInsuranceData({
-        required this.sipAmount,
-        required this.noOfYear,
-        required this.expectedReturn,
-      });
+    required this.sipAmount,
+    required this.noOfYear,
+    required this.expectedReturn,
+  });
 }

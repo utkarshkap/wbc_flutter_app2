@@ -24,8 +24,8 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
       TextEditingController(text: "5000000");
 
   int noOfYear = 30;
-  int loanInterestRate = 9;
-  int interestRateOnInvestment = 15;
+  double loanInterestRate = 9;
+  double interestRateOnInvestment = 15;
 
   String principalAmount = "";
   String interestAmount = "";
@@ -249,22 +249,23 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                       ),
                                     ),
                                     Slider(
-                                        value: loanInterestRate.toDouble(),
+                                        value: loanInterestRate,
                                         min: 6,
                                         max: 18,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label: '${loanInterestRate.round()}',
+                                        label: '$loanInterestRate',
                                         onChanged: (double newValue) {
                                           setState(() {
-                                            loanInterestRate = newValue.round();
+                                            loanInterestRate = double.parse(
+                                                newValue.toStringAsFixed(1));
                                           });
                                         },
                                         onChangeEnd: (double newValue) {},
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          return '${double.parse(newValue.toStringAsFixed(1))}';
                                         }),
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -291,19 +292,18 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                       ),
                                     ),
                                     Slider(
-                                        value:
-                                            interestRateOnInvestment.toDouble(),
+                                        value: interestRateOnInvestment,
                                         min: 0,
                                         max: 20,
                                         divisions: 100,
                                         activeColor: colorRedFF6,
                                         inactiveColor: Colors.grey,
-                                        label:
-                                            '${interestRateOnInvestment.round()}',
+                                        label: '$interestRateOnInvestment',
                                         onChanged: (double newValue) {
                                           setState(() {
                                             interestRateOnInvestment =
-                                                newValue.round();
+                                                double.parse(newValue
+                                                    .toStringAsFixed(1));
                                           });
                                           print(
                                               "expectedReturn-->$interestRateOnInvestment");
@@ -311,7 +311,7 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                         onChangeEnd: (double newValue) {},
                                         semanticFormatterCallback:
                                             (double newValue) {
-                                          return '${newValue.round()}';
+                                          return '${double.parse(newValue.toStringAsFixed(1))}';
                                         }),
                                   ],
                                 ),
@@ -321,6 +321,7 @@ class _EMISIPCalculatorState extends State<EMISIPCalculator> {
                                     EdgeInsets.only(top: 3.5.h, bottom: 2.5.h),
                                 child: InkWell(
                                     onTap: () {
+                                      FocusScope.of(context).unfocus();
                                       if (loanAmount.text.isEmpty) {
                                         setState(() {
                                           loanAmountValidation =

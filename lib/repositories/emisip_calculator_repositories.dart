@@ -8,8 +8,8 @@ class EMISIPCalculatorRepo {
     required String name,
     required int loanAmount,
     required int noOfYear,
-    required int loanInterestRate,
-    required int interestRateOnInvestment,
+    required double loanInterestRate,
+    required double interestRateOnInvestment,
   }) async {
     try {
       final data = jsonEncode(EMISIPDetails(

@@ -4,17 +4,17 @@ import '../core/api/api_consts.dart';
 import '../core/api/api_handler.dart';
 import '../models/retirement_calculator_model.dart';
 
-class RetirementCalculatorRepo{
+class RetirementCalculatorRepo {
   setRetirementCalculator({
     required String name,
     required int currentAge,
     required int retirementAge,
     required int lifeExpectancy,
     required int monthlyExpenses,
-    required int preRetirementReturn,
-    required int postRetirementReturn,
+    required double preRetirementReturn,
+    required double postRetirementReturn,
     required int currentInvestment,
-    required int inflationRate,
+    required double inflationRate,
   }) async {
     try {
       final data = jsonEncode(RetirementDetails(
@@ -32,7 +32,8 @@ class RetirementCalculatorRepo{
       print('retirementCalculator--url------${retirementCalculator}');
       print('SIP-data---calculator------$data');
 
-      final response = await ApiHandler.post(url: retirementCalculator, body: data);
+      final response =
+          await ApiHandler.post(url: retirementCalculator, body: data);
 
       print('api--retirementCalculator--response------${response.statusCode}');
       print(response.statusCode);
