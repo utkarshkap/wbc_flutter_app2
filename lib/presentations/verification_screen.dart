@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -145,12 +146,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
-  Future getAndroidDeviceId() async {
+  Future<void> getDeviceId() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
 
-    deviceId = androidInfo.id;
-    print("androidInfo.id::::::::::::::::${deviceId}");
+    if (Platform.isAndroid) {
+      final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+      deviceId = androidInfo.id;
+    } else if (Platform.isIOS) {
+      final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
+      deviceId = iosInfo.identifierForVendor.toString();
+    }
   }
 
   setCountDown() {
@@ -320,27 +325,44 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   void getContactPermission() async {
     Preference.setIsLogin(true);
-    if (await contactPermission.Permission.contacts.request().isGranted) {
+
+    // Check current permission status
+    var permissionStatus = await contactPermission.Permission.contacts.status;
+
+    if (permissionStatus.isGranted) {
+      // Permission is already granted
       setState(() {
         isContactPermission = true;
       });
-      print('permission granted-------hhhh');
+      print('Permission granted');
       await getContacts();
-    } else if (await contactPermission.Permission.contacts.request().isDenied) {
+    } else if (permissionStatus.isDenied) {
+      // Permission is denied, so request permission
+      var requestStatus = await contactPermission.Permission.contacts.request();
+      if (requestStatus.isGranted) {
+        setState(() {
+          isContactPermission = true;
+        });
+        print('Permission granted after request');
+        await getContacts();
+      } else {
+        // Permission still denied after request
+        setState(() {
+          isContactPermission = false;
+          isContactPermissionDenied = true;
+        });
+        print('Permission denied after request');
+        // Prompt user to enable permission in settings
+        await contactPermission.openAppSettings();
+      }
+    } else if (permissionStatus.isPermanentlyDenied) {
+      // Permission is permanently denied, open app settings
       setState(() {
         isContactPermission = false;
         isContactPermissionDenied = true;
       });
-      print('------is-perminatily---denied');
-    } else if (await contactPermission.Permission.contacts
-        .request()
-        .isPermanentlyDenied) {
-      // setState(() {
-      //   isContactPermission = false;
-      //   isContactPermissionDenied = true;
-      // });
       await contactPermission.openAppSettings();
-      print('------is-perminatily---denied');
+      print('Permission permanently denied, opening app settings');
     }
   }
 
@@ -520,8 +542,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     startTimer();
     getFastTrackStatus();
     getToken();
-    getAndroidDeviceId();
-
+    getDeviceId();
     print('widget verification-------${widget.verificationScreenData.isLogin}');
     print(
         'widget CONTACTS-------${widget.verificationScreenData.selectedContact}');

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   getUserData() async {
     mobNo = await Preference.getMobNo();
+    // ignore: use_build_context_synchronously
     BlocProvider.of<SigningBloc>(context).add(GetUserData(mobileNo: mobNo));
     setState(() {});
   }
@@ -90,15 +93,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     getUserData();
-    getAndroidDeviceId();
+    getDeviceId();
     super.initState();
   }
 
-  Future getAndroidDeviceId() async {
+  Future<void> getDeviceId() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
 
-    deviceId = androidInfo.id;
+    if (Platform.isAndroid) {
+      final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+      deviceId = androidInfo.id;
+    } else if (Platform.isIOS) {
+      final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
+      deviceId = iosInfo.identifierForVendor.toString();
+    }
   }
 
   @override

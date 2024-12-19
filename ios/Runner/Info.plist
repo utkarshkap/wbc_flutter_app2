@@ -14,12 +14,14 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <true/>
 	<key>CFBundleName</key>
 	<string>Finer</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleShortVersionString</key> 
-	<string>1.0.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,13 +31,15 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>app-1-217717536609-ios-d0c5a5087baf9f27bcb720</string>
+				<string>app-1-217717536609-ios-31e3c8cba36e2e1abcb720</string>
 			</array>
 		</dict>
 		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -52,17 +56,17 @@
 		<true/>
 	</dict>
 	<key>NSContactsUsageDescription</key>
-	<string>Reason we need access to the contact list</string>
+	<string>We need to access your Contact List for User experience.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>We need to access your current location for user address.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>We need to access your current location for user address.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>We need to access your current location for user address.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires read and write access to the photo library.</string>
+	<string>We need to access read and write access to the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>We need to access read and write access to the photo library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -79,28 +83,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-    <true/>
-    <key>UIFileSharingEnabled</key>
-    <true/>
-	<key>UIBackgroundModes</key>
-	<array>
-    	<string>fetch</string>
-    	<string>remote-notification</string>
-	</array>
-	<key>FirebaseMessagingAutoInitEnabled</key>
-<false/>
 </dict>
 </plist>
