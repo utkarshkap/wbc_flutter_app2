@@ -264,11 +264,15 @@ class _ViewIIFLHoldingState extends State<ViewIIFLHolding> {
                                                 brokerId: 3,
                                                 userId:
                                                     int.parse(ApiUser.userId),
-                                                symbol: element.fullName,
+                                                symbol: element.symbol,
                                                 quantity: element.quantity,
                                                 rate: element.currentPrice,
-                                                isin: element.bseCode
-                                                    .toString()));
+                                                isin: '',
+                                                bseCode:
+                                                    element.bseCode.toString(),
+                                                nseCode:
+                                                    element.nseCode.toString(),
+                                                scripName: element.fullName));
                                           });
                                           BlocProvider.of<
                                                       AddBrokersHoldingDataBloc>(

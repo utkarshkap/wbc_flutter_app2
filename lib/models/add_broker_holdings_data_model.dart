@@ -18,6 +18,9 @@ class AddbrokerholdingsModel {
   final int? userId;
   final int? brokerId;
   final String? isin;
+  final String? bseCode;
+  final String? nseCode;
+  final String? scripName;
 
   AddbrokerholdingsModel({
     this.symbol,
@@ -26,6 +29,9 @@ class AddbrokerholdingsModel {
     this.userId,
     this.brokerId,
     this.isin,
+    this.bseCode,
+    this.nseCode,
+    this.scripName,
   });
 
   factory AddbrokerholdingsModel.fromJson(Map<String, dynamic> json) =>
@@ -36,6 +42,9 @@ class AddbrokerholdingsModel {
         userId: json["UserId"],
         brokerId: json["BrokerId"],
         isin: json["ISIN"],
+        bseCode: json["bseCode"],
+        nseCode: json["nseCode"],
+        scripName: json["scripName"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,5 +54,8 @@ class AddbrokerholdingsModel {
         "UserId": userId,
         "BrokerId": brokerId,
         "ISIN": isin,
+        "bseCode": bseCode,
+        "nseCode": nseCode,
+        "scripName": scripName,
       };
 }

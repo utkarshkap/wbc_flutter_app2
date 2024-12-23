@@ -319,7 +319,10 @@ class _ViewFyersHoldingState extends State<ViewFyersHolding> {
                                                     symbol: element.symbol,
                                                     quantity: element.quantity,
                                                     rate: element.costPrice,
-                                                    isin: element.isin));
+                                                    isin: element.isin,
+                                                    bseCode: '',
+                                                    nseCode: '',
+                                                    scripName: element.symbol));
                                               });
                                               BlocProvider.of<
                                                           AddBrokersHoldingDataBloc>(
