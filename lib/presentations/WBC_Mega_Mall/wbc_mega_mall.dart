@@ -194,7 +194,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                       .copyWith(letterSpacing: 0.7)),
                               Padding(
                                 padding: EdgeInsets.only(right: 1.w),
-                                child: GestureDetector(
+                                child: InkWell(
                                   onTap: () {
                                     if (categories.length > 8) {
                                       Navigator.of(context)
@@ -349,7 +349,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                       .copyWith(letterSpacing: 0.7)),
                               Padding(
                                 padding: EdgeInsets.only(right: 1.w),
-                                child: GestureDetector(
+                                child: InkWell(
                                   onTap: () {
                                     // Navigator.of(context)
                                     //     .pushNamed(WbcMegaMall.route);
@@ -411,7 +411,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                       .copyWith(letterSpacing: 0.7)),
                               Padding(
                                 padding: EdgeInsets.only(right: 1.w),
-                                child: GestureDetector(
+                                child: InkWell(
                                   onTap: () {
                                     if (arrivalsProduct.length > 5) {
                                       Navigator.of(context)
@@ -499,7 +499,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                                   left: index == 0 ? 5.w : 0,
                                                   right: 2.5.w,
                                                   bottom: 2.h),
-                                              child: GestureDetector(
+                                              child: InkWell(
                                                 onTap: () {
                                                   Navigator.of(context).pushNamed(
                                                       ProductDetailScreen.route,
@@ -685,7 +685,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                       .copyWith(letterSpacing: 0.7)),
                               Padding(
                                 padding: EdgeInsets.only(right: 1.w),
-                                child: GestureDetector(
+                                child: InkWell(
                                   onTap: () {
                                     if (popularProduct.length > 5) {
                                       Navigator.of(context)
@@ -773,7 +773,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                                   left: index == 0 ? 5.w : 0,
                                                   right: 2.5.w,
                                                   bottom: 2.h),
-                                              child: GestureDetector(
+                                              child: InkWell(
                                                 onTap: () {
                                                   Navigator.of(context).pushNamed(
                                                       ProductDetailScreen.route,
@@ -967,7 +967,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                       .copyWith(letterSpacing: 0.7)),
                               Padding(
                                 padding: EdgeInsets.only(right: 1.w),
-                                child: GestureDetector(
+                                child: InkWell(
                                   onTap: () {
                                     if (trendingProduct.length > 4) {
                                       Navigator.of(context)
@@ -1059,7 +1059,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                                           return state.trending.products[index]
                                                   .img.isEmpty
                                               ? Container()
-                                              : GestureDetector(
+                                              : InkWell(
                                                   onTap: () {
                                                     Navigator.of(context).pushNamed(
                                                         ProductDetailScreen
@@ -1172,7 +1172,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
   }
 
   browseCategories(Category list) {
-    return GestureDetector(
+    return InkWell(
         onTap: () {
           Navigator.of(context).pushReplacementNamed(ExpandCategory.route,
               arguments: ExpandCategoryData(
@@ -1210,15 +1210,15 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                   style: textStyle8(colorBlack)
                       .copyWith(fontWeight: FontWeight.w600, height: 1.2)),
               SizedBox(height: 1.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('300', style: textStyle6Medium(colorRed)),
-                  Text('+', style: textStyle8Medium(colorRed)),
-                  Text(' Items', style: textStyle6Medium(colorRed)),
-                ],
-              ),
-              SizedBox(height: 1.h),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text('300', style: textStyle6Medium(colorRed)),
+              //     Text('+', style: textStyle8Medium(colorRed)),
+              //     Text(' Items', style: textStyle6Medium(colorRed)),
+              //   ],
+              // ),
+              // SizedBox(height: 1.h),
             ],
           ),
         ));
@@ -1291,7 +1291,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
   }
 
   bottomIcon(String icon, String title, int index) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => _onItemTapped(index),
       child: Container(
         width: 20.w,

@@ -41,6 +41,8 @@ const String icEdit = '${_path}edit.png';
 const String icSave = '${_path}save.png';
 const String icWarning = '${_path}warning.png';
 const String icCheck = '${_path}check.png';
+const String icFamilyMember = '${_path}family_member.png';
+const String icInfo = '${_path}info.png';
 
 const String _homePath = 'assets/icons/home/';
 const String _brokerPath = 'assets/icons/brokers/';

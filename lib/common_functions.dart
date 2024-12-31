@@ -657,7 +657,10 @@ class CommonFunction {
                                                       padding: EdgeInsets.only(
                                                           left: 3.5.w,
                                                           right: 2.5.w),
-                                                      child: Text(title == 'Select Loan' ? list[i]['name'] : list[i],
+                                                      child: Text(
+                                                          title == 'Select Loan'
+                                                              ? list[i]['name']
+                                                              : list[i],
                                                           style: textStyle11(
                                                                   colorBlack)
                                                               .copyWith(

@@ -1613,7 +1613,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .copyWith(letterSpacing: 0.7)),
                                   Padding(
                                     padding: EdgeInsets.only(right: 1.w),
-                                    child: GestureDetector(
+                                    child: InkWell(
                                       onTap: () {
                                         BlocProvider.of<FetchingDataBloc>(
                                                 context)

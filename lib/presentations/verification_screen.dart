@@ -20,6 +20,7 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
 import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/core/api/api_consts.dart';
+import 'package:wbc_connect_app/presentations/Review/add_member_details.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/sigIn_screen.dart';
 import 'package:wbc_connect_app/presentations/splash_screen.dart';
@@ -124,6 +125,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   bool fastTrackStatus = false;
 
   bool dialogTimer = false;
+  bool openDialogBox = false;
 
   startTimer() {
     countdownTimer =
@@ -1747,187 +1749,388 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                                 activeColor: colorRed,
                                                 trackColor: colorE5E5,
                                                 onChanged: (val) {
-                                                  if (contactCount <
-                                                      widget
-                                                          .verificationScreenData
-                                                          .selectedContact) {
-                                                    setState(() {
-                                                      contactsData[index]
-                                                              .isAdd =
-                                                          !contactsData[index]
-                                                              .isAdd;
-                                                    });
-                                                    print(
-                                                        "IS ADDD:::::::::${contactsData[index].isAdd}");
-                                                    setState(() {
-                                                      if (contactsData[index]
-                                                          .isAdd) {
-                                                        contactCount++;
-                                                        final selectedContactName =
-                                                            contactsData[index]
-                                                                    .contact
-                                                                    .name
-                                                                    .first +
+                                                  if (ApiUser
+                                                      .membersList.isEmpty) {
+                                                    if (openDialogBox ==
+                                                        false) {
+                                                      openDialogBox = true;
+                                                      dialogBox();
+                                                    } else {
+                                                      if (contactCount <
+                                                          widget
+                                                              .verificationScreenData
+                                                              .selectedContact) {
+                                                        setState(() {
+                                                          contactsData[index]
+                                                                  .isAdd =
+                                                              !contactsData[
+                                                                      index]
+                                                                  .isAdd;
+                                                        });
+                                                        print(
+                                                            "IS ADDD:::::::::${contactsData[index].isAdd}");
+                                                        setState(() {
+                                                          if (contactsData[
+                                                                  index]
+                                                              .isAdd) {
+                                                            contactCount++;
+                                                            final selectedContactName =
                                                                 contactsData[
-                                                                        index]
+                                                                            index]
+                                                                        .contact
+                                                                        .name
+                                                                        .first +
+                                                                    contactsData[
+                                                                            index]
+                                                                        .contact
+                                                                        .name
+                                                                        .middle +
+                                                                    contactsData[
+                                                                            index]
+                                                                        .contact
+                                                                        .name
+                                                                        .last;
+                                                            var selectedContactMono =
+                                                                contactsData[index]
                                                                     .contact
-                                                                    .name
-                                                                    .middle +
-                                                                contactsData[
-                                                                        index]
+                                                                    .phones
+                                                                    .first
+                                                                    .number
+                                                                    .replaceAll(
+                                                                        ' ', '')
+                                                                    .replaceAll(
+                                                                        '-', '')
+                                                                    .replaceAll(
+                                                                        '(', '')
+                                                                    .replaceAll(
+                                                                        ')',
+                                                                        '');
+
+                                                            print(
+                                                                "NUMBER ::::::::::${selectedContactMono.substring(0, selectedContactMono.length - 10)}");
+                                                            var countryCode =
+                                                                selectedContactMono
+                                                                    .substring(
+                                                                        0,
+                                                                        selectedContactMono.length -
+                                                                            10);
+                                                            selectedContactMono =
+                                                                selectedContactMono
+                                                                    .substring(
+                                                                        selectedContactMono.length -
+                                                                            10);
+
+                                                            print(
+                                                                'final name:::::::::::::$selectedContactName');
+                                                            print(
+                                                                'final mono:::::::::::::$selectedContactMono');
+
+                                                            selectedContacts
+                                                                .add(
+                                                                    ContactData(
+                                                              name:
+                                                                  selectedContactName,
+                                                              mobileNo:
+                                                                  selectedContactMono,
+                                                              nriRefferal: widget
+                                                                          .verificationScreenData
+                                                                          .isNRICarnivalPage ==
+                                                                      true
+                                                                  ? true
+                                                                  : false,
+                                                              country:
+                                                                  countryCode,
+                                                            ));
+
+                                                            print(
+                                                                "SELECTED ::::::::::::::${selectedContacts}");
+                                                          } else {
+                                                            print(
+                                                                "ELSE:::::::--------:::::::::::::::::::::::");
+                                                            // final selectedContactMono =
+                                                            //     contactsData[index]
+                                                            //         .contact
+                                                            //         .phones
+                                                            //         .first
+                                                            //         .number
+                                                            //         .replaceAll(
+                                                            //             '-', '');
+                                                            var selectedContactMono =
+                                                                contactsData[index]
                                                                     .contact
-                                                                    .name
-                                                                    .last;
-                                                        var selectedContactMono =
+                                                                    .phones
+                                                                    .first
+                                                                    .number
+                                                                    .replaceAll(
+                                                                        ' ', '')
+                                                                    .replaceAll(
+                                                                        '-', '')
+                                                                    .replaceAll(
+                                                                        '(', '')
+                                                                    .replaceAll(
+                                                                        ')',
+                                                                        '');
+                                                            selectedContactMono =
+                                                                selectedContactMono
+                                                                    .substring(
+                                                                        selectedContactMono.length -
+                                                                            10);
+                                                            contactCount--;
+                                                            selectedContacts
+                                                                .removeWhere(
+                                                                    (element) =>
+                                                                        element
+                                                                            .mobileNo ==
+                                                                        selectedContactMono);
+
+                                                            print(
+                                                                "REMOVE :::::::::::::${selectedContacts}");
+
+                                                            print(
+                                                                'removeselecteddata--------$selectedContacts');
+                                                          }
+                                                        });
+                                                      } else if (contactCount ==
+                                                          widget
+                                                              .verificationScreenData
+                                                              .selectedContact) {
+                                                        if (contactsData[index]
+                                                            .isAdd) {
+                                                          setState(() {
                                                             contactsData[index]
-                                                                .contact
-                                                                .phones
-                                                                .first
-                                                                .number
-                                                                .replaceAll(
-                                                                    ' ', '')
-                                                                .replaceAll(
-                                                                    '-', '')
-                                                                .replaceAll(
-                                                                    '(', '')
-                                                                .replaceAll(
-                                                                    ')', '');
+                                                                    .isAdd =
+                                                                !contactsData[
+                                                                        index]
+                                                                    .isAdd;
+                                                            // contactCount--;
+                                                            var selectedContactMono =
+                                                                contactsData[index]
+                                                                    .contact
+                                                                    .phones
+                                                                    .first
+                                                                    .number
+                                                                    .replaceAll(
+                                                                        ' ', '')
+                                                                    .replaceAll(
+                                                                        '-', '')
+                                                                    .replaceAll(
+                                                                        '(', '')
+                                                                    .replaceAll(
+                                                                        ')',
+                                                                        '');
+                                                            selectedContactMono =
+                                                                selectedContactMono
+                                                                    .substring(
+                                                                        selectedContactMono.length -
+                                                                            10);
+                                                            contactCount--;
+                                                            selectedContacts
+                                                                .removeWhere(
+                                                                    (element) =>
+                                                                        element
+                                                                            .mobileNo ==
+                                                                        selectedContactMono);
 
-                                                        print(
-                                                            "NUMBER ::::::::::${selectedContactMono.substring(0, selectedContactMono.length - 10)}");
-                                                        var countryCode =
-                                                            selectedContactMono
-                                                                .substring(
-                                                                    0,
-                                                                    selectedContactMono
-                                                                            .length -
-                                                                        10);
-                                                        selectedContactMono =
-                                                            selectedContactMono
-                                                                .substring(
-                                                                    selectedContactMono
-                                                                            .length -
-                                                                        10);
-
-                                                        print(
-                                                            'final name:::::::::::::$selectedContactName');
-                                                        print(
-                                                            'final mono:::::::::::::$selectedContactMono');
-
-                                                        selectedContacts
-                                                            .add(ContactData(
-                                                          name:
-                                                              selectedContactName,
-                                                          mobileNo:
-                                                              selectedContactMono,
-                                                          nriRefferal: widget
-                                                                      .verificationScreenData
-                                                                      .isNRICarnivalPage ==
-                                                                  true
-                                                              ? true
-                                                              : false,
-                                                          country: countryCode,
-                                                        ));
-
-                                                        print(
-                                                            "SELECTED ::::::::::::::${selectedContacts}");
-                                                      } else {
-                                                        print(
-                                                            "ELSE:::::::--------:::::::::::::::::::::::");
-                                                        // final selectedContactMono =
-                                                        //     contactsData[index]
-                                                        //         .contact
-                                                        //         .phones
-                                                        //         .first
-                                                        //         .number
-                                                        //         .replaceAll(
-                                                        //             '-', '');
-                                                        var selectedContactMono =
-                                                            contactsData[index]
-                                                                .contact
-                                                                .phones
-                                                                .first
-                                                                .number
-                                                                .replaceAll(
-                                                                    ' ', '')
-                                                                .replaceAll(
-                                                                    '-', '')
-                                                                .replaceAll(
-                                                                    '(', '')
-                                                                .replaceAll(
-                                                                    ')', '');
-                                                        selectedContactMono =
-                                                            selectedContactMono
-                                                                .substring(
-                                                                    selectedContactMono
-                                                                            .length -
-                                                                        10);
-                                                        contactCount--;
-                                                        selectedContacts.removeWhere(
-                                                            (element) =>
-                                                                element
-                                                                    .mobileNo ==
-                                                                selectedContactMono);
-
-                                                        print(
-                                                            "REMOVE :::::::::::::${selectedContacts}");
-
-                                                        print(
-                                                            'removeselecteddata--------$selectedContacts');
+                                                            // print("ELSE IF::::::::${contactsData[index]
+                                                            //         .isAdd =
+                                                            //     !contactsData[index]
+                                                            //         .isAdd}::::::::::${contactCount--}}");
+                                                          });
+                                                        }
                                                       }
-                                                    });
-                                                  } else if (contactCount ==
-                                                      widget
-                                                          .verificationScreenData
-                                                          .selectedContact) {
-                                                    if (contactsData[index]
-                                                        .isAdd) {
+                                                      print(
+                                                          'contactcountdata---------$contactCount');
+                                                      print(
+                                                          'selectedcontact---------${widget.verificationScreenData.selectedContact}');
+                                                      print(
+                                                          'selecteddata-------ff-----$selectedContacts');
+                                                    }
+                                                  } else {
+                                                    if (contactCount <
+                                                        widget
+                                                            .verificationScreenData
+                                                            .selectedContact) {
                                                       setState(() {
                                                         contactsData[index]
                                                                 .isAdd =
                                                             !contactsData[index]
                                                                 .isAdd;
-                                                        // contactCount--;
-                                                        var selectedContactMono =
-                                                            contactsData[index]
-                                                                .contact
-                                                                .phones
-                                                                .first
-                                                                .number
-                                                                .replaceAll(
-                                                                    ' ', '')
-                                                                .replaceAll(
-                                                                    '-', '')
-                                                                .replaceAll(
-                                                                    '(', '')
-                                                                .replaceAll(
-                                                                    ')', '');
-                                                        selectedContactMono =
-                                                            selectedContactMono
-                                                                .substring(
-                                                                    selectedContactMono
-                                                                            .length -
-                                                                        10);
-                                                        contactCount--;
-                                                        selectedContacts.removeWhere(
-                                                            (element) =>
-                                                                element
-                                                                    .mobileNo ==
-                                                                selectedContactMono);
-
-                                                        // print("ELSE IF::::::::${contactsData[index]
-                                                        //         .isAdd =
-                                                        //     !contactsData[index]
-                                                        //         .isAdd}::::::::::${contactCount--}}");
                                                       });
+                                                      print(
+                                                          "IS ADDD:::::::::${contactsData[index].isAdd}");
+                                                      setState(() {
+                                                        if (contactsData[index]
+                                                            .isAdd) {
+                                                          contactCount++;
+                                                          final selectedContactName =
+                                                              contactsData[
+                                                                          index]
+                                                                      .contact
+                                                                      .name
+                                                                      .first +
+                                                                  contactsData[
+                                                                          index]
+                                                                      .contact
+                                                                      .name
+                                                                      .middle +
+                                                                  contactsData[
+                                                                          index]
+                                                                      .contact
+                                                                      .name
+                                                                      .last;
+                                                          var selectedContactMono =
+                                                              contactsData[index]
+                                                                  .contact
+                                                                  .phones
+                                                                  .first
+                                                                  .number
+                                                                  .replaceAll(
+                                                                      ' ', '')
+                                                                  .replaceAll(
+                                                                      '-', '')
+                                                                  .replaceAll(
+                                                                      '(', '')
+                                                                  .replaceAll(
+                                                                      ')', '');
+
+                                                          print(
+                                                              "NUMBER ::::::::::${selectedContactMono.substring(0, selectedContactMono.length - 10)}");
+                                                          var countryCode =
+                                                              selectedContactMono
+                                                                  .substring(
+                                                                      0,
+                                                                      selectedContactMono
+                                                                              .length -
+                                                                          10);
+                                                          selectedContactMono =
+                                                              selectedContactMono
+                                                                  .substring(
+                                                                      selectedContactMono
+                                                                              .length -
+                                                                          10);
+
+                                                          print(
+                                                              'final name:::::::::::::$selectedContactName');
+                                                          print(
+                                                              'final mono:::::::::::::$selectedContactMono');
+
+                                                          selectedContacts
+                                                              .add(ContactData(
+                                                            name:
+                                                                selectedContactName,
+                                                            mobileNo:
+                                                                selectedContactMono,
+                                                            nriRefferal: widget
+                                                                        .verificationScreenData
+                                                                        .isNRICarnivalPage ==
+                                                                    true
+                                                                ? true
+                                                                : false,
+                                                            country:
+                                                                countryCode,
+                                                          ));
+
+                                                          print(
+                                                              "SELECTED ::::::::::::::${selectedContacts}");
+                                                        } else {
+                                                          print(
+                                                              "ELSE:::::::--------:::::::::::::::::::::::");
+                                                          // final selectedContactMono =
+                                                          //     contactsData[index]
+                                                          //         .contact
+                                                          //         .phones
+                                                          //         .first
+                                                          //         .number
+                                                          //         .replaceAll(
+                                                          //             '-', '');
+                                                          var selectedContactMono =
+                                                              contactsData[index]
+                                                                  .contact
+                                                                  .phones
+                                                                  .first
+                                                                  .number
+                                                                  .replaceAll(
+                                                                      ' ', '')
+                                                                  .replaceAll(
+                                                                      '-', '')
+                                                                  .replaceAll(
+                                                                      '(', '')
+                                                                  .replaceAll(
+                                                                      ')', '');
+                                                          selectedContactMono =
+                                                              selectedContactMono
+                                                                  .substring(
+                                                                      selectedContactMono
+                                                                              .length -
+                                                                          10);
+                                                          contactCount--;
+                                                          selectedContacts.removeWhere(
+                                                              (element) =>
+                                                                  element
+                                                                      .mobileNo ==
+                                                                  selectedContactMono);
+
+                                                          print(
+                                                              "REMOVE :::::::::::::${selectedContacts}");
+
+                                                          print(
+                                                              'removeselecteddata--------$selectedContacts');
+                                                        }
+                                                      });
+                                                    } else if (contactCount ==
+                                                        widget
+                                                            .verificationScreenData
+                                                            .selectedContact) {
+                                                      if (contactsData[index]
+                                                          .isAdd) {
+                                                        setState(() {
+                                                          contactsData[index]
+                                                                  .isAdd =
+                                                              !contactsData[
+                                                                      index]
+                                                                  .isAdd;
+                                                          // contactCount--;
+                                                          var selectedContactMono =
+                                                              contactsData[index]
+                                                                  .contact
+                                                                  .phones
+                                                                  .first
+                                                                  .number
+                                                                  .replaceAll(
+                                                                      ' ', '')
+                                                                  .replaceAll(
+                                                                      '-', '')
+                                                                  .replaceAll(
+                                                                      '(', '')
+                                                                  .replaceAll(
+                                                                      ')', '');
+                                                          selectedContactMono =
+                                                              selectedContactMono
+                                                                  .substring(
+                                                                      selectedContactMono
+                                                                              .length -
+                                                                          10);
+                                                          contactCount--;
+                                                          selectedContacts.removeWhere(
+                                                              (element) =>
+                                                                  element
+                                                                      .mobileNo ==
+                                                                  selectedContactMono);
+
+                                                          // print("ELSE IF::::::::${contactsData[index]
+                                                          //         .isAdd =
+                                                          //     !contactsData[index]
+                                                          //         .isAdd}::::::::::${contactCount--}}");
+                                                        });
+                                                      }
                                                     }
+                                                    print(
+                                                        'contactcountdata---------$contactCount');
+                                                    print(
+                                                        'selectedcontact---------${widget.verificationScreenData.selectedContact}');
+                                                    print(
+                                                        'selecteddata-------ff-----$selectedContacts');
                                                   }
-                                                  print(
-                                                      'contactcountdata---------$contactCount');
-                                                  print(
-                                                      'selectedcontact---------${widget.verificationScreenData.selectedContact}');
-                                                  print(
-                                                      'selecteddata-------ff-----$selectedContacts');
                                                 }),
                                           ),
                                           SizedBox(width: 1.5.w),
@@ -2172,5 +2375,187 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ),
       ),
     );
+  }
+
+  dialogBox() {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: false,
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                child: StatefulBuilder(
+                  builder: (context, setState) => AlertDialog(
+                    contentPadding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    content: SizedBox(
+                      height: 50.h,
+                      width: deviceWidth(context) * 0.788,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 19.h,
+                            width: deviceWidth(context) * 0.788 + 5,
+                            decoration: const BoxDecoration(
+                                color: Color(0xffFFF1EC),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset(
+                                  icFamilyMember,
+                                  height: 8.5.h,
+                                ),
+                                Text('Family Mapping Incomplete',
+                                    style: textStyle13Bold(colorBlack)
+                                        .copyWith(height: 1.2)),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 31.h,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: deviceWidth(context) * 0.04,
+                                  vertical: 2.h),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        icInfo,
+                                        height: 2.7.h,
+                                      ),
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                            'Please map your family members before other referrals',
+                                            style: textStyle13Medium(colorBlack)
+                                                .copyWith(height: 1.2)),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 1.h,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        icInfo,
+                                        height: 2.7.h,
+                                      ),
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Flexible(
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text: 'For each family member earn',
+                                            style: textStyle13Medium(colorBlack)
+                                                .copyWith(height: 1.2),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: ' 250 ',
+                                                  style:
+                                                      textStyle13Bold(colorRed)
+                                                          .copyWith(
+                                                              height: 1.2)),
+                                              TextSpan(
+                                                  text: 'points, maximum',
+                                                  style: textStyle13Medium(
+                                                          colorBlack)
+                                                      .copyWith(height: 1.2)),
+                                              TextSpan(
+                                                  text: ' 1000 ',
+                                                  style:
+                                                      textStyle13Bold(colorRed)
+                                                          .copyWith(
+                                                              height: 1.2)),
+                                              TextSpan(
+                                                  text:
+                                                      'redeemable points for family',
+                                                  style: textStyle13Medium(
+                                                          colorBlack)
+                                                      .copyWith(height: 1.2)),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        splashColor: colorWhite,
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed(
+                                              AddMemberDetails.route,
+                                              arguments: AddMemberDetailsData(
+                                                  familyList:
+                                                      ApiUser.membersList));
+                                        },
+                                        child: Container(
+                                          height: 4.5.h,
+                                          width: 33.w,
+                                          decoration: BoxDecoration(
+                                              color: colorRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          alignment: Alignment.center,
+                                          child: Text('Map My Family',
+                                              style:
+                                                  textStyle11Bold(colorWhite)),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        splashColor: colorWhite,
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          height: 4.5.h,
+                                          width: 33.w,
+                                          decoration: BoxDecoration(
+                                              color: colorRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          alignment: Alignment.center,
+                                          child: Text('I Will Do It Later',
+                                              style:
+                                                  textStyle11Bold(colorWhite)),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
   }
 }

@@ -191,16 +191,16 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                                 style: textStyle8(colorBlack).copyWith(
                                     fontWeight: FontWeight.w600, height: 1.2)),
                             SizedBox(height: 1.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('300', style: textStyle6Medium(colorRed)),
-                                Text('+', style: textStyle8Medium(colorRed)),
-                                Text(' Items',
-                                    style: textStyle6Medium(colorRed)),
-                              ],
-                            ),
-                            SizedBox(height: 1.h),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Text('300', style: textStyle6Medium(colorRed)),
+                            //     Text('+', style: textStyle8Medium(colorRed)),
+                            //     Text(' Items',
+                            //         style: textStyle6Medium(colorRed)),
+                            //   ],
+                            // ),
+                            // SizedBox(height: 1.h),
                           ],
                         ),
                       ));
