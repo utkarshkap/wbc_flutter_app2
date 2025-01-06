@@ -154,14 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
             globalKey,
             isShowCase);
       }
-      if (widget.homeScreenData.isSendReview == 'ImportBrokersData') {
-        CommonFunction().successPopup(
-          context,
-          'Thank You',
-          'Your data has been successfully imported.',
-          jsonReviewSuccess,
-        );
-      }
     });
 
     BlocProvider.of<DashboardBloc>(context)
@@ -208,6 +200,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     print(
         "widget.homeScreenData.isFastTrackActivate:::::::::::::::::::::::::::::::${widget.homeScreenData.isFastTrackActivate}");
+    print(
+        "widget.homeScreenData.acceptedContacts${widget.homeScreenData.acceptedContacts}..widget.homeScreenData.acceptedNRIContacts${widget.homeScreenData.acceptedNRIContacts}");
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -443,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               pointsView(
                                   icGoldCoin,
-                                  'Your Gold Points',
+                                  'Your Total Gold Points',
                                   CommonFunction().splitString(
                                       state.data!.data.goldPoint.toString()),
                                   'Redeem Now',

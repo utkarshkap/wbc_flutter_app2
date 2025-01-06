@@ -139,11 +139,11 @@ class _ExpandProductScreenState extends State<ExpandProductScreen> {
           return false;
         },
         child: GridView.builder(
-            padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 0.85,
+                childAspectRatio: 0.75,
                 crossAxisCount: 2),
             itemCount: widget.product.product.length,
             itemBuilder: (context, index) {
@@ -173,10 +173,11 @@ class _ExpandProductScreenState extends State<ExpandProductScreen> {
                         width: 21.8.w,
                         decoration: decoration(colorWhite),
                         child: Padding(
-                          padding:  EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.w),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1.h, horizontal: 2.w),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                   height: 19.h,
@@ -187,14 +188,26 @@ class _ExpandProductScreenState extends State<ExpandProductScreen> {
                                             .imgPath,
                                     fit: BoxFit.contain,
                                   )),
-                                                            SizedBox(height: 1.h),
-
-                              Text(widget.product.product[index].name,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle8(colorBlack).copyWith(
-                                      fontWeight: FontWeight.w600, height: 1.2)),
+                              SizedBox(height: 1.h),
+                              Flexible(
+                                child: Text(widget.product.product[index].name,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyle8(colorBlack).copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.2)),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(icGoldCoin, width: 2.w),
+                                  SizedBox(width: 1.w),
+                                  Text(
+                                      '${widget.product.product[index].price.toInt()}GP',
+                                      style: textStyle9Bold(colorTextFFC1)),
+                                ],
+                              )
                             ],
                           ),
                         ),

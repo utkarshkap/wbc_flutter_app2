@@ -28,7 +28,6 @@ class GoldPointHistoryScreen extends StatefulWidget {
 class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
   List<String> earningTime = [
     'All Time',
-    // 'Weekly',
     'This Month',
     'This Year',
   ];
@@ -36,7 +35,8 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
     'All Type',
     'Redeemable',
     'Non-Redeemable',
-    'On The Spot'
+    'On The Spot',
+    'NRIReferral'
   ];
   List<History> historyData = [];
   String selectedHistoryTime = 'All Time';
@@ -146,7 +146,9 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
     totalCredit = 0;
     for (int i = 0; i < widget.goldPointHistoryData.history.length; i++) {
       if (type == widget.goldPointHistoryData.history[i].goldPointType) {
-        totalCredit += widget.goldPointHistoryData.history[i].credit!;
+        totalCredit += (widget.goldPointHistoryData.history[i].credit != 0
+            ? widget.goldPointHistoryData.history[i].credit!
+            : widget.goldPointHistoryData.history[i].debit!);
       }
     }
   }
@@ -220,14 +222,14 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                       selectedGoldPointType = 'All Type';
                                       selectedHistoryTime = earningTime[i];
                                       var date = DateTime.now();
-                                      if (selectedHistoryTime == 'Weekly') {
-                                        // var d = DateTime.now();
-                                        // var weekDay = d.weekday;
-                                        // var firstDayOfWeek = d.subtract(
-                                        //     Duration(days: weekDay));
-                                        // print('-------${date.weekday}');
-                                        // print('*********${date.weekday - 1}');
-                                      }
+                                      // if (selectedHistoryTime == 'Weekly') {
+                                      // var d = DateTime.now();
+                                      // var weekDay = d.weekday;
+                                      // var firstDayOfWeek = d.subtract(
+                                      //     Duration(days: weekDay));
+                                      // print('-------${date.weekday}');
+                                      // print('*********${date.weekday - 1}');
+                                      // }
                                       if (selectedHistoryTime == 'This Month') {
                                         filteredItem =
                                             DateFormat('MM-yyyy').format(date);
@@ -320,7 +322,10 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                                     : widget.goldPointHistoryData.history[index].goldPointType ==
                                                                             'Non-Redeemable'
                                                                         ? colorBoxGradiant0040
-                                                                        : colorRed)),
+                                                                        : widget.goldPointHistoryData.history[index].goldPointType ==
+                                                                                'NRIReferral'
+                                                                            ? colorGreen
+                                                                            : colorRed)),
                                                           ],
                                                         ),
                                                       ),
@@ -418,10 +423,11 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                       widget
                                           .goldPointHistoryData.history.length,
                                       (index) =>
-                                          selectedGoldPointType.contains(widget
-                                                  .goldPointHistoryData
-                                                  .history[index]
-                                                  .goldPointType)
+                                          selectedGoldPointType.startsWith(
+                                                  widget
+                                                      .goldPointHistoryData
+                                                      .history[index]
+                                                      .goldPointType)
                                               ? totalCredit != 0
                                                   ? Padding(
                                                       padding:
@@ -476,7 +482,9 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                                                     ? colorTextFFC1
                                                                                     : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
                                                                                         ? colorBoxGradiant0040
-                                                                                        : colorRed)),
+                                                                                        : widget.goldPointHistoryData.history[index].goldPointType == 'NRIReferral'
+                                                                                            ? colorGreen
+                                                                                            : colorRed)),
                                                                           ],
                                                                         ),
                                                                       ),
@@ -625,7 +633,10 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                                     : widget.goldPointHistoryData.history[index].goldPointType ==
                                                                             'Non-Redeemable'
                                                                         ? colorBoxGradiant0040
-                                                                        : colorRed)),
+                                                                        : widget.goldPointHistoryData.history[index].goldPointType ==
+                                                                                'NRIReferral'
+                                                                            ? colorGreen
+                                                                            : colorRed)),
                                                           ],
                                                         ),
                                                       ),
@@ -809,7 +820,9 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                                                                                 ? colorTextFFC1
                                                                                 : widget.goldPointHistoryData.history[index].goldPointType == 'Non-Redeemable'
                                                                                     ? colorBoxGradiant0040
-                                                                                    : colorRed)),
+                                                                                    : widget.goldPointHistoryData.history[index].goldPointType == 'NRIReferral'
+                                                                                        ? colorGreen
+                                                                                        : colorRed)),
                                                                       ],
                                                                     ),
                                                                   ),

@@ -43,6 +43,7 @@ const String icWarning = '${_path}warning.png';
 const String icCheck = '${_path}check.png';
 const String icFamilyMember = '${_path}family_member.png';
 const String icInfo = '${_path}info.png';
+const String icGoldPointBalance = '${_path}gold_point_balance.png';
 
 const String _homePath = 'assets/icons/home/';
 const String _brokerPath = 'assets/icons/brokers/';

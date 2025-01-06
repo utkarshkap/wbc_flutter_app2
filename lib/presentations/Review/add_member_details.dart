@@ -161,6 +161,14 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
   }
 
   @override
+  void dispose() {
+    nameFocus.dispose();
+    numFocus.dispose();
+    numNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,

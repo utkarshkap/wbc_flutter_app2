@@ -54,9 +54,7 @@ class _OrderHistoryState extends State<OrderHistory> {
             leadingWidth: 15.w,
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      HomeScreen.route, (route) => false,
-                      arguments: HomeScreenData());
+                  Navigator.of(context).pop();
                 },
                 icon: Image.asset(icBack, color: colorRed, width: 6.w)),
             titleSpacing: 0,

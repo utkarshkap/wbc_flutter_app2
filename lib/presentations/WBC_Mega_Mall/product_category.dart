@@ -173,9 +173,10 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical: 1.h),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 1.h, horizontal: 2.w),
                               child: SizedBox(
-                                  height: 60,
+                                  height: 11.h,
                                   width: 25.w,
                                   child: Image.network(
                                     imgNewBaseUrl +

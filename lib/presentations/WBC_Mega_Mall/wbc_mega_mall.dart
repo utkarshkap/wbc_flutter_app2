@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:wbc_connect_app/common_functions.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/expand_product_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/product_category.dart';
@@ -53,6 +54,10 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
       setState(() {
         _selectedIndex = index;
       });
+      if (_selectedIndex == 2) {
+        Navigator.of(context).pushReplacementNamed(ProductCategoryScreen.route,
+            arguments: CategoryData(categories: categories));
+      }
       if (_selectedIndex == 3) {
         Navigator.of(context)
             .pushNamed(CartScreen.route)
@@ -189,7 +194,7 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('BROWSE BY CATEGORIES',
+                              Text('CATEGORIES',
                                   style: textStyle10Bold(colorBlack)
                                       .copyWith(letterSpacing: 0.7)),
                               Padding(
@@ -1115,13 +1120,18 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: Container(
-            height: 8.h,
-            width: 8.h,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: colorWhite, width: 2)),
-            child: Image.asset(icGoldCoin, fit: BoxFit.fill),
+          floatingActionButton: InkWell(
+            onTap: () {
+              dialogBox();
+            },
+            child: Container(
+              height: 8.h,
+              width: 8.h,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colorWhite, width: 2)),
+              child: Image.asset(icGoldCoin, fit: BoxFit.fill),
+            ),
           ),
           bottomNavigationBar: ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -1194,21 +1204,23 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 1.h),
+                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
                 child: SizedBox(
-                    height: 50,
+                    height: 8.h,
                     width: 20.w,
                     child: Image.network(
                       imgNewBaseUrl + list.imgPath,
                       fit: BoxFit.contain,
                     )),
               ),
-              Text(list.name,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle8(colorBlack)
-                      .copyWith(fontWeight: FontWeight.w600, height: 1.2)),
+              Flexible(
+                child: Text(list.name,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textStyle8(colorBlack)
+                        .copyWith(fontWeight: FontWeight.w600, height: 1.2)),
+              ),
               SizedBox(height: 1.h),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -1313,5 +1325,71 @@ class _WbcMegaMallState extends State<WbcMegaMall> {
         ),
       ),
     );
+  }
+
+  dialogBox() {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: false,
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+              scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: FadeTransition(
+                opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                child: StatefulBuilder(
+                  builder: (context, setState) => AlertDialog(
+                    contentPadding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    content: SizedBox(
+                      height: 35.h,
+                      width: deviceWidth(context) * 0.788,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            icGoldPointBalance,
+                            height: 11.5.h,
+                          ),
+                          Text('Your Gold Point Balance',
+                              style: textStyle15Bold(colorBlack)
+                                  .copyWith(height: 1.2)),
+                          Text(
+                              CommonFunction().splitString(
+                                  GpDashBoardData.redeemable.toString()),
+                              style: textStyle24Bold(colorBlack).copyWith(
+                                  height: 1.2, fontWeight: FontWeight.w900)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                splashColor: colorWhite,
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  height: 4.5.h,
+                                  width: 30.w,
+                                  decoration: BoxDecoration(
+                                      color: colorRed,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  alignment: Alignment.center,
+                                  child: Text('OK',
+                                      style: textStyle11Bold(colorWhite)),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ));
+        },
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
   }
 }
