@@ -318,6 +318,8 @@ class _MFReviewScreenState extends State<MFReviewScreen> {
                                             setState(() {
                                               fileName =
                                                   'Upload your stock investment PDF';
+                                              ApiUser.uploadMFHolidingApiMessage =
+                                                  '';
                                               uploadFile = null;
                                             });
                                           },

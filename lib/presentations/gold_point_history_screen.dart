@@ -195,7 +195,6 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                     child: Column(
                       children: [
                         dropDownRow(
-                          'HISTORY',
                           selectedGoldPointType,
                           List.generate(
                               goldPointTypeList.length,
@@ -913,7 +912,7 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text('Total Credit : ',
+                              Text('Balance : ',
                                   style: textStyle11Bold(colorBlack)
                                       .copyWith(letterSpacing: 0.7)),
                               Text(
@@ -949,7 +948,6 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
   }
 
   dropDownRow(
-    String title,
     String selectedGoldPointType,
     List<PopupMenuItem> goldPointTypeList,
     String selectedType,
@@ -960,15 +958,9 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: 0.7.w),
-            child: Text(title,
-                style:
-                    textStyle11Bold(colorBlack).copyWith(letterSpacing: 0.7)),
-          ),
           Container(
             height: 4.h,
-            width: 28.w,
+            width: 35.w,
             decoration: BoxDecoration(
                 border: Border.all(
                     color: colorTextBCBC.withOpacity(0.36), width: 1),
@@ -997,7 +989,7 @@ class _GoldPointHistoryScreenState extends State<GoldPointHistoryScreen> {
           ),
           Container(
             height: 4.h,
-            width: 28.w,
+            width: 35.w,
             decoration: BoxDecoration(
                 border: Border.all(
                     color: colorTextBCBC.withOpacity(0.36), width: 1),

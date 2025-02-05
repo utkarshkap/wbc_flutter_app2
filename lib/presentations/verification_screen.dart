@@ -400,14 +400,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   saveAndEarn() async {
-    print('mobileNo--------${widget.verificationScreenData.number.trim()}');
+    // print('mobileNo--------${widget.verificationScreenData.number.trim()}');
     String mono = await Preference.getMobNo();
-    print('selectedcontact--------${selectedContacts.length}');
-    print('selectedmono--------$mono');
+    print('selectedcontact--------${selectedContacts}');
+    // print('selectedmono--------$mono');
 
     String formattedDate =
         DateFormat('dd-MM-yy').format(selectedDate ?? DateTime.now());
-    print('dob--------$formattedDate');
+    // print('dob--------$formattedDate');
 
     BlocProvider.of<SigningBloc>(context).add(AddContactList(
         mobileNo: mono.trim(),
@@ -2202,7 +2202,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                   HomeScreen.route, (route) => false,
                                   arguments: HomeScreenData());
                             }),
-                      // SizedBox(height: 2.h),
                     ],
                   ))),
         ],
