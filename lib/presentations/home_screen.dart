@@ -123,8 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getFastTrackStatus();
-    getAndroidDeviceId();
-
     super.initState();
     getClientsConvertedMember();
     // getShowCase();
@@ -161,12 +159,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     BlocProvider.of<DashboardBloc>(context)
         .add(GetDashboardData(userId: ApiUser.userId));
-  }
-
-  Future getAndroidDeviceId() async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-    print("androidInfo.id::::::::::::::::${androidInfo.id}");
   }
 
   getFastTrackStatus() async {

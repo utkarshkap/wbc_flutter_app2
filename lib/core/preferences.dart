@@ -127,7 +127,7 @@ class Preference {
 
   static getWealthScore() async {
     final pref = await SharedPreferences.getInstance();
-    return pref.getDouble('WealthScore');
+    return pref.getDouble('WealthScore') ?? 0.0;
   }
 // Rate us preference
 // static Future<bool> setRateUs(bool rateUs) async {

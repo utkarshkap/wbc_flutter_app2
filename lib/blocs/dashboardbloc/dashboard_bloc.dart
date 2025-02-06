@@ -14,7 +14,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc() : super(DashboardInitial()) {
     on<GetDashboardData>((event, emit) async {
       emit(DashboardDataLoading());
-      await Future.delayed(const Duration(seconds: 3), () async {
+      await Future.delayed(const Duration(seconds: 0), () async {
         final dashboardRepo = DashboardRepo();
         final response = await dashboardRepo.getDashboardData(event.userId);
 
