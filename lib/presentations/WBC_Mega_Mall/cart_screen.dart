@@ -254,8 +254,10 @@ class _CartScreenState extends State<CartScreen> {
                 btnOkColor: Colors.red,
               ).show();
             } else if (state is OrderDataAdded) {
-              BlocProvider.of<DashboardBloc>(context)
-                  .add(GetDashboardData(userId: ApiUser.userId));
+              // BlocProvider.of<DashboardBloc>(context)
+              //     .add(GetDashboardData(userId: ApiUser.userId));
+              BlocProvider.of<OrderBloc>(context)
+                  .add(GetOrderHistory(userId: ApiUser.userId));
               Navigator.of(context).pushNamed(OrderHistory.route,
                   arguments: OrderHistoryData(isOrdered: true));
               BlocProvider.of<CartBloc>(context).add(LoadRemoveCartListEvent());

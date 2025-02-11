@@ -176,10 +176,10 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
               } else if (state is OrderDataAdded) {
                 // BlocProvider.of<DashboardBloc>(context)
                 //     .add(GetDashboardData(userId: ApiUser.userId));
-                Navigator.of(context).pushNamed(OrderHistory.route,
-                    arguments: OrderHistoryData(isOrdered: true));
                 BlocProvider.of<OrderBloc>(context)
                     .add(GetOrderHistory(userId: ApiUser.userId));
+                Navigator.of(context).pushNamed(OrderHistory.route,
+                    arguments: OrderHistoryData(isOrdered: true));
                 // BlocProvider.of<CartBloc>(context)
                 //     .add(LoadRemoveCartListEvent());
               }
