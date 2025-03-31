@@ -197,11 +197,15 @@ class FetchingApi {
   }
 
   Future<InvestmentTransaction> getMFTransaction(
-      String userid, String folioNo, String schemeName) async {
+      String userid,
+      // String folioNo,
+      String schemeName) async {
     print(
-        '--getMFTransaction----URL--- $mfTransactionUrl$userid&FolioNo=$folioNo&schemename=${Uri.encodeComponent(schemeName)}');
+        '--getMFTransaction----URL--- $mfTransactionUrl$userid&schemename=${Uri.encodeComponent(schemeName)}');
+    // &FolioNo=$folioNo
     final response = await http.get(Uri.parse(
-        "$mfTransactionUrl$userid&FolioNo='$folioNo'&schemename='${Uri.encodeComponent(schemeName)}'"));
+        "$mfTransactionUrl$userid&schemename='${Uri.encodeComponent(schemeName)}'"));
+    // &FolioNo='$folioNo'
     if (response.statusCode == 200) {
       print('--InvestmentTransaction--statusCode----${response.statusCode}');
       print('--InvestmentTransaction--body----${response.body}');

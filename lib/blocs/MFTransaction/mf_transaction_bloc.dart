@@ -11,8 +11,10 @@ class MFTransactionBloc extends Bloc<MFTransactionEvent, MFTransactionState> {
     on<LoadMFTransactionEvent>((event, emit) async {
       emit(MFTransactionInitial());
       try {
-        final mfTransaction = await FetchingApi()
-            .getMFTransaction(event.userId, event.folioNo, event.schemeName);
+        final mfTransaction = await FetchingApi().getMFTransaction(
+            event.userId,
+            // event.folioNo,
+            event.schemeName);
         // log('-----mfData---$mfTransaction');
         emit(MFTransactionLoadedState(mfTransaction));
       } catch (e) {

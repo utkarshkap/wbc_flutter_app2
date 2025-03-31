@@ -5,9 +5,13 @@ abstract class MFTransactionEvent {}
 
 class LoadMFTransactionEvent extends MFTransactionEvent {
   final String userId;
-  final String folioNo;
+  // final String folioNo;
   final String schemeName;
   final InvestmentTransaction investmentTransaction;
 
-  LoadMFTransactionEvent({required this.userId,required this.folioNo,required this.schemeName,required this.investmentTransaction});
+  LoadMFTransactionEvent(
+      {required this.userId,
+      // required this.folioNo,
+      required this.schemeName,
+      required this.investmentTransaction});
 }

@@ -83,43 +83,45 @@ class _MutualFundsTransactionState extends State<MutualFundsTransaction> {
                 builder: (context, state) {
                   if (state is MFTransactionLoadedState) {
                     return state.investmentTransaction.mFStocks.isNotEmpty
-                        ? GestureDetector(
-                            onTap: () {
-                              BlocProvider.of<MFTransactionBloc>(context).add(
-                                  LoadMFTransactionEvent(
-                                      userId: ApiUser.userId,
-                                      folioNo: "",
-                                      schemeName: "",
-                                      investmentTransaction:
-                                          InvestmentTransaction(
-                                              code: 0,
-                                              message: '',
-                                              mFStocks: [])));
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 4.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      state.investmentTransaction.mFStocks[0]
-                                          .mFStockName
-                                          .toString(),
-                                      style: textStyle13Bold(colorRed)),
-                                  SizedBox(
-                                    height: 0.8.h,
-                                  ),
-                                  Text(
-                                      "Folio number : ${state.investmentTransaction.mFStocks[0].folioNo}",
-                                      textAlign: TextAlign.center,
-                                      style: textStyle10Bold(colorTextBCBC)),
-                                  SizedBox(
-                                    height: 2.5.h,
-                                  ),
-                                ],
-                              ),
+                        ?
+                        // GestureDetector(
+                        //     onTap: () {
+                        //       BlocProvider.of<MFTransactionBloc>(context).add(
+                        //           LoadMFTransactionEvent(
+                        //               userId: ApiUser.userId,
+                        //               // folioNo: "",
+                        //               schemeName: "",
+                        //               investmentTransaction:
+                        //                   InvestmentTransaction(
+                        //                       code: 0,
+                        //                       message: '',
+                        //                       mFStocks: [])));
+                        //     },
+                        //     child:
+                        Padding(
+                            padding: EdgeInsets.only(left: 4.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                    state.investmentTransaction.mFStocks[0]
+                                        .mFStockName
+                                        .toString(),
+                                    style: textStyle13Bold(colorRed)),
+                                SizedBox(
+                                  height: 0.8.h,
+                                ),
+                                Text(
+                                    "Folio number : ${state.investmentTransaction.mFStocks[0].folioNo}",
+                                    textAlign: TextAlign.center,
+                                    style: textStyle10Bold(colorTextBCBC)),
+                                SizedBox(
+                                  height: 2.5.h,
+                                ),
+                              ],
                             ),
+                            // ),
                           )
                         : Container();
                   }

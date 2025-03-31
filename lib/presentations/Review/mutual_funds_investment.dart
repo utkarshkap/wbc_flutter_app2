@@ -459,10 +459,8 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                     .response[index]
                                                     .balanceUnit,
                                                 () => {
-                                                      BlocProvider.of<
-                                                                  MFTransactionBloc>(
-                                                              context)
-                                                          .add(LoadMFTransactionEvent(
+                                                      BlocProvider.of<MFTransactionBloc>(context).add(
+                                                          LoadMFTransactionEvent(
                                                               userId: selectedUserId ==
                                                                           '0' ||
                                                                       selectedUserId ==
@@ -470,11 +468,12 @@ class _MutualFundsInvestmentState extends State<MutualFundsInvestment> {
                                                                   ? ApiUser
                                                                       .userId
                                                                   : selectedUserId,
-                                                              folioNo: state
-                                                                  .investmentPortfolio
-                                                                  .response[
-                                                                      index]
-                                                                  .foliono,
+                                                              // folioNo:
+                                                              // state
+                                                              //     .investmentPortfolio
+                                                              //     .response[
+                                                              //         index]
+                                                              //     .foliono,
                                                               schemeName: state
                                                                   .investmentPortfolio
                                                                   .response[
