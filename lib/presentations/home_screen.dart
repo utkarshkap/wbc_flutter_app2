@@ -524,23 +524,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         // NRI Carnival - VIII
 
-                        SizedBox(height: 2.h),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(NRICarnivalScreen.route);
-                          },
-                          child: Container(
-                            width: 90.w,
-                            height: 16.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                  image: AssetImage(nriCarnival7Banner),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(height: 2.h),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Navigator.of(context)
+                        //         .pushNamed(NRICarnivalScreen.route);
+                        //   },
+                        //   child: Container(
+                        //     width: 90.w,
+                        //     height: 16.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       image: const DecorationImage(
+                        //           image: AssetImage(nriCarnival7Banner),
+                        //           fit: BoxFit.cover),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 2.h),
                         Container(
                           width: 90.w,
