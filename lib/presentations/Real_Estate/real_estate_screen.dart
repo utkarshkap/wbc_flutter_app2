@@ -867,7 +867,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       onDragBoxDecoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)),
                       onChange: (images) {
-                        if(images.isNotEmpty){
+                        if (images.isNotEmpty) {
                           setState(() {
                             imgValidation = '';
                           });
