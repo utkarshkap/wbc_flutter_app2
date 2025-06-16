@@ -221,7 +221,7 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                           children: [
                                             Text(
                                                 // '₹ ${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toInt().toString())}/-',
-                                                '₹${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toStringAsFixed(2))}/-',
+                                                '₹${CommonFunction().splitString(state.insuranceInvestment.totalInsuranceAmt.toStringAsFixed(0))}/-',
                                                 style: textStyle22(colorWhite)
                                                     .copyWith(height: 1.2)),
                                             Text('INSURANCE PORTFOLIO',

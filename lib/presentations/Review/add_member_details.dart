@@ -42,7 +42,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
   bool relationFieldTap = false;
   bool numFieldTap = false;
   FocusNode nameFocus = FocusNode();
-  FocusNode numFocus = FocusNode();
+  // FocusNode numFocus = FocusNode();
   String nameValidation = '';
   String numValidation = '';
   String relationValidation = '';
@@ -63,7 +63,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
       relationFieldTap = false;
     });
     nameFocus.unfocus();
-    numFocus.requestFocus();
+    // numFocus.requestFocus();
     final country = await showCountryPickerPage();
     if (country != null) {
       setState(() {
@@ -163,7 +163,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
   @override
   void dispose() {
     nameFocus.dispose();
-    numFocus.dispose();
+    // numFocus.dispose();
     numNode.dispose();
     super.dispose();
   }
@@ -331,14 +331,16 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                                         child: TextFormField(
                                           onTap: () {
                                             setState(() {
-                                              FocusScope.of(context).requestFocus(
-                                                  FocusNode()); // Unfocus any current field
+                                              // FocusScope.of(context).requestFocus(
+                                              //     FocusNode()); // Unfocus any current field
                                               nameFieldTap = false;
                                               numFieldTap = true;
                                               relationFieldTap = false;
                                             });
-                                            nameFocus.unfocus();
-                                            numFocus.requestFocus();
+                                            FocusScope.of(context)
+                                                .requestFocus(numNode);
+
+                                            // numFocus.requestFocus();
                                           },
                                           controller: _numController,
                                           style: textStyle14Bold(colorBlack),
@@ -440,7 +442,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                       relationFieldTap = true;
                     });
                     nameFocus.unfocus();
-                    numFocus.unfocus();
+                    // numFocus.unfocus();
                     CommonFunction().selectFormDialog(
                         context, 'Select Relation', relationType, (val) {
                       setState(() {
@@ -659,7 +661,7 @@ class _AddMemberDetailsState extends State<AddMemberDetails> {
                           numFieldTap = true;
                           relationFieldTap = false;
                         });
-                        FocusScope.of(context).requestFocus(numFocus);
+                        FocusScope.of(context).requestFocus(numNode);
                       }
                     },
                     keyboardType: keyboardType,
