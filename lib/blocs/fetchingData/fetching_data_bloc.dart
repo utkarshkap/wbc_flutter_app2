@@ -10,6 +10,8 @@ import 'package:wbc_connect_app/models/get_iifl_holding_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
 import 'package:wbc_connect_app/models/loan_banks_model.dart';
 import 'package:wbc_connect_app/models/mGain_investment_model.dart';
+import 'package:wbc_connect_app/models/real_estate_property_model.dart';
+import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_property.dart';
 import '../../core/fetching_api.dart';
 import '../../models/expanded_category_model.dart';
 import '../../models/faq_model.dart';
@@ -109,6 +111,17 @@ class FetchingDataBloc extends Bloc<FetchingDataEvent, FetchingDataState> {
         emit(InsuranceCategoryLoadedState(categoryData));
       } catch (e) {
         emit(InsuranceCategoryErrorState(e.toString()));
+      }
+    });
+
+    on<LoadRealEstatePropertyEvent>((event, emit) async {
+      emit(RealEstatePropertyInitial());
+      try {
+        final realEstatePropertyData =
+            await FetchingApi().getRealsEstate(event.userId);
+        emit(RealEstatePropertyLoadedState(realEstatePropertyData));
+      } catch (e) {
+        emit(RealEstatePropertyErrorState(e.toString()));
       }
     });
 

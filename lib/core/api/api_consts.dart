@@ -49,6 +49,7 @@ const String loanBanksUrl = "${baseUrl}getBankListForLoan";
 const String insuranceCompanyUrl = "${baseUrl}getInsuranceCompanyList";
 const String insuranceCategoryUrl =
     "${baseUrl}getInsurancecategory_list?insurancetype=";
+const String realEstateUrl = "${baseUrl}getRealtyData?userid=";
 
 const String mGainInvestmentUrl = "${baseUrl}getMGainInvestment?userId=";
 const String mGainLedgerUrl = "${baseUrl}getMGainLedger?mGainId=";

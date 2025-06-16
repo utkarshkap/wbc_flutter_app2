@@ -170,6 +170,29 @@ class InsuranceCategoryErrorState extends FetchingDataState {
   List<Object?> get props => [error];
 }
 
+class RealEstatePropertyInitial extends FetchingDataState {
+  @override
+  List<Object> get props => [];
+}
+
+class RealEstatePropertyLoadedState extends FetchingDataState {
+  final RealEstatePropertyModel realEstatePropertyModel;
+
+  const RealEstatePropertyLoadedState(this.realEstatePropertyModel);
+
+  @override
+  List<Object?> get props => [realEstatePropertyModel];
+}
+
+class RealEstatePropertyErrorState extends FetchingDataState {
+  final String error;
+
+  const RealEstatePropertyErrorState(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+
 class MGainInvestmentInitial extends FetchingDataState {
   @override
   List<Object> get props => [];

@@ -9,6 +9,7 @@ import 'package:wbc_connect_app/models/get_icici_holdingData_model.dart';
 import 'package:wbc_connect_app/models/get_icici_session_token_model.dart';
 import 'package:wbc_connect_app/models/insurance_company_model.dart';
 import 'package:wbc_connect_app/models/loan_banks_model.dart';
+import 'package:wbc_connect_app/models/real_estate_property_model.dart';
 import 'package:wbc_connect_app/models/stock_investment_model.dart';
 import '../models/country_model.dart';
 import '../models/custom_payumoney_hashkey_model.dart';
@@ -144,6 +145,18 @@ class FetchingApi {
       return insuranceCategoryFromJson(response.body);
     } else {
       throw Exception("Failed to load insurance category data");
+    }
+  }
+
+  Future<RealEstatePropertyModel> getRealsEstate(String userid) async {
+    log("URL-------------${realEstateUrl + userid}");
+    final response = await http.get(Uri.parse("$realEstateUrl$userid"));
+    if (response.statusCode == 200) {
+      log('--RealnEstate--statusCode----${response.statusCode}');
+      log('--RealnEstate--body----${response.body}');
+      return realEstatePropertyModelFromJson(response.body);
+    } else {
+      throw Exception("Failed to load real estate propert data");
     }
   }
 

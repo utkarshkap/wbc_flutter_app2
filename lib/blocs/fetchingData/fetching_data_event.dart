@@ -46,6 +46,14 @@ class LoadInsuranceCategoryEvent extends FetchingDataEvent {
   LoadInsuranceCategoryEvent({required this.insuranceCategory});
 }
 
+class LoadRealEstatePropertyEvent extends FetchingDataEvent {
+  final String userId;
+  final RealEstatePropertyModel realEstatePropertyModel;
+
+  LoadRealEstatePropertyEvent(
+      {required this.userId, required this.realEstatePropertyModel});
+}
+
 class LoadMGainInvestmentEvent extends FetchingDataEvent {
   final String userId;
   final MGainInvestment mGainInvestment;
