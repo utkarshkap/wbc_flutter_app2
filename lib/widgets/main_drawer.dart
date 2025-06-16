@@ -142,27 +142,29 @@ class _MainDrawerState extends State<MainDrawer> {
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                     ),
                     titles('WBC'),
-                    drawerWidget(icDashboard, 'DashBoard', () {
-                      Scaffold.of(context).closeDrawer();
-                      // Navigator.of(context).pushReplacementNamed(
-                      //     HomeScreen.route,
-                      //     arguments: HomeScreenData(
-                      //         rewardPopUpShow: false, acceptedContacts: ''));
-                      Navigator.of(context).pushNamed(
-                        WBCConnect.route,
-                        // arguments: WBCConnectData(
-                        //     history: history,
-                        //     contactBase: contactBase,
-                        //     inActiveClients: inActiveClients,
-                        //     availableContacts: availableContacts,
-                        //     goldPoint: goldPoint,
-                        //     fastTrackEarning: fastTrackEarning,
-                        //     earning: earning,
-                        //     redeemable: redeemable,
-                        //     nonRedeemable: nonRedeemable,
-                        //     onTheSpot: onTheSpot)
-                      );
-                    }),
+                    if (ApiUser.wbcGp == '1') ...[
+                      drawerWidget(icDashboard, 'DashBoard', () {
+                        Scaffold.of(context).closeDrawer();
+                        // Navigator.of(context).pushReplacementNamed(
+                        //     HomeScreen.route,
+                        //     arguments: HomeScreenData(
+                        //         rewardPopUpShow: false, acceptedContacts: ''));
+                        Navigator.of(context).pushNamed(
+                          WBCConnect.route,
+                          // arguments: WBCConnectData(
+                          //     history: history,
+                          //     contactBase: contactBase,
+                          //     inActiveClients: inActiveClients,
+                          //     availableContacts: availableContacts,
+                          //     goldPoint: goldPoint,
+                          //     fastTrackEarning: fastTrackEarning,
+                          //     earning: earning,
+                          //     redeemable: redeemable,
+                          //     nonRedeemable: nonRedeemable,
+                          //     onTheSpot: onTheSpot)
+                        );
+                      }),
+                    ],
                     drawerWidget(icMyReferral, 'My Referrals', () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushNamed(ViewMyContacts.route,
@@ -173,10 +175,14 @@ class _MainDrawerState extends State<MainDrawer> {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushNamed(WBCProgress.route);
                     }),
-                    drawerWidget(icFastTrackEarning, 'FastTrack Benefits', () {
-                      Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushNamed(FastTrackBenefits.route);
-                    }),
+                    if (ApiUser.wbcGp == '1') ...[
+                      drawerWidget(icFastTrackEarning, 'FastTrack Benefits',
+                          () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.of(context)
+                            .pushNamed(FastTrackBenefits.route);
+                      }),
+                    ],
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       child: Container(
@@ -215,39 +221,43 @@ class _MainDrawerState extends State<MainDrawer> {
                       child: Container(
                           height: 1, color: colorTextBCBC.withOpacity(0.36)),
                     ),
-                    titles('WBC Mega Mall'),
-                    drawerWidget(icMall, 'Home', () {
-                      Scaffold.of(context).closeDrawer();
-                      BlocProvider.of<FetchingDataBloc>(context).add(
-                          LoadProductCategoryEvent(
-                              productCategory: ProductCategory(
-                                  code: 0, message: '', categories: [])));
-                      BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
-                          popular: Popular(code: 0, message: '', products: []),
-                          newArrival:
-                              NewArrival(code: 0, message: '', products: []),
-                          trending:
-                              Trending(code: 0, message: '', products: [])));
-                      Navigator.of(context)
-                          .pushReplacementNamed(WbcMegaMall.route);
-                    }),
-                    drawerWidget(icCart, 'My Cart', () {
-                      Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushNamed(CartScreen.route);
-                    }),
-                    drawerWidget(icOrderHistory, 'Order History', () {
-                      Scaffold.of(context).closeDrawer();
-                      BlocProvider.of<OrderBloc>(context)
-                          .add(GetOrderHistory(userId: ApiUser.userId));
+                    if (ApiUser.wbcMall == '1') ...[
+                      titles('WBC Mega Mall'),
+                      drawerWidget(icMall, 'Home', () {
+                        Scaffold.of(context).closeDrawer();
+                        BlocProvider.of<FetchingDataBloc>(context).add(
+                            LoadProductCategoryEvent(
+                                productCategory: ProductCategory(
+                                    code: 0, message: '', categories: [])));
+                        BlocProvider.of<MallBloc>(context).add(
+                            LoadMallDataEvent(
+                                popular:
+                                    Popular(code: 0, message: '', products: []),
+                                newArrival: NewArrival(
+                                    code: 0, message: '', products: []),
+                                trending: Trending(
+                                    code: 0, message: '', products: [])));
+                        Navigator.of(context)
+                            .pushReplacementNamed(WbcMegaMall.route);
+                      }),
+                      drawerWidget(icCart, 'My Cart', () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.of(context).pushNamed(CartScreen.route);
+                      }),
+                      drawerWidget(icOrderHistory, 'Order History', () {
+                        Scaffold.of(context).closeDrawer();
+                        BlocProvider.of<OrderBloc>(context)
+                            .add(GetOrderHistory(userId: ApiUser.userId));
 
-                      Navigator.of(context).pushNamed(OrderHistory.route,
-                          arguments: OrderHistoryData());
-                    }),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Container(
-                          height: 1, color: colorTextBCBC.withOpacity(0.36)),
-                    ),
+                        Navigator.of(context).pushNamed(OrderHistory.route,
+                            arguments: OrderHistoryData());
+                      }),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Container(
+                            height: 1, color: colorTextBCBC.withOpacity(0.36)),
+                      ),
+                    ],
                     // titles('Vendor'),
                     // drawerWidget(icSearch, 'Search', () {
                     //   Scaffold.of(context).closeDrawer();

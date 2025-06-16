@@ -185,6 +185,21 @@ class _SplashScreenState extends State<SplashScreen> {
     print('isLogin------$isLogin');
   }
 
+  Future<void> fetchRemoteConfig() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 10),
+      minimumFetchInterval: const Duration(seconds: 1),
+    ));
+
+    await remoteConfig.fetchAndActivate();
+
+    ApiUser.wbcMall = remoteConfig.getString('wbc_mall');
+    ApiUser.wbcGp = remoteConfig.getString('wbc_gp');
+    print(
+        'Remote Config wbcMall: ${ApiUser.wbcMall}-----wbcGp ${ApiUser.wbcGp}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(

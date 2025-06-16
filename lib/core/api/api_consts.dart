@@ -163,6 +163,8 @@ class ApiUser {
   static List numberList = [];
   static double wealthMeterScore = 0;
   static String uploadMFHolidingApiMessage = '';
+  static String wbcMall = '';
+  static String wbcGp = '';
 }
 
 class GpDashBoardData {

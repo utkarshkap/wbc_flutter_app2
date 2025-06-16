@@ -13,7 +13,9 @@ import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
 import 'package:wbc_connect_app/models/munafe_ki_class_model.dart';
 import 'package:wbc_connect_app/models/product_category_model.dart';
+import 'package:wbc_connect_app/models/real_estate_property_model.dart';
 import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
+import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_property.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
 import 'package:wbc_connect_app/presentations/WBC_Mega_Mall/wbc_mega_mall.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -299,822 +301,1358 @@ class _HomeScreenState extends State<HomeScreen> {
                 onWillPop: onWillPop,
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 2.5.h),
+                    padding: EdgeInsets.only(
+                        top: 2.5.h, left: ApiUser.wbcMall == '1' ? 0 : 5.w),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          padding: EdgeInsets.only(
-                              top: 1.h, bottom: 0.5.h, left: 0.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: 0.5.h, left: 1.w, right: 1.w),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 3.w),
-                                      width: 9.w,
-                                      child: Image.asset(
-                                          'assets/images/graph.png',
-                                          width: 13.w),
-                                    ),
-                                    SizedBox(
-                                      width: 2.5.w,
-                                    ),
-                                    Text('Your Net Worth: ',
-                                        style: textStyle13Bold(colorBlack)),
-                                    SizedBox(height: 0.5.h),
-                                    Text(
-                                        '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
-                                        style: textStyle13Bold(colorBlack)),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                  height: 1,
-                                  color: colorTextBCBC.withOpacity(0.36)),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 4.w, vertical: 1.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(children: [
-                                      Expanded(
-                                        flex: 6,
-                                        child: RichText(
-                                          text: TextSpan(
-                                            text: 'M Gain: ',
-                                            style: textStyle10(colorText7070),
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                  text:
-                                                      '₹ ${CommonFunction().splitString(state.data!.data.mgainInv.toStringAsFixed(0))}',
-                                                  style: textStyle10Bold(
-                                                      colorBlack)),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 5,
-                                        child: RichText(
-                                          text: TextSpan(
-                                            text: 'Stocks: ',
-                                            style: textStyle10(colorText7070),
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                  text: 'Coming soon',
-                                                  // '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
-                                                  style: textStyle10Bold(
-                                                      colorBlack)),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ]),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'MF: ',
-                                        style: textStyle10(colorText7070),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text:
-                                                  '₹ ${CommonFunction().splitString(state.data!.data.mfTotalAmount.toStringAsFixed(0))}',
-                                              style:
-                                                  textStyle10Bold(colorBlack)),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          padding: EdgeInsets.symmetric(
-                            vertical: 1.5.h,
-                            horizontal: 2.w,
-                          ),
-                          child: netWorthView(
-                              imgWealthMeter,
-                              'Wealth Score',
-                              ApiUser.wealthMeterScore.toStringAsFixed(0),
-                              10,
-                              'Check Score', () async {
-                            final reLoadPage = await Navigator.of(context)
-                                .pushNamed(WealthMeterScreen.route);
-                            if (reLoadPage == true) {
-                              setState(() {});
-                            }
-                          }),
-                        ),
-                        SizedBox(height: 2.h),
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          child: Column(
-                            children: [
-                              pointsView(
-                                  icGoldCoin,
-                                  'Your Total Gold Points',
-                                  CommonFunction().splitString(
-                                      state.data!.data.goldPoint.toString()),
-                                  'Redeem Now',
-                                  state.data!.data.history,
-                                  state.data!.data.contactBase,
-                                  state.data!.data.inActive,
-                                  state.data!.data.availableContacts,
-                                  state.data!.data.goldPoint,
-                                  state.data!.data.fastTrack,
-                                  state.data!.data.earning,
-                                  state.data!.data.redeemable,
-                                  state.data!.data.nonRedeemable,
-                                  state.data!.data.onTheSpot, () {
-                                BlocProvider.of<FetchingDataBloc>(context).add(
-                                    LoadProductCategoryEvent(
-                                        productCategory: ProductCategory(
-                                            code: 0,
-                                            message: '',
-                                            categories: [])));
-                                BlocProvider.of<MallBloc>(context).add(
-                                    LoadMallDataEvent(
-                                        popular: Popular(
-                                            code: 0, message: '', products: []),
-                                        newArrival: NewArrival(
-                                            code: 0, message: '', products: []),
-                                        trending: Trending(
-                                            code: 0,
-                                            message: '',
-                                            products: [])));
-                                Navigator.of(context)
-                                    .pushReplacementNamed(WbcMegaMall.route);
-                              }, 'Gold Points'),
-                              Container(
-                                  height: 1,
-                                  color: colorTextBCBC.withOpacity(0.36)),
-                              pointsView(
-                                  rupeeIcon,
-                                  'Your FastTrack Earnings',
-                                  '₹ ${CommonFunction().splitString(state.data!.data.fastTrack.toString())}',
-                                  'Become Member',
-                                  state.data!.data.history,
-                                  state.data!.data.contactBase,
-                                  state.data!.data.inActive,
-                                  state.data!.data.availableContacts,
-                                  state.data!.data.goldPoint,
-                                  state.data!.data.fastTrack,
-                                  state.data!.data.earning,
-                                  state.data!.data.redeemable,
-                                  state.data!.data.nonRedeemable,
-                                  state.data!.data.onTheSpot, () {
-                                Navigator.of(context)
-                                    .pushNamed(FastTrackBenefits.route);
-                                // Navigator.of(context).pushNamed(RequestPayment.route);
-                              }, 'FastTrack')
-                            ],
-                          ),
-                        ),
-                        // SizedBox(height: 2.h),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.of(context)
-                        //         .pushNamed(MunafeKiClassScreen.route);
-                        //     BlocProvider.of<FetchingDataBloc>(context).add(
-                        //         LoadMunafeKiClassEvent(
-                        //             munafeKiClass: MunafeKiClass(
-                        //                 code: 0, message: '', list: [])));
-                        //   },
-                        //   child: Container(
-                        //     width: 90.w,
-                        //     decoration: decoration(),
-                        //     padding: EdgeInsets.only(
-                        //         top: 2.h, bottom: 2.h, left: 4.w),
-                        //     child: Row(
-                        //       children: [
-                        //         Image.asset(icCoinCash, height: 3.h),
-                        //         SizedBox(
-                        //           width: 2.w,
-                        //         ),
-                        //         Text('Learn how to earn more',
-                        //             style: textStyle12Medium(colorBlack)),
-                        //         Text(' Gold ',
-                        //             style: textStyle13Bold(colorRed)),
-                        //         Text('Points',
-                        //             style: textStyle12Medium(colorBlack)),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-
-                        // NRI Carnival - VIII
-
-                        // SizedBox(height: 2.h),
-                        // InkWell(
-                        //   onTap: () {
-                        //     Navigator.of(context)
-                        //         .pushNamed(NRICarnivalScreen.route);
-                        //   },
-                        //   child: Container(
-                        //     width: 90.w,
-                        //     height: 16.h,
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //       image: const DecorationImage(
-                        //           image: AssetImage(nriCarnival7Banner),
-                        //           fit: BoxFit.cover),
-                        //     ),
-                        //   ),
-                        // ),
-                        SizedBox(height: 2.h),
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          padding: EdgeInsets.symmetric(vertical: 2.h),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 3.5.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('My Account',
-                                        style: textStyle12Bold(colorBlack)
-                                            .copyWith(letterSpacing: 0.16)),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 1.h, bottom: 2.h),
-                                      child: Container(
-                                          height: 1,
-                                          color:
-                                              colorTextBCBC.withOpacity(0.36)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Wrap(
-                                    runSpacing: 1.5.h,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 90.w,
+                            decoration: decoration(),
+                            padding: EdgeInsets.only(
+                                top: 1.h, bottom: 0.5.h, left: 0.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 0.5.h, left: 1.w, right: 1.w),
+                                  child: Row(
                                     children: [
-                                      BlocListener<MFInvestmentsBloc,
-                                          MFInvestmentsState>(
-                                        listener: (context, state) {
-                                          if (state
-                                              is MFInvestmentsLoadedState) {
-                                            // Navigator.of(context).pushNamed(MutualFundsInvestment.route);
-                                          }
-                                        },
-                                        child: portFolioWidget(icMutualFunds,
-                                            'Mutual Funds', false, () {
-                                          BlocProvider.of<MFInvestmentsBloc>(
-                                                  context)
-                                              .add(LoadMFInvestmentsEvent(
-                                                  userId: ApiUser.userId,
-                                                  investmentPortfolio:
-                                                      InvestmentPortfolio(
-                                                    code: 0,
-                                                    message: '',
-                                                    response: [],
-                                                    totalAmount: 0,
-                                                    totalBalanceUnit: 0,
-                                                    totalPurchaseAmount: 0,
-                                                    totalRedeemAmount: 0,
-                                                    totalScheme: 0,
-                                                  )));
-                                          Navigator.of(context).pushNamed(
-                                              MutualFundsInvestment.route);
-                                        }, () {}),
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 3.w),
+                                        width: 9.w,
+                                        child: Image.asset(
+                                            'assets/images/graph.png',
+                                            width: 13.w),
                                       ),
-                                      BlocListener<FetchingDataBloc,
-                                          FetchingDataState>(
-                                        listener: (context, state) {
-                                          if (state
-                                              is StockInvestmentLoadedState) {
-                                            // Navigator.of(context).pushNamed(StocksInvestment.route);
-                                          }
-                                        },
-                                        child: portFolioWidget(
-                                            icStocks, 'Stocks', false, () {
-                                          BlocProvider.of<FetchingDataBloc>(
-                                                  context)
-                                              .add(LoadStockInvestmentEvent(
-                                                  userId: ApiUser.userId,
-                                                  investmentPortfolio:
-                                                      StockInvestmentModel(
-                                                    code: 0,
-                                                    message: '',
-                                                    portfolio: 0,
-                                                    investment: 0,
-                                                    gain: 0,
-                                                    balanceAmount: 0,
-                                                    stocks: [],
-                                                  )));
-                                          Navigator.of(context).pushNamed(
-                                              StocksInvestment.route);
-                                        }, () {}),
+                                      SizedBox(
+                                        width: 2.5.w,
                                       ),
-                                      BlocListener<InsuranceInvestmentBloc,
-                                          InsuranceInvestmentState>(
-                                        listener: (context, state) {
-                                          if (state
-                                              is InsuranceInvestmentLoadedState) {
-                                            print(
-                                                '--------insurance22---investment');
-                                            // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
-                                          }
-                                        },
-                                        child: portFolioWidget(icLifeInsurance,
-                                            'Life Insurance', false, () {
-                                          print(
-                                              '--------insurance11---investment');
-                                          BlocProvider.of<
-                                                      InsuranceInvestmentBloc>(
-                                                  context)
-                                              .add(LoadInsuranceInvestmentEvent(
-                                                  userId: ApiUser.userId,
-                                                  typeId: 4,
-                                                  subTypeId: 5,
-                                                  insuranceInvestment:
-                                                      InsuranceInvestment(
-                                                          code: 0,
-                                                          message: '',
-                                                          totalInsuranceAmt: 0,
-                                                          policies: [])));
-                                          Navigator.of(context).pushNamed(
-                                            InsuranceInvestmentScreen.route,
-                                            arguments: InsuranceInvestmentData(
-                                                isFromLI: true),
-                                          );
-                                        }, () {}),
-                                      ),
-                                      BlocListener<InsuranceInvestmentBloc,
-                                          InsuranceInvestmentState>(
-                                        listener: (context, state) {
-                                          if (state
-                                              is InsuranceInvestmentLoadedState) {
-                                            // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
-                                          }
-                                        },
-                                        child: portFolioWidget(
-                                            icGeneralInsurance,
-                                            'General Insurance',
-                                            false, () {
-                                          BlocProvider.of<
-                                                      InsuranceInvestmentBloc>(
-                                                  context)
-                                              .add(LoadInsuranceInvestmentEvent(
-                                                  userId: ApiUser.userId,
-                                                  typeId: 4,
-                                                  subTypeId: 15,
-                                                  insuranceInvestment:
-                                                      InsuranceInvestment(
-                                                          code: 0,
-                                                          message: '',
-                                                          totalInsuranceAmt: 0,
-                                                          policies: [])));
-                                          Navigator.of(context).pushNamed(
-                                            InsuranceInvestmentScreen.route,
-                                            arguments: InsuranceInvestmentData(
-                                                isFromLI: false),
-                                          );
-                                        }, () {}),
-                                      ),
-                                      BlocListener<FetchingDataBloc,
-                                          FetchingDataState>(
-                                        listener: (context, state) {
-                                          if (state
-                                              is LoanInvestmentLoadedState) {
-                                            Navigator.of(context).pushNamed(
-                                                LoanInvestmentScreen.route);
-                                          }
-                                        },
-                                        child: portFolioWidget(
-                                            icLoan, 'Loan', false, () {
-                                          BlocProvider.of<FetchingDataBloc>(
-                                                  context)
-                                              .add(LoadLoanInvestmentEvent(
-                                                  userId: ApiUser.userId,
-                                                  loanInvestment:
-                                                      LoanInvestment(
-                                                          code: 0,
-                                                          message: '',
-                                                          totalLoanAmt: 0,
-                                                          loans: [])));
-                                        }, () {}),
-                                      ),
-                                      portFolioWidget(
-                                          icRealEstate, 'Real\nEstate', false,
-                                          () {
-                                        Navigator.of(context)
-                                            .pushNamed(RealEstateScreen.route);
-                                      }, () {}),
-                                      portFolioWidget(icMGain, 'MGain', false,
-                                          () {
-                                        BlocProvider.of<FetchingDataBloc>(
-                                                context)
-                                            .add(LoadMGainInvestmentEvent(
-                                                userId: ApiUser.userId,
-                                                mGainInvestment:
-                                                    MGainInvestment(
-                                                        code: 0,
-                                                        message: '',
-                                                        mGainTotalInvestment: 0,
-                                                        totalIntrestReceived: 0,
-                                                        mGains: [])));
-                                        Navigator.of(context).pushNamed(
-                                            MGainInvestmentScreen.route);
-                                      }, () {}),
+                                      Text('Your Net Worth: ',
+                                          style: textStyle13Bold(colorBlack)),
+                                      SizedBox(height: 0.5.h),
+                                      Text(
+                                          '₹ ${CommonFunction().splitString(total.toStringAsFixed(0))}',
+                                          style: textStyle13Bold(colorBlack)),
                                     ],
                                   ),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                    height: 1,
+                                    color: colorTextBCBC.withOpacity(0.36)),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 4.w, vertical: 1.h),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(children: [
+                                        Expanded(
+                                          flex: 6,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'M Gain: ',
+                                              style: textStyle10(colorText7070),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text:
+                                                        '₹ ${CommonFunction().splitString(state.data!.data.mgainInv.toStringAsFixed(0))}',
+                                                    style: textStyle10Bold(
+                                                        colorBlack)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 5,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'Stocks: ',
+                                              style: textStyle10(colorText7070),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text:
+                                                        '₹ ${CommonFunction().splitString(state.data!.data.stockBalance.toStringAsFixed(0))}',
+                                                    style: textStyle10Bold(
+                                                        colorBlack)),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ]),
+                                      SizedBox(
+                                        height: 0.5.h,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'MF: ',
+                                          style: textStyle10(colorText7070),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text:
+                                                    '₹ ${CommonFunction().splitString(state.data!.data.mfTotalAmount.toStringAsFixed(0))}',
+                                                style: textStyle10Bold(
+                                                    colorBlack)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 2.5.h),
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          child: Column(
-                            children: [
-                              contactsView(
-                                  familyIcon,
-                                  'Add Your Family',
-                                  state.data!.data.memberlist.length.toString(),
-                                  '+',
-                                  () => Navigator.of(context).pushNamed(
-                                      AddMemberDetails.route,
-                                      arguments: AddMemberDetailsData(
-                                          familyList:
-                                              state.data!.data.memberlist))),
-                              Container(
-                                  height: 1,
-                                  color: colorTextBCBC.withOpacity(0.36)),
-                              contactsView(
-                                  icAddContacts, 'Add Your Contacts', '', '+',
-                                  () {
-                                print('add contact------');
-                                print(state.data!.data.availableContacts);
+                          SizedBox(height: 2.h),
 
-                                if (state.data!.data.availableContacts != 0) {
-                                  Preference.setRenewContact(true);
-                                  Navigator.of(context).pushNamed(
-                                      VerificationScreen.route,
-                                      arguments: VerificationScreenData(
-                                          getNumber: "",
-                                          number: mono,
-                                          verificationId: "",
-                                          isLogin: true,
-                                          selectedContact: state
-                                              .data!.data.availableContacts,
-                                          isHomeContactOpen: true));
-                                } else {
-                                  CommonFunction()
-                                      .reachedMaxContactPopup(context);
-                                }
-                              }),
-                              Container(
-                                  height: 1,
-                                  color: colorTextBCBC.withOpacity(0.36)),
-                              contactsView(
-                                  icConnectFastTrack,
-                                  'Connect FastTrack',
-                                  'And earn on your team\'s business',
-                                  'Benefits',
-                                  () => Navigator.of(context)
-                                      .pushNamed(FastTrackBenefits.route))
-                            ],
+                          Container(
+                            width: 90.w,
+                            decoration: decoration(),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 1.5.h,
+                              horizontal: 2.w,
+                            ),
+                            child: netWorthView(
+                                imgWealthMeter,
+                                'Wealth Score',
+                                ApiUser.wealthMeterScore.toStringAsFixed(0),
+                                10,
+                                'Check Score', () async {
+                              final reLoadPage = await Navigator.of(context)
+                                  .pushNamed(WealthMeterScreen.route);
+                              if (reLoadPage == true) {
+                                setState(() {});
+                              }
+                            }),
                           ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          padding: EdgeInsets.symmetric(vertical: 2.h),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 3.5.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Track your family\'s portfolio',
-                                        style: textStyle12Bold(colorBlack)
-                                            .copyWith(letterSpacing: 0.16)),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 1.h, bottom: 2.h),
-                                      child: Container(
-                                          height: 1,
-                                          color:
-                                              colorTextBCBC.withOpacity(0.36)),
-                                    ),
-                                  ],
-                                ),
+                          if (ApiUser.wbcGp == '1') ...[
+                            SizedBox(height: 2.h),
+                            Container(
+                              width: 90.w,
+                              decoration: decoration(),
+                              child: Column(
+                                children: [
+                                  pointsView(
+                                      icGoldCoin,
+                                      'Your Total Gold Points',
+                                      CommonFunction().splitString(state
+                                          .data!.data.goldPoint
+                                          .toString()),
+                                      'Redeem Now',
+                                      state.data!.data.history,
+                                      state.data!.data.contactBase,
+                                      state.data!.data.inActive,
+                                      state.data!.data.availableContacts,
+                                      state.data!.data.goldPoint,
+                                      state.data!.data.fastTrack,
+                                      state.data!.data.earning,
+                                      state.data!.data.redeemable,
+                                      state.data!.data.nonRedeemable,
+                                      state.data!.data.onTheSpot, () {
+                                    if (ApiUser.wbcMall == '1') {
+                                      BlocProvider.of<FetchingDataBloc>(context)
+                                          .add(LoadProductCategoryEvent(
+                                              productCategory: ProductCategory(
+                                                  code: 0,
+                                                  message: '',
+                                                  categories: [])));
+                                      BlocProvider.of<MallBloc>(context).add(
+                                          LoadMallDataEvent(
+                                              popular: Popular(
+                                                  code: 0,
+                                                  message: '',
+                                                  products: []),
+                                              newArrival: NewArrival(
+                                                  code: 0,
+                                                  message: '',
+                                                  products: []),
+                                              trending: Trending(
+                                                  code: 0,
+                                                  message: '',
+                                                  products: [])));
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              WbcMegaMall.route);
+                                    }
+                                  }, 'Gold Points'),
+                                  Container(
+                                      height: 1,
+                                      color: colorTextBCBC.withOpacity(0.36)),
+                                  pointsView(
+                                      rupeeIcon,
+                                      'Your FastTrack Earnings',
+                                      '₹ ${CommonFunction().splitString(state.data!.data.fastTrack.toString())}',
+                                      'Become Member',
+                                      state.data!.data.history,
+                                      state.data!.data.contactBase,
+                                      state.data!.data.inActive,
+                                      state.data!.data.availableContacts,
+                                      state.data!.data.goldPoint,
+                                      state.data!.data.fastTrack,
+                                      state.data!.data.earning,
+                                      state.data!.data.redeemable,
+                                      state.data!.data.nonRedeemable,
+                                      state.data!.data.onTheSpot, () {
+                                    Navigator.of(context)
+                                        .pushNamed(FastTrackBenefits.route);
+                                    // Navigator.of(context).pushNamed(RequestPayment.route);
+                                  }, 'FastTrack')
+                                ],
                               ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: SingleChildScrollView(
-                                    physics: const PageScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.only(left: 1.0.w),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                            ),
+                          ],
+                          // SizedBox(height: 2.h),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.of(context)
+                          //         .pushNamed(MunafeKiClassScreen.route);
+                          //     BlocProvider.of<FetchingDataBloc>(context).add(
+                          //         LoadMunafeKiClassEvent(
+                          //             munafeKiClass: MunafeKiClass(
+                          //                 code: 0, message: '', list: [])));
+                          //   },
+                          //   child: Container(
+                          //     width: 90.w,
+                          //     decoration: decoration(),
+                          //     padding: EdgeInsets.only(
+                          //         top: 2.h, bottom: 2.h, left: 4.w),
+                          //     child: Row(
+                          //       children: [
+                          //         Image.asset(icCoinCash, height: 3.h),
+                          //         SizedBox(
+                          //           width: 2.w,
+                          //         ),
+                          //         Text('Learn how to earn more',
+                          //             style: textStyle12Medium(colorBlack)),
+                          //         Text(' Gold ',
+                          //             style: textStyle13Bold(colorRed)),
+                          //         Text('Points',
+                          //             style: textStyle12Medium(colorBlack)),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+
+                          // NRI Carnival - VIII
+
+                          // SizedBox(height: 2.h),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.of(context)
+                          //         .pushNamed(NRICarnivalScreen.route);
+                          //   },
+                          //   child: Container(
+                          //     width: 90.w,
+                          //     height: 16.h,
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //       image: const DecorationImage(
+                          //           image: AssetImage(nriCarnival7Banner),
+                          //           fit: BoxFit.cover),
+                          //     ),
+                          //   ),
+                          // ),
+                          SizedBox(height: 2.h),
+                          Container(
+                            width: 90.w,
+                            decoration: decoration(),
+                            padding: EdgeInsets.symmetric(vertical: 2.h),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 3.5.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('My Account',
+                                          style: textStyle12Bold(colorBlack)
+                                              .copyWith(letterSpacing: 0.16)),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 1.h, bottom: 2.h),
+                                        child: Container(
+                                            height: 1,
+                                            color: colorTextBCBC
+                                                .withOpacity(0.36)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Wrap(
+                                      runSpacing: 1.5.h,
                                       children: [
-                                        portFolioWidget(
-                                            icAddMmeber, 'Add Member', true,
-                                            () {
-                                          Navigator.of(context).pushNamed(
-                                              AddMemberDetails.route,
-                                              arguments: AddMemberDetailsData(
-                                                  familyList: state
-                                                      .data!.data.memberlist));
-                                        }, () {}),
-                                        BlocListener<DeleteFamilyMemberBloc,
-                                            DeleteFamilyMemberState>(
+                                        BlocListener<MFInvestmentsBloc,
+                                            MFInvestmentsState>(
                                           listener: (context, state) {
-                                            if (state is DeletedFamilyMember) {
-                                              print(
-                                                  '-------mobNumber--=---${state.mobNo}');
-                                              ApiUser.membersList.removeWhere(
-                                                  (element) =>
-                                                      element.mobileno ==
-                                                      state.mobNo);
-                                              setState(() {});
-                                            }
                                             if (state
-                                                is DeleteFamilyMemberFailed) {
-                                              AwesomeDialog(
-                                                btnCancelColor: colorRed,
-                                                padding: EdgeInsets.zero,
-                                                context: context,
-                                                dialogType: DialogType.error,
-                                                animType: AnimType.rightSlide,
-                                                headerAnimationLoop: false,
-                                                title: 'Something Went Wrong',
-                                                btnOkOnPress: () {},
-                                                btnOkColor: Colors.red,
-                                              ).show();
+                                                is MFInvestmentsLoadedState) {
+                                              // Navigator.of(context).pushNamed(MutualFundsInvestment.route);
                                             }
                                           },
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: List.generate(
-                                                state.data!.data.memberlist
-                                                    .length,
-                                                (i) => i == 0
-                                                    ? Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                right: 2.5.w),
-                                                        child: GestureDetector(
-                                                          onLongPress: () {
-                                                            CommonFunction()
-                                                                .confirmationDialog(
-                                                                    context,
-                                                                    'Are you sure you want to delete this member?',
-                                                                    () {
-                                                              print(
-                                                                  '--yes clicked--=----');
-                                                              BlocProvider.of<
-                                                                          DeleteFamilyMemberBloc>(
-                                                                      context)
-                                                                  .add(DeleteFamilyMember(
-                                                                      mobNo: ApiUser
-                                                                          .membersList[
-                                                                              i]
-                                                                          .mobileno));
-
-                                                              setState(() {
-                                                                ApiUser
-                                                                    .membersList
-                                                                    .removeWhere((element) =>
-                                                                        element
-                                                                            .mobileno ==
-                                                                        ApiUser
-                                                                            .membersList[i]
-                                                                            .mobileno);
-                                                              });
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            });
-                                                          },
-                                                          child: Column(
-                                                            children: [
-                                                              // Showcase(
-                                                              //   key: globalKey,
-                                                              //   onTargetClick:
-                                                              //       () {
-                                                              //     print(
-                                                              //         '-----onClick----showcase');
-                                                              //     Preference
-                                                              //         .setShowCase(
-                                                              //             true);
-                                                              //   },
-                                                              //   disposeOnTap:
-                                                              //       true,
-                                                              //   targetShapeBorder:
-                                                              //       const CircleBorder(),
-                                                              //   description:
-                                                              //       'Long press to delete member.',
-                                                              //   descTextStyle:
-                                                              //       textStyle10Medium(
-                                                              //           colorBlack),
-                                                              //   child:
-                                                              Container(
-                                                                height: 6.5.h,
-                                                                width: 6.5.h,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: colorRed
-                                                                      .withOpacity(
-                                                                          0.29),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    ApiUser
-                                                                        .membersList[
-                                                                            i]
-                                                                        .name
-                                                                        .substring(
-                                                                            0,
-                                                                            1)
-                                                                        .toUpperCase(),
-                                                                    style: textStyle20(
-                                                                        colorRed)),
-                                                              ),
-                                                              // ),
-                                                              SizedBox(
-                                                                  height:
-                                                                      1.2.h),
-                                                              SizedBox(
-                                                                width: 15.w,
-                                                                child: Text(
-                                                                    ApiUser
-                                                                        .membersList[
-                                                                            i]
-                                                                        .name,
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style: textStyle8(
-                                                                            colorText3D3D)
-                                                                        .copyWith(
-                                                                            height:
-                                                                                1.1)),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : portFolioWidget(
-                                                        ApiUser
-                                                            .membersList[i].name
-                                                            .substring(0, 1),
-                                                        ApiUser.membersList[i]
-                                                            .name,
-                                                        true,
-                                                        () {}, () {
-                                                        CommonFunction()
-                                                            .confirmationDialog(
-                                                                context,
-                                                                'Are you sure you want to delete this member?',
-                                                                () {
-                                                          print(
-                                                              '--yes clicked--=----');
-                                                          BlocProvider.of<
-                                                                      DeleteFamilyMemberBloc>(
-                                                                  context)
-                                                              .add(DeleteFamilyMember(
-                                                                  mobNo: ApiUser
-                                                                      .membersList[
-                                                                          i]
-                                                                      .mobileno));
-
-                                                          setState(() {
-                                                            ApiUser.membersList
-                                                                .removeWhere((element) =>
-                                                                    element
-                                                                        .mobileno ==
-                                                                    ApiUser
-                                                                        .membersList[
-                                                                            i]
-                                                                        .mobileno);
-                                                          });
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        });
-                                                      }),
-                                              )),
+                                          child: portFolioWidget(icMutualFunds,
+                                              'Mutual Funds', false, () {
+                                            BlocProvider.of<MFInvestmentsBloc>(
+                                                    context)
+                                                .add(LoadMFInvestmentsEvent(
+                                                    userId: ApiUser.userId,
+                                                    investmentPortfolio:
+                                                        InvestmentPortfolio(
+                                                      code: 0,
+                                                      message: '',
+                                                      response: [],
+                                                      totalAmount: 0,
+                                                      totalBalanceUnit: 0,
+                                                      totalPurchaseAmount: 0,
+                                                      totalRedeemAmount: 0,
+                                                      totalScheme: 0,
+                                                    )));
+                                            Navigator.of(context).pushNamed(
+                                                MutualFundsInvestment.route);
+                                          }, () {}),
                                         ),
-                                      ],
-                                    )),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Container(
-                          width: 90.w,
-                          decoration: decoration(),
-                          padding: EdgeInsets.symmetric(vertical: 2.h),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 3.5.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Utilities',
-                                        style: textStyle12Bold(colorBlack)
-                                            .copyWith(letterSpacing: 0.16)),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 1.h, bottom: 2.h),
-                                      child: Container(
-                                          height: 1,
-                                          color:
-                                              colorTextBCBC.withOpacity(0.36)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: SingleChildScrollView(
-                                    physics: const PageScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.only(left: 1.0.w),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        portFolioWidget(icInsuranceCalculator,
-                                            'Insurance\nCalculator', true, () {
-                                          Navigator.of(context).pushNamed(
-                                              InsuranceCalculator.route);
-                                        }, () {}),
-                                        portFolioWidget(icInsuranceCalculator,
-                                            'SIP\nCalculator', true, () {
-                                          Navigator.of(context)
-                                              .pushNamed(SIPCalculator.route);
-                                        }, () {}),
-                                        portFolioWidget(icInsuranceCalculator,
-                                            'EMI SIP\nCalculator', true, () {
-                                          Navigator.of(context).pushNamed(
-                                              EMISIPCalculator.route);
-                                        }, () {}),
-                                        portFolioWidget(icInsuranceCalculator,
-                                            'Retirement\nCalculator', true, () {
-                                          Navigator.of(context).pushNamed(
-                                              RetirementCalculator.route,
+                                        BlocListener<FetchingDataBloc,
+                                            FetchingDataState>(
+                                          listener: (context, state) {
+                                            if (state
+                                                is StockInvestmentLoadedState) {
+                                              // Navigator.of(context).pushNamed(StocksInvestment.route);
+                                            }
+                                          },
+                                          child: portFolioWidget(
+                                              icStocks, 'Stocks', false, () {
+                                            BlocProvider.of<FetchingDataBloc>(
+                                                    context)
+                                                .add(LoadStockInvestmentEvent(
+                                                    userId: ApiUser.userId,
+                                                    investmentPortfolio:
+                                                        StockInvestmentModel(
+                                                      code: 0,
+                                                      message: '',
+                                                      portfolio: 0,
+                                                      investment: 0,
+                                                      gain: 0,
+                                                      balanceAmount: 0,
+                                                      stocks: [],
+                                                    )));
+                                            Navigator.of(context).pushNamed(
+                                                StocksInvestment.route);
+                                          }, () {}),
+                                        ),
+                                        BlocListener<InsuranceInvestmentBloc,
+                                            InsuranceInvestmentState>(
+                                          listener: (context, state) {
+                                            if (state
+                                                is InsuranceInvestmentLoadedState) {
+                                              print(
+                                                  '--------insurance22---investment');
+                                              // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
+                                            }
+                                          },
+                                          child: portFolioWidget(
+                                              icLifeInsurance,
+                                              'Life Insurance',
+                                              false, () {
+                                            print(
+                                                '--------insurance11---investment');
+                                            BlocProvider.of<
+                                                        InsuranceInvestmentBloc>(
+                                                    context)
+                                                .add(LoadInsuranceInvestmentEvent(
+                                                    userId: ApiUser.userId,
+                                                    typeId: 4,
+                                                    subTypeId: 5,
+                                                    insuranceInvestment:
+                                                        InsuranceInvestment(
+                                                            code: 0,
+                                                            message: '',
+                                                            totalInsuranceAmt:
+                                                                0,
+                                                            policies: [])));
+                                            Navigator.of(context).pushNamed(
+                                              InsuranceInvestmentScreen.route,
                                               arguments:
-                                                  RetirementCalculatorData());
+                                                  InsuranceInvestmentData(
+                                                      isFromLI: true),
+                                            );
+                                          }, () {}),
+                                        ),
+                                        BlocListener<InsuranceInvestmentBloc,
+                                            InsuranceInvestmentState>(
+                                          listener: (context, state) {
+                                            if (state
+                                                is InsuranceInvestmentLoadedState) {
+                                              // Navigator.of(context).pushNamed(InsuranceInvestmentScreen.route);
+                                            }
+                                          },
+                                          child: portFolioWidget(
+                                              icGeneralInsurance,
+                                              'General Insurance',
+                                              false, () {
+                                            BlocProvider.of<
+                                                        InsuranceInvestmentBloc>(
+                                                    context)
+                                                .add(LoadInsuranceInvestmentEvent(
+                                                    userId: ApiUser.userId,
+                                                    typeId: 4,
+                                                    subTypeId: 15,
+                                                    insuranceInvestment:
+                                                        InsuranceInvestment(
+                                                            code: 0,
+                                                            message: '',
+                                                            totalInsuranceAmt:
+                                                                0,
+                                                            policies: [])));
+                                            Navigator.of(context).pushNamed(
+                                              InsuranceInvestmentScreen.route,
+                                              arguments:
+                                                  InsuranceInvestmentData(
+                                                      isFromLI: false),
+                                            );
+                                          }, () {}),
+                                        ),
+                                        BlocListener<FetchingDataBloc,
+                                            FetchingDataState>(
+                                          listener: (context, state) {
+                                            if (state
+                                                is LoanInvestmentLoadedState) {
+                                              Navigator.of(context).pushNamed(
+                                                  LoanInvestmentScreen.route);
+                                            }
+                                          },
+                                          child: portFolioWidget(
+                                              icLoan, 'Loan', false, () {
+                                            BlocProvider.of<FetchingDataBloc>(
+                                                    context)
+                                                .add(LoadLoanInvestmentEvent(
+                                                    userId: ApiUser.userId,
+                                                    loanInvestment:
+                                                        LoanInvestment(
+                                                            code: 0,
+                                                            message: '',
+                                                            totalLoanAmt: 0,
+                                                            loans: [])));
+                                          }, () {}),
+                                        ),
+                                        portFolioWidget(
+                                            icRealEstate, 'Real\nEstate', false,
+                                            () {
+                                          BlocProvider.of<FetchingDataBloc>(
+                                                  context)
+                                              .add(LoadRealEstatePropertyEvent(
+                                                  userId: ApiUser.userId,
+                                                  realEstatePropertyModel:
+                                                      RealEstatePropertyModel(
+                                                          code: 0,
+                                                          message: '',
+                                                          realty: [])));
+                                          Navigator.of(context).pushNamed(
+                                              RealEstateProperty.route);
+                                        }, () {}),
+                                        portFolioWidget(icMGain, 'MGain', false,
+                                            () {
+                                          BlocProvider.of<FetchingDataBloc>(
+                                                  context)
+                                              .add(LoadMGainInvestmentEvent(
+                                                  userId: ApiUser.userId,
+                                                  mGainInvestment:
+                                                      MGainInvestment(
+                                                          code: 0,
+                                                          message: '',
+                                                          mGainTotalInvestment:
+                                                              0,
+                                                          totalIntrestReceived:
+                                                              0,
+                                                          mGains: [])));
+                                          Navigator.of(context).pushNamed(
+                                              MGainInvestmentScreen.route);
                                         }, () {}),
                                       ],
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 2.h),
-                        if (state.data!.data.offers.isNotEmpty)
-                          Column(
-                            children: [
+                          SizedBox(height: 2.5.h),
+                          Container(
+                            width: 90.w,
+                            decoration: decoration(),
+                            child: Column(
+                              children: [
+                                contactsView(
+                                    familyIcon,
+                                    'Add Your Family',
+                                    state.data!.data.memberlist.length
+                                        .toString(),
+                                    '+',
+                                    () => Navigator.of(context).pushNamed(
+                                        AddMemberDetails.route,
+                                        arguments: AddMemberDetailsData(
+                                            familyList:
+                                                state.data!.data.memberlist))),
+                                Container(
+                                    height: 1,
+                                    color: colorTextBCBC.withOpacity(0.36)),
+                                contactsView(
+                                    icAddContacts, 'Add Your Contacts', '', '+',
+                                    () {
+                                  print('add contact------');
+                                  print(state.data!.data.availableContacts);
+
+                                  if (state.data!.data.availableContacts != 0) {
+                                    Preference.setRenewContact(true);
+                                    Navigator.of(context).pushNamed(
+                                        VerificationScreen.route,
+                                        arguments: VerificationScreenData(
+                                            getNumber: "",
+                                            number: mono,
+                                            verificationId: "",
+                                            isLogin: true,
+                                            selectedContact: state
+                                                .data!.data.availableContacts,
+                                            isHomeContactOpen: true));
+                                  } else {
+                                    CommonFunction()
+                                        .reachedMaxContactPopup(context);
+                                  }
+                                }),
+                                if (ApiUser.wbcGp == '1') ...[
+                                  Container(
+                                      height: 1,
+                                      color: colorTextBCBC.withOpacity(0.36)),
+                                  contactsView(
+                                      icConnectFastTrack,
+                                      'Connect FastTrack',
+                                      'And earn on your team\'s business',
+                                      'Benefits',
+                                      () => Navigator.of(context)
+                                          .pushNamed(FastTrackBenefits.route))
+                                ],
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Container(
+                            width: 90.w,
+                            decoration: decoration(),
+                            padding: EdgeInsets.symmetric(vertical: 2.h),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 3.5.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Track your family\'s portfolio',
+                                          style: textStyle12Bold(colorBlack)
+                                              .copyWith(letterSpacing: 0.16)),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 1.h, bottom: 2.h),
+                                        child: Container(
+                                            height: 1,
+                                            color: colorTextBCBC
+                                                .withOpacity(0.36)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: SingleChildScrollView(
+                                      physics: const PageScrollPhysics(),
+                                      scrollDirection: Axis.horizontal,
+                                      padding: EdgeInsets.only(left: 1.0.w),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          portFolioWidget(
+                                              icAddMmeber, 'Add Member', true,
+                                              () {
+                                            Navigator.of(context).pushNamed(
+                                                AddMemberDetails.route,
+                                                arguments: AddMemberDetailsData(
+                                                    familyList: state.data!.data
+                                                        .memberlist));
+                                          }, () {}),
+                                          BlocListener<DeleteFamilyMemberBloc,
+                                              DeleteFamilyMemberState>(
+                                            listener: (context, state) {
+                                              if (state
+                                                  is DeletedFamilyMember) {
+                                                print(
+                                                    '-------mobNumber--=---${state.mobNo}');
+                                                ApiUser.membersList.removeWhere(
+                                                    (element) =>
+                                                        element.mobileno ==
+                                                        state.mobNo);
+                                                setState(() {});
+                                              }
+                                              if (state
+                                                  is DeleteFamilyMemberFailed) {
+                                                AwesomeDialog(
+                                                  btnCancelColor: colorRed,
+                                                  padding: EdgeInsets.zero,
+                                                  context: context,
+                                                  dialogType: DialogType.error,
+                                                  animType: AnimType.rightSlide,
+                                                  headerAnimationLoop: false,
+                                                  title: 'Something Went Wrong',
+                                                  btnOkOnPress: () {},
+                                                  btnOkColor: Colors.red,
+                                                ).show();
+                                              }
+                                            },
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: List.generate(
+                                                  state.data!.data.memberlist
+                                                      .length,
+                                                  (i) => i == 0
+                                                      ? Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 2.5.w),
+                                                          child:
+                                                              GestureDetector(
+                                                            onLongPress: () {
+                                                              CommonFunction()
+                                                                  .confirmationDialog(
+                                                                      context,
+                                                                      'Are you sure you want to delete this member?',
+                                                                      () {
+                                                                print(
+                                                                    '--yes clicked--=----');
+                                                                BlocProvider.of<
+                                                                            DeleteFamilyMemberBloc>(
+                                                                        context)
+                                                                    .add(DeleteFamilyMember(
+                                                                        mobNo: ApiUser
+                                                                            .membersList[i]
+                                                                            .mobileno));
+
+                                                                setState(() {
+                                                                  ApiUser.membersList.removeWhere((element) =>
+                                                                      element
+                                                                          .mobileno ==
+                                                                      ApiUser
+                                                                          .membersList[
+                                                                              i]
+                                                                          .mobileno);
+                                                                });
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              });
+                                                            },
+                                                            child: Column(
+                                                              children: [
+                                                                // Showcase(
+                                                                //   key: globalKey,
+                                                                //   onTargetClick:
+                                                                //       () {
+                                                                //     print(
+                                                                //         '-----onClick----showcase');
+                                                                //     Preference
+                                                                //         .setShowCase(
+                                                                //             true);
+                                                                //   },
+                                                                //   disposeOnTap:
+                                                                //       true,
+                                                                //   targetShapeBorder:
+                                                                //       const CircleBorder(),
+                                                                //   description:
+                                                                //       'Long press to delete member.',
+                                                                //   descTextStyle:
+                                                                //       textStyle10Medium(
+                                                                //           colorBlack),
+                                                                //   child:
+                                                                Container(
+                                                                  height: 6.5.h,
+                                                                  width: 6.5.h,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: colorRed
+                                                                        .withOpacity(
+                                                                            0.29),
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      ApiUser
+                                                                          .membersList[
+                                                                              i]
+                                                                          .name
+                                                                          .substring(
+                                                                              0,
+                                                                              1)
+                                                                          .toUpperCase(),
+                                                                      style: textStyle20(
+                                                                          colorRed)),
+                                                                ),
+                                                                // ),
+                                                                SizedBox(
+                                                                    height:
+                                                                        1.2.h),
+                                                                SizedBox(
+                                                                  width: 15.w,
+                                                                  child: Text(
+                                                                      ApiUser
+                                                                          .membersList[
+                                                                              i]
+                                                                          .name,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: textStyle8(
+                                                                              colorText3D3D)
+                                                                          .copyWith(
+                                                                              height: 1.1)),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : portFolioWidget(
+                                                          ApiUser.membersList[i]
+                                                              .name
+                                                              .substring(0, 1),
+                                                          ApiUser.membersList[i]
+                                                              .name,
+                                                          true,
+                                                          () {}, () {
+                                                          CommonFunction()
+                                                              .confirmationDialog(
+                                                                  context,
+                                                                  'Are you sure you want to delete this member?',
+                                                                  () {
+                                                            print(
+                                                                '--yes clicked--=----');
+                                                            BlocProvider.of<
+                                                                        DeleteFamilyMemberBloc>(
+                                                                    context)
+                                                                .add(DeleteFamilyMember(
+                                                                    mobNo: ApiUser
+                                                                        .membersList[
+                                                                            i]
+                                                                        .mobileno));
+
+                                                            setState(() {
+                                                              ApiUser
+                                                                  .membersList
+                                                                  .removeWhere((element) =>
+                                                                      element
+                                                                          .mobileno ==
+                                                                      ApiUser
+                                                                          .membersList[
+                                                                              i]
+                                                                          .mobileno);
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          });
+                                                        }),
+                                                )),
+                                          ),
+                                        ],
+                                      )),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Container(
+                            width: 90.w,
+                            decoration: decoration(),
+                            padding: EdgeInsets.symmetric(vertical: 2.h),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 3.5.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Utilities',
+                                          style: textStyle12Bold(colorBlack)
+                                              .copyWith(letterSpacing: 0.16)),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 1.h, bottom: 2.h),
+                                        child: Container(
+                                            height: 1,
+                                            color: colorTextBCBC
+                                                .withOpacity(0.36)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: SingleChildScrollView(
+                                      physics: const PageScrollPhysics(),
+                                      scrollDirection: Axis.horizontal,
+                                      padding: EdgeInsets.only(left: 1.0.w),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          portFolioWidget(
+                                              icInsuranceCalculator,
+                                              'Insurance\nCalculator',
+                                              true, () {
+                                            Navigator.of(context).pushNamed(
+                                                InsuranceCalculator.route);
+                                          }, () {}),
+                                          portFolioWidget(icInsuranceCalculator,
+                                              'SIP\nCalculator', true, () {
+                                            Navigator.of(context)
+                                                .pushNamed(SIPCalculator.route);
+                                          }, () {}),
+                                          portFolioWidget(icInsuranceCalculator,
+                                              'EMI SIP\nCalculator', true, () {
+                                            Navigator.of(context).pushNamed(
+                                                EMISIPCalculator.route);
+                                          }, () {}),
+                                          portFolioWidget(
+                                              icInsuranceCalculator,
+                                              'Retirement\nCalculator',
+                                              true, () {
+                                            Navigator.of(context).pushNamed(
+                                                RetirementCalculator.route,
+                                                arguments:
+                                                    RetirementCalculatorData());
+                                          }, () {}),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          if (state.data!.data.offers.isNotEmpty)
+                            Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 2.5.h, bottom: 2.h),
+                                  child: SizedBox(
+                                    width: 90.w,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('OFFERS NEAR YOU...',
+                                            style: textStyle11Bold(colorBlack)
+                                                .copyWith(letterSpacing: 0.7)),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 1.w),
+                                          child: GestureDetector(
+                                            onTap: () {},
+                                            child: Row(
+                                              children: [
+                                                Text('All Offers',
+                                                    style:
+                                                        textStyle10(colorRed)),
+                                                SizedBox(width: 2.w),
+                                                Image.asset(icNext,
+                                                    color: colorRed,
+                                                    height: 1.5.h)
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                        state.data!.data.offers.length,
+                                        (index) => Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: index == 0 ? 5.w : 0,
+                                                  right: 2.5.w,
+                                                  bottom: 2.h),
+                                              child: Container(
+                                                height: 15.h,
+                                                width: 60.w,
+                                                decoration: decoration(),
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    child: Image.network(
+                                                        imgNewBaseUrl +
+                                                            state
+                                                                .data!
+                                                                .data
+                                                                .offers[index]
+                                                                .imgUrl,
+                                                        fit: BoxFit.fill)),
+                                              ),
+                                            )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          SizedBox(height: 3.h),
+                          GestureDetector(
+                            onTap: () async {
+                              final reLoadPage = await Navigator.of(context)
+                                  .pushNamed(WealthMeterScreen.route);
+                              if (reLoadPage == true) {
+                                setState(() {});
+                              }
+                            },
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                    width: 90.w,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: const LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              colorBoxGradiant0020,
+                                              colorBoxGradiant0040
+                                            ])),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          3.5.w, 2.h, 2.w, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          SizedBox(
+                                            width: 55.w,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Check Your',
+                                                    style: textStyle11Medium(
+                                                        colorRed)),
+                                                SizedBox(height: 0.5.h),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: 'Wealth Score',
+                                                    style: textStyle14(
+                                                            colorTextFFC1)
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text: ' For Free',
+                                                          style:
+                                                              textStyle11Bold(
+                                                                  colorWhite)),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 43.w,
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical:
+                                                                    1.5.h),
+                                                        child: Container(
+                                                          height: 1,
+                                                          color: colorBG
+                                                              .withOpacity(
+                                                                  0.45),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          RichText(
+                                                            text: TextSpan(
+                                                              text: 'GET',
+                                                              style: textStyle8(
+                                                                  colorWhite),
+                                                              children: <TextSpan>[
+                                                                TextSpan(
+                                                                    text:
+                                                                        ' FREE ',
+                                                                    style: textStyle8(
+                                                                        colorTextFFC1)),
+                                                                TextSpan(
+                                                                    text:
+                                                                        'WEALTH REPORT',
+                                                                    style: textStyle8(
+                                                                        colorWhite)),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Image.asset(icNext,
+                                                              color: colorWhite,
+                                                              height: 1.2.h)
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(height: 2.h)
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                Positioned(
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Image.asset(imgWealthScore,
+                                        height: 16.h))
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 2.5.h),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(InvestmentReview.route);
+                            },
+                            child: Container(
+                              width: 90.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: const LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        colorBoxGradiant505E,
+                                        colorBoxGradiantD167
+                                      ])),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 20.w,
+                                    width: 20.w,
+                                    decoration: const BoxDecoration(
+                                        color: colorWhite,
+                                        shape: BoxShape.circle),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 4.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 1.w),
+                                    child: Image.asset(imgKAPortfolioDoctor),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 2.7.h),
+                                      Text('Get Wealth Checkup Done',
+                                          style: textStyle11Light(colorWhite)),
+                                      SizedBox(height: 0.5.h),
+                                      Text('By Portfolio Doctor Experts',
+                                          style: textStyle13Bold(colorWhite)),
+                                      SizedBox(
+                                        width: 62.w,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 2.5.h),
+                                              child: Container(
+                                                width: 25.w,
+                                                decoration: BoxDecoration(
+                                                    color: colorWhite,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 1.h,
+                                                      horizontal: 2.w),
+                                                  child: Row(
+                                                    children: [
+                                                      Text('CLICK NOW',
+                                                          style: textStyle7Bold(
+                                                              colorBoxGradiant505E)),
+                                                      SizedBox(width: 5.w),
+                                                      Image.asset(icNext,
+                                                          color:
+                                                              colorBoxGradiant505E,
+                                                          height: 1.h)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 5.w),
+                                              child: Image.asset(
+                                                  imgWealthCheckup,
+                                                  width: 22.w),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 2.5.h),
+                          GestureDetector(
+                            onTap: () {
+                              // Navigator.of(context)
+                              //     .pushNamed(MunafeKiClassScreen.route);
+                              // BlocProvider.of<FetchingDataBloc>(context).add(
+                              //     LoadMunafeKiClassEvent(
+                              //         munafeKiClass: MunafeKiClass(
+                              //             code: 0, message: '', list: [])));
+                            },
+                            child: Container(
+                                width: 90.w,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: const LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          colorBoxGradiant0020,
+                                          colorBoxGradiant0040
+                                        ])),
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(3.5.w, 2.h, 2.w, 0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(
+                                        width: 50.w,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('BECOME',
+                                                style:
+                                                    textStyle8(colorTextFFC1)),
+                                            SizedBox(height: 0.1.h),
+                                            Text('Finer Expert',
+                                                style: textStyle15Medium(
+                                                    colorRed)),
+                                            // SizedBox(height: 0.5.h),
+                                            // RichText(
+                                            //   text: TextSpan(
+                                            //     text: 'with ',
+                                            //     style:
+                                            //         textStyle11Medium(colorWhite),
+                                            //     children: <TextSpan>[
+                                            //       TextSpan(
+                                            //           text: 'Munafe Ki Class',
+                                            //           style: textStyle12Medium(
+                                            //                   colorTextFFC1)
+                                            //               .copyWith(
+                                            //                   fontWeight:
+                                            //                       FontWeight
+                                            //                           .w600)),
+                                            //     ],
+                                            //   ),
+                                            // ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 1.5.h),
+                                              child: Container(
+                                                height: 1,
+                                                color:
+                                                    colorBG.withOpacity(0.45),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text('LEARN FROM WBC TOP USERS',
+                                                    style:
+                                                        textStyle8(colorWhite)),
+                                                Image.asset(icNext,
+                                                    color: colorWhite,
+                                                    height: 1.2.h)
+                                              ],
+                                            ),
+                                            SizedBox(height: 2.h)
+                                          ],
+                                        ),
+                                      ),
+                                      Image.asset(imgMunafeKiClass, width: 30.w)
+                                    ],
+                                  ),
+                                )),
+                          ),
+                          SizedBox(height: 2.5.h),
+                          GestureDetector(
+                            onTap: () {
+                              // Navigator.of(context).pushNamed(WBCProgress.route);
+                            },
+                            child: Container(
+                              width: 90.w,
+                              decoration: decoration(),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 5.w, vertical: 2.h),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text('Your Finer Progress',
+                                                style:
+                                                    textStyle11Bold(colorBlack)
+                                                        .copyWith(
+                                                            letterSpacing:
+                                                                0.7)),
+                                            SizedBox(width: 2.w),
+                                            Image.asset(icRoundQuestionMark,
+                                                color: colorRed, width: 5.w)
+                                          ],
+                                        ),
+                                        // Image.asset(icNext,
+                                        //     color: colorRed, height: 1.5.h)
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                      height: 1,
+                                      color: colorTextBCBC.withOpacity(0.36)),
+                                  SizedBox(
+                                    height: 9.h,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).pushNamed(
+                                                  ViewMyContacts.route,
+                                                  arguments: ViewScreenData(
+                                                      myContact: ApiUser
+                                                          .myContactsList!));
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text('My Referrals',
+                                                    style: textStyle9(
+                                                        colorText3D3D)),
+                                                Text(
+                                                    ApiUser
+                                                        .myContactsList!.length
+                                                        .toString(),
+                                                    style: textStyle18Bold(
+                                                        colorRed))
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            height: 9.h,
+                                            width: 1,
+                                            color: colorTextBCBC
+                                                .withOpacity(0.36)),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).pushNamed(
+                                                  ViewMyContacts.route,
+                                                  arguments: ViewScreenData(
+                                                      myContact: ApiUser
+                                                          .myContactsList!,
+                                                      title:
+                                                          'My Converted Referrals',
+                                                      isClientsConverted:
+                                                          true));
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text('Clients converted',
+                                                    style: textStyle9(
+                                                        colorText3D3D)),
+                                                Text(
+                                                    clientsConverted.toString(),
+                                                    style: textStyle18Bold(
+                                                        colorSplashBG))
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          if (ApiUser.wbcMall == '0')
+                            SizedBox(
+                              height: 1.5.h,
+                            ),
+                          if (ApiUser.wbcMall == '1') ...[
+                            if (!isPopular)
                               Padding(
                                 padding:
                                     EdgeInsets.only(top: 2.5.h, bottom: 2.h),
@@ -1124,21 +1662,49 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('OFFERS NEAR YOU...',
+                                      Text('Shop & Smile',
                                           style: textStyle11Bold(colorBlack)
                                               .copyWith(letterSpacing: 0.7)),
                                       Padding(
                                         padding: EdgeInsets.only(right: 1.w),
-                                        child: GestureDetector(
-                                          onTap: () {},
+                                        child: InkWell(
+                                          onTap: () {
+                                            BlocProvider.of<FetchingDataBloc>(
+                                                    context)
+                                                .add(LoadProductCategoryEvent(
+                                                    productCategory:
+                                                        ProductCategory(
+                                                            code: 0,
+                                                            message: '',
+                                                            categories: [])));
+                                            BlocProvider.of<MallBloc>(context)
+                                                .add(LoadMallDataEvent(
+                                                    popular: Popular(
+                                                        code: 0,
+                                                        message: '',
+                                                        products: []),
+                                                    newArrival: NewArrival(
+                                                        code: 0,
+                                                        message: '',
+                                                        products: []),
+                                                    trending: Trending(
+                                                        code: 0,
+                                                        message: '',
+                                                        products: [])));
+                                            Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    WbcMegaMall.route);
+                                          },
                                           child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              Text('All Offers',
+                                              Text('View All',
                                                   style: textStyle10(colorRed)),
                                               SizedBox(width: 2.w),
                                               Image.asset(icNext,
                                                   color: colorRed,
-                                                  height: 1.5.h)
+                                                  height: 1.3.h)
                                             ],
                                           ),
                                         ),
@@ -1147,738 +1713,207 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: List.generate(
-                                      state.data!.data.offers.length,
-                                      (index) => Padding(
-                                            padding: EdgeInsets.only(
-                                                left: index == 0 ? 5.w : 0,
-                                                right: 2.5.w,
-                                                bottom: 2.h),
-                                            child: Container(
-                                              height: 15.h,
-                                              width: 60.w,
-                                              decoration: decoration(),
-                                              child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Image.network(
-                                                      imgNewBaseUrl +
-                                                          state
-                                                              .data!
-                                                              .data
-                                                              .offers[index]
-                                                              .imgUrl,
-                                                      fit: BoxFit.fill)),
-                                            ),
-                                          )),
-                                ),
-                              ),
-                            ],
-                          ),
-                        SizedBox(height: 3.h),
-                        GestureDetector(
-                          onTap: () async {
-                            final reLoadPage = await Navigator.of(context)
-                                .pushNamed(WealthMeterScreen.route);
-                            if (reLoadPage == true) {
-                              setState(() {});
-                            }
-                          },
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Container(
-                                  width: 90.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: const LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            colorBoxGradiant0020,
-                                            colorBoxGradiant0040
-                                          ])),
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(3.5.w, 2.h, 2.w, 0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: 55.w,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Check Your',
-                                                  style: textStyle11Medium(
-                                                      colorRed)),
-                                              SizedBox(height: 0.5.h),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Wealth Score',
-                                                  style:
-                                                      textStyle14(colorTextFFC1)
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' For Free',
-                                                        style: textStyle11Bold(
-                                                            colorWhite)),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 43.w,
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 1.5.h),
-                                                      child: Container(
-                                                        height: 1,
-                                                        color: colorBG
-                                                            .withOpacity(0.45),
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text: 'GET',
-                                                            style: textStyle8(
-                                                                colorWhite),
-                                                            children: <TextSpan>[
-                                                              TextSpan(
-                                                                  text:
-                                                                      ' FREE ',
-                                                                  style: textStyle8(
-                                                                      colorTextFFC1)),
-                                                              TextSpan(
-                                                                  text:
-                                                                      'WEALTH REPORT',
-                                                                  style: textStyle8(
-                                                                      colorWhite)),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Image.asset(icNext,
-                                                            color: colorWhite,
-                                                            height: 1.2.h)
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(height: 2.h)
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              Positioned(
-                                  right: 0,
-                                  bottom: 0,
-                                  child:
-                                      Image.asset(imgWealthScore, height: 16.h))
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 2.5.h),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(InvestmentReview.route);
-                          },
-                          child: Container(
-                            width: 90.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                gradient: const LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      colorBoxGradiant505E,
-                                      colorBoxGradiantD167
-                                    ])),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 20.w,
-                                  width: 20.w,
-                                  decoration: const BoxDecoration(
-                                      color: colorWhite,
-                                      shape: BoxShape.circle),
-                                  margin: EdgeInsets.symmetric(horizontal: 4.w),
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 1.w),
-                                  child: Image.asset(imgKAPortfolioDoctor),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 2.7.h),
-                                    Text('Get Wealth Checkup Done',
-                                        style: textStyle11Light(colorWhite)),
-                                    SizedBox(height: 0.5.h),
-                                    Text('By Portfolio Doctor Experts',
-                                        style: textStyle13Bold(colorWhite)),
-                                    SizedBox(
-                                      width: 62.w,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 2.5.h),
-                                            child: Container(
-                                              width: 25.w,
-                                              decoration: BoxDecoration(
-                                                  color: colorWhite,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6)),
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 1.h,
-                                                    horizontal: 2.w),
-                                                child: Row(
-                                                  children: [
-                                                    Text('CLICK NOW',
-                                                        style: textStyle7Bold(
-                                                            colorBoxGradiant505E)),
-                                                    SizedBox(width: 5.w),
-                                                    Image.asset(icNext,
-                                                        color:
-                                                            colorBoxGradiant505E,
-                                                        height: 1.h)
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsets.only(right: 5.w),
-                                            child: Image.asset(imgWealthCheckup,
-                                                width: 22.w),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 2.5.h),
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.of(context)
-                            //     .pushNamed(MunafeKiClassScreen.route);
-                            // BlocProvider.of<FetchingDataBloc>(context).add(
-                            //     LoadMunafeKiClassEvent(
-                            //         munafeKiClass: MunafeKiClass(
-                            //             code: 0, message: '', list: [])));
-                          },
-                          child: Container(
-                              width: 90.w,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  gradient: const LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        colorBoxGradiant0020,
-                                        colorBoxGradiant0040
-                                      ])),
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(3.5.w, 2.h, 2.w, 0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    SizedBox(
-                                      width: 50.w,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('BECOME',
-                                              style: textStyle8(colorTextFFC1)),
-                                          SizedBox(height: 0.1.h),
-                                          Text('Finer Expert',
-                                              style:
-                                                  textStyle15Medium(colorRed)),
-                                          // SizedBox(height: 0.5.h),
-                                          // RichText(
-                                          //   text: TextSpan(
-                                          //     text: 'with ',
-                                          //     style:
-                                          //         textStyle11Medium(colorWhite),
-                                          //     children: <TextSpan>[
-                                          //       TextSpan(
-                                          //           text: 'Munafe Ki Class',
-                                          //           style: textStyle12Medium(
-                                          //                   colorTextFFC1)
-                                          //               .copyWith(
-                                          //                   fontWeight:
-                                          //                       FontWeight
-                                          //                           .w600)),
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 1.5.h),
-                                            child: Container(
-                                              height: 1,
-                                              color: colorBG.withOpacity(0.45),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text('LEARN FROM WBC TOP USERS',
-                                                  style:
-                                                      textStyle8(colorWhite)),
-                                              Image.asset(icNext,
-                                                  color: colorWhite,
-                                                  height: 1.2.h)
-                                            ],
-                                          ),
-                                          SizedBox(height: 2.h)
-                                        ],
-                                      ),
-                                    ),
-                                    Image.asset(imgMunafeKiClass, width: 30.w)
-                                  ],
-                                ),
-                              )),
-                        ),
-                        SizedBox(height: 2.5.h),
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(WBCProgress.route);
-                          },
-                          child: Container(
-                            width: 90.w,
-                            decoration: decoration(),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 5.w, vertical: 2.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text('Your Finer Progress',
-                                              style: textStyle11Bold(colorBlack)
-                                                  .copyWith(
-                                                      letterSpacing: 0.7)),
-                                          SizedBox(width: 2.w),
-                                          Image.asset(icRoundQuestionMark,
-                                              color: colorRed, width: 5.w)
-                                        ],
-                                      ),
-                                      // Image.asset(icNext,
-                                      //     color: colorRed, height: 1.5.h)
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                    height: 1,
-                                    color: colorTextBCBC.withOpacity(0.36)),
-                                SizedBox(
-                                  height: 9.h,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                                ViewMyContacts.route,
-                                                arguments: ViewScreenData(
-                                                    myContact: ApiUser
-                                                        .myContactsList!));
-                                          },
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text('My Referrals',
-                                                  style: textStyle9(
-                                                      colorText3D3D)),
-                                              Text(
-                                                  ApiUser.myContactsList!.length
-                                                      .toString(),
-                                                  style:
-                                                      textStyle18Bold(colorRed))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                          height: 9.h,
-                                          width: 1,
-                                          color:
-                                              colorTextBCBC.withOpacity(0.36)),
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                                ViewMyContacts.route,
-                                                arguments: ViewScreenData(
-                                                    myContact:
-                                                        ApiUser.myContactsList!,
-                                                    title:
-                                                        'My Converted Referrals',
-                                                    isClientsConverted: true));
-                                          },
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text('Clients converted',
-                                                  style: textStyle9(
-                                                      colorText3D3D)),
-                                              Text(clientsConverted.toString(),
-                                                  style: textStyle18Bold(
-                                                      colorSplashBG))
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        if (!isPopular)
-                          Padding(
-                            padding: EdgeInsets.only(top: 2.5.h, bottom: 2.h),
-                            child: SizedBox(
-                              width: 90.w,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Shop & Smile',
-                                      style: textStyle11Bold(colorBlack)
-                                          .copyWith(letterSpacing: 0.7)),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 1.w),
-                                    child: InkWell(
-                                      onTap: () {
-                                        BlocProvider.of<FetchingDataBloc>(
-                                                context)
-                                            .add(LoadProductCategoryEvent(
-                                                productCategory:
-                                                    ProductCategory(
-                                                        code: 0,
-                                                        message: '',
-                                                        categories: [])));
-                                        BlocProvider.of<MallBloc>(context).add(
-                                            LoadMallDataEvent(
-                                                popular: Popular(
-                                                    code: 0,
-                                                    message: '',
-                                                    products: []),
-                                                newArrival: NewArrival(
-                                                    code: 0,
-                                                    message: '',
-                                                    products: []),
-                                                trending: Trending(
-                                                    code: 0,
-                                                    message: '',
-                                                    products: [])));
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                WbcMegaMall.route);
-                                      },
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text('View All',
-                                              style: textStyle10(colorRed)),
-                                          SizedBox(width: 2.w),
-                                          Image.asset(icNext,
-                                              color: colorRed, height: 1.3.h)
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        BlocConsumer<MallBloc, MallState>(
-                          listener: (context, state) {
-                            if (state is MallDataLoadedState) {
-                              if (state.popular.products.isEmpty) {
-                                isPopular = true;
-                              }
-                            } else if (state is MallDataErrorState) {
-                              isPopular = true;
-                            }
-                          },
-                          builder: (context, state) {
-                            print('------mallState--=---$state');
-                            if (state is MallDataInitial) {
-                              return Shimmer.fromColors(
-                                baseColor: Colors.grey[300]!,
-                                highlightColor: Colors.grey[100]!,
-                                child: SingleChildScrollView(
-                                  physics: const PageScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: List.generate(
-                                        3,
-                                        (index) => Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: index == 0 ? 5.w : 0,
-                                                  right: 2.5.w,
-                                                  bottom: 2.h),
-                                              child: Container(
-                                                height: 25.h,
-                                                width: 42.w,
-                                                decoration: decoration(),
-                                              ),
-                                            )),
-                                  ),
-                                ),
-                              );
-                            }
-                            if (state is MallDataLoadedState) {
-                              return state.popular.products.isEmpty
-                                  ? Container()
-                                  : SingleChildScrollView(
+                          ],
+                          if (ApiUser.wbcMall == '1') ...[
+                            BlocConsumer<MallBloc, MallState>(
+                              listener: (context, state) {
+                                if (state is MallDataLoadedState) {
+                                  if (state.popular.products.isEmpty) {
+                                    isPopular = true;
+                                  }
+                                } else if (state is MallDataErrorState) {
+                                  isPopular = true;
+                                }
+                              },
+                              builder: (context, state) {
+                                print('------mallState--=---$state');
+                                if (state is MallDataInitial) {
+                                  return Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: SingleChildScrollView(
                                       physics: const PageScrollPhysics(),
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: List.generate(
-                                            state.popular.products.length,
-                                            (index) =>
-                                                state.popular.products[index]
-                                                        .img.isEmpty
-                                                    ? Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                          left: index == 0
-                                                              ? 5.w
-                                                              : 0,
-                                                        ),
-                                                        child: Container(),
-                                                      )
-                                                    : Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: index == 0
-                                                                    ? 5.w
-                                                                    : 0,
-                                                                right: 2.5.w,
-                                                                bottom: 2.h),
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.of(context).pushNamed(
-                                                                ProductDetailScreen
-                                                                    .route,
-                                                                arguments: ProductDetailData(
-                                                                    categoryId: state
-                                                                        .popular
-                                                                        .products[
-                                                                            index]
-                                                                        .catId,
-                                                                    product: ProductList(
-                                                                        id: state
-                                                                            .popular
-                                                                            .products[
-                                                                                index]
-                                                                            .id,
-                                                                        name: state
-                                                                            .popular
-                                                                            .products[
-                                                                                index]
-                                                                            .name,
-                                                                        price: state
-                                                                            .popular
-                                                                            .products[
-                                                                                index]
-                                                                            .price,
-                                                                        discount: state
-                                                                            .popular
-                                                                            .products[index]
-                                                                            .discount,
-                                                                        availableQty: state.popular.products[index].availableQty,
-                                                                        description: state.popular.products[index].description,
-                                                                        rate: state.popular.products[index].rate,
-                                                                        img: state.popular.products[index].img)));
-                                                          },
-                                                          child: Container(
-                                                            width: 42.w,
-                                                            decoration:
-                                                                decoration(),
+                                            3,
+                                            (index) => Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left:
+                                                          index == 0 ? 5.w : 0,
+                                                      right: 2.5.w,
+                                                      bottom: 2.h),
+                                                  child: Container(
+                                                    height: 25.h,
+                                                    width: 42.w,
+                                                    decoration: decoration(),
+                                                  ),
+                                                )),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                if (state is MallDataLoadedState) {
+                                  return state.popular.products.isEmpty
+                                      ? Container()
+                                      : SingleChildScrollView(
+                                          physics: const PageScrollPhysics(),
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: List.generate(
+                                                state.popular.products.length,
+                                                (index) =>
+                                                    state
+                                                            .popular
+                                                            .products[index]
+                                                            .img
+                                                            .isEmpty
+                                                        ? Padding(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    2.w),
-                                                            child: Column(
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  children: [
-                                                                    if (state
+                                                                EdgeInsets.only(
+                                                              left: index == 0
+                                                                  ? 5.w
+                                                                  : 0,
+                                                            ),
+                                                            child: Container(),
+                                                          )
+                                                        : Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: index ==
+                                                                            0
+                                                                        ? 5.w
+                                                                        : 0,
+                                                                    right:
+                                                                        2.5.w,
+                                                                    bottom:
+                                                                        2.h),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.of(context).pushNamed(
+                                                                    ProductDetailScreen
+                                                                        .route,
+                                                                    arguments: ProductDetailData(
+                                                                        categoryId: state
                                                                             .popular
-                                                                            .products[index]
-                                                                            .discount !=
-                                                                        0)
-                                                                      Container(
-                                                                        decoration: BoxDecoration(
-                                                                            color:
-                                                                                colorGreen,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(5)),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsets.symmetric(
-                                                                              vertical: 0.5.h,
-                                                                              horizontal: 1.w),
-                                                                          child: Text(
-                                                                              '${state.popular.products[index].discount}% off',
-                                                                              style: textStyle8(colorWhite)),
-                                                                        ),
-                                                                      )
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                    height:
-                                                                        1.h),
-                                                                SizedBox(
-                                                                  height: 14.h,
-                                                                  width: 35.w,
-                                                                  child: Image.network(
-                                                                      imgNewBaseUrl +
-                                                                          state
-                                                                              .popular
-                                                                              .products[
-                                                                                  index]
-                                                                              .img
-                                                                              .first
-                                                                              .imgPath,
-                                                                      fit: BoxFit
-                                                                          .contain),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
+                                                                            .products[
+                                                                                index]
+                                                                            .catId,
+                                                                        product: ProductList(
+                                                                            id: state.popular.products[index].id,
+                                                                            name: state.popular.products[index].name,
+                                                                            price: state.popular.products[index].price,
+                                                                            discount: state.popular.products[index].discount,
+                                                                            availableQty: state.popular.products[index].availableQty,
+                                                                            description: state.popular.products[index].description,
+                                                                            rate: state.popular.products[index].rate,
+                                                                            img: state.popular.products[index].img)));
+                                                              },
+                                                              child: Container(
+                                                                width: 42.w,
+                                                                decoration:
+                                                                    decoration(),
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(2
+                                                                            .w),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      children: [
+                                                                        if (state.popular.products[index].discount !=
+                                                                            0)
+                                                                          Container(
+                                                                            decoration:
+                                                                                BoxDecoration(color: colorGreen, borderRadius: BorderRadius.circular(5)),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsets.symmetric(vertical: 0.5.h, horizontal: 1.w),
+                                                                              child: Text('${state.popular.products[index].discount}% off', style: textStyle8(colorWhite)),
+                                                                            ),
+                                                                          )
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            1.h),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          14.h,
+                                                                      width:
+                                                                          35.w,
+                                                                      child: Image.network(
+                                                                          imgNewBaseUrl +
+                                                                              state.popular.products[index].img.first.imgPath,
+                                                                          fit: BoxFit.contain),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
                                                                           top: 2
                                                                               .h,
                                                                           bottom:
                                                                               1.h),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      SizedBox(
-                                                                        width:
-                                                                            35.w,
-                                                                        child: Text(
-                                                                            state.popular.products[index].name,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            style: textStyle9(colorBlack).copyWith(fontWeight: FontWeight.w600, height: 1.2)),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Row(
-                                                                      children: [
-                                                                        Image.asset(
-                                                                            icGoldCoin,
-                                                                            width:
-                                                                                2.w),
-                                                                        SizedBox(
-                                                                            width:
-                                                                                1.w),
-                                                                        Text(
-                                                                            '${state.popular.products[index].price.toInt() - ((state.popular.products[index].price.toInt() * state.popular.products[index].discount) ~/ 100).toInt()}GP',
-                                                                            style:
-                                                                                textStyle8Bold(colorTextFFC1)),
-                                                                      ],
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        if (state.popular.products[index].discount !=
-                                                                            0) ...[
-                                                                          Image.asset(
-                                                                              icGoldCoin,
-                                                                              width: 2.w),
+                                                                      child:
+                                                                          Row(
+                                                                        children: [
                                                                           SizedBox(
-                                                                              width: 1.w),
-                                                                          Text(
-                                                                              '${state.popular.products[index].price.toInt()}GP',
-                                                                              style: textStyle8(colorText7070).copyWith(decoration: TextDecoration.lineThrough)),
-                                                                        ]
+                                                                            width:
+                                                                                35.w,
+                                                                            child: Text(state.popular.products[index].name,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                style: textStyle9(colorBlack).copyWith(fontWeight: FontWeight.w600, height: 1.2)),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Row(
+                                                                          children: [
+                                                                            Image.asset(icGoldCoin,
+                                                                                width: 2.w),
+                                                                            SizedBox(width: 1.w),
+                                                                            Text('${state.popular.products[index].price.toInt() - ((state.popular.products[index].price.toInt() * state.popular.products[index].discount) ~/ 100).toInt()}GP',
+                                                                                style: textStyle8Bold(colorTextFFC1)),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            if (state.popular.products[index].discount !=
+                                                                                0) ...[
+                                                                              Image.asset(icGoldCoin, width: 2.w),
+                                                                              SizedBox(width: 1.w),
+                                                                              Text('${state.popular.products[index].price.toInt()}GP', style: textStyle8(colorText7070).copyWith(decoration: TextDecoration.lineThrough)),
+                                                                            ]
+                                                                          ],
+                                                                        ),
                                                                       ],
                                                                     ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            1.h),
                                                                   ],
                                                                 ),
-                                                                SizedBox(
-                                                                    height:
-                                                                        1.h),
-                                                              ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      )),
-                                      ),
-                                    );
-                            } else {
-                              return Container();
-                            }
-                          },
-                        ),
-                        SizedBox(height: 3.h)
-                      ],
-                    ),
+                                                          )),
+                                          ),
+                                        );
+                                } else {
+                                  return Container();
+                                }
+                              },
+                            ),
+                            SizedBox(height: 3.h)
+                          ],
+                        ]),
                   ),
                 ),
               );
