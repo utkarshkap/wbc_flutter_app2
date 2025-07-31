@@ -30,7 +30,7 @@ class Preference {
   }
 
   static Future<bool> getIsContact() async {
-    final pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance(); 
     return pref.getBool(_isAddContact) ?? false;
   }
 

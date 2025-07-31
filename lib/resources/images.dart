@@ -14,6 +14,7 @@ const String imgKAPortfolioDoctor = '${_path}KA_portfolio_doctor.png';
 const String imgSportsGold = '${_path}sports_gold.png';
 const String imgBurger = '${_path}burger.png';
 const String imgPropertyOffice = '${_path}property_office.jpeg';
+const String imgPlot = '${_path}plot.jpg';
 
 const String imgLearnStocks = '${_path}learn_stocks.png';
 const String imgTrackInvestment = '${_path}track_investment.png';

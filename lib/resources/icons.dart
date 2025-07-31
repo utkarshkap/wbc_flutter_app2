@@ -35,6 +35,7 @@ const String icFlash = '${_path}flash.png';
 const String icCall = '${_path}call.png';
 
 const String icPaymentSuccess = '${_path}payment_success.png';
+const String icSqft = '${_path}sqft.png';
 
 const String icSqrEdit = '${_path}sqrEdit.png';
 const String icEdit = '${_path}edit.png';

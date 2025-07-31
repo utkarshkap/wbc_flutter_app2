@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:wbc_connect_app/app_upade.dart';
 import 'package:wbc_connect_app/blocs/deletefamilymember/delete_family_member_bloc.dart';
 import 'package:wbc_connect_app/models/expanded_category_model.dart';
 import 'package:wbc_connect_app/models/get_broker_holding_model.dart';
@@ -161,6 +162,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     BlocProvider.of<DashboardBloc>(context)
         .add(GetDashboardData(userId: ApiUser.userId));
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ApiUser.appUpdateShow == '1') {
+        UpdateChecker.checkForUpdate(context);
+      }
+    });
   }
 
   getFastTrackStatus() async {

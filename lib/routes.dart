@@ -6,6 +6,7 @@ import 'package:wbc_connect_app/presentations/M_Gain/M_Gain_Ledger.dart';
 import 'package:wbc_connect_app/presentations/NRI_carnival/nri_carnival_screen.dart';
 import 'package:wbc_connect_app/presentations/Payment/request_payment.dart';
 import 'package:wbc_connect_app/presentations/Payment/withdraw_amount.dart';
+import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_details_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_property.dart';
 import 'package:wbc_connect_app/presentations/Review/add_member_details.dart';
 import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
@@ -51,6 +52,7 @@ import 'package:wbc_connect_app/presentations/fastTrack_benefits.dart';
 import 'package:wbc_connect_app/presentations/gold_point_history_screen.dart';
 import 'package:wbc_connect_app/presentations/home_screen.dart';
 import 'package:wbc_connect_app/presentations/Real_Estate/real_estate_screen.dart';
+import 'package:wbc_connect_app/presentations/insurance/insurance_details_Scree.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/pay_nd_send.dart';
 import 'package:wbc_connect_app/presentations/payu_payment.dart';
@@ -433,6 +435,17 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (_) => ReviewReportScreen(data),
       );
+       case '/Real-Estate-Details':
+      final data = arguments as RealEstateDetailsScreenData;
+      return MaterialPageRoute(
+        builder: (_) => RealEstateDetailsScreen(
+          realEstateDetailsScreenData: data,
+        ),
+      );
+        case '/Insurance-Details':
+      return MaterialPageRoute(
+        builder: (_) => const InsuranceDetailsScreen(),
+      );  
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

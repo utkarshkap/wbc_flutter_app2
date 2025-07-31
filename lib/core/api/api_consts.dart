@@ -165,6 +165,7 @@ class ApiUser {
   static String uploadMFHolidingApiMessage = '';
   static String wbcMall = '';
   static String wbcGp = '';
+  static String appUpdateShow = '';
 }
 
 class GpDashBoardData {

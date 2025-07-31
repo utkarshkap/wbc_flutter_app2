@@ -47,6 +47,9 @@ class Realty {
   String plotNo;
   double totalAmount;
   bool profitSharingStatus;
+  String address;
+  String sqFt;
+  String yard;
 
   Realty({
     required this.id,
@@ -58,6 +61,9 @@ class Realty {
     required this.plotNo,
     required this.totalAmount,
     required this.profitSharingStatus,
+    required this.address,
+    required this.sqFt,
+    required this.yard
   });
 
   factory Realty.fromJson(Map<String, dynamic> json) => Realty(
@@ -70,6 +76,9 @@ class Realty {
         plotNo: json["plotNo"],
         totalAmount: json["totalAmount"],
         profitSharingStatus: json["profitSharingStatus"],
+        address: json['address'] ?? '' ,
+        sqFt: json['sqFt'] ?? '',
+        yard: json['yard'] ?? ''
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,5 +91,8 @@ class Realty {
         "plotNo": plotNo,
         "totalAmount": totalAmount,
         "profitSharingStatus": profitSharingStatus,
+        "address" : address,
+        "sqFt" : sqFt,
+        "yard" : yard
       };
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:wbc_connect_app/presentations/insurance/insurance_details_Scree.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import '../../blocs/InsuranceInvestment/insurance_investment_bloc.dart';
 import '../../common_functions.dart';
@@ -99,7 +100,8 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                 icon: icNotification,
                 iconColor: colorText7070,
                 onClick: () {
-                  Navigator.of(context).pushNamed(NotificationScreen.route);
+                  Navigator.of(context).pushNamed(InsuranceDetailsScreen.route);
+                  // Navigator.of(context).pushNamed(NotificationScreen.route);
                 }),
             SizedBox(width: 5.w)
           ],
@@ -301,13 +303,18 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                                   .policies[index].name,
                                               state.insuranceInvestment
                                                   .policies[index].amount
-                                                  .toStringAsFixed(2),
+                                                  .toStringAsFixed(0),
                                               state.insuranceInvestment
                                                   .policies[index].plan
                                                   .toString(),
                                               state.insuranceInvestment
-                                                  .policies[index].duedate,
-                                              () => null),
+                                                  .policies[index].duedate, () {
+                                            //
+
+                                            Navigator.of(context).pushNamed(
+                                              InsuranceDetailsScreen.route,
+                                            );
+                                          }),
                                           if (index !=
                                               state.insuranceInvestment.policies
                                                       .length -
