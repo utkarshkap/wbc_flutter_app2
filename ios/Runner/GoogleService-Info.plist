@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>217717536609-jv8siip1821m9fl52dnoo9ehvheki4sk.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.217717536609-jv8siip1821m9fl52dnoo9ehvheki4sk</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>217717536609-16pqq20jvr3210sp8sntcehkbgja7pfb.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAvOVyureXdYFd34BsYyFE1s6i-XKRa9aM</string>
+	<string>AIzaSyBYirMnkQKx0V7CVY7ZS6u8oWpE2W8Jkk4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>217717536609</string>
+	<string>948691254026</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>in.kagroup.finer.ios</string>
+	<string>org.karmcharitabletrust.karm.ios</string>
 	<key>PROJECT_ID</key>
-	<string>wbcconnect-8cd0a</string>
+	<string>karmtrust-8ef5c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>wbcconnect-8cd0a.firebasestorage.app</string>
+	<string>karmtrust-8ef5c.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:217717536609:ios:31e3c8cba36e2e1abcb720</string>
+	<string>1:948691254026:ios:675b4787038f98412f98f3</string>
 </dict>
 </plist>
