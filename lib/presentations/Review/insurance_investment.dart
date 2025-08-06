@@ -313,6 +313,7 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
 
                                             Navigator.of(context).pushNamed(
                                               InsuranceDetailsScreen.route,
+                                              arguments: InsuranceDetailsData(policy: state.insuranceInvestment.policies[index])
                                             );
                                           }),
                                           if (index !=
@@ -423,9 +424,18 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
 
   reviews(String title, String value, String plan, String dueDate,
       Function() onClick) {
-    var strToDateTime =
-        DateTime.parse(DateTime.parse(dueDate).toUtc().toString());
-    String updatedDt = DateFormat("dd-MM-yyyy").format(strToDateTime.toLocal());
+    String updatedDt = '';
+    try {
+      DateTime parsedDate = DateTime.parse(dueDate);
+      updatedDt = DateFormat("dd-MM-yyyy").format(parsedDate.toLocal());
+    } catch (e) {
+      try {
+        DateTime parsedDate = DateTime.parse('${dueDate}T00:00:00');
+        updatedDt = DateFormat("dd-MM-yyyy").format(parsedDate.toLocal());
+      } catch (e2) {
+        updatedDt = dueDate;
+      }
+    }
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.8.h, horizontal: 3.w),

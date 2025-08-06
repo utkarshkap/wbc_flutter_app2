@@ -443,8 +443,9 @@ Route onGenerateRoute(RouteSettings routeSettings) {
         ),
       );
         case '/Insurance-Details':
+        final data = arguments as InsuranceDetailsData;
       return MaterialPageRoute(
-        builder: (_) => const InsuranceDetailsScreen(),
+        builder: (_) =>  InsuranceDetailsScreen(insuranceDetailsData: data,),
       );  
 
     default:

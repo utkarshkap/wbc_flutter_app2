@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,6 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    fetchRemoteConfig();
     super.initState();
     getLoginValue();
     getCartData();
@@ -100,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  // Request notification permission
+  // Request notification permissionS
   void _requestPermission() async {
     NotificationSettings settings = await firebaseMessaging.requestPermission(
       alert: true,
@@ -196,6 +198,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     ApiUser.wbcMall = remoteConfig.getString('wbc_mall');
     ApiUser.wbcGp = remoteConfig.getString('wbc_gp');
+    ApiUser.appUpdateShow = remoteConfig.getString('app_update_show');
+
     print(
         'Remote Config wbcMall: ${ApiUser.wbcMall}-----wbcGp ${ApiUser.wbcGp}');
   }

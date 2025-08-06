@@ -41,25 +41,25 @@ void main() async {
   await Firebase.initializeApp();
 
   // Set background message handler
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  // Initialize local notifications plugin
-  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  // // Initialize local notifications plugin
+  // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  // Android initialization settings
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/finer_logo');
+  // // Android initialization settings
+  // const AndroidInitializationSettings initializationSettingsAndroid =
+  //     AndroidInitializationSettings('@mipmap/finer_logo');
 
   // // iOS initialization settings
-  // final IOSInitializationSettings initializationSettingsIOS =
-  //     IOSInitializationSettings();
+  // final DarwinInitializationSettings initializationSettingsIOS =
+  //     DarwinInitializationSettings();
 
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    // iOS: initializationSettingsIOS,
-  );
+  // final InitializationSettings initializationSettings = InitializationSettings(
+  //   android: initializationSettingsAndroid,
+  //   iOS: initializationSettingsIOS,
+  // );
 
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   // runApp(
   //   DevicePreview(
@@ -145,10 +145,11 @@ class MyApp extends StatelessWidget {
           title: 'Finer',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            useMaterial3: false,
             primaryColor: colorRed,
             primarySwatch: Colors.red,
             primaryColorDark: Colors.red,
-            backgroundColor: Colors.white,
+            scaffoldBackgroundColor: Colors.white,
             textSelectionTheme: const TextSelectionThemeData(
                 cursorColor: colorRed,
                 selectionColor: colorRedFFC,

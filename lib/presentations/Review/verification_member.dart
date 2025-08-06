@@ -190,6 +190,11 @@ class _VerificationMemberState extends State<VerificationMember> {
                 CommonFunction()
                     .errorDialog(context, 'This number is already added.');
                 isVerify = false;
+              } else if (state.message ==
+                  "No user found with the mobile number") {
+                CommonFunction().errorDialog(
+                    context, 'This number is not registered with finer app');
+                isVerify = false;
               } else {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     HomeScreen.route, (route) => false,
