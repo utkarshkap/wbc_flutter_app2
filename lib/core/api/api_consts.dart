@@ -28,6 +28,9 @@ const getAllReviewKey =
 const uploadMfReviewBaseUrl =
     'https://wbcapi.kagroup.in/api/User/uploadMFHoliding';
 
+const uploadStockReviewBaseUrl =
+    'https://wbcapi.kagroup.in/api/User/uploadStockFolio';
+
 const addRealEstateBaseUrl =
     'https://wbcapi.kagroup.in/api/User/addRealEastatereview';
 

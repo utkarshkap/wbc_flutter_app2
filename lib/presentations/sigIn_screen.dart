@@ -9,6 +9,7 @@ import 'package:wbc_connect_app/presentations/social_login.dart';
 import 'package:wbc_connect_app/presentations/verification_screen.dart';
 import '../core/Google_SignIn.dart';
 import '../resources/resource.dart';
+import '../core/firebase_locale_helper.dart';
 import '../widgets/country_picker/country.dart';
 import '../widgets/country_picker/country_code_picker.dart';
 import 'dart:io';
@@ -37,6 +38,9 @@ class _SigInPageState extends State<SigInPage> {
     // FocusManager.instance.primaryFocus?.unfocus();
     // Preference.setMobNo(_numController.text);
     // Preference.setCountryCode(countryCode);
+
+    // // Set Firebase Auth locale to prevent X-Firebase-Locale warning
+    // await FirebaseLocaleHelper.ensureLocaleSet();
 
     // print('Submitted your Number: $countryCode${_numController.text}');
     // await FirebaseAuth.instance.verifyPhoneNumber(

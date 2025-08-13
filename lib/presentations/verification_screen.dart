@@ -36,6 +36,7 @@ import '../models/popular_data_model.dart';
 import '../models/terms_conditions_model.dart';
 import '../models/trending_data_model.dart';
 import '../resources/resource.dart';
+import '../core/firebase_locale_helper.dart';
 
 class VerificationScreenData {
   final String number;
@@ -180,7 +181,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
     //   print(
     //       'verificationId-----${widget.verificationScreenData.verificationId}');
 
-    //   print(resendVerificationId);
+    //   print('resendVerificationId:$resendVerificationId');
+    //       print('smsCode: $sms');
+
     //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
     //       verificationId: resendVerificationId.isNotEmpty
     //           ? resendVerificationId
@@ -193,7 +196,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     //   BlocProvider.of<SigningBloc>(context)
     //       .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
     // } catch (e) {
-    //   print('exception------');
+    //   print('exception------$e');
     //   setState(() {
     //     isVerify = false;
     //     pinValidationString = 'The Code Is Incorrect';
@@ -209,6 +212,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   reSendOtp() async {
     FocusManager.instance.primaryFocus?.unfocus();
+
+    // Set Firebase Auth locale to prevent X-Firebase-Locale warning
+    await FirebaseLocaleHelper.ensureLocaleSet();
 
     print('Submitted your Number: ${widget.verificationScreenData.number}');
     await FirebaseAuth.instance.verifyPhoneNumber(

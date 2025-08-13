@@ -137,16 +137,14 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
         final StreamedResponse response =
             await stockReviewRepo.uploadStockReview(
                 userId: event.userId,
-                mono: event.mono,
                 requestType: event.requestType,
                 panNumber: event.panNumber,
-                email: event.email,
                 selectStockType: event.selectStockType,
                 uploadFilePath: event.uploadFilePath,
                 uploadFileName: event.uploadFileName);
 
         print(
-            '--upload------mf--review--data--=---${stockReviewRepo.uploadStockReview(userId: event.userId, mono: event.mono, requestType: event.requestType, panNumber: event.panNumber, email: event.email, selectStockType: event.selectStockType, uploadFilePath: event.uploadFilePath, uploadFileName: event.uploadFileName)}');
+            '--upload------mf--review--data--=---${stockReviewRepo.uploadStockReview(userId: event.userId, requestType: event.requestType, panNumber: event.panNumber, selectStockType: event.selectStockType, uploadFilePath: event.uploadFilePath, uploadFileName: event.uploadFileName)}');
 
         response.statusCode == 200
             ? emit(UploadStockDataAdded())

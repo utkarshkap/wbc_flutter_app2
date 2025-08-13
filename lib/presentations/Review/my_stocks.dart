@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wbc_connect_app/blocs/brokers/brokers_bloc.dart';
+import 'package:wbc_connect_app/blocs/mall/mall_bloc.dart';
+import 'package:wbc_connect_app/core/api/api_consts.dart';
 import 'package:wbc_connect_app/models/get_brokerList_model.dart';
+import 'package:wbc_connect_app/models/newArrival_data_model.dart';
+import 'package:wbc_connect_app/models/popular_data_model.dart';
+import 'package:wbc_connect_app/models/trending_data_model.dart';
 import 'package:wbc_connect_app/presentations/Review/connect_brokers.dart';
 import 'package:wbc_connect_app/presentations/notification_screen.dart';
 import 'package:wbc_connect_app/presentations/profile_screen.dart';
@@ -18,6 +23,7 @@ import '../../core/preferences.dart';
 import '../../resources/resource.dart';
 import '../../widgets/appbarButton.dart';
 import '../../widgets/video_player/youtubeView.dart';
+import '../home_screen.dart';
 import 'history.dart';
 
 class StocksReview extends StatefulWidget {
@@ -38,6 +44,12 @@ class _StocksReviewState extends State<StocksReview> {
   String fileValidation = '';
   String fileName = 'Upload your stock investment PDF';
   File? uploadFile;
+
+  // PAN Card field
+  final TextEditingController _panCardController = TextEditingController();
+  bool isPanFieldTap = false;
+  FocusNode panCardFocus = FocusNode();
+  String panCardValidation = '';
 
   List<String> stocksType = [
     'CDSL',
@@ -113,210 +125,301 @@ class _StocksReviewState extends State<StocksReview> {
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 1.h),
-              dropDownWidget(
-                  'Stock Investment', selectedStocks, isStocksFieldTap, () {
-                setState(() {
-                  isStocksFieldTap = true;
-                  uploadEventTap = false;
-                });
-                CommonFunction().selectFormDialog(
-                    context, 'Select Repository', stocksType, (val) {
-                  setState(() {
-                    selectedStocks = val;
-                    isStocksFieldTap = false;
-                    uploadEventTap = true;
-                  });
-                  Navigator.of(context).pop();
-                });
-              }),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 1.h),
-                child: Container(
-                  decoration: decoration(colorWhite),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 23.h,
-                        width: 90.w,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10)),
-                          child: YoutubeVideoPlayer(
-                            key: ObjectKey(selectedStocks == 'NSDL'
-                                ? 'gBX8Y9CHjfM'
-                                : 'cbvKi81qZNw'),
-                            controller: YoutubePlayerController(
-                                initialVideoId: selectedStocks == 'NSDL'
-                                    ? 'gBX8Y9CHjfM'
-                                    : 'cbvKi81qZNw',
-                                flags: const YoutubePlayerFlags(
-                                    autoPlay: false,
-                                    enableCaption: false,
-                                    showLiveFullscreenButton: false)),
-                            bufferIndicator: SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                    color: colorRed, strokeWidth: 0.7.w)),
-                            bottomActions: [
-                              CurrentPosition(),
-                              SizedBox(width: 2.w),
-                              ProgressBar(
-                                  isExpanded: true,
-                                  colors: ProgressBarColors(
-                                      backgroundColor: colorWhite,
-                                      bufferedColor:
-                                          colorRed.withOpacity(0.5))),
-                              SizedBox(width: 2.w),
-                              RemainingDuration(),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 3.w, vertical: 2.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Learn To Download Stock Statement',
-                                style: textStyle10(colorBlack)),
-                            GestureDetector(
-                                onTap: () {},
-                                child: Text('View more',
-                                    style: textStyle9(colorRed).copyWith(
-                                        decoration: TextDecoration.underline)))
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 1.5.h),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isStocksFieldTap = false;
-                      uploadEventTap = true;
-                    });
-                    pickPdfFile();
-                  },
-                  child: DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(10),
-                    color: uploadEventTap
-                        ? colorRed
-                        : colorTextBCBC.withOpacity(0.36),
-                    padding: EdgeInsets.zero,
-                    strokeWidth: 5,
-                    dashPattern: const [5, 5],
-                    child: Container(
-                      height: 6.h,
-                      decoration: BoxDecoration(
-                          color: colorWhite,
-                          borderRadius: BorderRadius.circular(10)),
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 3.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              fileName,
-                              style: textStyle11Bold(colorText7070),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          uploadFile == null
-                              ? Image.asset(icUpload,
-                                  color: colorRed, width: 5.w)
-                              : IconButton(
-                                  padding: EdgeInsets.zero,
-                                  constraints: BoxConstraints(minWidth: 5.w),
-                                  onPressed: () {
-                                    setState(() {
-                                      fileName =
-                                          'Upload your stock investment PDF';
-                                      uploadFile = null;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.close,
-                                    color: colorRed,
-                                  )),
-                        ],
+          child: BlocConsumer<ReviewBloc, ReviewState>(
+            listener: (context, state) {
+              if (state is UploadStockDataAdded) {
+                BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+                    popular: Popular(code: 0, message: '', products: []),
+                    newArrival: NewArrival(code: 0, message: '', products: []),
+                    trending: Trending(code: 0, message: '', products: [])));
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    HomeScreen.route, (route) => false,
+                    arguments: HomeScreenData(
+                        acceptedContacts: '', isSendReview: 'SendReview'));
+              }
+            },
+            builder: (context, state) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 1.h),
+                    dropDownWidget(
+                        'Stock Investment', selectedStocks, isStocksFieldTap,
+                        () {
+                      setState(() {
+                        isStocksFieldTap = true;
+                        uploadEventTap = false;
+                        isPanFieldTap = false;
+                      });
+                      CommonFunction().selectFormDialog(
+                          context, 'Select Repository', stocksType, (val) {
+                        setState(() {
+                          selectedStocks = val;
+                          isStocksFieldTap = false;
+                          uploadEventTap = true;
+                        });
+                        Navigator.of(context).pop();
+                      });
+                    }),
+
+                    // PAN Card Field
+                    textFormFieldContainer(
+                        'Pan Card', 'Enter your Pan Card No', isPanFieldTap,
+                        () {
+                      setState(() {
+                        isStocksFieldTap = false;
+                        uploadEventTap = false;
+                        isPanFieldTap = true;
+                      });
+                      panCardFocus.requestFocus();
+                    }, _panCardController, TextInputType.text),
+                    if (panCardValidation.isNotEmpty) SizedBox(height: 0.5.h),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 2.w),
+                        child: panCardValidation == 'Empty PanCard'
+                            ? errorText('Please Enter a Pan Card No.')
+                            : panCardValidation == 'Invalid Pan Card'
+                                ? errorText('Invalid Pan Number')
+                                : Container(),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              if (fileValidation.isNotEmpty)
-                SizedBox(
-                  height: 0.5.h,
-                ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 2.w),
-                  child: fileValidation == 'Empty file'
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 1.h),
+                      child: Container(
+                        decoration: decoration(colorWhite),
+                        child: Column(
                           children: [
-                            const Icon(Icons.error, color: colorRed, size: 13),
-                            const SizedBox(width: 4),
-                            Container(
-                              height: 2.h,
-                              alignment: Alignment.center,
-                              child: Text('Please Select PDF file',
-                                  style: textStyle9(colorErrorRed)),
+                            SizedBox(
+                              height: 23.h,
+                              width: 90.w,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(10)),
+                                child: YoutubeVideoPlayer(
+                                  key: ObjectKey(selectedStocks == 'NSDL'
+                                      ? 'gBX8Y9CHjfM'
+                                      : 'cbvKi81qZNw'),
+                                  controller: YoutubePlayerController(
+                                      initialVideoId: selectedStocks == 'NSDL'
+                                          ? 'gBX8Y9CHjfM'
+                                          : 'cbvKi81qZNw',
+                                      flags: const YoutubePlayerFlags(
+                                          autoPlay: false,
+                                          enableCaption: false,
+                                          showLiveFullscreenButton: false)),
+                                  bufferIndicator: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                          color: colorRed, strokeWidth: 0.7.w)),
+                                  bottomActions: [
+                                    CurrentPosition(),
+                                    SizedBox(width: 2.w),
+                                    ProgressBar(
+                                        isExpanded: true,
+                                        colors: ProgressBarColors(
+                                            backgroundColor: colorWhite,
+                                            bufferedColor:
+                                                colorRed.withOpacity(0.5))),
+                                    SizedBox(width: 2.w),
+                                    RemainingDuration(),
+                                  ],
+                                ),
+                              ),
                             ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w, vertical: 2.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Learn To Download Stock Statement',
+                                      style: textStyle10(colorBlack)),
+                                  GestureDetector(
+                                      onTap: () {},
+                                      child: Text('View more',
+                                          style: textStyle9(colorRed).copyWith(
+                                              decoration:
+                                                  TextDecoration.underline)))
+                                ],
+                              ),
+                            )
                           ],
-                        )
-                      : Container(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 1.5.h, left: 1.5.w, right: 1.5.w),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isStocksFieldTap = false;
+                            uploadEventTap = true;
+                            isPanFieldTap = false;
+                          });
+                          pickPdfFile();
+                        },
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          color: uploadEventTap
+                              ? colorRed
+                              : colorTextBCBC.withOpacity(0.36),
+                          padding: EdgeInsets.zero,
+                          strokeWidth: 5,
+                          dashPattern: const [5, 5],
+                          child: Container(
+                            height: 6.h,
+                            decoration: BoxDecoration(
+                                color: colorWhite,
+                                borderRadius: BorderRadius.circular(10)),
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: 3.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    fileName,
+                                    style: textStyle11Bold(colorText7070),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                uploadFile == null
+                                    ? Image.asset(icUpload,
+                                        color: colorRed, width: 5.w)
+                                    : IconButton(
+                                        padding: EdgeInsets.zero,
+                                        constraints:
+                                            BoxConstraints(minWidth: 5.w),
+                                        onPressed: () {
+                                          setState(() {
+                                            fileName =
+                                                'Upload your stock investment PDF';
+                                            uploadFile = null;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.close,
+                                          color: colorRed,
+                                        )),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (fileValidation.isNotEmpty)
+                      SizedBox(
+                        height: 0.5.h,
+                      ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 2.w),
+                        child: fileValidation == 'Empty file'
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.error,
+                                      color: colorRed, size: 13),
+                                  const SizedBox(width: 4),
+                                  Container(
+                                    height: 2.h,
+                                    alignment: Alignment.center,
+                                    child: Text('Please Select PDF file',
+                                        style: textStyle9(colorErrorRed)),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    button(icSendReview, 'Send For Review', () {
+                      print('selectedstock------$selectedStocks');
+
+                      // PAN Card validation
+                      if (_panCardController.text.isEmpty) {
+                        setState(() {
+                          panCardValidation = 'Empty PanCard';
+                        });
+                      } else if (!RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
+                          .hasMatch(_panCardController.text)) {
+                        setState(() {
+                          panCardValidation = 'Invalid Pan Card';
+                        });
+                      } else {
+                        setState(() {
+                          panCardValidation = '';
+                        });
+                      }
+
+                      if (uploadFile == null) {
+                        setState(() {
+                          fileValidation = 'Empty file';
+                        });
+                      } else {
+                        setState(() {
+                          fileValidation = '';
+                        });
+                      }
+
+                      if (selectedStocks != 'Select Your Stocks Investment' &&
+                          uploadFile != null &&
+                          _panCardController.text.isNotEmpty &&
+                          RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
+                              .hasMatch(_panCardController.text)) {
+                        setState(() {
+                          isSend = true;
+                        });
+                        BlocProvider.of<ReviewBloc>(context).add(
+                            UploadStockReview(
+                                userId: ApiUser.userId,
+                                requestType:
+                                    selectedStocks == 'CDSL' ? '1' : '2',
+                                panNumber: _panCardController.text,
+                                selectStockType: selectedStocks,
+                                uploadFileName: fileName,
+                                uploadFilePath: fileName ==
+                                            'Upload your stock investment PDF' ||
+                                        uploadFile == null
+                                    ? ''
+                                    : uploadFile!.path));
+                      } else {
+                        setState(() {
+                          isSend = false;
+                        });
+                      }
+                    }),
+                    SizedBox(height: 2.h),
+                    button(icCheckReview, 'Check Review Report', () {
+                      BlocProvider.of<ReviewBloc>(context)
+                          .add(LoadReviewHistoryEvent(mobNo: mobileNo));
+                      Navigator.of(context).pushNamed(ReviewHistory.route);
+                    }),
+                    SizedBox(height: 2.h),
+                    button(icConnectFastTrack, 'Connect Your Brokers', () {
+                      BlocProvider.of<BrokersBloc>(context).add(
+                          LoadGetBrokersListEvent(
+                              getBrokersList: GetBrokerListModel(
+                                  code: 0, message: '', brokerList: [])));
+
+                      Navigator.of(context).pushNamed(ConnectBrokers.route);
+                    }),
+                    SizedBox(height: 2.h)
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: 3.h,
-              ),
-              const Spacer(),
-              button(icSendReview, 'Send For Review', () {
-                print('selectedstock------$selectedStocks');
-
-                if (uploadFile == null) {
-                  setState(() {
-                    fileValidation = 'Empty file';
-                  });
-                } else {
-                  setState(() {
-                    fileValidation = '';
-                  });
-                }
-                if (selectedStocks != 'Select Your Stocks Investment' &&
-                    uploadFile != null) {}
-              }),
-              SizedBox(height: 2.h),
-              button(icCheckReview, 'Check Review Report', () {
-                BlocProvider.of<ReviewBloc>(context)
-                    .add(LoadReviewHistoryEvent(mobNo: mobileNo));
-                Navigator.of(context).pushNamed(ReviewHistory.route);
-              }),
-              SizedBox(height: 2.h),
-              button(icConnectFastTrack, 'Connect Your Brokers', () {
-                BlocProvider.of<BrokersBloc>(context).add(
-                    LoadGetBrokersListEvent(
-                        getBrokersList: GetBrokerListModel(
-                            code: 0, message: '', brokerList: [])));
-
-                Navigator.of(context).pushNamed(ConnectBrokers.route);
-              }),
-              SizedBox(height: 2.h)
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -430,6 +533,75 @@ class _StocksReviewState extends State<StocksReview> {
           ),
         ),
       ),
+    );
+  }
+
+  textFormFieldContainer(
+      String labelText, String hintText, bool isSelected, Function() onClick,
+      [TextEditingController? controller, TextInputType? keyboardType]) {
+    return Padding(
+      padding: EdgeInsets.only(top: 1.5.h),
+      child: InkWell(
+        onTap: onClick,
+        child: Container(
+          height: 8.h,
+          decoration: BoxDecoration(
+              color: colorWhite,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                  color: isSelected ? colorRed : colorDFDF, width: 1)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 3.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(labelText, style: textStyle9(colorText8181)),
+                SizedBox(
+                  width: 84.w - 2,
+                  child: TextFormField(
+                    controller: controller,
+                    style: textStyle11(colorText3D3D).copyWith(height: 1.3),
+                    maxLines: 1,
+                    decoration: InputDecoration.collapsed(
+                        hintText: hintText,
+                        hintStyle: textStyle11(colorText3D3D),
+                        fillColor: colorWhite,
+                        filled: true,
+                        border: InputBorder.none),
+                    focusNode: panCardFocus,
+                    onTap: onClick,
+                    onFieldSubmitted: (val) {
+                      setState(() {
+                        isPanFieldTap = false;
+                      });
+                      panCardFocus.unfocus();
+                    },
+                    keyboardType: keyboardType,
+                    textInputAction: TextInputAction.done,
+                    textCapitalization: TextCapitalization.characters,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  errorText(String text) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Icon(Icons.error, color: colorRed, size: 13),
+        const SizedBox(width: 4),
+        Container(
+          height: 2.h,
+          alignment: Alignment.center,
+          child: Text(text, style: textStyle9(colorErrorRed)),
+        ),
+      ],
     );
   }
 }

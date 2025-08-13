@@ -301,8 +301,10 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                           reviews(
                                               state.insuranceInvestment
                                                   .policies[index].name,
-                                              state.insuranceInvestment
-                                                  .policies[index].amount
+                                              state
+                                                  .insuranceInvestment
+                                                  .policies[index]
+                                                  .sumAssuredInsured
                                                   .toStringAsFixed(0),
                                               state.insuranceInvestment
                                                   .policies[index].plan
@@ -312,9 +314,11 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                                             //
 
                                             Navigator.of(context).pushNamed(
-                                              InsuranceDetailsScreen.route,
-                                              arguments: InsuranceDetailsData(policy: state.insuranceInvestment.policies[index])
-                                            );
+                                                InsuranceDetailsScreen.route,
+                                                arguments: InsuranceDetailsData(
+                                                    policy: state
+                                                        .insuranceInvestment
+                                                        .policies[index]));
                                           }),
                                           if (index !=
                                               state.insuranceInvestment.policies
@@ -463,12 +467,13 @@ class _InsuranceInvestmentScreenState extends State<InsuranceInvestmentScreen> {
                 ],
               ),
               SizedBox(height: 0.4.h),
-              Row(
-                children: [
-                  Text('Due date: ', style: textStyle9Bold(colorText7070)),
-                  Text(updatedDt, style: textStyle9Bold(colorText7070)),
-                ],
-              ),
+              if (updatedDt.isNotEmpty)
+                Row(
+                  children: [
+                    Text('Due date: ', style: textStyle9Bold(colorText7070)),
+                    Text(updatedDt, style: textStyle9Bold(colorText7070)),
+                  ],
+                ),
             ],
           ),
         ),

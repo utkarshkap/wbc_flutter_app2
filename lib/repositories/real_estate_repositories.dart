@@ -18,17 +18,20 @@ class RealEstateRepository {
       required List<String> imgPath}) async {
     var request =
         http.MultipartRequest("POST", Uri.parse(addRealEstateBaseUrl));
-    request.fields['propertyType'] = propertyType;
-    request.fields['carpetArea'] = carpetArea;
-    request.fields['BuiltupArea'] = BuiltUpArea;
-    request.fields['Location'] = Location;
-    request.fields['ProjectName'] = ProjectName;
-    request.fields['carParking'] = carParking;
-    request.fields['enterFacing'] = enterFacing;
-    request.fields['Year'] = Year;
-    request.fields['Price'] = Price;
-    request.fields['userId'] = userId;
-    List<http.MultipartFile> newList=[];
+
+    request.fields.addAll({
+      'propertyType': propertyType,
+      'carpetArea': carpetArea,
+      'BuiltupArea': BuiltUpArea,
+      'Location': Location,
+      'ProjectName': ProjectName,
+      'carParking': carParking,
+      'enterFacing': enterFacing,
+      'Year': Year,
+      'Price': Price,
+      'userId': userId,
+    });
+    List<http.MultipartFile> newList = [];
 
     for (int i = 0; i < imgPath.length; i++) {
       File imageFile = File(imgPath[i]);
@@ -40,17 +43,19 @@ class RealEstateRepository {
           filename: imageFile.path.split('/').last);
 
       newList.add(multipartFile);
-
     }
 
     request.files.addAll(newList);
-    final response = await request.send().then((response) {
-      if (response.statusCode == 200) {
-        print('upload images successfully.');
+    http.StreamedResponse response = await request.send();
 
-        return response;
-      }
-    });
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      print('upload images successfully.');
+      return response;
+    } else {
+      print(response.reasonPhrase);
+    }
+
     return response;
   }
 }

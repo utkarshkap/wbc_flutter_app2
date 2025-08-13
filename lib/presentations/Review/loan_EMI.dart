@@ -58,6 +58,7 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
   String tenureValidation = '';
   String interestValidation = '';
   String emiAmountValidation = '';
+  String loanPdfValidation = '';
   bool isSend = false;
   String mobileNo = '';
   String fileName = 'Upload your Loan PDF';
@@ -693,6 +694,35 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                 ),
                               ),
                             ),
+                            if (loanPdfValidation.isNotEmpty)
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 2.w),
+                                child: loanPdfValidation == 'Empty Loan PDF'
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.error,
+                                              color: colorRed, size: 13),
+                                          const SizedBox(width: 4),
+                                          Container(
+                                            height: 2.h,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                                'Please Upload your Loan PDF',
+                                                style:
+                                                    textStyle9(colorErrorRed)),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                              ),
+                            ),
                             SizedBox(
                               height: 1.h,
                             ),
@@ -701,7 +731,8 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                 loanAmountValidation.isEmpty ||
                                 tenureValidation.isEmpty ||
                                 interestValidation.isEmpty ||
-                                emiAmountValidation.isEmpty)
+                                emiAmountValidation.isEmpty ||
+                                loanPdfValidation.isEmpty)
                               SizedBox(height: 4.5.h),
                             button(icSendReview, 'Send For Review', () {
                               if (selectedLoanType == 'Select Loan') {
@@ -758,12 +789,24 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                   emiAmountValidation = '';
                                 });
                               }
+                              if (uploadFile == null ||
+                                  uploadFile!.path.isEmpty) {
+                                setState(() {
+                                  loanPdfValidation = 'Empty Loan PDF';
+                                });
+                              } else {
+                                setState(() {
+                                  loanPdfValidation = '';
+                                });
+                              }
                               if (selectedLoanType != 'Select Loan' &&
                                   selectedBankType != 'Select Bank' &&
                                   _loanAmountController.text.isNotEmpty &&
                                   _tenureController.text.isNotEmpty &&
                                   _interestController.text.isNotEmpty &&
-                                  _emiAmountController.text.isNotEmpty) {
+                                  _emiAmountController.text.isNotEmpty &&
+                                  uploadFile != null &&
+                                  uploadFile!.path.isNotEmpty) {
                                 setState(() {
                                   isSend = true;
                                 });
@@ -779,11 +822,25 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                             _interestController.text,
                                         tenure: _tenureController.text,
                                         note: _otherController.text,
-                                        uploadFilePath:
-                                            fileName == 'Upload your Loan PDF'
-                                                ? ''
-                                                : uploadFile!.path));
+                                        uploadFilePath: fileName ==
+                                                    'Upload your Loan PDF' ||
+                                                uploadFile == null
+                                            ? ''
+                                            : uploadFile!.path));
                               }
+                              print('----------------------------');
+
+                              print(ApiUser.userId);
+                              print(mobileNo);
+                              print(selectedBankType);
+                              print(selectedLoanId.toString());
+                              print(_loanAmountController.text);
+                              print(_emiAmountController.text);
+                              print(_interestController.text);
+                              print(_otherController.text);
+                              print(uploadFile?.path);
+
+                              print('----------------------------');
                             }),
                             SizedBox(height: 2.h),
                             button(icCheckReview, 'Check Review Report', () {

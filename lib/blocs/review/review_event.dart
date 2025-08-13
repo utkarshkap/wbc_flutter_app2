@@ -89,25 +89,21 @@ class UploadMFReview extends ReviewEvent {
 
 class UploadStockReview extends ReviewEvent {
   final String userId;
-  final String mono;
   final String requestType;
   final String panNumber;
-  final String email;
   final String selectStockType;
   final String uploadFilePath;
   final String uploadFileName;
 
   @override
   String toString() {
-    return 'UploadStockReview{userId: $userId, mono: $mono, requestType: $requestType, panNumber: $panNumber, email: $email, selectStockType: $selectStockType, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
+    return 'UploadStockReview{userId: $userId, requestType: $requestType, panNumber: $panNumber, selectStockType: $selectStockType, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
   }
 
   UploadStockReview(
       {required this.userId,
-      required this.mono,
       required this.requestType,
       required this.panNumber,
-      required this.email,
       required this.selectStockType,
       required this.uploadFilePath,
       required this.uploadFileName});

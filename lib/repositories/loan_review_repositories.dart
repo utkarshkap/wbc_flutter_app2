@@ -26,8 +26,12 @@ class ReviewLoanRepository {
       'note': note
     });
 
+    print("request------$request");
+
     request.files
         .add(await http.MultipartFile.fromPath('PdfFile', uploadFilePath));
+
+    print("request--new----------$request");
 
     http.StreamedResponse response = await request.send();
 

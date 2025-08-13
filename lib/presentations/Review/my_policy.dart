@@ -62,6 +62,7 @@ class _PolicyReviewState extends State<PolicyReview> {
   String renewalDateValidation = '';
   String premiumPayingDateValidation = '';
   String premiumPayingModeValidation = '';
+  String policyPdfValidation = '';
   bool isSend = false;
   DateTime? selectedDate;
   String renewalDate = 'Select your Renewal Date';
@@ -643,6 +644,36 @@ class _PolicyReviewState extends State<PolicyReview> {
                             ),
                           ),
 
+                          if (policyPdfValidation.isNotEmpty)
+                            SizedBox(
+                              height: 0.5.h,
+                            ),
+
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: policyPdfValidation == 'Empty Policy PDF'
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error,
+                                            color: colorRed, size: 13),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          height: 2.h,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                              'Please Upload your Policy PDF',
+                                              style: textStyle9(colorErrorRed)),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                          ),
+
                           SizedBox(
                             height: 1.h,
                           ),
@@ -652,7 +683,8 @@ class _PolicyReviewState extends State<PolicyReview> {
                               premiumValidation.isEmpty ||
                               payingTermValidation.isEmpty ||
                               renewalDateValidation.isEmpty ||
-                              premiumPayingDateValidation.isEmpty)
+                              premiumPayingDateValidation.isEmpty ||
+                              policyPdfValidation.isEmpty)
                             SizedBox(height: 3.5.h),
                           button(icSendReview, 'Send For Review', () {
                             if (selectedInsuranceCompany ==
@@ -722,6 +754,16 @@ class _PolicyReviewState extends State<PolicyReview> {
                                 premiumPayingDateValidation = '';
                               });
                             }
+                            if (uploadFile == null ||
+                                uploadFile!.path.isEmpty) {
+                              setState(() {
+                                policyPdfValidation = 'Empty Policy PDF';
+                              });
+                            } else {
+                              setState(() {
+                                policyPdfValidation = '';
+                              });
+                            }
                             if (selectedInsuranceCompany !=
                                     'Select your insurance company' &&
                                 selectedInsuranceType !=
@@ -731,7 +773,9 @@ class _PolicyReviewState extends State<PolicyReview> {
                                     'Select your Premium Paying Date' &&
                                 _insuranceAmountController.text.isNotEmpty &&
                                 _premiumController.text.isNotEmpty &&
-                                _payingTermController.text.isNotEmpty) {
+                                _payingTermController.text.isNotEmpty &&
+                                uploadFile != null &&
+                                uploadFile!.path.isNotEmpty) {
                               setState(() {
                                 isSend = true;
                               });
@@ -751,10 +795,11 @@ class _PolicyReviewState extends State<PolicyReview> {
                                       premiumPayingDate: premiumPayingDate,
                                       premiumPayingFrequency:
                                           selectedPremiumPayingMode,
-                                      uploadFilePath:
-                                          fileName == 'Upload your Policy PDF'
-                                              ? ''
-                                              : uploadFile!.path,
+                                      uploadFilePath: fileName ==
+                                                  'Upload your Policy PDF' ||
+                                              uploadFile == null
+                                          ? ''
+                                          : uploadFile!.path,
                                       uploadFileName:
                                           fileName == 'Upload your Policy PDF'
                                               ? ''

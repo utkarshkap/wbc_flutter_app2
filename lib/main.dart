@@ -13,6 +13,8 @@ import 'package:wbc_connect_app/blocs/signingbloc/signing_bloc.dart';
 import 'package:wbc_connect_app/blocs/wealthMeter/wealth_meter_bloc.dart';
 import 'package:wbc_connect_app/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'core/firebase_locale_helper.dart';
 
 import 'blocs/InsuranceInvestment/insurance_investment_bloc.dart';
 import 'blocs/MFInvestments/mf_investments_bloc.dart';
@@ -39,6 +41,9 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Set Firebase Auth locale to prevent X-Firebase-Locale warning
+  await FirebaseLocaleHelper.ensureLocaleSet();
 
   // Set background message handler
   // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);

@@ -28,7 +28,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
   DateTime oldDate = DateTime(2000, 1, 1);
   String selectedPropertyType = 'Select Type';
   String selectedParkingType = 'Yes';
-  String selectedYear = '2022';
+  String selectedYear = '2025';
   final TextEditingController _carpetAreaController = TextEditingController();
   final TextEditingController _buildupAreaController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -106,7 +106,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: colorBG,
         appBar: AppBar(
           toolbarHeight: 8.h,
@@ -489,7 +489,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                               context, 'Select Parking Type', parkingTypes,
                               (val) {
                             setState(() {
-                              selectedPropertyType = val;
+                              selectedParkingType = val;
                               isPropertyFieldTap = false;
                               isCarpetAreaFieldTap = false;
                               isBuildupAreaFieldTap = false;
@@ -583,7 +583,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                           CommonFunction().selectFormDialog(
                               context, 'Select Year', yearList, (val) {
                             setState(() {
-                              selectedPropertyType = val;
+                              selectedYear = val;
                               isPropertyFieldTap = false;
                               isCarpetAreaFieldTap = false;
                               isBuildupAreaFieldTap = false;
