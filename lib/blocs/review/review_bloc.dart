@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
@@ -17,6 +19,10 @@ part 'review_state.dart';
 class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
   ReviewBloc() : super(ReviewInitial()) {
     on<CreateInsuranceReview>((event, emit) async {
+      // Guard against duplicate submissions while a request is in-flight
+      if (state is InsuranceReviewDataAdding) {
+        return;
+      }
       emit(InsuranceReviewDataAdding());
       await Future.delayed(const Duration(seconds: 3), () async {
         final insuranceReviewRepo = ReviewInsuranceRepository();
@@ -47,6 +53,10 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     });
 
     on<CreateMFReview>((event, emit) async {
+      // Guard against duplicate submissions while a request is in-flight
+      if (state is MFReviewDataAdding) {
+        return;
+      }
       emit(MFReviewDataAdding());
       await Future.delayed(const Duration(seconds: 3), () async {
         final mfReviewRepo = ReviewMFRepository();
@@ -69,7 +79,11 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     });
 
     on<CreateLoanReview>((event, emit) async {
-      emit(LoanReviewInitial());
+      // Guard against duplicate submissions while a request is in-flight
+      if (state is LoanReviewDataAdding) {
+        return;
+      }
+      emit(LoanReviewDataAdding());
       await Future.delayed(const Duration(seconds: 3), () async {
         final loanReviewRepo = ReviewLoanRepository();
 
@@ -97,19 +111,23 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     on<LoadReviewHistoryEvent>((event, emit) async {
       emit(ReviewHistoryInitial());
       try {
-        print('-=-------review history---${event.mobNo}');
+        log('-=-------review history---${event.mobNo}');
         final historyData = await FetchingApi().getReviewHistory(event.mobNo);
 
-        print('state emit success-----');
+        log('state emit success-----$historyData');
         emit(ReviewHistoryLoadedState(historyData));
       } catch (e) {
-        print('error------$e');
+        log('error------$e');
 
         emit(ReviewHistoryErrorState(e.toString()));
       }
     });
 
     on<UploadMFReview>((event, emit) async {
+      // Guard against duplicate submissions while a request is in-flight
+      if (state is UploadMFReviewDataAdding) {
+        return;
+      }
       emit(UploadMFReviewDataAdding());
       await Future.delayed(const Duration(seconds: 3), () async {
         final mfReviewRepo = ReviewMFRepository();
@@ -130,6 +148,10 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     });
 
     on<UploadStockReview>((event, emit) async {
+      // Guard against duplicate submissions while a request is in-flight
+      if (state is UploadStockReviewDataAdding) {
+        return;
+      }
       emit(UploadStockReviewDataAdding());
       await Future.delayed(const Duration(seconds: 3), () async {
         final stockReviewRepo = ReviewStockRepository();
@@ -138,13 +160,14 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
             await stockReviewRepo.uploadStockReview(
                 userId: event.userId,
                 requestType: event.requestType,
+                requestSubType: event.requestSubType,
                 panNumber: event.panNumber,
                 selectStockType: event.selectStockType,
                 uploadFilePath: event.uploadFilePath,
                 uploadFileName: event.uploadFileName);
 
-        print(
-            '--upload------mf--review--data--=---${stockReviewRepo.uploadStockReview(userId: event.userId, requestType: event.requestType, panNumber: event.panNumber, selectStockType: event.selectStockType, uploadFilePath: event.uploadFilePath, uploadFileName: event.uploadFileName)}');
+        // Log the response status only; do not re-trigger API call inside print
+        log('uploadStockReview status: \\${response.statusCode}');
 
         response.statusCode == 200
             ? emit(UploadStockDataAdded())
@@ -153,6 +176,10 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     });
 
     on<UploadRealEstateData>((event, emit) async {
+      // Guard against duplicate submissions while a request is in-flight
+      if (state is UploadRealEstateDataAdding) {
+        return;
+      }
       emit(UploadRealEstateDataAdding());
       await Future.delayed(const Duration(seconds: 3), () async {
         final realEstateRepo = RealEstateRepository();

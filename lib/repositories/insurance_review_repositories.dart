@@ -7,31 +7,34 @@ import '../core/api/api_consts.dart';
 import '../core/api/api_handler.dart';
 
 class ReviewInsuranceRepository {
-  setReviewInsurance(
-      {required String userid,
-      required String mobile,
-      required String company,
-      required String insurancetype,
-      required String insuranceSubType,
-      required String insuranceamount,
-      required String premium,
-      required String premiumterm,
-      required String renewaldate,
-      required String premiumPayingDate,
-      required String premiumPayingFrequency,
-      required String uploadFilePath,
-      required String uploadFileName}) async {
-    print(
-        "userid$userid----mobile$mobile------company$company-------insurancetype$insurancetype---------insuranceamount$insuranceamount-----");
-    print(
-        'premium$premium------------premiumterm$premiumterm-------renewaldate$renewaldate---------premiumPayingDate$premiumPayingDate-------premiumPayingFrequency$premiumPayingFrequency');
-    print(
-        "uploadFilePath$uploadFilePath---------uploadFileName$uploadFileName");
+  setReviewInsurance({
+    required String userid,
+    required String mobile,
+    required String company,
+    required String insurancetype,
+    required String insuranceSubType,
+    required String insuranceamount,
+    required String premium,
+    required String premiumterm,
+    required String renewaldate,
+    required String premiumPayingDate,
+    required String premiumPayingFrequency,
+    required String uploadFilePath,
+    required String uploadFileName,
+  }) async {
+    // print(
+    //     "userid$userid----mobile$mobile------company$company-------insurancetype$insurancetype---------insuranceamount$insuranceamount-----");
+    // print(
+    //     'premium$premium------------premiumterm$premiumterm-------renewaldate$renewaldate---------premiumPayingDate$premiumPayingDate-------premiumPayingFrequency$premiumPayingFrequency');
+    // print(
+    //     "uploadFilePath$uploadFilePath---------uploadFileName$uploadFileName");
 
     print("url------$setInsuranceReviewKey");
 
-    var request =
-        http.MultipartRequest('POST', Uri.parse(setInsuranceReviewKey));
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(setInsuranceReviewKey),
+    );
     request.fields.addAll({
       'userid': userid,
       'mobile': mobile,
@@ -43,15 +46,16 @@ class ReviewInsuranceRepository {
       'premiumterm': premiumterm,
       'renewalDate': renewaldate,
       'premiumPayingDate': premiumPayingDate,
-      'premiumPayingFrequency': premiumPayingFrequency
+      'premiumPayingFrequency': premiumPayingFrequency,
     });
-    request.files
-        .add(await http.MultipartFile.fromPath('PdfFile', uploadFilePath));
+    request.files.add(
+      await http.MultipartFile.fromPath('PdfFile', uploadFilePath),
+    );
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      print('Response:::::::---------${await response.stream.bytesToString()}');
       return response;
     } else {
       print(response.reasonPhrase);

@@ -161,6 +161,7 @@ class FetchingApi {
   }
 
   Future<ReviewHistory> getReviewHistory(String mobNo) async {
+    log("URL------------${getReviewHistoryUrl + mobNo}");
     final response = await http.get(Uri.parse(getReviewHistoryUrl + mobNo));
     if (response.statusCode == 200) {
       log('--ReviewHistory--statusCode----${response.statusCode}');
@@ -184,9 +185,15 @@ class FetchingApi {
   }
 
   Future<MGainLedger> getMGainLedger(
-      int mGainId, int accountId, String docType) async {
-    final response = await http.get(Uri.parse(
-        "$mGainLedgerUrl$mGainId&accountid=$accountId&docType=$docType"));
+    int mGainId,
+    int accountId,
+    String docType,
+  ) async {
+    final response = await http.get(
+      Uri.parse(
+        "$mGainLedgerUrl$mGainId&accountid=$accountId&docType=$docType",
+      ),
+    );
     if (response.statusCode == 200) {
       print('--MGainLedger--statusCode----${response.statusCode}');
       print('--MGainLedger--body----${response.body}');
@@ -210,14 +217,19 @@ class FetchingApi {
   }
 
   Future<InvestmentTransaction> getMFTransaction(
-      String userid,
-      // String folioNo,
-      String schemeName) async {
+    String userid,
+    // String folioNo,
+    String schemeName,
+  ) async {
     print(
-        '--getMFTransaction----URL--- $mfTransactionUrl$userid&schemename=${Uri.encodeComponent(schemeName)}');
+      '--getMFTransaction----URL--- $mfTransactionUrl$userid&schemename=${Uri.encodeComponent(schemeName)}',
+    );
     // &FolioNo=$folioNo
-    final response = await http.get(Uri.parse(
-        "$mfTransactionUrl$userid&schemename='${Uri.encodeComponent(schemeName)}'"));
+    final response = await http.get(
+      Uri.parse(
+        "$mfTransactionUrl$userid&schemename='${Uri.encodeComponent(schemeName)}'",
+      ),
+    );
     // &FolioNo='$folioNo'
     if (response.statusCode == 200) {
       print('--InvestmentTransaction--statusCode----${response.statusCode}');
@@ -229,11 +241,15 @@ class FetchingApi {
   }
 
   Future<StockInvestmentTransactionModel> getStockTransaction(
-      String userid, String stockName) async {
-    final response = await http
-        .get(Uri.parse("$stockTransactionUrl$userid&stockname='$stockName'"));
+    String userid,
+    String stockName,
+  ) async {
+    final response = await http.get(
+      Uri.parse("$stockTransactionUrl$userid&stockname='$stockName'"),
+    );
     print(
-        '--StockTransaction--URL----$stockTransactionUrl$userid&stockname=${Uri.encodeComponent(stockName)}');
+      '--StockTransaction--URL----$stockTransactionUrl$userid&stockname=${Uri.encodeComponent(stockName)}',
+    );
     if (response.statusCode == 200) {
       print('--StockTransaction--statusCode----${response.statusCode}');
       log('--StockTransaction--body----${response.body}');
@@ -244,30 +260,36 @@ class FetchingApi {
   }
 
   Future<CustomPayumoneyHashkeyModel> createPayumoneyHashKeyAPI(
-      String amount,
-      String txnid,
-      String email,
-      String productinfo,
-      String firstname,
-      String user_credentials) async {
-    print('--createPayumoneyHashKey----URL---' +
-        createPayUMoneyHashKeyUrl +
-        "&key=" +
-        merchantKey +
-        "&amount=" +
-        amount +
-        "&txnid" +
-        txnid +
-        "&email=" +
-        email +
-        "&productinfo=" +
-        productinfo +
-        "&firstname=" +
-        firstname +
-        "&user_credentials=" +
-        user_credentials);
-    final response = await http.get(Uri.parse(
-        "$createPayUMoneyHashKeyUrl&key=$merchantKey&amount=$amount&txnid=$txnid&email=$email&productinfo=$productinfo&firstname=$firstname&user_credentials=$user_credentials "));
+    String amount,
+    String txnid,
+    String email,
+    String productinfo,
+    String firstname,
+    String user_credentials,
+  ) async {
+    print(
+      '--createPayumoneyHashKey----URL---' +
+          createPayUMoneyHashKeyUrl +
+          "&key=" +
+          merchantKey +
+          "&amount=" +
+          amount +
+          "&txnid" +
+          txnid +
+          "&email=" +
+          email +
+          "&productinfo=" +
+          productinfo +
+          "&firstname=" +
+          firstname +
+          "&user_credentials=" +
+          user_credentials,
+    );
+    final response = await http.get(
+      Uri.parse(
+        "$createPayUMoneyHashKeyUrl&key=$merchantKey&amount=$amount&txnid=$txnid&email=$email&productinfo=$productinfo&firstname=$firstname&user_credentials=$user_credentials ",
+      ),
+    );
     if (response.statusCode == 200) {
       print('--createPayumoneyHashKey--statusCode----${response.statusCode}');
       log('--createPayumoneyHashKey--body----${response.body}');
@@ -290,16 +312,24 @@ class FetchingApi {
   }
 
   Future<InsuranceInvestment> getInsuranceInvestment(
-      String userid, int typeId, int subTypeId) async {
-    print('--InsuranceInvestment----URL---' +
-        insuranceDashboardUrl +
-        userid +
-        "&typeId=" +
-        typeId.toString() +
-        "&subTypeId=" +
-        subTypeId.toString());
-    final response = await http.get(Uri.parse(
-        "$insuranceDashboardUrl$userid&typeId=$typeId&subTypeId=$subTypeId"));
+    String userid,
+    int typeId,
+    int subTypeId,
+  ) async {
+    print(
+      '--InsuranceInvestment----URL---' +
+          insuranceDashboardUrl +
+          userid +
+          "&typeId=" +
+          typeId.toString() +
+          "&subTypeId=" +
+          subTypeId.toString(),
+    );
+    final response = await http.get(
+      Uri.parse(
+        "$insuranceDashboardUrl$userid&typeId=$typeId&subTypeId=$subTypeId",
+      ),
+    );
     if (response.statusCode == 200) {
       log('--InsuranceInvestment--statusCode----${response.statusCode}');
       log('--InsuranceInvestment--body----${response.body}');
@@ -355,10 +385,13 @@ class FetchingApi {
   }
 
   Future<GetGmailInboxModel> getGmailInboxAPI(String accessToken) async {
-    final response = await http.get(Uri.parse(getGmailInbox), headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $accessToken"
-    });
+    final response = await http.get(
+      Uri.parse(getGmailInbox),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $accessToken",
+      },
+    );
     if (response.statusCode == 200) {
       print('--getGmailInboxAPI--body----${response.body}');
       return getGmailInboxFromJson(response.body);
@@ -379,8 +412,9 @@ class FetchingApi {
   }
 
   Future<GetFyersAccessTokenModel> getFyersAccessTokenAPI() async {
-    final response =
-        await http.get(Uri.parse(getFyersAccessTokenUrl + ApiUser.userId));
+    final response = await http.get(
+      Uri.parse(getFyersAccessTokenUrl + ApiUser.userId),
+    );
     if (response.statusCode == 200) {
       print('--FyersAccessToken--statusCode----${response.statusCode}');
       print('--FyersAccessToken--body----${response.body}');
@@ -391,8 +425,10 @@ class FetchingApi {
   }
 
   Future<GetFyersHoldingsModel> getFyersHoldingsAPI(fyersAccessToken) async {
-    final response = await http.get(Uri.parse(getHoldingsUrl),
-        headers: {"Authorization": "$clientId:$fyersAccessToken"});
+    final response = await http.get(
+      Uri.parse(getHoldingsUrl),
+      headers: {"Authorization": "$clientId:$fyersAccessToken"},
+    );
     if (response.statusCode == 200) {
       print('--FyersHoldings--statusCode----${response.statusCode}');
       print('--FyersHoldings--body----${response.body}');
@@ -404,7 +440,8 @@ class FetchingApi {
 
   Future<GetBrokerHoldingModel> getBrokerHoldingData() async {
     final response = await http.get(
-        Uri.parse('${getBrokerholdingsUrl}?userid=${ApiUser.userId}        '));
+      Uri.parse('${getBrokerholdingsUrl}?userid=${ApiUser.userId}        '),
+    );
     // &brokerid=1
 
     print("response:::::::::::::::::::----${response.body}");
@@ -417,11 +454,14 @@ class FetchingApi {
   }
 
   Future getAngelHoldingsApi(angelAuthToken) async {
-    final response = await http.get(Uri.parse(getAngelHoldingsUrl), headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $angelAuthToken",
-      "X-PrivateKey": "$angelApiKey",
-    });
+    final response = await http.get(
+      Uri.parse(getAngelHoldingsUrl),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $angelAuthToken",
+        "X-PrivateKey": "$angelApiKey",
+      },
+    );
     if (response.statusCode == 200) {
       print('--AngelHoldings--statusCode----${response.statusCode}');
       print('--AngelHoldings--body----${response.body}');
@@ -432,15 +472,18 @@ class FetchingApi {
   }
 
   Future<GetIciciSessionTokenModel> getICICISessionTokenAPI(
-      String sessionToken) async {
+    String sessionToken,
+  ) async {
     var headers = {
       'Content-Type': 'application/json',
       'Cookie':
-          'AlteonAPI=ARAscsdBEKwE0ZMhhZageA\$\$; nginx_srv_id=f42f4592ab0c731e8c7a9c000e57162e'
+          'AlteonAPI=ARAscsdBEKwE0ZMhhZageA\$\$; nginx_srv_id=f42f4592ab0c731e8c7a9c000e57162e',
     };
     var request = http.Request('GET', Uri.parse(getICICISessionTokenUrl));
-    request.body =
-        json.encode({"SessionToken": sessionToken, "AppKey": iCICIApiKey});
+    request.body = json.encode({
+      "SessionToken": sessionToken,
+      "AppKey": iCICIApiKey,
+    });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -450,7 +493,8 @@ class FetchingApi {
     }
 
     return getIciciSessionTokenModelFromJson(
-        response.stream.bytesToString().toString());
+      response.stream.bytesToString().toString(),
+    );
   }
 
   // Map<String, dynamic> body = {};
@@ -496,7 +540,8 @@ class FetchingApi {
   }
 
   Future<GetIciciHoldingDataModel> getICICIHoldingApi(
-      String sessionToken) async {
+    String sessionToken,
+  ) async {
     // String checksum = calculateChecksum(jsonEncode(body));
     // Map<String, dynamic> payload = {};
     // String jsonString = jsonEncode(payload);
@@ -525,7 +570,7 @@ class FetchingApi {
       'X-AppKey': iCICIApiKey,
       'X-SessionToken': sessionToken,
       'Cookie':
-          'AlteonAPI=AQPAdcdBEKw8FidzbhB5Ag\$\$; nginx_srv_id=bb517a54ab62dcf93e3ed6ba1191b7a1'
+          'AlteonAPI=AQPAdcdBEKw8FidzbhB5Ag\$\$; nginx_srv_id=bb517a54ab62dcf93e3ed6ba1191b7a1',
     };
     var request = http.Request('GET', Uri.parse(getICICIHoldingUrl));
     request.body = json.encode({});
@@ -541,7 +586,8 @@ class FetchingApi {
     }
 
     return getIciciHoldingDataModelFromJson(
-        response.stream.bytesToString().toString());
+      response.stream.bytesToString().toString(),
+    );
 
     // try {
     //   // Calculate checksum

@@ -73,10 +73,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     'Investing',
   ];
 
-  List<String> parkingTypes = [
-    'Yes',
-    'No',
-  ];
+  List<String> parkingTypes = ['Yes', 'No'];
 
   List<String> yearList = [];
   bool isSubmit = false;
@@ -114,60 +111,67 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           elevation: 0,
           leadingWidth: 15.w,
           leading: IconButton(
-              onPressed: () {
-                if (step == 1) {
-                  Navigator.of(context).pop();
-                }
-                if (step == 2) {
-                  setState(() {
-                    step--;
-                  });
-                }
-              },
-              icon: Image.asset(icBack, color: colorRed, width: 6.w)),
+            onPressed: () {
+              if (step == 1) {
+                Navigator.of(context).pop();
+              }
+              if (step == 2) {
+                setState(() {
+                  step--;
+                });
+              }
+            },
+            icon: Image.asset(icBack, color: colorRed, width: 6.w),
+          ),
           titleSpacing: 0,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(step == 1 ? 'Add Real Estate' : 'Add Real Estate',
-                  style: textStyle12Bold(colorBlack)),
+              Text(
+                step == 1 ? 'Add Real Estate' : 'Add Real Estate',
+                style: textStyle12Bold(colorBlack),
+              ),
               SizedBox(height: 0.5.h),
               Text('Step $step', style: textStyle8(colorText7070)),
             ],
           ),
           actions: [
             AppBarButton(
-                splashColor: colorWhite,
-                bgColor: colorF3F3,
-                icon: icNotification,
-                iconColor: colorText7070,
-                onClick: () {}),
+              splashColor: colorWhite,
+              bgColor: colorF3F3,
+              icon: icNotification,
+              iconColor: colorText7070,
+              onClick: () {},
+            ),
             SizedBox(width: 2.w),
             AppBarButton(
-                splashColor: colorWhite,
-                bgColor: colorF3F3,
-                icon: icProfile,
-                iconColor: colorText7070,
-                onClick: () {
-                  Navigator.of(context).pushNamed(ProfileScreen.route);
-                }),
-            SizedBox(width: 5.w)
+              splashColor: colorWhite,
+              bgColor: colorF3F3,
+              icon: icProfile,
+              iconColor: colorText7070,
+              onClick: () {
+                Navigator.of(context).pushNamed(ProfileScreen.route);
+              },
+            ),
+            SizedBox(width: 5.w),
           ],
           bottom: PreferredSize(
-              preferredSize: Size(100.w, 0.6.h),
-              child: Stack(
-                children: [
-                  Container(height: 0.6.h, width: 100.w, color: colorRedFFC),
-                  Container(
-                      height: 0.6.h,
-                      width: step == 1
-                          ? 100.w / 2
-                          : step == 2
-                              ? (100.w / 2) * 2
-                              : (100.w / 2) * 2,
-                      color: colorRed),
-                ],
-              )),
+            preferredSize: Size(100.w, 0.6.h),
+            child: Stack(
+              children: [
+                Container(height: 0.6.h, width: 100.w, color: colorRedFFC),
+                Container(
+                  height: 0.6.h,
+                  width: step == 1
+                      ? 100.w / 2
+                      : step == 2
+                      ? (100.w / 2) * 2
+                      : (100.w / 2) * 2,
+                  color: colorRed,
+                ),
+              ],
+            ),
+          ),
         ),
         body: WillPopScope(
           onWillPop: () async {
@@ -187,10 +191,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (step == 1) step1(),
-                  if (step == 2) step2(),
-                ],
+                children: [if (step == 1) step1(), if (step == 2) step2()],
               ),
             ),
           ),
@@ -210,36 +211,20 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 4.h),
-                  child: Text('What kind of place are\nyour listing?',
-                      textAlign: TextAlign.center,
-                      style:
-                          textStyle20Bold(colorBlack).copyWith(height: 1.33)),
+                  child: Text(
+                    'What kind of place are\nyour listing?',
+                    textAlign: TextAlign.center,
+                    style: textStyle20Bold(colorBlack).copyWith(height: 1.33),
+                  ),
                 ),
-                dropDownWidget('Choose a property type', selectedPropertyType,
-                    isPropertyFieldTap, () {
-                  setState(() {
-                    isPropertyFieldTap = true;
-                    isCarpetAreaFieldTap = false;
-                    isBuildupAreaFieldTap = false;
-                    isLocationFieldTap = false;
-                    isProjectNameFieldTap = false;
-                    isParkingFieldTap = false;
-                    isFacingFieldTap = false;
-                    isYearFieldTap = false;
-                    isPriceFieldTap = false;
-                  });
-                  carpetAreaFocus.unfocus();
-                  buildAreaFocus.unfocus();
-                  locationFocus.unfocus();
-                  projectNameFocus.unfocus();
-                  facingFocus.unfocus();
-                  priceFocus.unfocus();
-                  CommonFunction().selectFormDialog(
-                      context, 'Select Property Type', propertyTypes, (val) {
+                dropDownWidget(
+                  'Choose a property type',
+                  selectedPropertyType,
+                  isPropertyFieldTap,
+                  () {
                     setState(() {
-                      selectedPropertyType = val;
-                      isPropertyFieldTap = false;
-                      isCarpetAreaFieldTap = true;
+                      isPropertyFieldTap = true;
+                      isCarpetAreaFieldTap = false;
                       isBuildupAreaFieldTap = false;
                       isLocationFieldTap = false;
                       isProjectNameFieldTap = false;
@@ -248,14 +233,36 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       isYearFieldTap = false;
                       isPriceFieldTap = false;
                     });
-                    carpetAreaFocus.requestFocus();
-                    Navigator.of(context).pop();
-                  });
-                }),
-                if (propertyValidation.isNotEmpty)
-                  SizedBox(
-                    height: 0.5.h,
-                  ),
+                    carpetAreaFocus.unfocus();
+                    buildAreaFocus.unfocus();
+                    locationFocus.unfocus();
+                    projectNameFocus.unfocus();
+                    facingFocus.unfocus();
+                    priceFocus.unfocus();
+                    CommonFunction().selectFormDialog(
+                      context,
+                      'Select Property Type',
+                      propertyTypes,
+                      (val) {
+                        setState(() {
+                          selectedPropertyType = val;
+                          isPropertyFieldTap = false;
+                          isCarpetAreaFieldTap = true;
+                          isBuildupAreaFieldTap = false;
+                          isLocationFieldTap = false;
+                          isProjectNameFieldTap = false;
+                          isParkingFieldTap = false;
+                          isFacingFieldTap = false;
+                          isYearFieldTap = false;
+                          isPriceFieldTap = false;
+                        });
+                        carpetAreaFocus.requestFocus();
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  },
+                ),
+                if (propertyValidation.isNotEmpty) SizedBox(height: 0.5.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -264,14 +271,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                         ? Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(Icons.error,
-                                  color: colorRed, size: 13),
+                              const Icon(
+                                Icons.error,
+                                color: colorRed,
+                                size: 13,
+                              ),
                               const SizedBox(width: 4),
                               Container(
                                 height: 2.h,
                                 alignment: Alignment.center,
-                                child: Text('Please Select Property Type',
-                                    style: textStyle9(colorErrorRed)),
+                                child: Text(
+                                  'Please Select Property Type',
+                                  style: textStyle9(colorErrorRed),
+                                ),
                               ),
                             ],
                           )
@@ -285,25 +297,29 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        textFormFieldContainer('Carpet Area Sq. Ft',
-                            'Enter Sq. Ft Area', isCarpetAreaFieldTap, () {
-                          setState(() {
-                            isPropertyFieldTap = false;
-                            isCarpetAreaFieldTap = true;
-                            isBuildupAreaFieldTap = false;
-                            isLocationFieldTap = false;
-                            isProjectNameFieldTap = false;
-                            isParkingFieldTap = false;
-                            isFacingFieldTap = false;
-                            isYearFieldTap = false;
-                            isPriceFieldTap = false;
-                          });
-                          carpetAreaFocus.requestFocus();
-                        }, _carpetAreaController, TextInputType.number),
+                        textFormFieldContainer(
+                          'Carpet Area Sq. Ft',
+                          'Enter Sq. Ft Area',
+                          isCarpetAreaFieldTap,
+                          () {
+                            setState(() {
+                              isPropertyFieldTap = false;
+                              isCarpetAreaFieldTap = true;
+                              isBuildupAreaFieldTap = false;
+                              isLocationFieldTap = false;
+                              isProjectNameFieldTap = false;
+                              isParkingFieldTap = false;
+                              isFacingFieldTap = false;
+                              isYearFieldTap = false;
+                              isPriceFieldTap = false;
+                            });
+                            carpetAreaFocus.requestFocus();
+                          },
+                          _carpetAreaController,
+                          TextInputType.number,
+                        ),
                         if (carpetAreaValidation.isNotEmpty)
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
+                          SizedBox(height: 0.5.h),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -313,14 +329,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.error,
-                                          color: colorRed, size: 13),
+                                      const Icon(
+                                        Icons.error,
+                                        color: colorRed,
+                                        size: 13,
+                                      ),
                                       const SizedBox(width: 4),
                                       Container(
                                         height: 2.h,
                                         alignment: Alignment.center,
-                                        child: Text('Please Enter a Value',
-                                            style: textStyle9(colorErrorRed)),
+                                        child: Text(
+                                          'Please Enter a Value',
+                                          style: textStyle9(colorErrorRed),
+                                        ),
                                       ),
                                     ],
                                   )
@@ -332,25 +353,29 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        textFormFieldContainer('Super Builtup Area Sq. Ft',
-                            'Enter Sq. Ft Area', isBuildupAreaFieldTap, () {
-                          setState(() {
-                            isPropertyFieldTap = false;
-                            isCarpetAreaFieldTap = false;
-                            isBuildupAreaFieldTap = true;
-                            isLocationFieldTap = false;
-                            isProjectNameFieldTap = false;
-                            isParkingFieldTap = false;
-                            isFacingFieldTap = false;
-                            isYearFieldTap = false;
-                            isPriceFieldTap = false;
-                          });
-                          buildAreaFocus.requestFocus();
-                        }, _buildupAreaController, TextInputType.number),
+                        textFormFieldContainer(
+                          'Super Builtup Area Sq. Ft',
+                          'Enter Sq. Ft Area',
+                          isBuildupAreaFieldTap,
+                          () {
+                            setState(() {
+                              isPropertyFieldTap = false;
+                              isCarpetAreaFieldTap = false;
+                              isBuildupAreaFieldTap = true;
+                              isLocationFieldTap = false;
+                              isProjectNameFieldTap = false;
+                              isParkingFieldTap = false;
+                              isFacingFieldTap = false;
+                              isYearFieldTap = false;
+                              isPriceFieldTap = false;
+                            });
+                            buildAreaFocus.requestFocus();
+                          },
+                          _buildupAreaController,
+                          TextInputType.number,
+                        ),
                         if (buildupAreaValidation.isNotEmpty)
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
+                          SizedBox(height: 0.5.h),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -360,14 +385,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.error,
-                                          color: colorRed, size: 13),
+                                      const Icon(
+                                        Icons.error,
+                                        color: colorRed,
+                                        size: 13,
+                                      ),
                                       const SizedBox(width: 4),
                                       Container(
                                         height: 2.h,
                                         alignment: Alignment.center,
-                                        child: Text('Please Enter a Value',
-                                            style: textStyle9(colorErrorRed)),
+                                        child: Text(
+                                          'Please Enter a Value',
+                                          style: textStyle9(colorErrorRed),
+                                        ),
                                       ),
                                     ],
                                   )
@@ -379,24 +409,27 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   ],
                 ),
                 textFormFieldContainer(
-                    'Location', 'Enter your location', isLocationFieldTap, () {
-                  setState(() {
-                    isPropertyFieldTap = false;
-                    isCarpetAreaFieldTap = false;
-                    isBuildupAreaFieldTap = false;
-                    isLocationFieldTap = true;
-                    isProjectNameFieldTap = false;
-                    isParkingFieldTap = false;
-                    isFacingFieldTap = false;
-                    isYearFieldTap = false;
-                    isPriceFieldTap = false;
-                  });
-                  locationFocus.requestFocus();
-                }, _locationController, TextInputType.streetAddress),
-                if (locationValidation.isNotEmpty)
-                  SizedBox(
-                    height: 0.5.h,
-                  ),
+                  'Location',
+                  'Enter your location',
+                  isLocationFieldTap,
+                  () {
+                    setState(() {
+                      isPropertyFieldTap = false;
+                      isCarpetAreaFieldTap = false;
+                      isBuildupAreaFieldTap = false;
+                      isLocationFieldTap = true;
+                      isProjectNameFieldTap = false;
+                      isParkingFieldTap = false;
+                      isFacingFieldTap = false;
+                      isYearFieldTap = false;
+                      isPriceFieldTap = false;
+                    });
+                    locationFocus.requestFocus();
+                  },
+                  _locationController,
+                  TextInputType.streetAddress,
+                ),
+                if (locationValidation.isNotEmpty) SizedBox(height: 0.5.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -405,39 +438,47 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                         ? Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(Icons.error,
-                                  color: colorRed, size: 13),
+                              const Icon(
+                                Icons.error,
+                                color: colorRed,
+                                size: 13,
+                              ),
                               const SizedBox(width: 4),
                               Container(
                                 height: 2.h,
                                 alignment: Alignment.center,
-                                child: Text('Please Enter a Location',
-                                    style: textStyle9(colorErrorRed)),
+                                child: Text(
+                                  'Please Enter a Location',
+                                  style: textStyle9(colorErrorRed),
+                                ),
                               ),
                             ],
                           )
                         : Container(),
                   ),
                 ),
-                textFormFieldContainer('Project Name',
-                    'Enter your Project Name', isProjectNameFieldTap, () {
-                  setState(() {
-                    isPropertyFieldTap = false;
-                    isCarpetAreaFieldTap = false;
-                    isBuildupAreaFieldTap = false;
-                    isLocationFieldTap = false;
-                    isProjectNameFieldTap = true;
-                    isParkingFieldTap = false;
-                    isFacingFieldTap = false;
-                    isYearFieldTap = false;
-                    isPriceFieldTap = false;
-                  });
-                  projectNameFocus.requestFocus();
-                }, _projectNameController, TextInputType.name),
-                if (projectNameValidation.isNotEmpty)
-                  SizedBox(
-                    height: 0.5.h,
-                  ),
+                textFormFieldContainer(
+                  'Project Name',
+                  'Enter your Project Name',
+                  isProjectNameFieldTap,
+                  () {
+                    setState(() {
+                      isPropertyFieldTap = false;
+                      isCarpetAreaFieldTap = false;
+                      isBuildupAreaFieldTap = false;
+                      isLocationFieldTap = false;
+                      isProjectNameFieldTap = true;
+                      isParkingFieldTap = false;
+                      isFacingFieldTap = false;
+                      isYearFieldTap = false;
+                      isPriceFieldTap = false;
+                    });
+                    projectNameFocus.requestFocus();
+                  },
+                  _projectNameController,
+                  TextInputType.name,
+                ),
+                if (projectNameValidation.isNotEmpty) SizedBox(height: 0.5.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -446,14 +487,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                         ? Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(Icons.error,
-                                  color: colorRed, size: 13),
+                              const Icon(
+                                Icons.error,
+                                color: colorRed,
+                                size: 13,
+                              ),
                               const SizedBox(width: 4),
                               Container(
                                 height: 2.h,
                                 alignment: Alignment.center,
-                                child: Text('Please Enter a Project Name',
-                                    style: textStyle9(colorErrorRed)),
+                                child: Text(
+                                  'Please Enter a Project Name',
+                                  style: textStyle9(colorErrorRed),
+                                ),
                               ),
                             ],
                           )
@@ -466,32 +512,64 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   children: [
                     Column(
                       children: [
-                        dropDownWidget('Car Parking', selectedParkingType,
-                            isParkingFieldTap, () {
-                          setState(() {
-                            isPropertyFieldTap = false;
-                            isCarpetAreaFieldTap = false;
-                            isBuildupAreaFieldTap = false;
-                            isLocationFieldTap = false;
-                            isProjectNameFieldTap = false;
-                            isParkingFieldTap = true;
-                            isFacingFieldTap = false;
-                            isYearFieldTap = false;
-                            isPriceFieldTap = false;
-                          });
-                          carpetAreaFocus.unfocus();
-                          buildAreaFocus.unfocus();
-                          locationFocus.unfocus();
-                          projectNameFocus.unfocus();
-                          facingFocus.unfocus();
-                          priceFocus.unfocus();
-                          CommonFunction().selectFormDialog(
-                              context, 'Select Parking Type', parkingTypes,
-                              (val) {
+                        dropDownWidget(
+                          'Car Parking',
+                          selectedParkingType,
+                          isParkingFieldTap,
+                          () {
                             setState(() {
-                              selectedParkingType = val;
                               isPropertyFieldTap = false;
                               isCarpetAreaFieldTap = false;
+                              isBuildupAreaFieldTap = false;
+                              isLocationFieldTap = false;
+                              isProjectNameFieldTap = false;
+                              isParkingFieldTap = true;
+                              isFacingFieldTap = false;
+                              isYearFieldTap = false;
+                              isPriceFieldTap = false;
+                            });
+                            carpetAreaFocus.unfocus();
+                            buildAreaFocus.unfocus();
+                            locationFocus.unfocus();
+                            projectNameFocus.unfocus();
+                            facingFocus.unfocus();
+                            priceFocus.unfocus();
+                            CommonFunction().selectFormDialog(
+                              context,
+                              'Select Parking Type',
+                              parkingTypes,
+                              (val) {
+                                setState(() {
+                                  selectedParkingType = val;
+                                  isPropertyFieldTap = false;
+                                  isCarpetAreaFieldTap = false;
+                                  isBuildupAreaFieldTap = false;
+                                  isLocationFieldTap = false;
+                                  isProjectNameFieldTap = false;
+                                  isParkingFieldTap = false;
+                                  isFacingFieldTap = true;
+                                  isYearFieldTap = false;
+                                  isPriceFieldTap = false;
+                                });
+                                facingFocus.requestFocus();
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        textFormFieldContainer(
+                          'Facing',
+                          'Enter Facing',
+                          isFacingFieldTap,
+                          () {
+                            setState(() {
+                              isCarpetAreaFieldTap = false;
+                              isPropertyFieldTap = false;
                               isBuildupAreaFieldTap = false;
                               isLocationFieldTap = false;
                               isProjectNameFieldTap = false;
@@ -501,33 +579,12 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                               isPriceFieldTap = false;
                             });
                             facingFocus.requestFocus();
-                            Navigator.of(context).pop();
-                          });
-                        }),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        textFormFieldContainer(
-                            'Facing', 'Enter Facing', isFacingFieldTap, () {
-                          setState(() {
-                            isCarpetAreaFieldTap = false;
-                            isPropertyFieldTap = false;
-                            isBuildupAreaFieldTap = false;
-                            isLocationFieldTap = false;
-                            isProjectNameFieldTap = false;
-                            isParkingFieldTap = false;
-                            isFacingFieldTap = true;
-                            isYearFieldTap = false;
-                            isPriceFieldTap = false;
-                          });
-                          facingFocus.requestFocus();
-                        }, _facingController, TextInputType.text),
+                          },
+                          _facingController,
+                          TextInputType.text,
+                        ),
                         if (facingValidation.isNotEmpty)
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
+                          SizedBox(height: 0.5.h),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -537,14 +594,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.error,
-                                          color: colorRed, size: 13),
+                                      const Icon(
+                                        Icons.error,
+                                        color: colorRed,
+                                        size: 13,
+                                      ),
                                       const SizedBox(width: 4),
                                       Container(
                                         height: 2.h,
                                         alignment: Alignment.center,
-                                        child: Text('Please Enter a Facing',
-                                            style: textStyle9(colorErrorRed)),
+                                        child: Text(
+                                          'Please Enter a Facing',
+                                          style: textStyle9(colorErrorRed),
+                                        ),
                                       ),
                                     ],
                                   )
@@ -552,7 +614,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 Row(
@@ -562,28 +624,61 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     Column(
                       children: [
                         dropDownWidget(
-                            'Select Year', selectedYear, isYearFieldTap, () {
-                          setState(() {
-                            isPropertyFieldTap = false;
-                            isCarpetAreaFieldTap = false;
-                            isBuildupAreaFieldTap = false;
-                            isLocationFieldTap = false;
-                            isProjectNameFieldTap = false;
-                            isParkingFieldTap = false;
-                            isFacingFieldTap = false;
-                            isYearFieldTap = true;
-                            isPriceFieldTap = false;
-                          });
-                          carpetAreaFocus.unfocus();
-                          buildAreaFocus.unfocus();
-                          locationFocus.unfocus();
-                          projectNameFocus.unfocus();
-                          facingFocus.unfocus();
-                          priceFocus.unfocus();
-                          CommonFunction().selectFormDialog(
-                              context, 'Select Year', yearList, (val) {
+                          'Select Year',
+                          selectedYear,
+                          isYearFieldTap,
+                          () {
                             setState(() {
-                              selectedYear = val;
+                              isPropertyFieldTap = false;
+                              isCarpetAreaFieldTap = false;
+                              isBuildupAreaFieldTap = false;
+                              isLocationFieldTap = false;
+                              isProjectNameFieldTap = false;
+                              isParkingFieldTap = false;
+                              isFacingFieldTap = false;
+                              isYearFieldTap = true;
+                              isPriceFieldTap = false;
+                            });
+                            carpetAreaFocus.unfocus();
+                            buildAreaFocus.unfocus();
+                            locationFocus.unfocus();
+                            projectNameFocus.unfocus();
+                            facingFocus.unfocus();
+                            priceFocus.unfocus();
+                            CommonFunction().selectFormDialog(
+                              context,
+                              'Select Year',
+                              yearList,
+                              (val) {
+                                setState(() {
+                                  selectedYear = val;
+                                  isPropertyFieldTap = false;
+                                  isCarpetAreaFieldTap = false;
+                                  isBuildupAreaFieldTap = false;
+                                  isLocationFieldTap = false;
+                                  isProjectNameFieldTap = false;
+                                  isParkingFieldTap = false;
+                                  isFacingFieldTap = false;
+                                  isYearFieldTap = false;
+                                  isPriceFieldTap = true;
+                                });
+                                priceFocus.requestFocus();
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        textFormFieldContainer(
+                          'Price',
+                          'Enter Price',
+                          isPriceFieldTap,
+                          () {
+                            setState(() {
                               isPropertyFieldTap = false;
                               isCarpetAreaFieldTap = false;
                               isBuildupAreaFieldTap = false;
@@ -595,33 +690,11 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                               isPriceFieldTap = true;
                             });
                             priceFocus.requestFocus();
-                            Navigator.of(context).pop();
-                          });
-                        }),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        textFormFieldContainer(
-                            'Price', 'Enter Price', isPriceFieldTap, () {
-                          setState(() {
-                            isPropertyFieldTap = false;
-                            isCarpetAreaFieldTap = false;
-                            isBuildupAreaFieldTap = false;
-                            isLocationFieldTap = false;
-                            isProjectNameFieldTap = false;
-                            isParkingFieldTap = false;
-                            isFacingFieldTap = false;
-                            isYearFieldTap = false;
-                            isPriceFieldTap = true;
-                          });
-                          priceFocus.requestFocus();
-                        }, _priceController, TextInputType.number),
-                        if (priceValidation.isNotEmpty)
-                          SizedBox(
-                            height: 0.5.h,
-                          ),
+                          },
+                          _priceController,
+                          TextInputType.number,
+                        ),
+                        if (priceValidation.isNotEmpty) SizedBox(height: 0.5.h),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -631,14 +704,19 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.error,
-                                          color: colorRed, size: 13),
+                                      const Icon(
+                                        Icons.error,
+                                        color: colorRed,
+                                        size: 13,
+                                      ),
                                       const SizedBox(width: 4),
                                       Container(
                                         height: 2.h,
                                         alignment: Alignment.center,
-                                        child: Text('Please Enter a Price',
-                                            style: textStyle9(colorErrorRed)),
+                                        child: Text(
+                                          'Please Enter a Price',
+                                          style: textStyle9(colorErrorRed),
+                                        ),
                                       ),
                                     ],
                                   )
@@ -646,7 +724,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 3.h),
@@ -654,83 +732,84 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 2.5.h),
-              child: button('NEXT', () {
-                if (selectedPropertyType == 'Select Type') {
-                  setState(() {
-                    propertyValidation = 'Empty Property';
-                  });
-                } else {
-                  setState(() {
-                    propertyValidation = '';
-                  });
-                }
-                if (_carpetAreaController.text.isEmpty) {
-                  setState(() {
-                    carpetAreaValidation = 'Empty Carpet Area';
-                  });
-                } else {
-                  setState(() {
-                    carpetAreaValidation = '';
-                  });
-                }
-                if (_buildupAreaController.text.isEmpty) {
-                  setState(() {
-                    buildupAreaValidation = 'Empty Buildup Area';
-                  });
-                } else {
-                  setState(() {
-                    buildupAreaValidation = '';
-                  });
-                }
-                if (_locationController.text.isEmpty) {
-                  setState(() {
-                    locationValidation = 'Empty Location';
-                  });
-                } else {
-                  setState(() {
-                    locationValidation = '';
-                  });
-                }
-                if (_projectNameController.text.isEmpty) {
-                  setState(() {
-                    projectNameValidation = 'Empty Project Name';
-                  });
-                } else {
-                  setState(() {
-                    projectNameValidation = '';
-                  });
-                }
-                if (_facingController.text.isEmpty) {
-                  setState(() {
-                    facingValidation = 'Empty Facing';
-                  });
-                } else {
-                  setState(() {
-                    facingValidation = '';
-                  });
-                }
-                if (_priceController.text.isEmpty) {
-                  setState(() {
-                    priceValidation = 'Empty Price';
-                  });
-                } else {
-                  setState(() {
-                    priceValidation = '';
-                  });
-                }
-                if (selectedPropertyType != 'Select Type' &&
-                    _carpetAreaController.text.isNotEmpty &&
-                    _buildupAreaController.text.isNotEmpty &&
-                    _locationController.text.isNotEmpty &&
-                    _projectNameController.text.isNotEmpty &&
-                    _facingController.text.isNotEmpty &&
-                    _priceController.text.isNotEmpty) {
-                  setState(() {
-                    step++;
-                  });
-                }
-              }))
+            padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 2.5.h),
+            child: button('NEXT', () {
+              if (selectedPropertyType == 'Select Type') {
+                setState(() {
+                  propertyValidation = 'Empty Property';
+                });
+              } else {
+                setState(() {
+                  propertyValidation = '';
+                });
+              }
+              if (_carpetAreaController.text.isEmpty) {
+                setState(() {
+                  carpetAreaValidation = 'Empty Carpet Area';
+                });
+              } else {
+                setState(() {
+                  carpetAreaValidation = '';
+                });
+              }
+              if (_buildupAreaController.text.isEmpty) {
+                setState(() {
+                  buildupAreaValidation = 'Empty Buildup Area';
+                });
+              } else {
+                setState(() {
+                  buildupAreaValidation = '';
+                });
+              }
+              if (_locationController.text.isEmpty) {
+                setState(() {
+                  locationValidation = 'Empty Location';
+                });
+              } else {
+                setState(() {
+                  locationValidation = '';
+                });
+              }
+              if (_projectNameController.text.isEmpty) {
+                setState(() {
+                  projectNameValidation = 'Empty Project Name';
+                });
+              } else {
+                setState(() {
+                  projectNameValidation = '';
+                });
+              }
+              if (_facingController.text.isEmpty) {
+                setState(() {
+                  facingValidation = 'Empty Facing';
+                });
+              } else {
+                setState(() {
+                  facingValidation = '';
+                });
+              }
+              if (_priceController.text.isEmpty) {
+                setState(() {
+                  priceValidation = 'Empty Price';
+                });
+              } else {
+                setState(() {
+                  priceValidation = '';
+                });
+              }
+              if (selectedPropertyType != 'Select Type' &&
+                  _carpetAreaController.text.isNotEmpty &&
+                  _buildupAreaController.text.isNotEmpty &&
+                  _locationController.text.isNotEmpty &&
+                  _projectNameController.text.isNotEmpty &&
+                  _facingController.text.isNotEmpty &&
+                  _priceController.text.isNotEmpty) {
+                setState(() {
+                  step++;
+                });
+              }
+            }),
+          ),
         ],
       ),
     );
@@ -756,9 +835,13 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
           ).show();
         } else if (state is UploadRealEstateDataAdded) {
           Navigator.of(context).pushNamedAndRemoveUntil(
-              HomeScreen.route, (route) => false,
-              arguments: HomeScreenData(
-                  acceptedContacts: '', isSendReview: 'SubmitRealEstate'));
+            HomeScreen.route,
+            (route) => false,
+            arguments: HomeScreenData(
+              acceptedContacts: '',
+              isSendReview: 'SubmitRealEstate',
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -768,9 +851,11 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.h),
-                child: Text('Upload listing photo',
-                    textAlign: TextAlign.center,
-                    style: textStyle20Bold(colorBlack).copyWith(height: 1.33)),
+                child: Text(
+                  'Upload listing photo',
+                  textAlign: TextAlign.center,
+                  style: textStyle20Bold(colorBlack).copyWith(height: 1.33),
+                ),
               ),
               DottedBorder(
                 borderType: BorderType.RRect,
@@ -783,20 +868,24 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   height: (20.h * 2) + 40,
                   width: 90.w,
                   decoration: BoxDecoration(
-                      color: colorWhite,
-                      borderRadius: BorderRadius.circular(10)),
+                    color: colorWhite,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   alignment: Alignment.center,
                   child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 4.w,
+                      vertical: 2.h,
+                    ),
                     child: MultiImagePickerView(
                       controller: imageController,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10),
+                            crossAxisCount: 2,
+                            childAspectRatio: 1,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
                       initialContainerBuilder: (context, pickerCallback) {
                         return GestureDetector(
                           onTap: pickerCallback,
@@ -810,16 +899,22 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                             child: Container(
                               height: 6.h,
                               decoration: BoxDecoration(
-                                  color: colorWhite,
-                                  borderRadius: BorderRadius.circular(10)),
+                                color: colorWhite,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset(icUpload,
-                                      color: colorRed, width: 5.w),
+                                  Image.asset(
+                                    icUpload,
+                                    color: colorRed,
+                                    width: 5.w,
+                                  ),
                                   SizedBox(width: 2.w),
-                                  Text('Upload Photos',
-                                      style: textStyle11Bold(colorText7070))
+                                  Text(
+                                    'Upload Photos',
+                                    style: textStyle11Bold(colorText7070),
+                                  ),
                                 ],
                               ),
                             ),
@@ -828,7 +923,9 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       },
                       itemBuilder: (context, image, removeCallback) {
                         return ImageCard(
-                            file: image, deleteCallback: removeCallback);
+                          file: image,
+                          deleteCallback: removeCallback,
+                        );
                       },
                       addMoreBuilder: (context, pickerCallback) {
                         return Padding(
@@ -845,18 +942,24 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                               child: Container(
                                 // height: 6.h,
                                 decoration: BoxDecoration(
-                                    color: colorWhite,
-                                    borderRadius: BorderRadius.circular(10)),
+                                  color: colorWhite,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                                 alignment: Alignment.center,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image.asset(icUpload,
-                                        color: colorRed, width: 5.w),
+                                    Image.asset(
+                                      icUpload,
+                                      color: colorRed,
+                                      width: 5.w,
+                                    ),
                                     SizedBox(width: 2.w),
-                                    Text('Upload Photos',
-                                        style: textStyle11Bold(colorText7070))
+                                    Text(
+                                      'Upload Photos',
+                                      style: textStyle11Bold(colorText7070),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -865,7 +968,8 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                         );
                       },
                       onDragBoxDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       onChange: (images) {
                         if (images.isNotEmpty) {
                           setState(() {
@@ -878,10 +982,7 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                   ),
                 ),
               ),
-              if (imgValidation.isNotEmpty)
-                SizedBox(
-                  height: 0.5.h,
-                ),
+              if (imgValidation.isNotEmpty) SizedBox(height: 0.5.h),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -895,8 +996,10 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                             Container(
                               height: 2.h,
                               alignment: Alignment.center,
-                              child: Text('Please Select an Images',
-                                  style: textStyle9(colorErrorRed)),
+                              child: Text(
+                                'Please Select an Images',
+                                style: textStyle9(colorErrorRed),
+                              ),
                             ),
                           ],
                         )
@@ -904,40 +1007,43 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(top: 5.h, bottom: 2.5.h),
-                  child: button('SUBMIT', () {
-                    for (var image in imageController.images) {
-                      propertyImages.add(image.path!);
-                    }
-                    if (propertyImages.isEmpty) {
-                      setState(() {
-                        imgValidation = 'Empty Images';
-                      });
-                    } else {
-                      setState(() {
-                        imgValidation = '';
-                      });
-                    }
-                    if (propertyImages.isNotEmpty) {
-                      setState(() {
-                        isSubmit = true;
-                      });
-                      print('----==----pathList-=---$propertyImages');
-                      BlocProvider.of<ReviewBloc>(context).add(
-                          UploadRealEstateData(
-                              propertyType: selectedPropertyType,
-                              carpetArea: _carpetAreaController.text.trim(),
-                              BuiltUpArea: _buildupAreaController.text.trim(),
-                              Location: _locationController.text.trim(),
-                              ProjectName: _projectNameController.text.trim(),
-                              carParking: selectedParkingType,
-                              enterFacing: _facingController.text.trim(),
-                              Price: _priceController.text.trim(),
-                              userId: ApiUser.userId,
-                              imgPath: propertyImages,
-                              Year: selectedYear));
-                    }
-                  }))
+                padding: EdgeInsets.only(top: 5.h, bottom: 2.5.h),
+                child: button('SUBMIT', () {
+                  for (var image in imageController.images) {
+                    propertyImages.add(image.path!);
+                  }
+                  if (propertyImages.isEmpty) {
+                    setState(() {
+                      imgValidation = 'Empty Images';
+                    });
+                  } else {
+                    setState(() {
+                      imgValidation = '';
+                    });
+                  }
+                  if (propertyImages.isNotEmpty) {
+                    setState(() {
+                      isSubmit = true;
+                    });
+                    print('----==----pathList-=---$propertyImages');
+                    BlocProvider.of<ReviewBloc>(context).add(
+                      UploadRealEstateData(
+                        propertyType: selectedPropertyType,
+                        carpetArea: _carpetAreaController.text.trim(),
+                        BuiltUpArea: _buildupAreaController.text.trim(),
+                        Location: _locationController.text.trim(),
+                        ProjectName: _projectNameController.text.trim(),
+                        carParking: selectedParkingType,
+                        enterFacing: _facingController.text.trim(),
+                        Price: _priceController.text.trim(),
+                        userId: ApiUser.userId,
+                        imgPath: propertyImages,
+                        Year: selectedYear,
+                      ),
+                    );
+                  }
+                }),
+              ),
             ],
           ),
         );
@@ -953,31 +1059,41 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
         height: 6.5.h,
         width: 90.w,
         decoration: BoxDecoration(
-            color: colorRed,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 3),
-                  blurRadius: 6,
-                  color: colorRed.withOpacity(0.35))
-            ]),
+          color: colorRed,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 3),
+              blurRadius: 6,
+              color: colorRed.withOpacity(0.35),
+            ),
+          ],
+        ),
         alignment: Alignment.center,
         child: title == 'SUBMIT'
             ? isSubmit
-                ? SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                        color: colorWhite, strokeWidth: 0.6.w))
-                : Text(title, style: textStyle12Bold(colorWhite))
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: colorWhite,
+                        strokeWidth: 0.6.w,
+                      ),
+                    )
+                  : Text(title, style: textStyle12Bold(colorWhite))
             : Text(title, style: textStyle12Bold(colorWhite)),
       ),
     );
   }
 
   textFormFieldContainer(
-      String labelText, String hintText, bool isSelected, Function() onClick,
-      [TextEditingController? controller, TextInputType? keyboardType]) {
+    String labelText,
+    String hintText,
+    bool isSelected,
+    Function() onClick, [
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  ]) {
     return Padding(
       padding: EdgeInsets.only(top: 1.5.h),
       child: InkWell(
@@ -985,10 +1101,13 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
         child: Container(
           height: 8.h,
           decoration: BoxDecoration(
-              color: colorWhite,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: isSelected ? colorRed : colorDFDF, width: 1)),
+            color: colorWhite,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? colorRed : colorDFDF,
+              width: 1,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: Column(
@@ -997,7 +1116,8 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
               children: [
                 Text(labelText, style: textStyle9(colorText8181)),
                 SizedBox(
-                  width: controller == _locationController ||
+                  width:
+                      controller == _locationController ||
                           controller == _projectNameController
                       ? 84.w - 2
                       : 37.5.w - 2,
@@ -1007,22 +1127,23 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                     maxLines: 1,
                     // autofocus: isSelected,
                     decoration: InputDecoration.collapsed(
-                        hintText: hintText,
-                        hintStyle: textStyle11(colorText3D3D),
-                        fillColor: colorWhite,
-                        filled: true,
-                        border: InputBorder.none),
+                      hintText: hintText,
+                      hintStyle: textStyle11(colorText3D3D),
+                      fillColor: colorWhite,
+                      filled: true,
+                      border: InputBorder.none,
+                    ),
                     focusNode: controller == _buildupAreaController
                         ? buildAreaFocus
                         : controller == _locationController
-                            ? locationFocus
-                            : controller == _projectNameController
-                                ? projectNameFocus
-                                : controller == _facingController
-                                    ? facingFocus
-                                    : controller == _priceController
-                                        ? priceFocus
-                                        : carpetAreaFocus,
+                        ? locationFocus
+                        : controller == _projectNameController
+                        ? projectNameFocus
+                        : controller == _facingController
+                        ? facingFocus
+                        : controller == _priceController
+                        ? priceFocus
+                        : carpetAreaFocus,
                     onTap: onClick,
                     onFieldSubmitted: (val) {
                       if (controller == _carpetAreaController) {
@@ -1076,18 +1197,25 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
     );
   }
 
-  dropDownWidget(String title, String selectedType, bool isSelectedField,
-      Function() onClick) {
+  dropDownWidget(
+    String title,
+    String selectedType,
+    bool isSelectedField,
+    Function() onClick,
+  ) {
     return Padding(
       padding: EdgeInsets.only(top: 1.5.h),
       child: InkWell(
         onTap: onClick,
         child: Container(
           decoration: BoxDecoration(
-              color: colorWhite,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: isSelectedField ? colorRed : colorDFDF, width: 1)),
+            color: colorWhite,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelectedField ? colorRed : colorDFDF,
+              width: 1,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: Column(
@@ -1108,11 +1236,16 @@ class _RealEstateScreenState extends State<RealEstateScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(selectedType,
-                              style: textStyle11(colorText3D3D)),
+                          child: Text(
+                            selectedType,
+                            style: textStyle11(colorText3D3D),
+                          ),
                         ),
-                        Image.asset(icDropdown,
-                            color: colorText3D3D, width: 5.w)
+                        Image.asset(
+                          icDropdown,
+                          color: colorText3D3D,
+                          width: 5.w,
+                        ),
                       ],
                     ),
                   ),

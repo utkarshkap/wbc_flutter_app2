@@ -62,31 +62,34 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
           shadowColor: colorTextBCBC.withOpacity(0.3),
           leadingWidth: 15.w,
           leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Image.asset(icBack, color: colorRed, width: 6.w)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Image.asset(icBack, color: colorRed, width: 6.w),
+          ),
           titleSpacing: 0,
           title: Text('Track Investments', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
-                splashColor: colorWhite,
-                bgColor: colorF3F3,
-                icon: icNotification,
-                iconColor: colorText7070,
-                onClick: () {
-                  Navigator.of(context).pushNamed(NotificationScreen.route);
-                }),
+              splashColor: colorWhite,
+              bgColor: colorF3F3,
+              icon: icNotification,
+              iconColor: colorText7070,
+              onClick: () {
+                Navigator.of(context).pushNamed(NotificationScreen.route);
+              },
+            ),
             SizedBox(width: 2.w),
             AppBarButton(
-                splashColor: colorWhite,
-                bgColor: colorF3F3,
-                icon: icProfile,
-                iconColor: colorText7070,
-                onClick: () {
-                  Navigator.of(context).pushNamed(ProfileScreen.route);
-                }),
-            SizedBox(width: 5.w)
+              splashColor: colorWhite,
+              bgColor: colorF3F3,
+              icon: icProfile,
+              iconColor: colorText7070,
+              onClick: () {
+                Navigator.of(context).pushNamed(ProfileScreen.route);
+              },
+            ),
+            SizedBox(width: 5.w),
           ],
         ),
         body: BlocConsumer<ReviewBloc, ReviewState>(
@@ -105,14 +108,16 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                 btnOkColor: Colors.red,
               ).show();
             } else if (state is MFReviewDataAdded) {
-              Navigator.of(context).pushNamed(MFReviewScreen.route,
-                  arguments: MFReviewScreenData(
-                      panNumber: _panCardController.text,
-                      isSendReview: true,
-                      requestId: json
-                          .decode(state.data.body)['reviewresponse']
-                              ['request_id']
-                          .toString()));
+              Navigator.of(context).pushNamed(
+                MFReviewScreen.route,
+                arguments: MFReviewScreenData(
+                  panNumber: _panCardController.text,
+                  isSendReview: true,
+                  requestId: json
+                      .decode(state.data.body)['reviewresponse']['request_id']
+                      .toString(),
+                ),
+              );
             }
           },
           builder: (context, state) {
@@ -133,34 +138,41 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Track Mutual\nFund Investments',
-                                    style: textStyle18Bold(colorBlack)
-                                        .copyWith(height: 1.34)),
+                                Text(
+                                  'Track Mutual\nFund Investments',
+                                  style: textStyle18Bold(
+                                    colorBlack,
+                                  ).copyWith(height: 1.34),
+                                ),
                                 SizedBox(height: 1.5.h),
                                 Text(
-                                    'Enter your Email ID Linked with mutual funds investments to start tracking your portfolio.',
-                                    style: textStyle9(colorText7070)
-                                        .copyWith(height: 1.2)),
+                                  'Enter your Email ID Linked with mutual funds investments to start tracking your portfolio.',
+                                  style: textStyle9(
+                                    colorText7070,
+                                  ).copyWith(height: 1.2),
+                                ),
                               ],
                             ),
                           ),
-                          Image.asset(imgTrackInvestment, width: 25.w)
+                          Image.asset(imgTrackInvestment, width: 25.w),
                         ],
                       ),
                     ),
                     textFormFieldContainer(
-                        'Pan Card', 'Enter your Pan Card No', isPanFieldTap,
-                        () {
-                      setState(() {
-                        isPanFieldTap = true;
-                        isEmailFieldTap = false;
-                      });
-                      panCardFocus.requestFocus();
-                    }, _panCardController, TextInputType.text),
-                    if (panCardValidation.isNotEmpty)
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
+                      'Pan Card',
+                      'Enter your Pan Card No',
+                      isPanFieldTap,
+                      () {
+                        setState(() {
+                          isPanFieldTap = true;
+                          isEmailFieldTap = false;
+                        });
+                        panCardFocus.requestFocus();
+                      },
+                      _panCardController,
+                      TextInputType.text,
+                    ),
+                    if (panCardValidation.isNotEmpty) SizedBox(height: 0.5.h),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -168,22 +180,25 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                         child: panCardValidation == 'Empty PanCard'
                             ? errorText('Please Enter a Pan Card No.')
                             : panCardValidation == 'Invalid Pan Card'
-                                ? errorText('Invalid Pan Number')
-                                : Container(),
+                            ? errorText('Invalid Pan Number')
+                            : Container(),
                       ),
                     ),
                     textFormFieldContainer(
-                        'Email Id', 'Enter your Email ID', isEmailFieldTap, () {
-                      setState(() {
-                        isPanFieldTap = false;
-                        isEmailFieldTap = true;
-                      });
-                      emailFocus.requestFocus();
-                    }, _emailController, TextInputType.emailAddress),
-                    if (emailValidation.isNotEmpty)
-                      SizedBox(
-                        height: 0.5.h,
-                      ),
+                      'Email Id',
+                      'Enter your Email ID',
+                      isEmailFieldTap,
+                      () {
+                        setState(() {
+                          isPanFieldTap = false;
+                          isEmailFieldTap = true;
+                        });
+                        emailFocus.requestFocus();
+                      },
+                      _emailController,
+                      TextInputType.emailAddress,
+                    ),
+                    if (emailValidation.isNotEmpty) SizedBox(height: 0.5.h),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -191,8 +206,8 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                         child: emailValidation == 'Empty Email'
                             ? errorText('Please Enter a Email')
                             : emailValidation == 'Invalid Email'
-                                ? errorText('Invalid Email')
-                                : Container(),
+                            ? errorText('Invalid Email')
+                            : Container(),
                       ),
                     ),
                     Padding(
@@ -215,28 +230,33 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Checkbox(
-                                    value: autoRefreshInvestment,
-                                    focusColor: colorWhite,
-                                    activeColor: colorRedFFC,
-                                    checkColor: colorRed,
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    side: BorderSide(
-                                        color: autoRefreshValidation.isEmpty
-                                            ? colorDFDF
-                                            : colorErrorRed),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        autoRefreshInvestment =
-                                            !autoRefreshInvestment;
-                                      });
-                                    }),
+                                  value: autoRefreshInvestment,
+                                  focusColor: colorWhite,
+                                  activeColor: colorRedFFC,
+                                  checkColor: colorRed,
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  side: BorderSide(
+                                    color: autoRefreshValidation.isEmpty
+                                        ? colorDFDF
+                                        : colorErrorRed,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      autoRefreshInvestment =
+                                          !autoRefreshInvestment;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
-                            Text('Auto Refresh Investments',
-                                style: textStyle11(colorText7070))
+                            Text(
+                              'Auto Refresh Investments',
+                              style: textStyle11(colorText7070),
+                            ),
                           ],
                         ),
                       ),
@@ -248,10 +268,12 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                         setState(() {
                           panCardValidation = 'Empty PanCard';
                         });
-                      } else if (!RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
-                          .hasMatch(_panCardController.text)) {
+                      } else if (!RegExp(
+                        '[A-Z]{5}[0-9]{4}[A-Z]{1}',
+                      ).hasMatch(_panCardController.text)) {
                         print(
-                            '--==-----panCard------${_panCardController.text}');
+                          '--==-----panCard------${_panCardController.text}',
+                        );
                         setState(() {
                           panCardValidation = 'Invalid Pan Card';
                         });
@@ -267,10 +289,11 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                           emailValidation = 'Empty Email';
                         });
                       } else if (!RegExp(
-                              r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                          .hasMatch(_emailController.text)) {
+                        r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
+                      ).hasMatch(_emailController.text)) {
                         print(
-                            '--==-----email------${_emailController.text.length}');
+                          '--==-----email------${_emailController.text.length}',
+                        );
                         setState(() {
                           emailValidation = 'Invalid Email';
                         });
@@ -285,21 +308,26 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                       });
                       if (_panCardController.text.isNotEmpty &&
                           _emailController.text.isNotEmpty &&
-                          RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
-                              .hasMatch(_panCardController.text) &&
-                          RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                              .hasMatch(_emailController.text)) {
+                          RegExp(
+                            '[A-Z]{5}[0-9]{4}[A-Z]{1}',
+                          ).hasMatch(_panCardController.text) &&
+                          RegExp(
+                            r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
+                          ).hasMatch(_emailController.text)) {
                         setState(() {
                           isSend = true;
                         });
-                        BlocProvider.of<ReviewBloc>(context).add(CreateMFReview(
+                        BlocProvider.of<ReviewBloc>(context).add(
+                          CreateMFReview(
                             requestUserid: int.parse(ApiUser.userId),
                             requestMobile: mobileNo,
                             requestDate: DateTime.now().toString(),
                             requestType: 1,
                             requestSubtype: 9,
                             requestPan: _panCardController.text,
-                            requestEmail: _emailController.text));
+                            requestEmail: _emailController.text,
+                          ),
+                        );
                       } else {
                         setState(() {
                           isSend = false;
@@ -308,13 +336,16 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                     }),
                     SizedBox(height: 2.h),
                     button(icCheckReview, 'Send Request Again', () {
-                      Navigator.of(context).pushNamed(MFReviewScreen.route,
-                          arguments: MFReviewScreenData(
-                              panNumber: _panCardController.text,
-                              isSendReview: false,
-                              requestId: ''));
+                      Navigator.of(context).pushNamed(
+                        MFReviewScreen.route,
+                        arguments: MFReviewScreenData(
+                          panNumber: _panCardController.text,
+                          isSendReview: false,
+                          requestId: '',
+                        ),
+                      );
                     }),
-                    SizedBox(height: 2.h)
+                    SizedBox(height: 2.h),
                   ],
                 ),
               ),
@@ -327,61 +358,73 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
 
   BoxDecoration decoration(Color bgColor) {
     return BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: colorDFDF, width: 1),
-        boxShadow: [
-          if (bgColor == colorRed)
-            BoxShadow(
-                color: colorTextBCBC.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 6))
-        ]);
+      color: bgColor,
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: colorDFDF, width: 1),
+      boxShadow: [
+        if (bgColor == colorRed)
+          BoxShadow(
+            color: colorTextBCBC.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 6),
+          ),
+      ],
+    );
   }
 
   button(String icon, String text, Function() onClick) {
     return InkWell(
-      onTap: onClick,
+      onTap: text == 'Send For Review' && isSend ? null : onClick,
       child: Container(
         height: 6.5.h,
         width: 90.w,
         decoration: BoxDecoration(
-            color: text == 'Send Request Again'
-                ? colorRed.withOpacity(0.17)
-                : colorRed,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              if (text != 'Send Request Again')
-                BoxShadow(
-                    offset: const Offset(0, 3),
-                    blurRadius: 6,
-                    color: colorRed.withOpacity(0.3))
-            ]),
+          color: text == 'Send Request Again'
+              ? colorRed.withOpacity(0.17)
+              : colorRed,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            if (text != 'Send Request Again')
+              BoxShadow(
+                offset: const Offset(0, 3),
+                blurRadius: 6,
+                color: colorRed.withOpacity(0.3),
+              ),
+          ],
+        ),
         alignment: Alignment.center,
         child: text == 'Send For Review'
             ? isSend
-                ? SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                        color: colorWhite, strokeWidth: 0.6.w))
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(icon, width: 4.w),
-                      SizedBox(width: 2.5.w),
-                      Text(text, style: textStyle13Bold(colorWhite)),
-                    ],
-                  )
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: colorWhite,
+                        strokeWidth: 0.6.w,
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(icon, width: 4.w),
+                        SizedBox(width: 2.5.w),
+                        Text(text, style: textStyle13Bold(colorWhite)),
+                      ],
+                    )
             : Text(text, style: textStyle13Bold(colorRed)),
       ),
     );
   }
 
   textFormFieldContainer(
-      String labelText, String hintText, bool isSelected, Function() onClick,
-      [TextEditingController? controller, TextInputType? keyboardType]) {
+    String labelText,
+    String hintText,
+    bool isSelected,
+    Function() onClick, [
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  ]) {
     return Padding(
       padding: EdgeInsets.only(top: 1.5.h),
       child: InkWell(
@@ -389,10 +432,13 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
         child: Container(
           height: 8.h,
           decoration: BoxDecoration(
-              color: colorWhite,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: isSelected ? colorRed : colorDFDF, width: 1)),
+            color: colorWhite,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? colorRed : colorDFDF,
+              width: 1,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: Column(
@@ -408,11 +454,12 @@ class _TrackInvestmentsState extends State<TrackInvestments> {
                     maxLines: 1,
                     // autofocus: isSelected,
                     decoration: InputDecoration.collapsed(
-                        hintText: hintText,
-                        hintStyle: textStyle11(colorText3D3D),
-                        fillColor: colorWhite,
-                        filled: true,
-                        border: InputBorder.none),
+                      hintText: hintText,
+                      hintStyle: textStyle11(colorText3D3D),
+                      fillColor: colorWhite,
+                      filled: true,
+                      border: InputBorder.none,
+                    ),
                     focusNode: controller == _emailController
                         ? emailFocus
                         : panCardFocus,

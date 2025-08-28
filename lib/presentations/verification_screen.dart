@@ -144,8 +144,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
       setState(() {
         notificationToken = token!;
       });
-      print("notificationToken---------------------------->" +
-          notificationToken.toString());
+      print(
+          "notificationToken----------------------------> ${notificationToken.toString()}");
     });
   }
 
@@ -173,42 +173,133 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
+  // verifyOtp() async {
+  //   try {
+  //     setState(() {
+  //       isVerify = true;
+  //     });
+  //     print(
+  //         'verificationId-----${widget.verificationScreenData.verificationId}');
+
+  //     print('resendVerificationId:$resendVerificationId');
+  //     print('smsCode: $sms');
+
+  //     // Alternative approach: Skip Firebase Auth if it's causing issues
+  //     bool shouldSkipFirebaseAuth = false;
+
+  //     if (!shouldSkipFirebaseAuth) {
+  //       PhoneAuthCredential credential = PhoneAuthProvider.credential(
+  //           verificationId: resendVerificationId.isNotEmpty
+  //               ? resendVerificationId
+  //               : widget.verificationScreenData.verificationId,
+  //           smsCode: sms);
+
+  //       print('About to sign in with credential...');
+
+  //       // Add safe type casting and handle Firebase Auth more carefully
+  //       try {
+  //         final userCredential = await auth.signInWithCredential(credential);
+  //         print('Sign in successful: ${userCredential.user?.uid}');
+
+  //         // Clear any existing user data to prevent conflicts
+  //         await auth.signOut();
+  //       } catch (signInError) {
+  //         print('Sign in error: $signInError');
+  //         // Continue with the flow even if sign in fails
+  //         // The OTP verification is still valid even if Firebase Auth fails
+  //       }
+  //     }
+  //     BlocProvider.of<SigningBloc>(context)
+  //         .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+  //   } catch (e, stackTrace) {
+  //     print('exception------$e');
+  //     print('stack trace------$stackTrace');
+  //     setState(() {
+  //       isVerify = false;
+  //       pinValidationString = 'The Code Is Incorrect';
+  //     });
+  //   }
+
+  //   // setState(() {
+  //   //   isVerify = true;
+  //   // });
+  //   // BlocProvider.of<SigningBloc>(context)
+  //   //     .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+  // }
+
   verifyOtp() async {
-    // try {
-    //   setState(() {
-    //     isVerify = true;
-    //   });
-    //   print(
-    //       'verificationId-----${widget.verificationScreenData.verificationId}');
+    try {
+      setState(() {
+        isVerify = true;
+      });
+      // print('verificationId-----${widget.verificationScreenData.verificationId}');
 
-    //   print('resendVerificationId:$resendVerificationId');
-    //       print('smsCode: $sms');
+      //   print(resendVerificationId);
+      //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      //       verificationId: resendVerificationId.isNotEmpty
+      //           ? resendVerificationId
+      //           : widget.verificationScreenData.verificationId,
+      //       smsCode: sms);
 
-    //   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-    //       verificationId: resendVerificationId.isNotEmpty
-    //           ? resendVerificationId
-    //           : widget.verificationScreenData.verificationId,
-    //       smsCode: sms);
+      //   await auth.signInWithCredential(credential);
+      //   getToken();
 
-    //   await auth.signInWithCredential(credential);
-    //   getToken();
-
-    //   BlocProvider.of<SigningBloc>(context)
-    //       .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
-    // } catch (e) {
-    //   print('exception------$e');
-    //   setState(() {
-    //     isVerify = false;
-    //     pinValidationString = 'The Code Is Incorrect';
-    //   });
-    // }
-
-    setState(() {
-      isVerify = true;
-    });
-    BlocProvider.of<SigningBloc>(context)
-        .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+      BlocProvider.of<SigningBloc>(context)
+          .add(GetUserData(mobileNo: widget.verificationScreenData.getNumber));
+    } catch (e) {
+      print('exception------');
+      setState(() {
+        isVerify = false;
+        pinValidationString = 'The Code Is Incorrect';
+      });
+    }
   }
+
+//   Future<void> verifyOtp() async {
+//   try {
+//     setState(() {
+//       isVerify = true;
+//     });
+
+//     final verificationId = resendVerificationId.isNotEmpty
+//         ? resendVerificationId
+//         : widget.verificationScreenData.verificationId;
+
+//     debugPrint('🔑 Using verificationId: $verificationId');
+//     debugPrint('📩 SMS Code: $sms');
+
+//     PhoneAuthCredential credential = PhoneAuthProvider.credential(
+//       verificationId: verificationId,
+//       smsCode: sms,
+//     );
+
+//     try {
+//       final userCredential = await auth.signInWithCredential(credential);
+//       debugPrint('✅ Sign in successful: ${userCredential.user?.uid}');
+
+//       // Fetch token or do other Firebase-specific work
+//       getToken();
+
+//       // Sign out to avoid cached session conflicts
+//       await auth.signOut();
+//     } catch (signInError) {
+//       debugPrint('⚠️ Firebase sign in failed: $signInError');
+//       // Continue flow even if Firebase fails
+//     }
+
+//     // Continue your app flow regardless of Firebase result
+//     BlocProvider.of<SigningBloc>(context).add(
+//       GetUserData(mobileNo: widget.verificationScreenData.getNumber),
+//     );
+//   } catch (e, stackTrace) {
+//     debugPrint('❌ Exception in verifyOtp: $e');
+//     debugPrint('📌 Stack trace: $stackTrace');
+//     setState(() {
+//       isVerify = false;
+//       pinValidationString = 'The Code Is Incorrect';
+//     });
+//   }
+// }
 
   reSendOtp() async {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -766,11 +857,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         HomeScreen.route, (route) => false,
                         arguments: HomeScreenData());
 
-                    // BlocProvider.of<SigningBloc>(context).add(
-                    //     SetFcmIdAndDeviceIdData(
-                    //         userId: state.data!.data!.uid.toString(),
-                    //         deviceid: deviceId,
-                    //         fcmId: notificationToken));
+                    BlocProvider.of<SigningBloc>(context).add(
+                        SetFcmIdAndDeviceIdData(
+                            userId: state.data!.data!.uid.toString(),
+                            deviceid: deviceId,
+                            fcmId: notificationToken));
 
 // ---------------------------------------------------------------------------------------------------------- //
 

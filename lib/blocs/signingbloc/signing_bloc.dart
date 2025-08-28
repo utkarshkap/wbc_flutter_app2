@@ -20,18 +20,19 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
         final signingRepo = SigningRepository();
 
         final response = await signingRepo.setLoginUser(
-            email: event.email,
-            mobileNo: event.mobileNo,
-            name: event.name,
-            dob: event.dob,
-            pincode: event.pincode,
-            country: event.country,
-            city: event.city,
-            area: event.area,
-            address: event.address,
-            deviceId: event.deviceId,
-            fcmId: event.fcmId,
-            tnc: event.tnc);
+          email: event.email,
+          mobileNo: event.mobileNo,
+          name: event.name,
+          dob: event.dob,
+          pincode: event.pincode,
+          country: event.country,
+          city: event.city,
+          area: event.area,
+          address: event.address,
+          deviceId: event.deviceId,
+          fcmId: event.fcmId,
+          tnc: event.tnc,
+        );
 
         print('Create user status code-----${response.statusCode}');
 
@@ -52,9 +53,10 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
         ApiUser.numberList = [];
 
         final response = await signingRepo.postContactsData(
-            mobileNo: event.mobileNo,
-            date: event.date,
-            contacts: event.contacts);
+          mobileNo: event.mobileNo,
+          date: event.date,
+          contacts: event.contacts,
+        );
         print("event.mobileNo:::::::::-::::::-::::${event.contacts}");
 
         final addContactResponse = addContactResponseFromJson(response.body);
@@ -80,12 +82,15 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
         final data = getUserFromJson(getUserData.data!.body);
 
         response.statusCode == 200
-            ? emit(AddContactLoaded(
-                response,
-                data.data!.uid.toString(),
-                count.toString(),
-                nRIContactCount.toString(),
-                data.goldReferrals!))
+            ? emit(
+                AddContactLoaded(
+                  response,
+                  data.data!.uid.toString(),
+                  count.toString(),
+                  nRIContactCount.toString(),
+                  data.goldReferrals!,
+                ),
+              )
             : emit(AddContactFailed());
       });
 
@@ -97,19 +102,31 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
 
       emit(GetUserLoading());
       await Future.delayed(const Duration(seconds: 3), () async {
-        final signingRepo = SigningRepository();
-        final response = await signingRepo.getUser(event.mobileNo);
+        try {
+          final signingRepo = SigningRepository();
+          print('About to call getUser API...');
+          final response = await signingRepo.getUser(event.mobileNo);
+          print('API response received: ${response.statusCode}');
 
-        final data = getUserFromJson(response.data!.body);
+          print('About to parse response body...');
+          print('Response body: ${response.data!.body}');
 
-        // print('data-------${response.data!.statusCode}');
+          final data = getUserFromJson(response.data!.body);
+          print('Data parsed successfully: ${data.code}');
 
-        // print('getUser Response------$data');
-        // print('contactData------${data.goldReferrals}');
+          // print('data-------${response.data!.statusCode}');
 
-        response.data!.statusCode == 200
-            ? emit(GetUserLoaded(data))
-            : emit(GetUserFailed());
+          // print('getUser Response------$data');
+          // print('contactData------${data.goldReferrals}');
+
+          response.data!.statusCode == 200
+              ? emit(GetUserLoaded(data))
+              : emit(GetUserFailed());
+        } catch (e, stackTrace) {
+          print('Error in GetUserData event: $e');
+          print('Stack trace: $stackTrace');
+          emit(GetUserFailed());
+        }
       });
 
       // TODO: implement event handler
@@ -155,7 +172,10 @@ class SigningBloc extends Bloc<SigningEvent, SigningState> {
       emit(SetFcmIdAndDeviceIdDataAdding());
       final signingRepo = SigningRepository();
       final response = await signingRepo.setFcmIdAndDeviceIdData(
-          event.userId, event.deviceid, event.fcmId);
+        event.userId,
+        event.deviceid,
+        event.fcmId,
+      );
       emit(SetFcmIdAndDeviceIdDataAdded(response));
     });
   }

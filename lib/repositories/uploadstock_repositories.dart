@@ -16,7 +16,8 @@ class ReviewStockRepository {
     required double rateofinterest,
   }) async {
     try {
-      final data = jsonEncode(LoanReviewModel(
+      final data = jsonEncode(
+        LoanReviewModel(
           userid: userid,
           mobile: mobile,
           bankname: bankname,
@@ -24,7 +25,9 @@ class ReviewStockRepository {
           loanamount: loanamount,
           tenure: tenure,
           emi: emi,
-          rateofinterest: rateofinterest));
+          rateofinterest: rateofinterest,
+        ),
+      );
 
       print('review-insurance-data------$data');
       final response = await ApiHandler.post(url: reviewLoanUrl, body: data);
@@ -41,27 +44,29 @@ class ReviewStockRepository {
     }
   }
 
-  uploadStockReview(
-      {required String userId,
-      required String requestType,
-      required String panNumber,
-      required String uploadFilePath,
-      required String uploadFileName,
-      required String selectStockType}) async {
-    var request =
-        http.MultipartRequest("POST", Uri.parse(uploadStockReviewBaseUrl));
+  uploadStockReview({
+    required String userId,
+    required String requestType,
+    required String requestSubType,
+    required String panNumber,
+    required String uploadFilePath,
+    required String uploadFileName,
+    required String selectStockType,
+  }) async {
+    var request = http.MultipartRequest(
+      "POST",
+      Uri.parse(uploadStockReviewBaseUrl),
+    );
     request.fields.addAll({
       'request_userid': userId,
       'request_type': requestType,
       'request_pan': panNumber,
+      'request_subtype': requestSubType,
     });
 
-    print("request------$request");
-
-    request.files
-        .add(await http.MultipartFile.fromPath('pdffile', uploadFilePath));
-
-    print("request--new----------$request");
+    request.files.add(
+      await http.MultipartFile.fromPath('pdffile', uploadFilePath),
+    );
 
     http.StreamedResponse response = await request.send();
 

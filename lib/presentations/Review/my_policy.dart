@@ -112,31 +112,34 @@ class _PolicyReviewState extends State<PolicyReview> {
           shadowColor: colorTextBCBC.withOpacity(0.3),
           leadingWidth: 15.w,
           leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Image.asset(icBack, color: colorRed, width: 6.w)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Image.asset(icBack, color: colorRed, width: 6.w),
+          ),
           titleSpacing: 0,
           title: Text('Review My Policy', style: textStyle14Bold(colorBlack)),
           actions: [
             AppBarButton(
-                splashColor: colorWhite,
-                bgColor: colorF3F3,
-                icon: icNotification,
-                iconColor: colorText7070,
-                onClick: () {
-                  Navigator.of(context).pushNamed(NotificationScreen.route);
-                }),
+              splashColor: colorWhite,
+              bgColor: colorF3F3,
+              icon: icNotification,
+              iconColor: colorText7070,
+              onClick: () {
+                Navigator.of(context).pushNamed(NotificationScreen.route);
+              },
+            ),
             SizedBox(width: 2.w),
             AppBarButton(
-                splashColor: colorWhite,
-                bgColor: colorF3F3,
-                icon: icProfile,
-                iconColor: colorText7070,
-                onClick: () {
-                  Navigator.of(context).pushNamed(ProfileScreen.route);
-                }),
-            SizedBox(width: 5.w)
+              splashColor: colorWhite,
+              bgColor: colorF3F3,
+              icon: icProfile,
+              iconColor: colorText7070,
+              onClick: () {
+                Navigator.of(context).pushNamed(ProfileScreen.route);
+              },
+            ),
+            SizedBox(width: 5.w),
           ],
         ),
         body: Padding(
@@ -157,14 +160,21 @@ class _PolicyReviewState extends State<PolicyReview> {
                   btnOkColor: Colors.red,
                 ).show();
               } else if (state is InsuranceReviewDataAdded) {
-                BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
+                BlocProvider.of<MallBloc>(context).add(
+                  LoadMallDataEvent(
                     popular: Popular(code: 0, message: '', products: []),
                     newArrival: NewArrival(code: 0, message: '', products: []),
-                    trending: Trending(code: 0, message: '', products: [])));
+                    trending: Trending(code: 0, message: '', products: []),
+                  ),
+                );
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    HomeScreen.route, (route) => false,
-                    arguments: HomeScreenData(
-                        acceptedContacts: '', isSendReview: 'SendReview'));
+                  HomeScreen.route,
+                  (route) => false,
+                  arguments: HomeScreenData(
+                    acceptedContacts: '',
+                    isSendReview: 'SendReview',
+                  ),
+                );
               }
             },
             builder: (context, state) {
@@ -177,50 +187,58 @@ class _PolicyReviewState extends State<PolicyReview> {
                         children: [
                           SizedBox(height: 2.h),
                           dropDownWidget(
-                              'Choose your type of insurance',
-                              selectedInsuranceType,
-                              isInsuranceTypeFieldTap, () {
-                            BlocProvider.of<FetchingDataBloc>(context).add(
+                            'Choose your type of insurance',
+                            selectedInsuranceType,
+                            isInsuranceTypeFieldTap,
+                            () {
+                              BlocProvider.of<FetchingDataBloc>(context).add(
                                 LoadInsuranceCategoryEvent(
-                                    insuranceCategory: const []));
-                            setState(() {
-                              isInsuranceTypeFieldTap = true;
-                              isInsuranceCompanyFieldTap = false;
-                              isInsuranceAmountFieldTap = false;
-                              isPremiumFieldTap = false;
-                              isPayingTermFieldTap = false;
-                              isRenewalDateFieldTap = false;
-                              isPremiumPayingDateFieldTap = false;
-                              isPremiumPayingModeFieldTap = false;
-                              isuploadEventTap = false;
-                            });
-                            insuranceAmountFocus.unfocus();
-                            premiumFocus.unfocus();
-                            payingTermFocus.unfocus();
-                            CommonFunction().selectFormDialog(
-                                context, 'Select Insurance Type', [], (val) {
-                              print('-----selectedType--=---$val');
+                                  insuranceCategory: const [],
+                                ),
+                              );
                               setState(() {
-                                selectedInsuranceType = val.name;
-                                insuranceTypeId = val.id;
-                                // isInsuranceTypeFieldTap = false;
-                                // isInsuranceAmountFieldTap = true;
-                                if (selectedInsuranceType != 'Life') {
-                                  _payingTermController.text = '1';
-                                }
+                                isInsuranceTypeFieldTap = true;
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceAmountFieldTap = false;
+                                isPremiumFieldTap = false;
+                                isPayingTermFieldTap = false;
+                                isRenewalDateFieldTap = false;
+                                isPremiumPayingDateFieldTap = false;
+                                isPremiumPayingModeFieldTap = false;
+                                isuploadEventTap = false;
                               });
-                              print(
-                                  '-----selectedInsuranceType--=---$selectedInsuranceType');
-                              print(
-                                  '-----insuranceTypeId--=---$insuranceTypeId');
+                              insuranceAmountFocus.unfocus();
+                              premiumFocus.unfocus();
+                              payingTermFocus.unfocus();
+                              CommonFunction().selectFormDialog(
+                                context,
+                                'Select Insurance Type',
+                                [],
+                                (val) {
+                                  print('-----selectedType--=---$val');
+                                  setState(() {
+                                    selectedInsuranceType = val.name;
+                                    insuranceTypeId = val.id;
+                                    // isInsuranceTypeFieldTap = false;
+                                    // isInsuranceAmountFieldTap = true;
+                                    if (selectedInsuranceType != 'Life') {
+                                      _payingTermController.text = '1';
+                                    }
+                                  });
+                                  print(
+                                    '-----selectedInsuranceType--=---$selectedInsuranceType',
+                                  );
+                                  print(
+                                    '-----insuranceTypeId--=---$insuranceTypeId',
+                                  );
 
-                              Navigator.of(context).pop();
-                            });
-                          }),
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                          ),
                           if (typeValidation.isNotEmpty)
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
+                            SizedBox(height: 0.5.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -230,15 +248,19 @@ class _PolicyReviewState extends State<PolicyReview> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error,
-                                            color: colorRed, size: 13),
+                                        const Icon(
+                                          Icons.error,
+                                          color: colorRed,
+                                          size: 13,
+                                        ),
                                         const SizedBox(width: 4),
                                         Container(
                                           height: 2.h,
                                           alignment: Alignment.center,
                                           child: Text(
-                                              'Please Select an Insurance Type',
-                                              style: textStyle9(colorErrorRed)),
+                                            'Please Select an Insurance Type',
+                                            style: textStyle9(colorErrorRed),
+                                          ),
                                         ),
                                       ],
                                     )
@@ -246,60 +268,70 @@ class _PolicyReviewState extends State<PolicyReview> {
                             ),
                           ),
                           dropDownWidget(
-                              'Choose your insurance company',
-                              selectedInsuranceCompany,
-                              isInsuranceCompanyFieldTap, () {
-                            BlocProvider.of<FetchingDataBloc>(context).add(
+                            'Choose your insurance company',
+                            selectedInsuranceCompany,
+                            isInsuranceCompanyFieldTap,
+                            () {
+                              BlocProvider.of<FetchingDataBloc>(context).add(
                                 LoadInsuranceCompanyEvent(
-                                    insuranceCompany: const []));
-                            setState(() {
-                              isInsuranceTypeFieldTap = false;
-                              isInsuranceCompanyFieldTap = true;
-                              isInsuranceAmountFieldTap = false;
-                              isPremiumFieldTap = false;
-                              isPayingTermFieldTap = false;
-                              isRenewalDateFieldTap = false;
-                              isPremiumPayingDateFieldTap = false;
-                              isPremiumPayingModeFieldTap = false;
-                              isuploadEventTap = false;
-                            });
-                            insuranceAmountFocus.unfocus();
-                            premiumFocus.unfocus();
-                            payingTermFocus.unfocus();
-                            CommonFunction().selectFormDialog(
-                                context, 'Select Insurance Company', [], (val) {
+                                  insuranceCompany: const [],
+                                ),
+                              );
                               setState(() {
-                                selectedInsuranceCompany = val;
-                                isInsuranceCompanyFieldTap = false;
-                                isInsuranceAmountFieldTap = true;
+                                isInsuranceTypeFieldTap = false;
+                                isInsuranceCompanyFieldTap = true;
+                                isInsuranceAmountFieldTap = false;
+                                isPremiumFieldTap = false;
+                                isPayingTermFieldTap = false;
+                                isRenewalDateFieldTap = false;
+                                isPremiumPayingDateFieldTap = false;
+                                isPremiumPayingModeFieldTap = false;
+                                isuploadEventTap = false;
                               });
-                              insuranceAmountFocus.requestFocus();
-                              Navigator.of(context).pop();
-                            });
-                          }),
+                              insuranceAmountFocus.unfocus();
+                              premiumFocus.unfocus();
+                              payingTermFocus.unfocus();
+                              CommonFunction().selectFormDialog(
+                                context,
+                                'Select Insurance Company',
+                                [],
+                                (val) {
+                                  setState(() {
+                                    selectedInsuranceCompany = val;
+                                    isInsuranceCompanyFieldTap = false;
+                                    isInsuranceAmountFieldTap = true;
+                                  });
+                                  insuranceAmountFocus.requestFocus();
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                          ),
                           if (companyValidation.isNotEmpty)
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
+                            SizedBox(height: 0.5.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: EdgeInsets.only(left: 2.w),
-                              child: companyValidation ==
-                                      'Empty Insurance Company'
+                              child:
+                                  companyValidation == 'Empty Insurance Company'
                                   ? Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error,
-                                            color: colorRed, size: 13),
+                                        const Icon(
+                                          Icons.error,
+                                          color: colorRed,
+                                          size: 13,
+                                        ),
                                         const SizedBox(width: 4),
                                         Container(
                                           height: 2.h,
                                           alignment: Alignment.center,
                                           child: Text(
-                                              'Please Select an Insurance Company',
-                                              style: textStyle9(colorErrorRed)),
+                                            'Please Select an Insurance Company',
+                                            style: textStyle9(colorErrorRed),
+                                          ),
                                         ),
                                       ],
                                     )
@@ -307,25 +339,27 @@ class _PolicyReviewState extends State<PolicyReview> {
                             ),
                           ),
                           textFormFieldContainer(
-                              'Sum Assured amount',
-                              'Enter your amount',
-                              isInsuranceAmountFieldTap, () {
-                            setState(() {
-                              isInsuranceCompanyFieldTap = false;
-                              isInsuranceTypeFieldTap = false;
-                              isInsuranceAmountFieldTap = true;
-                              isPremiumFieldTap = false;
-                              isPayingTermFieldTap = false;
-                              isRenewalDateFieldTap = false;
-                              isPremiumPayingDateFieldTap = false;
-                              isuploadEventTap = false;
-                            });
-                            insuranceAmountFocus.requestFocus();
-                          }, _insuranceAmountController, TextInputType.number),
+                            'Sum Assured amount',
+                            'Enter your amount',
+                            isInsuranceAmountFieldTap,
+                            () {
+                              setState(() {
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceTypeFieldTap = false;
+                                isInsuranceAmountFieldTap = true;
+                                isPremiumFieldTap = false;
+                                isPayingTermFieldTap = false;
+                                isRenewalDateFieldTap = false;
+                                isPremiumPayingDateFieldTap = false;
+                                isuploadEventTap = false;
+                              });
+                              insuranceAmountFocus.requestFocus();
+                            },
+                            _insuranceAmountController,
+                            TextInputType.number,
+                          ),
                           if (insuranceAmountValidation.isNotEmpty)
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
+                            SizedBox(height: 0.5.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -335,42 +369,50 @@ class _PolicyReviewState extends State<PolicyReview> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error,
-                                            color: colorRed, size: 13),
+                                        const Icon(
+                                          Icons.error,
+                                          color: colorRed,
+                                          size: 13,
+                                        ),
                                         const SizedBox(width: 4),
                                         Container(
                                           height: 2.h,
                                           alignment: Alignment.center,
-                                          child: Text('Please Enter an Amount',
-                                              style: textStyle9(colorErrorRed)),
+                                          child: Text(
+                                            'Please Enter an Amount',
+                                            style: textStyle9(colorErrorRed),
+                                          ),
                                         ),
                                       ],
                                     )
                                   : Container(),
                             ),
                           ),
-                          textFormFieldContainer('Yearly premium',
-                              'Enter your Premium', isPremiumFieldTap, () {
-                            setState(() {
-                              isInsuranceCompanyFieldTap = false;
-                              isInsuranceTypeFieldTap = false;
-                              isInsuranceAmountFieldTap = false;
-                              isPremiumFieldTap = true;
-                              isPayingTermFieldTap = false;
-                              isRenewalDateFieldTap = false;
-                              isPremiumPayingDateFieldTap = false;
-                              isPremiumPayingModeFieldTap = false;
-                              isuploadEventTap = false;
-                            });
-                            premiumFocus.requestFocus();
-                          },
-                              _premiumController,
-                              const TextInputType.numberWithOptions(
-                                  decimal: true)),
-                          if (premiumValidation.isNotEmpty)
-                            SizedBox(
-                              height: 0.5.h,
+                          textFormFieldContainer(
+                            'Yearly premium',
+                            'Enter your Premium',
+                            isPremiumFieldTap,
+                            () {
+                              setState(() {
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceTypeFieldTap = false;
+                                isInsuranceAmountFieldTap = false;
+                                isPremiumFieldTap = true;
+                                isPayingTermFieldTap = false;
+                                isRenewalDateFieldTap = false;
+                                isPremiumPayingDateFieldTap = false;
+                                isPremiumPayingModeFieldTap = false;
+                                isuploadEventTap = false;
+                              });
+                              premiumFocus.requestFocus();
+                            },
+                            _premiumController,
+                            const TextInputType.numberWithOptions(
+                              decimal: true,
                             ),
+                          ),
+                          if (premiumValidation.isNotEmpty)
+                            SizedBox(height: 0.5.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -380,15 +422,19 @@ class _PolicyReviewState extends State<PolicyReview> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error,
-                                            color: colorRed, size: 13),
+                                        const Icon(
+                                          Icons.error,
+                                          color: colorRed,
+                                          size: 13,
+                                        ),
                                         const SizedBox(width: 4),
                                         Container(
                                           height: 2.h,
                                           alignment: Alignment.center,
                                           child: Text(
-                                              'Please Enter a Premium value',
-                                              style: textStyle9(colorErrorRed)),
+                                            'Please Enter a Premium value',
+                                            style: textStyle9(colorErrorRed),
+                                          ),
                                         ),
                                       ],
                                     )
@@ -397,46 +443,51 @@ class _PolicyReviewState extends State<PolicyReview> {
                           ),
                           if (selectedInsuranceType == 'Life') ...[
                             textFormFieldContainer(
-                                'Premium paying term',
-                                'Enter your paying term',
-                                isPayingTermFieldTap, () {
-                              setState(() {
-                                isInsuranceCompanyFieldTap = false;
-                                isInsuranceTypeFieldTap = false;
-                                isInsuranceAmountFieldTap = false;
-                                isPremiumFieldTap = false;
-                                isPayingTermFieldTap = true;
-                                isRenewalDateFieldTap = false;
-                                isPremiumPayingDateFieldTap = false;
-                                isPremiumPayingModeFieldTap = false;
-                                isuploadEventTap = false;
-                              });
-                              payingTermFocus.requestFocus();
-                            }, _payingTermController, TextInputType.number),
+                              'Premium paying term',
+                              'Enter your paying term',
+                              isPayingTermFieldTap,
+                              () {
+                                setState(() {
+                                  isInsuranceCompanyFieldTap = false;
+                                  isInsuranceTypeFieldTap = false;
+                                  isInsuranceAmountFieldTap = false;
+                                  isPremiumFieldTap = false;
+                                  isPayingTermFieldTap = true;
+                                  isRenewalDateFieldTap = false;
+                                  isPremiumPayingDateFieldTap = false;
+                                  isPremiumPayingModeFieldTap = false;
+                                  isuploadEventTap = false;
+                                });
+                                payingTermFocus.requestFocus();
+                              },
+                              _payingTermController,
+                              TextInputType.number,
+                            ),
                             if (payingTermValidation.isNotEmpty)
-                              SizedBox(
-                                height: 0.5.h,
-                              ),
+                              SizedBox(height: 0.5.h),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 2.w),
-                                child: payingTermValidation ==
-                                        'Empty Paying Term'
+                                child:
+                                    payingTermValidation == 'Empty Paying Term'
                                     ? Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.error,
-                                              color: colorRed, size: 13),
+                                          const Icon(
+                                            Icons.error,
+                                            color: colorRed,
+                                            size: 13,
+                                          ),
                                           const SizedBox(width: 4),
                                           Container(
                                             height: 2.h,
                                             alignment: Alignment.center,
                                             child: Text(
-                                                'Please Enter your Paying term',
-                                                style:
-                                                    textStyle9(colorErrorRed)),
+                                              'Please Enter your Paying term',
+                                              style: textStyle9(colorErrorRed),
+                                            ),
                                           ),
                                         ],
                                       )
@@ -446,84 +497,97 @@ class _PolicyReviewState extends State<PolicyReview> {
                           ],
 
                           dropDownWidget(
-                              'Choose your premium paying mode',
-                              selectedPremiumPayingMode,
-                              isPremiumPayingModeFieldTap, () {
-                            setState(() {
-                              isInsuranceCompanyFieldTap = false;
-                              isInsuranceTypeFieldTap = false;
-                              isInsuranceAmountFieldTap = false;
-                              isPremiumFieldTap = false;
-                              isPayingTermFieldTap = false;
-                              isRenewalDateFieldTap = false;
-                              isPremiumPayingDateFieldTap = false;
-                              isPremiumPayingModeFieldTap = true;
-                              isuploadEventTap = false;
-                            });
-                            insuranceAmountFocus.unfocus();
-                            premiumFocus.unfocus();
-                            payingTermFocus.unfocus();
-
-                            CommonFunction().selectDialog(
-                                context, 'Select Premium Paying Mode', [
-                              'Yearly',
-                              'Half yearly',
-                              'Quarterly',
-                              'Monthly'
-                            ], (val) {
+                            'Choose your premium paying mode',
+                            selectedPremiumPayingMode,
+                            isPremiumPayingModeFieldTap,
+                            () {
                               setState(() {
-                                selectedPremiumPayingMode = val.toString();
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceTypeFieldTap = false;
+                                isInsuranceAmountFieldTap = false;
+                                isPremiumFieldTap = false;
+                                isPayingTermFieldTap = false;
+                                isRenewalDateFieldTap = false;
+                                isPremiumPayingDateFieldTap = false;
+                                isPremiumPayingModeFieldTap = true;
+                                isuploadEventTap = false;
                               });
-                              Navigator.of(context).pop();
-                            });
-                          }),
-                          dropDownWidget('Choose your Renewal Date',
-                              renewalDate, isRenewalDateFieldTap, () {
-                            setState(() {
-                              isInsuranceCompanyFieldTap = false;
-                              isInsuranceTypeFieldTap = false;
-                              isInsuranceAmountFieldTap = false;
-                              isPremiumFieldTap = false;
-                              isPayingTermFieldTap = false;
-                              isRenewalDateFieldTap = true;
-                              isPremiumPayingDateFieldTap = false;
-                              isPremiumPayingModeFieldTap = false;
-                              isuploadEventTap = false;
-                            });
-                            insuranceAmountFocus.unfocus();
-                            premiumFocus.unfocus();
-                            payingTermFocus.unfocus();
-                            dateOfBirth(true);
-                          }),
+                              insuranceAmountFocus.unfocus();
+                              premiumFocus.unfocus();
+                              payingTermFocus.unfocus();
+
+                              CommonFunction().selectDialog(
+                                context,
+                                'Select Premium Paying Mode',
+                                [
+                                  'Yearly',
+                                  'Half yearly',
+                                  'Quarterly',
+                                  'Monthly',
+                                ],
+                                (val) {
+                                  setState(() {
+                                    selectedPremiumPayingMode = val.toString();
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                          ),
+                          dropDownWidget(
+                            'Choose your Renewal Date',
+                            renewalDate,
+                            isRenewalDateFieldTap,
+                            () {
+                              setState(() {
+                                isInsuranceCompanyFieldTap = false;
+                                isInsuranceTypeFieldTap = false;
+                                isInsuranceAmountFieldTap = false;
+                                isPremiumFieldTap = false;
+                                isPayingTermFieldTap = false;
+                                isRenewalDateFieldTap = true;
+                                isPremiumPayingDateFieldTap = false;
+                                isPremiumPayingModeFieldTap = false;
+                                isuploadEventTap = false;
+                              });
+                              insuranceAmountFocus.unfocus();
+                              premiumFocus.unfocus();
+                              payingTermFocus.unfocus();
+                              dateOfBirth(true);
+                            },
+                          ),
                           if (renewalDateValidation.isNotEmpty)
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
+                            SizedBox(height: 0.5.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: EdgeInsets.only(left: 2.w),
-                              child: renewalDateValidation ==
-                                      'Empty Renewal Date'
+                              child:
+                                  renewalDateValidation == 'Empty Renewal Date'
                                   ? Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error,
-                                            color: colorRed, size: 13),
+                                        const Icon(
+                                          Icons.error,
+                                          color: colorRed,
+                                          size: 13,
+                                        ),
                                         const SizedBox(width: 4),
                                         Container(
                                           height: 2.h,
                                           alignment: Alignment.center,
                                           child: Text(
-                                              'Please Select an Renewal Date',
-                                              style: textStyle9(colorErrorRed)),
+                                            'Please Select an Renewal Date',
+                                            style: textStyle9(colorErrorRed),
+                                          ),
                                         ),
                                       ],
                                     )
                                   : Container(),
                             ),
                           ),
+
                           // dropDownWidget(
                           //     'Choose your Premium Paying Date',
                           //     premiumPayingDate,
@@ -572,10 +636,12 @@ class _PolicyReviewState extends State<PolicyReview> {
                           //         : Container(),
                           //   ),
                           // ),
-
                           Padding(
                             padding: EdgeInsets.only(
-                                top: 1.5.h, left: 2.5, right: 2.5),
+                              top: 1.5.h,
+                              left: 2.5,
+                              right: 2.5,
+                            ),
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -603,11 +669,13 @@ class _PolicyReviewState extends State<PolicyReview> {
                                 child: Container(
                                   height: 6.h,
                                   decoration: BoxDecoration(
-                                      color: colorWhite,
-                                      borderRadius: BorderRadius.circular(10)),
+                                    color: colorWhite,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   alignment: Alignment.center,
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 3.w),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 3.w,
+                                  ),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -620,12 +688,16 @@ class _PolicyReviewState extends State<PolicyReview> {
                                         ),
                                       ),
                                       uploadFile == null
-                                          ? Image.asset(icUpload,
-                                              color: colorRed, width: 5.w)
+                                          ? Image.asset(
+                                              icUpload,
+                                              color: colorRed,
+                                              width: 5.w,
+                                            )
                                           : IconButton(
                                               padding: EdgeInsets.zero,
-                                              constraints:
-                                                  BoxConstraints(minWidth: 5.w),
+                                              constraints: BoxConstraints(
+                                                minWidth: 5.w,
+                                              ),
                                               onPressed: () {
                                                 setState(() {
                                                   fileName =
@@ -636,7 +708,8 @@ class _PolicyReviewState extends State<PolicyReview> {
                                               icon: const Icon(
                                                 Icons.close,
                                                 color: colorRed,
-                                              )),
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -645,9 +718,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                           ),
 
                           if (policyPdfValidation.isNotEmpty)
-                            SizedBox(
-                              height: 0.5.h,
-                            ),
+                            SizedBox(height: 0.5.h),
 
                           Align(
                             alignment: Alignment.centerLeft,
@@ -658,15 +729,19 @@ class _PolicyReviewState extends State<PolicyReview> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(Icons.error,
-                                            color: colorRed, size: 13),
+                                        const Icon(
+                                          Icons.error,
+                                          color: colorRed,
+                                          size: 13,
+                                        ),
                                         const SizedBox(width: 4),
                                         Container(
                                           height: 2.h,
                                           alignment: Alignment.center,
                                           child: Text(
-                                              'Please Upload your Policy PDF',
-                                              style: textStyle9(colorErrorRed)),
+                                            'Please Upload your Policy PDF',
+                                            style: textStyle9(colorErrorRed),
+                                          ),
                                         ),
                                       ],
                                     )
@@ -674,9 +749,7 @@ class _PolicyReviewState extends State<PolicyReview> {
                             ),
                           ),
 
-                          SizedBox(
-                            height: 1.h,
-                          ),
+                          SizedBox(height: 1.h),
                           if (companyValidation.isEmpty ||
                               typeValidation.isEmpty ||
                               insuranceAmountValidation.isEmpty ||
@@ -780,30 +853,31 @@ class _PolicyReviewState extends State<PolicyReview> {
                                 isSend = true;
                               });
                               BlocProvider.of<ReviewBloc>(context).add(
-                                  CreateInsuranceReview(
-                                      userid: ApiUser.userId,
-                                      mobile: mobileNo,
-                                      company: selectedInsuranceCompany,
-                                      insurancetype: '4',
-                                      insuranceSubType:
-                                          insuranceTypeId.toString(),
-                                      insuranceamount:
-                                          _insuranceAmountController.text,
-                                      premium: _premiumController.text,
-                                      premiumterm: _payingTermController.text,
-                                      renewaldate: renewalDate,
-                                      premiumPayingDate: premiumPayingDate,
-                                      premiumPayingFrequency:
-                                          selectedPremiumPayingMode,
-                                      uploadFilePath: fileName ==
-                                                  'Upload your Policy PDF' ||
-                                              uploadFile == null
-                                          ? ''
-                                          : uploadFile!.path,
-                                      uploadFileName:
-                                          fileName == 'Upload your Policy PDF'
-                                              ? ''
-                                              : fileName));
+                                CreateInsuranceReview(
+                                  userid: ApiUser.userId,
+                                  mobile: mobileNo,
+                                  company: selectedInsuranceCompany,
+                                  insurancetype: '4',
+                                  insuranceSubType: insuranceTypeId.toString(),
+                                  insuranceamount:
+                                      _insuranceAmountController.text,
+                                  premium: _premiumController.text,
+                                  premiumterm: _payingTermController.text,
+                                  renewaldate: renewalDate,
+                                  premiumPayingDate: premiumPayingDate,
+                                  premiumPayingFrequency:
+                                      selectedPremiumPayingMode,
+                                  uploadFilePath:
+                                      fileName == 'Upload your Policy PDF' ||
+                                          uploadFile == null
+                                      ? ''
+                                      : uploadFile!.path,
+                                  uploadFileName:
+                                      fileName == 'Upload your Policy PDF'
+                                      ? ''
+                                      : fileName,
+                                ),
+                              );
                             } else {
                               setState(() {
                                 isSend = false;
@@ -812,12 +886,14 @@ class _PolicyReviewState extends State<PolicyReview> {
                           }),
                           SizedBox(height: 2.h),
                           button(icCheckReview, 'Check Review Report', () {
-                            BlocProvider.of<ReviewBloc>(context)
-                                .add(LoadReviewHistoryEvent(mobNo: mobileNo));
-                            Navigator.of(context)
-                                .pushNamed(ReviewHistory.route);
+                            BlocProvider.of<ReviewBloc>(
+                              context,
+                            ).add(LoadReviewHistoryEvent(mobNo: mobileNo));
+                            Navigator.of(
+                              context,
+                            ).pushNamed(ReviewHistory.route);
                           }),
-                          SizedBox(height: 2.h)
+                          SizedBox(height: 2.h),
                         ],
                       ),
                     ),
@@ -833,52 +909,59 @@ class _PolicyReviewState extends State<PolicyReview> {
 
   BoxDecoration decoration(Color bgColor) {
     return BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          if (bgColor == colorWhite)
-            BoxShadow(
-                color: colorTextBCBC.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 6))
-        ]);
+      color: bgColor,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        if (bgColor == colorWhite)
+          BoxShadow(
+            color: colorTextBCBC.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 6),
+          ),
+      ],
+    );
   }
 
   button(String icon, String text, Function() onClick) {
     return InkWell(
-      onTap: onClick,
+      onTap: text == 'Send For Review' && isSend ? null : onClick,
       child: Container(
         height: 6.5.h,
         width: 90.w,
         decoration: BoxDecoration(
-            color: text == 'Check Review Report'
-                ? colorRed.withOpacity(0.17)
-                : colorRed,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              if (text != 'Check Review Report')
-                BoxShadow(
-                    offset: const Offset(0, 3),
-                    blurRadius: 6,
-                    color: colorRed.withOpacity(0.3))
-            ]),
+          color: text == 'Check Review Report'
+              ? colorRed.withOpacity(0.17)
+              : colorRed,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            if (text != 'Check Review Report')
+              BoxShadow(
+                offset: const Offset(0, 3),
+                blurRadius: 6,
+                color: colorRed.withOpacity(0.3),
+              ),
+          ],
+        ),
         alignment: Alignment.center,
         child: text == 'Send For Review'
             ? isSend
-                ? SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                        color: colorWhite, strokeWidth: 0.6.w))
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(icon, width: 4.w),
-                      SizedBox(width: 2.5.w),
-                      Text(text, style: textStyle13Bold(colorWhite)),
-                    ],
-                  )
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: colorWhite,
+                        strokeWidth: 0.6.w,
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(icon, width: 4.w),
+                        SizedBox(width: 2.5.w),
+                        Text(text, style: textStyle13Bold(colorWhite)),
+                      ],
+                    )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -892,18 +975,25 @@ class _PolicyReviewState extends State<PolicyReview> {
     );
   }
 
-  dropDownWidget(String title, String selectedType, bool isSelectedField,
-      Function() onClick) {
+  dropDownWidget(
+    String title,
+    String selectedType,
+    bool isSelectedField,
+    Function() onClick,
+  ) {
     return Padding(
       padding: EdgeInsets.only(top: 1.5.h),
       child: InkWell(
         onTap: onClick,
         child: Container(
           decoration: BoxDecoration(
-              color: colorWhite,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: isSelectedField ? colorRed : colorDFDF, width: 1)),
+            color: colorWhite,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelectedField ? colorRed : colorDFDF,
+              width: 1,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: Column(
@@ -922,16 +1012,19 @@ class _PolicyReviewState extends State<PolicyReview> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(selectedType,
-                              style: textStyle11(colorText3D3D)),
+                          child: Text(
+                            selectedType,
+                            style: textStyle11(colorText3D3D),
+                          ),
                         ),
                         Image.asset(
-                            title == 'Choose your Renewal Date' ||
-                                    title == 'Choose your Premium Paying Date'
-                                ? icCalendar
-                                : icDropdown,
-                            color: colorText3D3D,
-                            width: 5.w)
+                          title == 'Choose your Renewal Date' ||
+                                  title == 'Choose your Premium Paying Date'
+                              ? icCalendar
+                              : icDropdown,
+                          color: colorText3D3D,
+                          width: 5.w,
+                        ),
                       ],
                     ),
                   ),
@@ -945,8 +1038,13 @@ class _PolicyReviewState extends State<PolicyReview> {
   }
 
   textFormFieldContainer(
-      String labelText, String hintText, bool isSelected, Function() onClick,
-      [TextEditingController? controller, TextInputType? keyboardType]) {
+    String labelText,
+    String hintText,
+    bool isSelected,
+    Function() onClick, [
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  ]) {
     return Padding(
       padding: EdgeInsets.only(top: 1.5.h),
       child: InkWell(
@@ -954,10 +1052,13 @@ class _PolicyReviewState extends State<PolicyReview> {
         child: Container(
           height: 8.h,
           decoration: BoxDecoration(
-              color: colorWhite,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: isSelected ? colorRed : colorDFDF, width: 1)),
+            color: colorWhite,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? colorRed : colorDFDF,
+              width: 1,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: Column(
@@ -974,22 +1075,24 @@ class _PolicyReviewState extends State<PolicyReview> {
                     inputFormatters: controller == _premiumController
                         ? <TextInputFormatter>[
                             FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d+\.?\d*')),
+                              RegExp(r'^\d+\.?\d*'),
+                            ),
                           ]
                         : labelText == 'Premium paying term'
-                            ? [LengthLimitingTextInputFormatter(2)]
-                            : [],
+                        ? [LengthLimitingTextInputFormatter(2)]
+                        : [],
                     decoration: InputDecoration.collapsed(
-                        hintText: hintText,
-                        hintStyle: textStyle11(colorText3D3D),
-                        fillColor: colorWhite,
-                        filled: true,
-                        border: InputBorder.none),
+                      hintText: hintText,
+                      hintStyle: textStyle11(colorText3D3D),
+                      fillColor: colorWhite,
+                      filled: true,
+                      border: InputBorder.none,
+                    ),
                     focusNode: controller == _premiumController
                         ? premiumFocus
                         : controller == _payingTermController
-                            ? payingTermFocus
-                            : insuranceAmountFocus,
+                        ? payingTermFocus
+                        : insuranceAmountFocus,
                     onTap: onClick,
                     onFieldSubmitted: (val) {
                       if (controller == _insuranceAmountController) {
@@ -1030,25 +1133,25 @@ class _PolicyReviewState extends State<PolicyReview> {
 
   dateOfBirth(bool select) {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1951, 1, 1),
-        lastDate: DateTime.now(),
-        builder: (context, child) {
-          return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: colorRed,
-                  onPrimary: colorWhite,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                    textStyle: textStyle14Bold(colorRed),
-                  ),
-                ),
-              ),
-              child: child!);
-        }).then((pickedDate) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1951, 1, 1),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: colorRed,
+              onPrimary: colorWhite,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(textStyle: textStyle14Bold(colorRed)),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    ).then((pickedDate) {
       if (pickedDate == null) {
         return;
       }

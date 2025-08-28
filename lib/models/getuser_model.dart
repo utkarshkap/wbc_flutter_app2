@@ -1,6 +1,17 @@
 import 'dart:convert';
 
-GetUser getUserFromJson(String str) => GetUser.fromJson(json.decode(str));
+GetUser getUserFromJson(String str) {
+  try {
+    print('Parsing JSON string: $str');
+    final jsonData = json.decode(str);
+    print('JSON decoded successfully: $jsonData');
+    return GetUser.fromJson(jsonData);
+  } catch (e, stackTrace) {
+    print('Error in getUserFromJson: $e');
+    print('Stack trace: $stackTrace');
+    rethrow;
+  }
+}
 
 String getUserToJson(GetUser data) => json.encode(data.toJson());
 
@@ -17,7 +28,10 @@ class GetUser {
   final Data? data;
   final List<GoldReferral>? goldReferrals;
 
-  factory GetUser.fromJson(Map<String, dynamic> json) => GetUser(
+  factory GetUser.fromJson(Map<String, dynamic> json) {
+    try {
+      print('Parsing GetUser from JSON: $json');
+      return GetUser(
         code: json["code"],
         message: json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
@@ -26,6 +40,13 @@ class GetUser {
             : List<GoldReferral>.from(
                 json["goldReferrals"].map((x) => GoldReferral.fromJson(x))),
       );
+    } catch (e, stackTrace) {
+      print('Error in GetUser.fromJson: $e');
+      print('Stack trace: $stackTrace');
+      print('JSON data: $json');
+      rethrow;
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "code": code,
@@ -77,7 +98,10 @@ class Data {
   final bool tnc;
   final bool fastTrack;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) {
+    try {
+      print('Parsing Data from JSON: $json');
+      return Data(
         uid: json["uid"],
         name: json["name"],
         deviceid: json["deviceid"],
@@ -95,6 +119,13 @@ class Data {
         tnc: json["tnc"] ?? false,
         fastTrack: json["fasttrack"] ?? false,
       );
+    } catch (e, stackTrace) {
+      print('Error in Data.fromJson: $e');
+      print('Stack trace: $stackTrace');
+      print('JSON data: $json');
+      rethrow;
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
@@ -132,11 +163,21 @@ class GoldReferral {
   final String refMobile;
   final DateTime refDate;
   final bool userexist;
-  factory GoldReferral.fromJson(Map<String, dynamic> json) => GoldReferral(
-      refName: json["ref_name"],
-      refMobile: json["ref_mobile"],
-      refDate: DateTime.parse(json["ref_date"]),
-      userexist: json['userexist']);
+  factory GoldReferral.fromJson(Map<String, dynamic> json) {
+    try {
+      print('Parsing GoldReferral from JSON: $json');
+      return GoldReferral(
+          refName: json["ref_name"],
+          refMobile: json["ref_mobile"],
+          refDate: DateTime.parse(json["ref_date"]),
+          userexist: json['userexist']);
+    } catch (e, stackTrace) {
+      print('Error in GoldReferral.fromJson: $e');
+      print('Stack trace: $stackTrace');
+      print('JSON data: $json');
+      rethrow;
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "ref_name": refName,

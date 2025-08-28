@@ -90,6 +90,7 @@ class UploadMFReview extends ReviewEvent {
 class UploadStockReview extends ReviewEvent {
   final String userId;
   final String requestType;
+  final String requestSubType;
   final String panNumber;
   final String selectStockType;
   final String uploadFilePath;
@@ -97,12 +98,13 @@ class UploadStockReview extends ReviewEvent {
 
   @override
   String toString() {
-    return 'UploadStockReview{userId: $userId, requestType: $requestType, panNumber: $panNumber, selectStockType: $selectStockType, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
+    return 'UploadStockReview{userId: $userId, requestType: $requestType, requestSubType: $requestSubType, panNumber: $panNumber, selectStockType: $selectStockType, uploadFilePath: $uploadFilePath, uploadFileName: $uploadFileName}';
   }
 
   UploadStockReview(
       {required this.userId,
       required this.requestType,
+      required this.requestSubType,
       required this.panNumber,
       required this.selectStockType,
       required this.uploadFilePath,

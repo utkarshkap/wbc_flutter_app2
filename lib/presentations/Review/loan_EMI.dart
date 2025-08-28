@@ -142,8 +142,14 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
           ),
           body: BlocConsumer<ReviewBloc, ReviewState>(
             listener: (context, state) {
-              if (state is LoanReviewFailed) {
-                isSend = false;
+              if (state is LoanReviewDataAdding) {
+                setState(() {
+                  isSend = true;
+                });
+              } else if (state is LoanReviewFailed) {
+                setState(() {
+                  isSend = false;
+                });
                 AwesomeDialog(
                   btnCancelColor: colorRed,
                   padding: EdgeInsets.zero,
@@ -156,6 +162,9 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                   btnOkColor: Colors.red,
                 ).show();
               } else if (state is LoanReviewDataAdded) {
+                setState(() {
+                  isSend = false;
+                });
                 BlocProvider.of<MallBloc>(context).add(LoadMallDataEvent(
                     popular: Popular(code: 0, message: '', products: []),
                     newArrival: NewArrival(code: 0, message: '', products: []),
@@ -807,9 +816,6 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
                                   _emiAmountController.text.isNotEmpty &&
                                   uploadFile != null &&
                                   uploadFile!.path.isNotEmpty) {
-                                setState(() {
-                                  isSend = true;
-                                });
                                 BlocProvider.of<ReviewBloc>(context).add(
                                     CreateLoanReview(
                                         userid: ApiUser.userId,
@@ -877,7 +883,7 @@ class _LoanEMIReviewState extends State<LoanEMIReview> {
 
   button(String icon, String text, Function() onClick) {
     return InkWell(
-      onTap: onClick,
+      onTap: text == 'Send For Review' && isSend ? null : onClick,
       child: Container(
         height: 6.5.h,
         width: 90.w,
